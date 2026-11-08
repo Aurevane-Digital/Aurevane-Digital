@@ -331,21 +331,17 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
         </div>
 
         {/* 
-          CAMOUFLAGED FRAME ANIMATION VIEWPORT:
-          Zero boundaries, zero frames, zero drop-shadows.
-          Fits to screen seamlessly blending directly with the website background
-          so it looks like an intrinsic part of the site rather than an external video.
+          FULL BLEED FRAME ANIMATION VIEWPORT:
+          Uses object-cover to completely fill the side sections and viewport edge-to-edge,
+          ensuring zero empty margins on any screen width.
         */}
         <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none select-none z-10 overflow-hidden">
           {/* High-Performance Canvas */}
           <canvas
             ref={canvasRef}
-            className="w-full h-full object-contain pointer-events-none select-none transition-transform duration-100"
+            className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
             style={{
               display: isImagesLoaded ? 'block' : 'none',
-              // Feather outer perimeter to seamlessly dissolve any microscopic edge variance
-              maskImage: 'radial-gradient(ellipse 98% 98% at 50% 50%, black 82%, transparent 100%)',
-              WebkitMaskImage: 'radial-gradient(ellipse 98% 98% at 50% 50%, black 82%, transparent 100%)',
             }}
           />
 
@@ -354,11 +350,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
             <img
               src={getFrameUrl(currentFrame)}
               alt="Project Showcase"
-              className="w-full h-full object-contain pointer-events-none select-none"
-              style={{
-                maskImage: 'radial-gradient(ellipse 98% 98% at 50% 50%, black 82%, transparent 100%)',
-                WebkitMaskImage: 'radial-gradient(ellipse 98% 98% at 50% 50%, black 82%, transparent 100%)',
-              }}
+              className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
             />
           )}
         </div>
