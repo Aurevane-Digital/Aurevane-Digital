@@ -1,0 +1,6 @@
+{
+  "name": "Aurevane Digital Studio",
+  "description": "High-converting editorial web atelier for contractors and luxury services, combining architectural precision, quiet luxury aesthetics, and performance engineering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
