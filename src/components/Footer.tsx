@@ -1,23 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface FooterProps {
   onOpenPrivacyModal: () => void;
   onOpenTermsModal: () => void;
-  isSubpage?: boolean;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onOpenPrivacyModal,
   onOpenTermsModal,
-  isSubpage = false,
 }) => {
   return (
     <footer className="w-full bg-[#F5EDE2] border-t border-[#D9D0C3]/80">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
           {/* Logo & Mission Column */}
-          <div className="lg:col-span-4 flex flex-col gap-4">
-            <a href="/" className="h-16 md:h-20 flex items-center">
+          <div className="lg:col-span-5 flex flex-col gap-4">
+            <Link to="/" className="h-16 md:h-20 flex items-center">
               <img
                 alt="Aurevane Digital — High-Converting Contractor Website Design Agency"
                 width={200}
@@ -26,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({
                 className="h-14 md:h-18 w-auto object-contain object-left"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyrjlaVmDQP0ISYNJv_U_2aSx69k68JCXVH2KJSwz1g_q6Pu1TbcXF_TQF0kEDuvms5ny5YsuQCTFCmmoU1VUnfZi8rLRvsINw4ktT33X8z9yOiAIchEgxD3VgHf-xUss54-kCUrzWZjdF91lYJAY8Md69cDzyvRoat77EHqAzkNqZzCbsTGRMOf1SO7lgtigsIOtckAT2XuZoKTBV_os-KsFuLxPmnm8tuOooSv7mu-r4EQl98Ghbfg"
               />
-            </a>
+            </Link>
             <p className="text-xs md:text-sm text-[#59544E] max-w-sm leading-relaxed font-light">
               High-converting website design for contractors and luxury trades. Built with minimal aesthetics, architectural rigor, and precision code.
             </p>
@@ -37,78 +36,53 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Navigation Links */}
-          <div className="lg:col-span-2 flex flex-col gap-3">
+          <div className="lg:col-span-3 flex flex-col gap-3">
             <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
               Navigation
             </h3>
             <nav aria-label="Footer Navigation" className="flex flex-col gap-2.5 text-xs text-[#59544E] font-medium">
-              <a
-                href={isSubpage ? '/' : '#'}
+              <Link
+                to="/"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 Home
-              </a>
-              <a
-                href={isSubpage ? '/#about' : '#about'}
+              </Link>
+              <Link
+                to="/about"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 About Aurevane
-              </a>
-              <a
-                href={isSubpage ? '/#work' : '#work'}
+              </Link>
+              <Link
+                to="/our-work"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
-                Our Work
-              </a>
-              <a
-                href={isSubpage ? '/#packages' : '#packages'}
+                Our Work (Cinematic Presentation)
+              </Link>
+              <Link
+                to="/packages"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 Service Packages
-              </a>
-              <a
-                href={isSubpage ? '/#contact' : '#contact'}
+              </Link>
+              <Link
+                to="/contact"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
-                Contact
-              </a>
-            </nav>
-          </div>
-
-          {/* Services Group */}
-          <div className="lg:col-span-3 flex flex-col gap-3">
-            <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
-              Services
-            </h3>
-            <nav aria-label="Services Navigation" className="flex flex-col gap-2.5 text-xs text-[#59544E] font-medium">
-              <a
-                href="/contractor-website-design"
-                className="hover:text-[#141210] transition-colors underline-offset-4 hover:underline"
-              >
-                Contractor Website Design
-              </a>
-              <a
-                href="/junk-removal-website-design"
-                className="hover:text-[#141210] transition-colors underline-offset-4 hover:underline"
-              >
-                Junk Removal Website Design
-              </a>
-              <a
-                href="/excavation-company-website-design"
-                className="hover:text-[#141210] transition-colors underline-offset-4 hover:underline"
-              >
-                Excavation Company Website Design
-              </a>
+                Contact &amp; Free Audit
+              </Link>
             </nav>
           </div>
 
           {/* Practice & Focus */}
-          <div className="lg:col-span-3 flex flex-col gap-3">
+          <div className="lg:col-span-4 flex flex-col gap-3">
             <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
               Practice &amp; Focus
             </h3>
             <div className="flex flex-col gap-2 text-xs text-[#59544E]">
-              <span>Roofing, Electrical &amp; Commercial Trades</span>
+              <span>Contractor Website Design &amp; High-Ticket Trades</span>
+              <span>Roofing, Electrical, Junk Removal &amp; Excavation</span>
+              <span>Fence &amp; Landscaping Company Web Systems</span>
               <span>High-Performing Local SEO Architecture</span>
               <a
                 href="mailto:aurevanedigital@gmail.com"

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, ShieldCheck } from 'lucide-react';
 
 interface NavbarProps {
   onOpenAuditModal?: () => void;
-  isSubpage?: boolean;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal, isSubpage = false }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,16 +27,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal, isSubpage = fa
     if (onOpenAuditModal) {
       onOpenAuditModal();
     } else {
-      window.location.href = isSubpage ? '/#website-check' : '#website-check';
+      navigate('/contact#website-check');
     }
   };
 
   const navLinks = [
-    { label: 'Home', href: isSubpage ? '/' : '#' },
-    { label: 'About', href: isSubpage ? '/#about' : '#about' },
-    { label: 'Our Work', href: isSubpage ? '/#work' : '#work' },
-    { label: 'Packages', href: isSubpage ? '/#packages' : '#packages' },
-    { label: 'Contact', href: isSubpage ? '/#contact' : '#contact' },
+    { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
+    { label: 'Our Work', path: '/our-work' },
+    { label: 'Packages', path: '/packages' },
+    { label: 'Contact', path: '/contact' },
   ];
 
   return (
@@ -47,9 +48,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal, isSubpage = fa
       }`}
     >
       <div className="max-w-7xl mx-auto h-20 md:h-24 px-6 lg:px-12 flex items-center justify-between gap-6">
-        {/* Luxury Brand Logo */}
-        <a
-          href="/"
+        {/* Large Luxury Brand Logo */}
+        <Link
+          to="/"
           aria-label="Aurevane Digital — High-Converting Contractor Website Design Agency"
           className="flex items-center gap-3 shrink-0 group text-left cursor-pointer focus-visible:outline-2 focus-visible:outline-[#9E5249]"
         >
@@ -63,21 +64,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal, isSubpage = fa
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF3bFfQg6L8w0oyIgKQ0GRw-NjNHgRDE75hIl7EKKl1NXXp9RbrlkPgDC9ImbFlLO6mkStTZzDsw6giBkAE3d-FNMYSSzOz3auMXJPT2T_WHUgYEJ9E0AxXb5YptKaRa2V9buUhc5JT5zrJIx-8Zma9mzeT7TFTfICkj5VjeirFUSK09d9AiI7WwN5Tr32zTVLo82DeTuBQoeMIIU9ZX3Q3SMb-c09q0Dpw94SuhKm9qj0LfCGQTpaeQ"
             />
           </div>
-        </a>
+        </Link>
 
-        {/* Semantic Navigation with real links */}
+        {/* Clean Multi-Page Navigation */}
         <nav
           aria-label="Primary Navigation"
           className="hidden lg:flex items-center gap-8 text-[12px] tracking-[0.2em] font-medium uppercase text-[#59544E]"
         >
           {navLinks.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="transition-colors cursor-pointer py-1 relative hover:text-[#141210] focus-visible:outline-2 focus-visible:outline-[#9E5249]"
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+                  isActive
+                    ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
+                    : 'hover:text-[#141210]'
+                }`
+              }
             >
               {item.label}
-            </a>
+            </NavLink>
           ))}
         </nav>
 
@@ -117,14 +124,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal, isSubpage = fa
         <div className="lg:hidden bg-[#FAF6F0] border-b border-[#D9D0C3] px-6 py-6 space-y-4 shadow-2xl animate-in slide-in-from-top duration-200">
           <div className="flex flex-col space-y-3 text-xs tracking-[0.2em] uppercase font-medium">
             {navLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
+              <NavLink
+                key={item.path}
+                to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer text-[#59544E] hover:text-[#141210]"
+                className={({ isActive }) =>
+                  `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
+                    isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
+                  }`
+                }
               >
                 {item.label}
-              </a>
+              </NavLink>
             ))}
           </div>
           <div className="pt-2">
