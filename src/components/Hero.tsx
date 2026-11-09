@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 interface HeroProps {
@@ -8,13 +8,32 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onExploreWork, onRequestAudit }) => {
   const [scrollY, setScrollY] = useState(0);
+  const currentScrollRef = useRef(0);
 
   useEffect(() => {
+    let rAFId: number | null = null;
+
     const handleScroll = () => {
-      setScrollY(window.pageYOffset || document.documentElement.scrollTop);
+      if (rAFId !== null) return;
+
+      rAFId = window.requestAnimationFrame(() => {
+        rAFId = null;
+        const currentY = Math.round(window.pageYOffset || document.documentElement.scrollTop);
+        if (currentY !== currentScrollRef.current) {
+          currentScrollRef.current = currentY;
+          setScrollY(currentY);
+        }
+      });
     };
+
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rAFId !== null) {
+        window.cancelAnimationFrame(rAFId);
+      }
+    };
   }, []);
 
   // Compute smooth fade & shrink for hero logo as page is scrolled
@@ -102,30 +121,38 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWork, onRequestAudit }) => 
         </a>
       </div>
 
-      {/* Key Stat Metrics Row */}
+      {/* Qualitative Metrics Row - No Invented Stats */}
       <div className="mt-14 pt-8 border-t border-[#D9D0C3]/60 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 w-full max-w-4xl text-center">
         <div className="flex flex-col items-center">
-          <span className="font-serif text-2xl md:text-3xl text-[#9E5249] font-normal">+194%</span>
+          <span className="font-serif text-xl sm:text-2xl md:text-3xl text-[#9E5249] font-normal">
+            Contractor-Focused
+          </span>
           <span className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[#59544E] font-medium mt-1">
-            Avg Lead Flow
+            Niche Expertise
           </span>
         </div>
         <div className="flex flex-col items-center">
-          <span className="font-serif text-2xl md:text-3xl text-[#141210] font-normal">&lt; 0.8s</span>
+          <span className="font-serif text-xl sm:text-2xl md:text-3xl text-[#141210] font-normal">
+            Mobile-First
+          </span>
           <span className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[#59544E] font-medium mt-1">
-            Load Time
+            Every Layout
           </span>
         </div>
         <div className="flex flex-col items-center">
-          <span className="font-serif text-2xl md:text-3xl text-[#141210] font-normal">100%</span>
+          <span className="font-serif text-xl sm:text-2xl md:text-3xl text-[#141210] font-normal">
+            Custom-Coded
+          </span>
           <span className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[#59544E] font-medium mt-1">
-            Bespoke Code
+            No Templates
           </span>
         </div>
         <div className="flex flex-col items-center">
-          <span className="font-serif text-2xl md:text-3xl text-[#9E5249] font-normal">Bespoke</span>
+          <span className="font-serif text-xl sm:text-2xl md:text-3xl text-[#9E5249] font-normal">
+            Lead-Focused
+          </span>
           <span className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[#59544E] font-medium mt-1">
-            High-Converting
+            Quote Flows
           </span>
         </div>
       </div>

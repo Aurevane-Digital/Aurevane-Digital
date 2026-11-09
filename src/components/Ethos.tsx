@@ -97,10 +97,10 @@ export const Ethos: React.FC = () => {
                   <Gauge className="w-5 h-5 text-[#B89255]" />
                 </div>
                 <h3 className="font-serif text-lg text-[#141210] mb-1.5">
-                  Sub-Second Performance
+                  Fast by Design
                 </h3>
                 <p className="text-xs text-[#59544E] leading-relaxed">
-                  Clean semantic code free of JavaScript clutter, achieving near-perfect 100/100 Lighthouse performance and Core Web Vitals compliance.
+                  Lean, clean code and optimized media built to load quickly on mobile.
                 </p>
               </div>
 
