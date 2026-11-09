@@ -67,8 +67,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
   return (
     <>
       <SEO
-        title="Contractor Website Design | Aurevane Digital"
-        description="Aurevane Digital designs high-converting websites for roofers, junk removal, electrical and other home service contractors. Get more calls and quotes."
+        title="Aurevane Digital | Premium Websites for Contractors"
+        description="Premium, conversion-focused websites for contractors and home service businesses. See our concept work, packages and how we build."
         canonicalPath="/"
       />
 

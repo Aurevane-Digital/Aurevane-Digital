@@ -6,40 +6,61 @@ interface SEOProps {
   canonicalPath?: string;
 }
 
+const BASE_URL = 'https://aurevanedigital.vercel.app';
+
+/**
+ * Constructs the canonical URL conforming to strict technical SEO rules:
+ * Full URL with https://aurevanedigital.vercel.app, with no trailing slash
+ * except for the root homepage ('/').
+ */
+function buildCanonicalUrl(path?: string): string {
+  if (!path || path === '/' || path === '') {
+    return `${BASE_URL}/`;
+  }
+  const cleanPath = path.replace(/^\/+|\/+$/g, '');
+  return `${BASE_URL}/${cleanPath}`;
+}
+
+function setOrCreateMeta(nameOrProperty: 'name' | 'property', attrValue: string, content: string) {
+  let el = document.querySelector(`meta[${nameOrProperty}="${attrValue}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(nameOrProperty, attrValue);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
+function setOrCreateCanonical(href: string) {
+  let el = document.querySelector('link[rel="canonical"]');
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', 'canonical');
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', href);
+}
+
 export const SEO: React.FC<SEOProps> = ({ title, description, canonicalPath = '' }) => {
   useEffect(() => {
+    // 1. Document Title
     document.title = title;
 
-    // Meta description
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute('content', description);
-    }
+    // 2. Canonical URL (no trailing slash except homepage)
+    const canonicalUrl = buildCanonicalUrl(canonicalPath);
+    setOrCreateCanonical(canonicalUrl);
 
-    // Canonical link
-    const baseUrl = 'https://aurevanedigital.vercel.app';
-    const canonicalUrl = `${baseUrl}${canonicalPath}`;
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) {
-      canonical.setAttribute('href', canonicalUrl);
-    }
+    // 3. Meta Description
+    setOrCreateMeta('name', 'description', description);
 
-    // OpenGraph
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', title);
+    // 4. Open Graph Tags
+    setOrCreateMeta('property', 'og:url', canonicalUrl);
+    setOrCreateMeta('property', 'og:title', title);
+    setOrCreateMeta('property', 'og:description', description);
 
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc) ogDesc.setAttribute('content', description);
-
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', canonicalUrl);
-
-    // Twitter Card
-    const twTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twTitle) twTitle.setAttribute('content', title);
-
-    const twDesc = document.querySelector('meta[name="twitter:description"]');
-    if (twDesc) twDesc.setAttribute('content', description);
+    // 5. Twitter Card Tags
+    setOrCreateMeta('name', 'twitter:title', title);
+    setOrCreateMeta('name', 'twitter:description', description);
   }, [title, description, canonicalPath]);
 
   return null;

@@ -15,6 +15,14 @@
   ],
   "rewrites": [
     {
+      "source": "/junk-removal-website-design",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/excavation-company-website-design",
+      "destination": "/index.html"
+    },
+    {
       "source": "/((?!assets|frames|.*\\..*).*)",
       "destination": "/index.html"
     }

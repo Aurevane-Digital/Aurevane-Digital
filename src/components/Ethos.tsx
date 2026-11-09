@@ -27,6 +27,10 @@ export const Ethos: React.FC = () => {
               Aurevane Digital provides bespoke contractor website design as an antidote to template mediocrity. We combine architectural structure, luxury editorial typography, and precision conversion funnels that help contractors win higher-value contracts.
             </p>
 
+            <p className="text-xs md:text-sm text-[#59544E] leading-relaxed font-light">
+              Explore our specialized practices in <a href="/junk-removal-website-design" className="text-[#9E5249] underline decoration-[#9E5249]/40 underline-offset-4 hover:decoration-[#9E5249] transition-colors">Junk Removal Website Design</a> and <a href="/excavation-company-website-design" className="text-[#9E5249] underline decoration-[#9E5249]/40 underline-offset-4 hover:decoration-[#9E5249] transition-colors">Excavation Company Website Design</a>.
+            </p>
+
             <div className="p-6 bg-[#FAF6F0] rounded-sm border-l-2 border-[#9E5249] shadow-xs mt-2">
               <p className="font-serif italic text-lg text-[#141210] mb-2">
                 "A cheap website costs tenfold in high-value bids lost to competitors with superior presentation."
