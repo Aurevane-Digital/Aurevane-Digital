@@ -14,9 +14,9 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="w-full bg-[#F5EDE2] border-t border-[#D9D0C3]/80">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
           {/* Logo & Mission Column */}
-          <div className="lg:col-span-5 flex flex-col gap-4">
+          <div className="lg:col-span-4 flex flex-col gap-4">
             <a href="/" className="h-16 md:h-20 flex items-center">
               <img
                 alt="Aurevane Digital — High-Converting Contractor Website Design Agency"
@@ -37,7 +37,7 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Navigation Links */}
-          <div className="lg:col-span-3 flex flex-col gap-3">
+          <div className="lg:col-span-2 flex flex-col gap-3">
             <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
               Navigation
             </h3>
@@ -75,13 +75,18 @@ export const Footer: React.FC<FooterProps> = ({
             </nav>
           </div>
 
-          {/* Practice & Focus with New Page Links */}
-          <div className="lg:col-span-4 flex flex-col gap-3">
+          {/* Services Group */}
+          <div className="lg:col-span-3 flex flex-col gap-3">
             <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
-              Practice &amp; Focus
+              Services
             </h3>
-            <div className="flex flex-col gap-2 text-xs text-[#59544E]">
-              <span>Contractor Website Design &amp; High-Ticket Trades</span>
+            <nav aria-label="Services Navigation" className="flex flex-col gap-2.5 text-xs text-[#59544E] font-medium">
+              <a
+                href="/contractor-website-design"
+                className="hover:text-[#141210] transition-colors underline-offset-4 hover:underline"
+              >
+                Contractor Website Design
+              </a>
               <a
                 href="/junk-removal-website-design"
                 className="hover:text-[#141210] transition-colors underline-offset-4 hover:underline"
@@ -94,6 +99,15 @@ export const Footer: React.FC<FooterProps> = ({
               >
                 Excavation Company Website Design
               </a>
+            </nav>
+          </div>
+
+          {/* Practice & Focus */}
+          <div className="lg:col-span-3 flex flex-col gap-3">
+            <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
+              Practice &amp; Focus
+            </h3>
+            <div className="flex flex-col gap-2 text-xs text-[#59544E]">
               <span>Roofing, Electrical &amp; Commercial Trades</span>
               <span>High-Performing Local SEO Architecture</span>
               <a

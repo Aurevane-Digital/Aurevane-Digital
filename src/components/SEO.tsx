@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 
-interface SEOProps {
+export interface SEOProps {
   title: string;
   description: string;
   canonicalPath?: string;
+  jsonLd?: Record<string, any> | Array<Record<string, any>>;
 }
 
 const BASE_URL = 'https://aurevanedigital.vercel.app';
@@ -22,7 +23,7 @@ function buildCanonicalUrl(path?: string): string {
 }
 
 function setOrCreateMeta(nameOrProperty: 'name' | 'property', attrValue: string, content: string) {
-  let el = document.querySelector(`meta[${nameOrProperty}="${attrValue}"]`);
+  let el = document.querySelector<HTMLMetaElement>(`meta[${nameOrProperty}="${attrValue}"]`);
   if (!el) {
     el = document.createElement('meta');
     el.setAttribute(nameOrProperty, attrValue);
@@ -32,7 +33,7 @@ function setOrCreateMeta(nameOrProperty: 'name' | 'property', attrValue: string,
 }
 
 function setOrCreateCanonical(href: string) {
-  let el = document.querySelector('link[rel="canonical"]');
+  let el = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
   if (!el) {
     el = document.createElement('link');
     el.setAttribute('rel', 'canonical');
@@ -41,7 +42,9 @@ function setOrCreateCanonical(href: string) {
   el.setAttribute('href', href);
 }
 
-export const SEO: React.FC<SEOProps> = ({ title, description, canonicalPath = '' }) => {
+export const SEO: React.FC<SEOProps> = ({ title, description, canonicalPath = '', jsonLd }) => {
+  const jsonLdSerialized = jsonLd ? JSON.stringify(jsonLd) : null;
+
   useEffect(() => {
     // 1. Document Title
     document.title = title;
@@ -61,7 +64,27 @@ export const SEO: React.FC<SEOProps> = ({ title, description, canonicalPath = ''
     // 5. Twitter Card Tags
     setOrCreateMeta('name', 'twitter:title', title);
     setOrCreateMeta('name', 'twitter:description', description);
-  }, [title, description, canonicalPath]);
+
+    // 6. JSON-LD Structured Data: Injected on mount, removed on unmount
+    let scriptEl: HTMLScriptElement | null = null;
+    if (jsonLdSerialized) {
+      scriptEl = document.createElement('script');
+      scriptEl.type = 'application/ld+json';
+      scriptEl.setAttribute('data-route-jsonld', 'true');
+      const parsed = JSON.parse(jsonLdSerialized);
+      const payload = Array.isArray(parsed)
+        ? { '@context': 'https://schema.org', '@graph': parsed }
+        : { '@context': 'https://schema.org', ...parsed };
+      scriptEl.textContent = JSON.stringify(payload);
+      document.head.appendChild(scriptEl);
+    }
+
+    return () => {
+      if (scriptEl && scriptEl.parentNode) {
+        scriptEl.parentNode.removeChild(scriptEl);
+      }
+    };
+  }, [title, description, canonicalPath, jsonLdSerialized]);
 
   return null;
 };

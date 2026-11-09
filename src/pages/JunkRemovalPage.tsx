@@ -1,107 +1,142 @@
-import React, { useEffect } from 'react';
-import { ArrowRight, ShieldCheck, CheckCircle2, AlertCircle, ArrowUpRight } from 'lucide-react';
-import { updatePageHead } from '../utils/seoHelper';
+import React from 'react';
+import { ArrowRight, CheckCircle2, AlertCircle, ArrowUpRight, HelpCircle } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 interface JunkRemovalPageProps {
   onRequestAudit: () => void;
 }
 
 export const JunkRemovalPage: React.FC<JunkRemovalPageProps> = ({ onRequestAudit }) => {
-  useEffect(() => {
-    updatePageHead({
-      title: 'Junk Removal Website Design | Aurevane Digital',
+  const jsonLdData = [
+    {
+      '@type': 'Service',
+      name: 'Junk Removal Website Design',
       description:
         'Custom website design for junk removal companies. Clear quote flows, mobile-first layouts and photo-driven pages built to turn visitors into booked jobs.',
-      canonicalUrl: 'https://aurevanedigital.vercel.app/junk-removal-website-design',
-      serviceJsonLd: {
-        name: 'Junk Removal Website Design',
-        description:
-          'Custom website design for junk removal companies. Clear quote flows, mobile-first layouts and photo-driven pages built to turn visitors into booked jobs.',
+      provider: {
+        '@id': 'https://aurevanedigital.vercel.app/#organization',
       },
-    });
-    window.scrollTo(0, 0);
-  }, []);
+      areaServed: 'United States',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://aurevanedigital.vercel.app/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Contractor Website Design',
+          item: 'https://aurevanedigital.vercel.app/contractor-website-design',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: 'Junk Removal Website Design',
+          item: 'https://aurevanedigital.vercel.app/junk-removal-website-design',
+        },
+      ],
+    },
+  ];
 
   const whyLoseJobs = [
     {
       title: 'Slow or cluttered mobile pages',
-      desc: 'Mobile visitors on cellular data abandon pages that take more than a couple of seconds to render.',
+      desc: 'Mobile users on cellular networks leave if a page takes more than a few seconds or is packed with messy popups.',
     },
     {
       title: 'No clear quote or booking path',
-      desc: 'Visitors cannot quickly locate a simple way to get an estimate or request a pickup schedule.',
+      desc: 'Customers looking to clear a property want a fast way to get an estimate or book a slot without hunting through menus.',
     },
     {
       title: 'No before-and-after proof',
-      desc: 'Without real photo evidence of cleanouts and property restorations, trust is immediately questioned.',
+      desc: 'Without real photo evidence of cleanouts and property restorations, potential clients cannot verify job quality.',
     },
     {
       title: 'Service areas and pricing guidance buried',
-      desc: 'Unclear service boundaries and zero price expectations create friction and prompt visitors to click away.',
+      desc: 'Unclear coverage boundaries and concealed pricing expectations create friction and cause visitors to call competitors.',
     },
   ];
 
   const whatWeBuild = [
     {
-      title: 'A one-tap call button and short quote form on every screen',
-      desc: 'Designed for instant mobile contact so prospects can phone your dispatch or submit photos in seconds.',
+      title: 'One-tap call button and short quote form on every screen',
+      desc: 'Instant mobile contact so customers can call dispatch immediately or upload job photos for a quick estimate.',
     },
     {
       title: 'Before-and-after photo galleries',
-      desc: 'Tactile, clean project showcases highlighting property transformations, estate cleanouts, and commercial clearings.',
+      desc: 'Clear, tactile project showcases highlighting garage clearouts, estate cleanups, and commercial hauling.',
     },
     {
       title: 'Clear lists of what you remove and where you serve',
-      desc: 'Comprehensive lists of accepted items, hazardous waste exclusions, and regional service territory maps.',
+      desc: 'Detailed item acceptance breakdowns, hazardous waste exclusions, and town-by-town service territory coverage.',
     },
     {
-      title: 'Pricing guidance and FAQ sections that cut down on tire-kicker calls',
-      desc: 'Transparent pricing tiers, truck volume guidelines, and answers to common pickup questions.',
+      title: 'Pricing guidance and FAQ sections',
+      desc: 'Transparent minimum pricing, truck volume tiers, and upfront answers to cut down on unqualified inquiries.',
     },
     {
-      title: 'Fast, mobile-first custom code, not a template',
-      desc: 'Handcrafted architecture without heavy plugins or page builders, loading smoothly across all mobile devices.',
-    },
-  ];
-
-  const howItWorks = [
-    {
-      step: '01',
-      title: 'Free website check of your current site',
-      desc: 'We review your existing online presence to identify conversion leaks and mobile obstacles.',
-    },
-    {
-      step: '02',
-      title: 'Custom design mockup for your business',
-      desc: 'We create a tailored design layout aligned with your local service territory and brand identity.',
-    },
-    {
-      step: '03',
-      title: 'Build and launch',
-      desc: 'We custom-code the website, test mobile responsiveness, configure local SEO, and push live.',
+      title: 'Fast mobile-first custom code, not a template',
+      desc: 'Handcrafted architecture without heavy WordPress themes or slow page builders, loading smoothly across all phones.',
     },
   ];
 
   const faqs = [
     {
-      q: 'Do you use templates?',
+      q: 'What should a junk removal website include?',
+      a: 'It should include your direct phone number, service areas, clear lists of items you take and do not take, before-and-after photos, and a simple quote request form.',
+    },
+    {
+      q: 'Do you build quote request forms?',
+      a: 'Yes, we build streamlined mobile quote forms and volume estimators customized for your dispatch process.',
+    },
+    {
+      q: 'Are your websites templates?',
       a: 'No, every site is custom coded.',
-    },
-    {
-      q: 'Can you work with my existing branding?',
-      a: 'Yes.',
-    },
-    {
-      q: 'How do I get started?',
-      a: 'Request a free website check.',
     },
   ];
 
   return (
     <div className="w-full">
-      {/* 1. HERO MASTHEAD */}
+      <SEO
+        title="Junk Removal Website Design | Aurevane Digital"
+        description="Custom website design for junk removal companies. Clear quote flows, mobile-first layouts and photo-driven pages built to turn visitors into booked jobs."
+        canonicalPath="/junk-removal-website-design"
+        jsonLd={jsonLdData}
+      />
+
+      {/* 1. HERO MASTHEAD & BREADCRUMB */}
       <section className="w-full pt-32 pb-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
+          {/* Visible Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="mb-6">
+            <ol className="flex items-center gap-2 text-[11px] sm:text-xs font-mono uppercase tracking-wider text-[#827C75] flex-wrap">
+              <li>
+                <a href="/" className="hover:text-[#141210] transition-colors">
+                  Home
+                </a>
+              </li>
+              <li aria-hidden="true" className="text-[#B89255]/60">
+                /
+              </li>
+              <li>
+                <a href="/contractor-website-design" className="hover:text-[#141210] transition-colors">
+                  Contractor Website Design
+                </a>
+              </li>
+              <li aria-hidden="true" className="text-[#B89255]/60">
+                /
+              </li>
+              <li aria-current="page" className="text-[#141210] font-semibold">
+                Junk Removal Website Design
+              </li>
+            </ol>
+          </nav>
+
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
@@ -127,10 +162,10 @@ export const JunkRemovalPage: React.FC<JunkRemovalPageProps> = ({ onRequestAudit
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </button>
               <a
-                href="#what-we-build"
+                href="/packages"
                 className="inline-flex items-center justify-center px-8 py-3.5 bg-transparent border border-[#141210]/40 text-[#141210] hover:bg-[#141210] hover:text-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors"
               >
-                What We Build
+                See packages
               </a>
             </div>
           </div>
@@ -173,14 +208,11 @@ export const JunkRemovalPage: React.FC<JunkRemovalPageProps> = ({ onRequestAudit
       </section>
 
       {/* 3. WHAT WE BUILD FOR JUNK REMOVAL COMPANIES */}
-      <section
-        id="what-we-build"
-        className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60"
-      >
+      <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-2xl mb-12">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-              Tailored Digital Architecture
+              Tailored Architecture
             </span>
             <h2 className="font-serif text-2xl sm:text-4xl text-[#141210] font-normal mt-2">
               What we build for junk removal companies
@@ -210,37 +242,26 @@ export const JunkRemovalPage: React.FC<JunkRemovalPageProps> = ({ onRequestAudit
         </div>
       </section>
 
-      {/* 4. HOW IT WORKS */}
+      {/* 4. JUNK REMOVAL WEBSITE CONCEPT */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mb-12">
+          <div className="max-w-3xl">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-              Process
+              Portfolio Concept Showcase
             </span>
-            <h2 className="font-serif text-2xl sm:text-4xl text-[#141210] font-normal mt-2">
-              How it works
+            <h2 className="font-serif text-2xl sm:text-4xl text-[#141210] font-normal mt-2 mb-4">
+              Junk removal website concept
             </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {howItWorks.map((step) => (
-              <div
-                key={step.step}
-                className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] flex flex-col justify-between"
-              >
-                <div>
-                  <span className="font-serif text-3xl text-[#9E5249] font-normal block mb-3">
-                    {step.step}
-                  </span>
-                  <h3 className="font-serif text-xl text-[#141210] font-normal mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#59544E] font-light leading-relaxed">
-                    {step.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
+            <p className="text-sm sm:text-base text-[#59544E] font-light leading-relaxed mb-6">
+              "Junk Bolt" is one of our website concepts for a junk removal and hauling brand. It is a design demonstration, not a paid client project.
+            </p>
+            <a
+              href="/our-work"
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#9E5249] hover:text-[#141210] transition-colors group"
+            >
+              <span>See the Junk Bolt concept build</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
           </div>
         </div>
       </section>
@@ -250,7 +271,7 @@ export const JunkRemovalPage: React.FC<JunkRemovalPageProps> = ({ onRequestAudit
         <div className="max-w-7xl mx-auto">
           <div className="max-w-2xl mb-12">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-              FAQ
+              Direct Answers
             </span>
             <h2 className="font-serif text-2xl sm:text-4xl text-[#141210] font-normal mt-2">
               Common questions
@@ -263,10 +284,11 @@ export const JunkRemovalPage: React.FC<JunkRemovalPageProps> = ({ onRequestAudit
                 key={index}
                 className="p-6 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3]"
               >
-                <h3 className="font-serif text-lg text-[#141210] font-normal mb-2">
-                  {faq.q}
+                <h3 className="font-serif text-lg text-[#141210] font-normal mb-2 flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4 text-[#B89255] shrink-0" />
+                  <span>{faq.q}</span>
                 </h3>
-                <p className="text-sm text-[#59544E] font-light leading-relaxed">
+                <p className="text-sm text-[#59544E] font-light leading-relaxed pl-6">
                   {faq.a}
                 </p>
               </div>
@@ -288,30 +310,36 @@ export const JunkRemovalPage: React.FC<JunkRemovalPageProps> = ({ onRequestAudit
             Get a comprehensive review of your current site and a clear path toward more calls and bookings.
           </p>
 
-          <div className="pt-2">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={onRequestAudit}
-              className="inline-flex items-center justify-center px-9 py-4 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-9 py-4 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
             >
               Request Free Website Check
             </button>
+            <a
+              href="/packages"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-9 py-4 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors"
+            >
+              See packages
+            </a>
           </div>
 
           {/* Inter-page cross-links */}
           <div className="pt-8 border-t border-[#34302D] flex flex-col sm:flex-row items-center justify-center gap-6 text-xs text-[#D9D0C3]">
             <a
-              href="/excavation-company-website-design"
-              className="hover:text-white underline underline-offset-4 transition-colors flex items-center gap-1.5"
+              href="/contractor-website-design"
+              className="hover:text-white underline underline-offset-4 transition-colors"
             >
-              <span>Explore Excavation Company Website Design</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              Contractor Website Design Overview
             </a>
             <span className="hidden sm:inline text-[#59544E]">•</span>
             <a
-              href="/"
-              className="hover:text-white underline underline-offset-4 transition-colors"
+              href="/excavation-company-website-design"
+              className="hover:text-white underline underline-offset-4 transition-colors flex items-center gap-1.5"
             >
-              Contractor website design
+              <span>Excavation Company Website Design</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
           </div>
         </div>

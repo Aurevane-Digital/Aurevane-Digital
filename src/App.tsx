@@ -7,6 +7,7 @@ import { Packages } from './components/Packages';
 import { WebsiteCheckForm } from './components/WebsiteCheckForm';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { ContractorHubPage } from './pages/ContractorHubPage';
 import { JunkRemovalPage } from './pages/JunkRemovalPage';
 import { ExcavationPage } from './pages/ExcavationPage';
 import { AuditIntakeModal } from './components/AuditIntakeModal';
@@ -56,15 +57,54 @@ export default function App() {
     return () => window.removeEventListener('popstate', handleLocationChange);
   }, []);
 
+  // Intercept internal link clicks for seamless client-side routing
+  useEffect(() => {
+    const handleDocumentClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a');
+      if (!target) return;
+      const href = target.getAttribute('href');
+      if (
+        href &&
+        href.startsWith('/') &&
+        !href.startsWith('//') &&
+        !target.getAttribute('target') &&
+        !target.getAttribute('download')
+      ) {
+        // Handle hash navigation when already on the homepage
+        if (href.startsWith('/#')) {
+          if (currentPath === '/') {
+            e.preventDefault();
+            const id = href.replace('/#', '');
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+            return;
+          }
+        }
+        // Direct route transition
+        if (!href.includes('#')) {
+          e.preventDefault();
+          window.history.pushState({}, '', href);
+          setCurrentPath(getNormalizedPath());
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+    return () => document.removeEventListener('click', handleDocumentClick);
+  }, [currentPath]);
+
+  const isSubpage =
+    currentPath === '/contractor-website-design' ||
+    currentPath === '/junk-removal-website-design' ||
+    currentPath === '/excavation-company-website-design';
+
   // Restore homepage meta and structured data when on homepage
   useEffect(() => {
-    if (
-      currentPath !== '/junk-removal-website-design' &&
-      currentPath !== '/excavation-company-website-design'
-    ) {
+    if (!isSubpage) {
       restoreHomepageHead();
     }
-  }, [currentPath]);
+  }, [currentPath, isSubpage]);
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -93,10 +133,6 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const isSubpage =
-    currentPath === '/junk-removal-website-design' ||
-    currentPath === '/excavation-company-website-design';
-
   return (
     <div className="min-h-screen bg-[#FAF6F0] text-[#1A1715] flex flex-col font-sans selection:bg-[#EAE0D2] selection:text-[#141210]">
       {/* 1. FIXED HEADER NAVIGATION (With anchor links that point to /#section on subpages) */}
@@ -105,9 +141,11 @@ export default function App() {
         isSubpage={isSubpage}
       />
 
-      {/* 2. PATH-BASED PAGE RENDERING (No router library; checks window.location.pathname) */}
+      {/* 2. PATH-BASED PAGE RENDERING */}
       <main className="w-full flex-grow">
-        {currentPath === '/junk-removal-website-design' ? (
+        {currentPath === '/contractor-website-design' ? (
+          <ContractorHubPage onRequestAudit={() => setIsAuditIntakeOpen(true)} />
+        ) : currentPath === '/junk-removal-website-design' ? (
           <JunkRemovalPage onRequestAudit={() => setIsAuditIntakeOpen(true)} />
         ) : currentPath === '/excavation-company-website-design' ? (
           <ExcavationPage onRequestAudit={() => setIsAuditIntakeOpen(true)} />
@@ -160,6 +198,8 @@ export default function App() {
             ? 'Commercial Hauling / Junk Removal'
             : currentPath === '/excavation-company-website-design'
             ? 'Excavation & Dirt Work'
+            : currentPath === '/contractor-website-design'
+            ? 'Trade Contractor / Construction'
             : 'Exterior Contractor / Roofing'
         }
       />

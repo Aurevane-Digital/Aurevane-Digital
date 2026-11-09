@@ -1,111 +1,146 @@
-import React, { useEffect } from 'react';
-import { ArrowRight, ShieldCheck, CheckCircle2, AlertCircle, ArrowUpRight } from 'lucide-react';
-import { updatePageHead } from '../utils/seoHelper';
+import React from 'react';
+import { ArrowRight, CheckCircle2, AlertCircle, ArrowUpRight, HelpCircle } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 interface ExcavationPageProps {
   onRequestAudit: () => void;
 }
 
 export const ExcavationPage: React.FC<ExcavationPageProps> = ({ onRequestAudit }) => {
-  useEffect(() => {
-    updatePageHead({
-      title: 'Excavation Company Website Design | Aurevane Digital',
+  const jsonLdData = [
+    {
+      '@type': 'Service',
+      name: 'Excavation Company Website Design',
       description:
         'Custom website design for excavation and dirt work contractors. Show your equipment, service areas and projects, and make requesting a quote easy.',
-      canonicalUrl: 'https://aurevanedigital.vercel.app/excavation-company-website-design',
-      serviceJsonLd: {
-        name: 'Excavation Company Website Design',
-        description:
-          'Custom website design for excavation and dirt work contractors. Show your equipment, service areas and projects, and make requesting a quote easy.',
+      provider: {
+        '@id': 'https://aurevanedigital.vercel.app/#organization',
       },
-    });
-    window.scrollTo(0, 0);
-  }, []);
+      areaServed: 'United States',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://aurevanedigital.vercel.app/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Contractor Website Design',
+          item: 'https://aurevanedigital.vercel.app/contractor-website-design',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: 'Excavation Company Website Design',
+          item: 'https://aurevanedigital.vercel.app/excavation-company-website-design',
+        },
+      ],
+    },
+  ];
 
   const whyLoseJobs = [
     {
-      title: 'Equipment and capabilities are not shown clearly',
-      desc: 'Commercial project managers and general contractors cannot quickly verify tonnage, excavators, or job scale capacity.',
+      title: 'Equipment and capabilities not shown clearly',
+      desc: 'Commercial project managers and general contractors cannot quickly verify machine tonnage, excavator attachments, or job capacity.',
     },
     {
-      title: 'Service areas are vague',
-      desc: 'Prospects cannot determine whether you mobilize to their specific township, county, or job site radius.',
+      title: 'Vague service areas',
+      desc: 'Builders and homeowners cannot determine whether you mobilize to their specific township, county, or job site radius.',
     },
     {
       title: 'No simple way to request a quote from a job site on a phone',
-      desc: 'Builders and property developers on active sites need instant mobile quote inputs, not lengthy generic forms.',
+      desc: 'Superintendents and property developers standing on raw ground need fast mobile inputs, not lengthy multi-step surveys.',
     },
     {
       title: 'Past projects not shown',
-      desc: 'Without clear photography of completed earthworks, foundations, and grading, potential clients move to competitors.',
+      desc: 'Without real photography of completed earthworks, foundations, grading, and drainage, prospects look elsewhere.',
     },
   ];
 
   const whatWeBuild = [
     {
-      title: 'Service pages for excavation, grading, trenching, site prep and land clearing',
-      desc: 'Dedicated architectural pages structured for each trade discipline to attract high-intent commercial and residential contracts.',
+      title: 'Service sections for excavation, grading, trenching, site prep and land clearing',
+      desc: 'Dedicated architectural sections structured for each dirt work discipline to attract high-intent commercial and residential bids.',
     },
     {
       title: 'Equipment and capability sections',
-      desc: 'Clean, authoritative displays of your machinery fleet, attachments, licensing, and bonding capacity.',
+      desc: 'Authoritative showcases displaying your machinery fleet, attachments, operator licensing, and bonding credentials.',
     },
     {
       title: 'Project galleries and service area sections',
-      desc: 'High-resolution project case studies organized by county and project type to prove local credibility.',
+      desc: 'Clean project galleries categorized by trade scope and target county boundaries to establish undeniable local authority.',
     },
     {
       title: 'Click-to-call and a short quote request form',
-      desc: 'Streamlined mobile actions that allow builders and homeowners to send job specs and request bids immediately.',
+      desc: 'Streamlined mobile actions allowing site managers and property owners to send job specs and request site walks immediately.',
     },
     {
-      title: 'Fast, mobile-first custom code, not a template',
-      desc: 'Bespoke lightweight code that renders immediately in the field on phones and tablets with zero template bloat.',
-    },
-  ];
-
-  const howItWorks = [
-    {
-      step: '01',
-      title: 'Free website check of your current site',
-      desc: 'We inspect your existing site to pinpoint technical issues, slow speeds, and lost bid opportunities.',
-    },
-    {
-      step: '02',
-      title: 'Custom design mockup for your business',
-      desc: 'We draft a tailored design framework showcasing your machinery, services, and geographic coverage.',
-    },
-    {
-      step: '03',
-      title: 'Build and launch',
-      desc: 'We build the site with clean custom code, optimize local search signals, and launch with zero downtime.',
+      title: 'Fast mobile-first custom code, not a template',
+      desc: 'Bespoke semantic architecture without heavy plugins or bloated builders, loading rapidly on cellular devices out in the field.',
     },
   ];
 
   const faqs = [
     {
+      q: 'What should an excavation website show?',
+      a: 'It should show your specific earthwork services, machine fleet and equipment capabilities, licensed service areas, and real photos of completed projects.',
+    },
+    {
+      q: 'Can you feature equipment and service areas?',
+      a: 'Yes, we build dedicated equipment showcases and territorial service area pages.',
+    },
+    {
       q: 'Do you use templates?',
       a: 'No, every site is custom coded.',
-    },
-    {
-      q: 'Can you work with my existing branding?',
-      a: 'Yes.',
-    },
-    {
-      q: 'How do I get started?',
-      a: 'Request a free website check.',
     },
   ];
 
   return (
     <div className="w-full">
-      {/* 1. HERO MASTHEAD */}
+      <SEO
+        title="Excavation Company Website Design | Aurevane Digital"
+        description="Custom website design for excavation and dirt work contractors. Show your equipment, service areas and projects, and make requesting a quote easy."
+        canonicalPath="/excavation-company-website-design"
+        jsonLd={jsonLdData}
+      />
+
+      {/* 1. HERO MASTHEAD & BREADCRUMB */}
       <section className="w-full pt-32 pb-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
+          {/* Visible Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="mb-6">
+            <ol className="flex items-center gap-2 text-[11px] sm:text-xs font-mono uppercase tracking-wider text-[#827C75] flex-wrap">
+              <li>
+                <a href="/" className="hover:text-[#141210] transition-colors">
+                  Home
+                </a>
+              </li>
+              <li aria-hidden="true" className="text-[#B89255]/60">
+                /
+              </li>
+              <li>
+                <a href="/contractor-website-design" className="hover:text-[#141210] transition-colors">
+                  Contractor Website Design
+                </a>
+              </li>
+              <li aria-hidden="true" className="text-[#B89255]/60">
+                /
+              </li>
+              <li aria-current="page" className="text-[#141210] font-semibold">
+                Excavation Company Website Design
+              </li>
+            </ol>
+          </nav>
+
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-                Specialized Trade Practice
+                Specialized Earthwork Practice
               </span>
               <div className="h-px w-10 bg-[#9E5249]/40" />
             </div>
@@ -127,10 +162,10 @@ export const ExcavationPage: React.FC<ExcavationPageProps> = ({ onRequestAudit }
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </button>
               <a
-                href="#what-we-build"
+                href="/packages"
                 className="inline-flex items-center justify-center px-8 py-3.5 bg-transparent border border-[#141210]/40 text-[#141210] hover:bg-[#141210] hover:text-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors"
               >
-                What We Build
+                See packages
               </a>
             </div>
           </div>
@@ -173,14 +208,11 @@ export const ExcavationPage: React.FC<ExcavationPageProps> = ({ onRequestAudit }
       </section>
 
       {/* 3. WHAT WE BUILD FOR EXCAVATION AND DIRT WORK CONTRACTORS */}
-      <section
-        id="what-we-build"
-        className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60"
-      >
+      <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-2xl mb-12">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-              Tailored Digital Architecture
+              Tailored Architecture
             </span>
             <h2 className="font-serif text-2xl sm:text-4xl text-[#141210] font-normal mt-2">
               What we build for excavation and dirt work contractors
@@ -210,37 +242,26 @@ export const ExcavationPage: React.FC<ExcavationPageProps> = ({ onRequestAudit }
         </div>
       </section>
 
-      {/* 4. HOW IT WORKS */}
+      {/* 4. EXCAVATION WEBSITE CONCEPT */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mb-12">
+          <div className="max-w-3xl">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-              Process
+              Portfolio Concept Showcase
             </span>
-            <h2 className="font-serif text-2xl sm:text-4xl text-[#141210] font-normal mt-2">
-              How it works
+            <h2 className="font-serif text-2xl sm:text-4xl text-[#141210] font-normal mt-2 mb-4">
+              Excavation website concept
             </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {howItWorks.map((step) => (
-              <div
-                key={step.step}
-                className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] flex flex-col justify-between"
-              >
-                <div>
-                  <span className="font-serif text-3xl text-[#9E5249] font-normal block mb-3">
-                    {step.step}
-                  </span>
-                  <h3 className="font-serif text-xl text-[#141210] font-normal mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#59544E] font-light leading-relaxed">
-                    {step.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
+            <p className="text-sm sm:text-base text-[#59544E] font-light leading-relaxed mb-6">
+              "Vision Excavation" is one of our website concepts for an excavation and construction brand. It is a design demonstration, not a paid client project.
+            </p>
+            <a
+              href="/our-work"
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#9E5249] hover:text-[#141210] transition-colors group"
+            >
+              <span>See the Vision Excavation concept build</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
           </div>
         </div>
       </section>
@@ -250,7 +271,7 @@ export const ExcavationPage: React.FC<ExcavationPageProps> = ({ onRequestAudit }
         <div className="max-w-7xl mx-auto">
           <div className="max-w-2xl mb-12">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-              FAQ
+              Direct Answers
             </span>
             <h2 className="font-serif text-2xl sm:text-4xl text-[#141210] font-normal mt-2">
               Common questions
@@ -263,10 +284,11 @@ export const ExcavationPage: React.FC<ExcavationPageProps> = ({ onRequestAudit }
                 key={index}
                 className="p-6 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3]"
               >
-                <h3 className="font-serif text-lg text-[#141210] font-normal mb-2">
-                  {faq.q}
+                <h3 className="font-serif text-lg text-[#141210] font-normal mb-2 flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4 text-[#B89255] shrink-0" />
+                  <span>{faq.q}</span>
                 </h3>
-                <p className="text-sm text-[#59544E] font-light leading-relaxed">
+                <p className="text-sm text-[#59544E] font-light leading-relaxed pl-6">
                   {faq.a}
                 </p>
               </div>
@@ -285,33 +307,39 @@ export const ExcavationPage: React.FC<ExcavationPageProps> = ({ onRequestAudit }
             Ready to upgrade your excavation website?
           </h2>
           <p className="text-xs sm:text-sm text-[#D9D0C3] font-light max-w-xl mx-auto leading-relaxed">
-            Get an in-depth audit of your current site and a clear plan to win more commercial and residential bids.
+            Get a comprehensive review of your current site and a clear path toward winning larger commercial and residential bids.
           </p>
 
-          <div className="pt-2">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={onRequestAudit}
-              className="inline-flex items-center justify-center px-9 py-4 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-9 py-4 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
             >
               Request Free Website Check
             </button>
+            <a
+              href="/packages"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-9 py-4 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors"
+            >
+              See packages
+            </a>
           </div>
 
           {/* Inter-page cross-links */}
           <div className="pt-8 border-t border-[#34302D] flex flex-col sm:flex-row items-center justify-center gap-6 text-xs text-[#D9D0C3]">
             <a
-              href="/junk-removal-website-design"
-              className="hover:text-white underline underline-offset-4 transition-colors flex items-center gap-1.5"
+              href="/contractor-website-design"
+              className="hover:text-white underline underline-offset-4 transition-colors"
             >
-              <span>Explore Junk Removal Website Design</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              Contractor Website Design Overview
             </a>
             <span className="hidden sm:inline text-[#59544E]">•</span>
             <a
-              href="/"
-              className="hover:text-white underline underline-offset-4 transition-colors"
+              href="/junk-removal-website-design"
+              className="hover:text-white underline underline-offset-4 transition-colors flex items-center gap-1.5"
             >
-              Contractor website design
+              <span>Junk Removal Website Design</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
           </div>
         </div>

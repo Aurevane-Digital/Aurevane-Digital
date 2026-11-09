@@ -9,9 +9,9 @@ export interface PageHeadConfig {
 }
 
 const DEFAULT_HOMEPAGE_CONFIG: PageHeadConfig = {
-  title: 'Contractor Website Design | Aurevane Digital',
+  title: 'Aurevane Digital | Premium Websites for Contractors',
   description:
-    'Aurevane Digital designs high-converting websites for roofers, junk removal, electrical and other home service contractors. Get more calls and quotes.',
+    'Premium, conversion-focused websites for contractors and home service businesses. See our concept work, packages and how we build.',
   canonicalUrl: 'https://aurevanedigital.vercel.app/',
 };
 
