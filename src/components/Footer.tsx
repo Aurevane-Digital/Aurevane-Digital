@@ -1,13 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface FooterProps {
-  onNavClick: (anchor: string) => void;
   onOpenPrivacyModal: () => void;
   onOpenTermsModal: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
-  onNavClick,
   onOpenPrivacyModal,
   onOpenTermsModal,
 }) => {
@@ -17,16 +16,16 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
           {/* Logo & Mission Column */}
           <div className="lg:col-span-5 flex flex-col gap-4">
-            <div className="h-20 md:h-24 flex items-center">
+            <Link to="/" className="h-16 md:h-20 flex items-center">
               <img
                 alt="Aurevane Digital — High-Converting Contractor Website Design Agency"
                 width={200}
                 height={80}
                 loading="lazy"
-                className="h-16 md:h-20 w-auto object-contain object-left"
+                className="h-14 md:h-18 w-auto object-contain object-left"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyrjlaVmDQP0ISYNJv_U_2aSx69k68JCXVH2KJSwz1g_q6Pu1TbcXF_TQF0kEDuvms5ny5YsuQCTFCmmoU1VUnfZi8rLRvsINw4ktT33X8z9yOiAIchEgxD3VgHf-xUss54-kCUrzWZjdF91lYJAY8Md69cDzyvRoat77EHqAzkNqZzCbsTGRMOf1SO7lgtigsIOtckAT2XuZoKTBV_os-KsFuLxPmnm8tuOooSv7mu-r4EQl98Ghbfg"
               />
-            </div>
+            </Link>
             <p className="text-xs md:text-sm text-[#59544E] max-w-sm leading-relaxed font-light">
               High-converting website design for contractors and luxury trades. Built with minimal aesthetics, architectural rigor, and precision code.
             </p>
@@ -41,67 +40,37 @@ export const Footer: React.FC<FooterProps> = ({
             <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
               Navigation
             </h3>
-            <nav aria-label="Footer Navigation" className="flex flex-col gap-2 text-xs text-[#59544E] font-medium">
-              <a
-                href="#hero"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavClick('hero');
-                }}
+            <nav aria-label="Footer Navigation" className="flex flex-col gap-2.5 text-xs text-[#59544E] font-medium">
+              <Link
+                to="/"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 Home
-              </a>
-              <a
-                href="#about"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavClick('about');
-                }}
+              </Link>
+              <Link
+                to="/about"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 About Aurevane
-              </a>
-              <a
-                href="#work"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavClick('work');
-                }}
+              </Link>
+              <Link
+                to="/our-work"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
-                Selected Contractor Work
-              </a>
-              <a
-                href="#packages"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavClick('packages');
-                }}
+                Our Work (Cinematic Presentation)
+              </Link>
+              <Link
+                to="/packages"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 Service Packages
-              </a>
-              <a
-                href="#website-check"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavClick('website-check');
-                }}
+              </Link>
+              <Link
+                to="/contact"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
-                Free Website Check
-              </a>
-              <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavClick('contact');
-                }}
-                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
-              >
-                Direct Contact
-              </a>
+                Contact &amp; Free Audit
+              </Link>
             </nav>
           </div>
 
