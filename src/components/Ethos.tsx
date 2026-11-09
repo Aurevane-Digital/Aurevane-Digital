@@ -16,15 +16,15 @@ export const Ethos: React.FC = () => {
             </div>
 
             <h2 className="font-serif text-3xl md:text-4xl text-[#141210] font-normal leading-tight">
-              Built for businesses ready to stand apart.
+              Built for home service businesses ready to stand apart.
             </h2>
 
             <p className="text-sm md:text-base text-[#59544E] leading-relaxed font-light">
-              Most service business websites are built on bloated, interchangeable templates. They broadcast compromise before a client conversation even begins. Discerning customers don't read feature lists first—they absorb aesthetic authority and digital polish.
+              Most service business websites are built on bloated, interchangeable templates. Whether for roofing specialists, junk removal operators, electrical contractors, excavation teams, or fence and landscaping companies, generic websites broadcast compromise before a client conversation even begins.
             </p>
 
             <p className="text-sm md:text-base text-[#59544E] leading-relaxed font-light">
-              Aurevane Digital provides an antidote to template mediocrity. We combine architectural structure, luxury editorial typography, and precision conversion mechanics to command premium pricing.
+              Aurevane Digital provides bespoke contractor website design as an antidote to template mediocrity. We combine architectural structure, luxury editorial typography, and precision conversion funnels that help contractors win higher-value contracts.
             </p>
 
             <div className="p-6 bg-[#FAF6F0] rounded-sm border-l-2 border-[#9E5249] shadow-xs mt-2">
@@ -51,7 +51,7 @@ export const Ethos: React.FC = () => {
                 Strategic Trade Positioning
               </h3>
               <p className="text-xs md:text-sm text-[#59544E] leading-relaxed">
-                Repositioning contractors, craftsmen, and niche firms into unquestionable regional tier-one market authorities.
+                Repositioning contractors, craftsmen, and niche home service businesses into unquestionable regional tier-one market authorities.
               </p>
             </div>
 
@@ -67,7 +67,7 @@ export const Ethos: React.FC = () => {
                 Quiet Editorial Aesthetics
               </h3>
               <p className="text-xs md:text-sm text-[#59544E] leading-relaxed">
-                Subtle negative space, archival serif typography, and tactile photography layouts that exude quiet confidence.
+                Subtle negative space, archival serif typography, and tactile photography layouts that command immediate confidence from commercial procurement and discerning homeowners.
               </p>
             </div>
 
@@ -83,7 +83,7 @@ export const Ethos: React.FC = () => {
                 Frictionless Conversion Funnels
               </h3>
               <p className="text-xs md:text-sm text-[#59544E] leading-relaxed">
-                Streamlined intake quote flows and project estimators that eliminate user hesitation on both desktop and mobile.
+                Streamlined intake quote flows and project estimators that eliminate user hesitation, prompting qualified prospects to call and book on both desktop and mobile.
               </p>
             </div>
 
@@ -100,7 +100,7 @@ export const Ethos: React.FC = () => {
                   Sub-Second Performance
                 </h3>
                 <p className="text-xs text-[#59544E] leading-relaxed">
-                  Clean semantic code free of JavaScript clutter, achieving near-perfect 100/100 Lighthouse performance metrics.
+                  Clean semantic code free of JavaScript clutter, achieving near-perfect 100/100 Lighthouse performance and Core Web Vitals compliance.
                 </p>
               </div>
 
@@ -115,7 +115,7 @@ export const Ethos: React.FC = () => {
                   High-Ticket Contractor Focus
                 </h3>
                 <p className="text-xs text-[#59544E] leading-relaxed">
-                  Designed specifically around commercial bids, residential re-roofing, and service packages valued at $5k to $100k+.
+                  Designed specifically around commercial bids, residential roofing, structural steel tenders, and service packages valued at $5k to $100k+.
                 </p>
               </div>
             </div>

@@ -57,7 +57,10 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
             <div className="border border-[#D9D0C3] rounded-sm overflow-hidden bg-black shadow-xs">
               <img
                 src={caseStudy.image}
-                alt={caseStudy.title}
+                alt={`${caseStudy.title} — ${caseStudy.category} Case Study Preview`}
+                width={1200}
+                height={675}
+                loading="lazy"
                 className="w-full max-h-[460px] object-cover object-top"
               />
             </div>

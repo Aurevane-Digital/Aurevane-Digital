@@ -45,13 +45,13 @@ export const Packages: React.FC<PackagesProps> = ({ onSelectPackage }) => {
 
                 <div>
                   <div className="flex items-center justify-between pb-4 border-b border-[#D9D0C3]/70">
-                    <span
+                    <h3
                       className={`text-xs uppercase tracking-widest font-bold ${
                         isFeatured ? 'text-[#9E5249]' : 'text-[#141210]'
                       }`}
                     >
                       {pkg.name}
-                    </span>
+                    </h3>
                     <span
                       className={`text-[10px] uppercase tracking-wider font-semibold ${
                         isFeatured ? 'text-[#9E5249]' : 'text-[#59544E]'

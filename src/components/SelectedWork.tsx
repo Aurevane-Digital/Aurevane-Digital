@@ -310,11 +310,11 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
 
         {/* TOP STATUS BAR: Subtle Archive Header & Minimal Project Indicator */}
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-14 pt-8 sm:pt-10 flex items-center justify-between z-30 pointer-events-auto">
-          {/* Subtle Label */}
+          {/* Section Heading */}
           <div className="flex items-center gap-2">
-            <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#827C75]">
-              Selected Work / Portfolio Presentation
-            </span>
+            <h2 className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#827C75]">
+              Selected Work / Contractor Website Design Portfolio
+            </h2>
           </div>
 
           {/* Minimal Project Progress Number: 01 / 05, 02 / 05, etc. */}
@@ -349,7 +349,10 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
           {!isImagesLoaded && (
             <img
               src={getFrameUrl(currentFrame)}
-              alt="Project Showcase"
+              alt="High-Converting Contractor Website Showcase Frame"
+              width={1920}
+              height={1080}
+              loading="lazy"
               className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
             />
           )}
@@ -375,12 +378,12 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
                     className="absolute bottom-0 left-0 w-full transition-opacity duration-150 ease-out select-none"
                     style={{ opacity }}
                   >
-                    {/* Exact user requested title format: 01 — JUNK BOLT, etc. */}
-                    <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[#141210] font-normal tracking-tight uppercase leading-none">
+                    {/* Project Title H3 */}
+                    <h3 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[#141210] font-normal tracking-tight uppercase leading-none">
                       {project.displayTitle}
-                    </h2>
+                    </h3>
                     
-                    {/* Exact user requested subtitle: Junk Removal & Hauling, etc. */}
+                    {/* Project Category */}
                     <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm md:text-base text-[#59544E] font-sans font-light tracking-wider uppercase">
                       {project.category}
                     </p>
@@ -393,6 +396,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
             <div className="shrink-0 mb-1 hidden sm:block">
               <button
                 onClick={() => handleOpenCaseStudy()}
+                aria-label={`Inspect ${activeProject.displayTitle} case study blueprint`}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#141210] text-[#FAF6F0] text-[11px] font-semibold uppercase tracking-[0.18em] rounded-sm hover:bg-[#34302D] transition-colors cursor-pointer group shadow-xs"
               >
                 <span>Inspect Case Study</span>

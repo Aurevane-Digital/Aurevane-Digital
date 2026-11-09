@@ -41,8 +41,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWork, onRequestAudit }) => 
         }}
       >
         <img
-          alt="Aurevane Digital Studio"
+          alt="Aurevane Digital — High-Converting Contractor Website Design Agency"
           className="h-28 sm:h-36 md:h-44 w-auto object-contain filter drop-shadow-sm transition-transform duration-300 hover:scale-[1.01]"
+          width={350}
+          height={176}
+          loading="eager"
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF3bFfQg6L8w0oyIgKQ0GRw-NjNHgRDE75hIl7EKKl1NXXp9RbrlkPgDC9ImbFlLO6mkStTZzDsw6giBkAE3d-FNMYSSzOz3auMXJPT2T_WHUgYEJ9E0AxXb5YptKaRa2V9buUhc5JT5zrJIx-8Zma9mzeT7TFTfICkj5VjeirFUSK09d9AiI7WwN5Tr32zTVLo82DeTuBQoeMIIU9ZX3Q3SMb-c09q0Dpw94SuhKm9qj0LfCGQTpaeQ"
         />
       </div>
@@ -57,38 +60,46 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWork, onRequestAudit }) => 
 
       {/* Monumental Editorial Headline */}
       <div className="max-w-5xl mx-auto flex flex-col items-center">
-        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-normal uppercase leading-[1.12] tracking-tight text-[#141210]">
-          DIGITAL EXPERIENCES THAT MAKE BUSINESSES
+        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[64px] font-normal uppercase leading-[1.12] tracking-tight text-[#141210]">
+          Website Design for Contractors Who Want More Calls
         </h1>
-        <h2 className="font-serif italic text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-normal uppercase leading-[1.12] tracking-tight text-[#9E5249] mt-1">
-          &amp; IMPOSSIBLE TO OVERLOOK
-        </h2>
+        <p className="font-serif italic text-xl sm:text-3xl md:text-4xl font-normal uppercase leading-[1.18] tracking-tight text-[#9E5249] mt-3">
+          Digital Experiences That Make Businesses Impossible to Overlook
+        </p>
       </div>
 
       {/* Subtle Accent Divider */}
       <div className="w-12 h-px bg-[#B89255]/60 my-6" />
 
-      {/* Subtitle Description */}
+      {/* Subtitle Description with Natural Industry Mentions */}
       <p className="text-sm md:text-base text-[#59544E] max-w-2xl mx-auto font-normal leading-relaxed">
-        We design high-performing websites that turn first impressions into lasting customers. Rooted in minimal aesthetics, architectural rigor, and the irreplaceable power of human craft.
+        We engineer high-converting websites for roofers, junk removal, electrical contractors, excavation specialists, fence and landscaping companies, and home service businesses. Built with minimal aesthetics, architectural rigor, and precision conversion mechanics.
       </p>
 
       {/* Dual Hero CTAs */}
       <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-        <button
-          onClick={onExploreWork}
+        <a
+          href="#work"
+          onClick={(e) => {
+            e.preventDefault();
+            onExploreWork();
+          }}
           className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-all duration-200 group shadow-sm cursor-pointer"
         >
-          <span>Explore Our Work</span>
+          <span>Explore Contractor Work</span>
           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-        </button>
+        </a>
 
-        <button
-          onClick={onRequestAudit}
+        <a
+          href="#website-check"
+          onClick={(e) => {
+            e.preventDefault();
+            onRequestAudit();
+          }}
           className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-transparent border border-[#141210]/30 text-[#141210] text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#ECE2D3]/60 transition-all duration-200 cursor-pointer"
         >
-          Request a Website Check
-        </button>
+          Request Free Website Check
+        </a>
       </div>
 
       {/* Key Stat Metrics Row */}

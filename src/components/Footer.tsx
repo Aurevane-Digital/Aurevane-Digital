@@ -19,13 +19,16 @@ export const Footer: React.FC<FooterProps> = ({
           <div className="lg:col-span-5 flex flex-col gap-4">
             <div className="h-20 md:h-24 flex items-center">
               <img
-                alt="Aurevane Digital"
+                alt="Aurevane Digital — High-Converting Contractor Website Design Agency"
+                width={200}
+                height={80}
+                loading="lazy"
                 className="h-16 md:h-20 w-auto object-contain object-left"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyrjlaVmDQP0ISYNJv_U_2aSx69k68JCXVH2KJSwz1g_q6Pu1TbcXF_TQF0kEDuvms5ny5YsuQCTFCmmoU1VUnfZi8rLRvsINw4ktT33X8z9yOiAIchEgxD3VgHf-xUss54-kCUrzWZjdF91lYJAY8Md69cDzyvRoat77EHqAzkNqZzCbsTGRMOf1SO7lgtigsIOtckAT2XuZoKTBV_os-KsFuLxPmnm8tuOooSv7mu-r4EQl98Ghbfg"
               />
             </div>
             <p className="text-xs md:text-sm text-[#59544E] max-w-sm leading-relaxed font-light">
-              Digital experiences that make businesses impossible to overlook. Built with minimal aesthetics, architectural rigor, and precision code.
+              High-converting website design for contractors and luxury trades. Built with minimal aesthetics, architectural rigor, and precision code.
             </p>
             <div className="w-10 h-px bg-[#B89255]/60 my-1" />
             <span className="text-[10px] uppercase tracking-widest text-[#9E5249] font-semibold">
@@ -35,59 +38,83 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Navigation Links */}
           <div className="lg:col-span-3 flex flex-col gap-3">
-            <h4 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
+            <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
               Navigation
-            </h4>
-            <nav className="flex flex-col gap-2 text-xs text-[#59544E] font-medium">
-              <button
-                onClick={() => onNavClick('hero')}
+            </h3>
+            <nav aria-label="Footer Navigation" className="flex flex-col gap-2 text-xs text-[#59544E] font-medium">
+              <a
+                href="#hero"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavClick('hero');
+                }}
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 Home
-              </button>
-              <button
-                onClick={() => onNavClick('about')}
+              </a>
+              <a
+                href="#about"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavClick('about');
+                }}
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 About Aurevane
-              </button>
-              <button
-                onClick={() => onNavClick('work')}
+              </a>
+              <a
+                href="#work"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavClick('work');
+                }}
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
-                Selected Work
-              </button>
-              <button
-                onClick={() => onNavClick('packages')}
+                Selected Contractor Work
+              </a>
+              <a
+                href="#packages"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavClick('packages');
+                }}
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 Service Packages
-              </button>
-              <button
-                onClick={() => onNavClick('website-check')}
+              </a>
+              <a
+                href="#website-check"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavClick('website-check');
+                }}
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 Free Website Check
-              </button>
-              <button
-                onClick={() => onNavClick('contact')}
+              </a>
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavClick('contact');
+                }}
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
                 Direct Contact
-              </button>
+              </a>
             </nav>
           </div>
 
           {/* Practice & Focus */}
           <div className="lg:col-span-4 flex flex-col gap-3">
-            <h4 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
+            <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
               Practice &amp; Focus
-            </h4>
+            </h3>
             <div className="flex flex-col gap-2 text-xs text-[#59544E]">
-              <span>Contractors &amp; High-Ticket Exterior Trades</span>
+              <span>Contractor Website Design &amp; High-Ticket Trades</span>
+              <span>Roofing, Electrical, Junk Removal &amp; Excavation</span>
+              <span>Fence &amp; Landscaping Company Web Systems</span>
               <span>High-Performing Local SEO Architecture</span>
-              <span>Editorial Aesthetic Systems</span>
-              <span>Conversion Engine Engineering</span>
               <a
                 href="mailto:aurevanedigital@gmail.com"
                 className="pt-2 text-[11px] font-mono text-[#9E5249] font-semibold hover:underline"
