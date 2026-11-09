@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, ArrowRight } from 'lucide-react';
+import { X, ArrowRight, Loader2 } from 'lucide-react';
 import { ServicePackage } from '../types';
 import { SERVICE_PACKAGES, ADD_ON_OPTIONS } from '../data/packages';
+import { submitToWeb3Forms } from '../services/formService';
 
 interface BookingModalProps {
   selectedPackage: ServicePackage | null;
@@ -24,6 +25,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [businessName, setBusinessName] = useState('');
   const [targetLaunch, setTargetLaunch] = useState('Within 30 Days');
   const [notes, setNotes] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const currentPkg =
     SERVICE_PACKAGES.find((p) => p.id === currentPkgId) || SERVICE_PACKAGES[1];
@@ -45,9 +47,33 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const isCustom = currentPkg.id === 'custom';
   const totalPrice = isCustom ? 'Custom Quote' : `$${(basePrice + addonsTotal).toLocaleString()}`;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !businessName) return;
+
+    setIsSubmitting(true);
+
+    const chosenAddonNames = selectedAddons
+      .map((id) => ADD_ON_OPTIONS.find((a) => a.id === id)?.name)
+      .filter(Boolean)
+      .join(', ');
+
+    await submitToWeb3Forms({
+      formType: 'Package Booking Reservation',
+      subject: `New Studio Engagement: ${currentPkg.name} — ${businessName}`,
+      name,
+      email,
+      data: {
+        'Selected Package': `${currentPkg.name} (${currentPkg.price})`,
+        'Selected Add-ons': chosenAddonNames || 'None selected',
+        'Total Estimated Investment': totalPrice,
+        'Business Entity / Legal Trade': businessName,
+        'Target Launch Horizon': targetLaunch,
+        'Project Specifics or Key Challenges': notes || 'None provided',
+      },
+    });
+
+    setIsSubmitting(false);
 
     onSuccess(
       `Booking request confirmed for ${currentPkg.name} package. We will send an agreement draft to ${email}.`
@@ -246,10 +272,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
           <button
             type="submit"
-            className="w-full py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-xs"
+            disabled={isSubmitting}
+            className="w-full py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-xs disabled:opacity-60"
           >
-            <span>Confirm &amp; Reserve Studio Capacity</span>
-            <ArrowRight className="w-4 h-4" />
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Reserving Studio Capacity...</span>
+              </>
+            ) : (
+              <>
+                <span>Confirm &amp; Reserve Studio Capacity</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
           </button>
         </form>
       </div>

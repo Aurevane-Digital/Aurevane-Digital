@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShieldCheck, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
 import { AuditFormState, AuditReportData } from '../types';
+import { submitToWeb3Forms } from '../services/formService';
 
 interface WebsiteCheckFormProps {
   onAuditGenerated: (report: AuditReportData) => void;
@@ -20,16 +21,29 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.websiteUrl || !formData.email || !formData.businessName) return;
 
     setIsSubmitting(true);
 
-    // Simulate instant editorial & performance diagnostic compilation
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSuccess(true);
+    // Forward form data to user inbox via Web3Forms
+    await submitToWeb3Forms({
+      formType: 'Website Check / Audit',
+      subject: `New Website Check Request: ${formData.businessName} (${formData.websiteUrl})`,
+      name: formData.name,
+      email: formData.email,
+      data: {
+        'Business Name': formData.businessName,
+        'Website URL': formData.websiteUrl,
+        'Primary Trade / Category': formData.tradeType,
+        'Estimated Average Contract Size': formData.contractSize,
+        'Specific Objectives / Notes': formData.notes || 'None provided',
+      },
+    });
+
+    setIsSubmitting(false);
+    setSuccess(true);
 
       const generatedReport: AuditReportData = {
         url: formData.websiteUrl.startsWith('http') ? formData.websiteUrl : `https://${formData.websiteUrl}`,
@@ -76,7 +90,6 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
       };
 
       onAuditGenerated(generatedReport);
-    }, 900);
   };
 
   return (

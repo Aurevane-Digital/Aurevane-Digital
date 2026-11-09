@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Mail, Instagram, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Mail, Instagram, CheckCircle2, ArrowRight, Loader2 } from 'lucide-react';
+import { submitToWeb3Forms } from '../services/formService';
 
 export const ContactSection: React.FC = () => {
   const [formState, setFormState] = useState({
@@ -9,11 +10,26 @@ export const ContactSection: React.FC = () => {
     message: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formState.name || !formState.email) return;
+
+    setIsSubmitting(true);
+    await submitToWeb3Forms({
+      formType: 'Direct Contact Inquiry',
+      subject: `New Project Inquiry: ${formState.name} — ${formState.business || 'New Lead'}`,
+      name: formState.name,
+      email: formState.email,
+      data: {
+        'Business Name & Trade': formState.business,
+        'Project Details & Objectives': formState.message,
+      },
+    });
+
+    setIsSubmitting(false);
     setSubmitted(true);
   };
 
@@ -146,10 +162,20 @@ export const ContactSection: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center py-3.5 px-6 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-colors duration-200 shadow-sm cursor-pointer"
+                  disabled={isSubmitting}
+                  className="w-full inline-flex items-center justify-center py-3.5 px-6 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-colors duration-200 shadow-sm cursor-pointer disabled:opacity-60"
                 >
-                  <span>Start a Conversation</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      <span>Transmitting Inquiry...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Start a Conversation</span>
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </>
+                  )}
                 </button>
               </form>
             )}
