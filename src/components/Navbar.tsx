@@ -56,12 +56,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
         >
           <div className="h-16 md:h-20 flex items-center overflow-visible">
             <img
-              alt="Aurevane Digital — High-Converting Contractor Website Design Agency"
-              width={240}
-              height={96}
+              alt="Aurevane Digital Studio logo"
+              width={532}
+              height={423}
               loading="eager"
               className="h-14 sm:h-16 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] filter drop-shadow-xs"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF3bFfQg6L8w0oyIgKQ0GRw-NjNHgRDE75hIl7EKKl1NXXp9RbrlkPgDC9ImbFlLO6mkStTZzDsw6giBkAE3d-FNMYSSzOz3auMXJPT2T_WHUgYEJ9E0AxXb5YptKaRa2V9buUhc5JT5zrJIx-8Zma9mzeT7TFTfICkj5VjeirFUSK09d9AiI7WwN5Tr32zTVLo82DeTuBQoeMIIU9ZX3Q3SMb-c09q0Dpw94SuhKm9qj0LfCGQTpaeQ"
+              src="/logo.png"
             />
           </div>
         </Link>

@@ -60,12 +60,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWork, onRequestAudit }) => 
         }}
       >
         <img
-          alt="Aurevane Digital — High-Converting Contractor Website Design Agency"
+          alt="Aurevane Digital Studio logo"
           className="h-28 sm:h-36 md:h-44 w-auto object-contain filter drop-shadow-sm transition-transform duration-300 hover:scale-[1.01]"
-          width={350}
-          height={176}
+          width={532}
+          height={423}
           loading="eager"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF3bFfQg6L8w0oyIgKQ0GRw-NjNHgRDE75hIl7EKKl1NXXp9RbrlkPgDC9ImbFlLO6mkStTZzDsw6giBkAE3d-FNMYSSzOz3auMXJPT2T_WHUgYEJ9E0AxXb5YptKaRa2V9buUhc5JT5zrJIx-8Zma9mzeT7TFTfICkj5VjeirFUSK09d9AiI7WwN5Tr32zTVLo82DeTuBQoeMIIU9ZX3Q3SMb-c09q0Dpw94SuhKm9qj0LfCGQTpaeQ"
+          fetchPriority="high"
+          decoding="async"
+          src="/logo.png"
         />
       </div>
 

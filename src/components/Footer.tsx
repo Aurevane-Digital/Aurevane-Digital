@@ -18,12 +18,12 @@ export const Footer: React.FC<FooterProps> = ({
           <div className="lg:col-span-5 flex flex-col gap-4">
             <Link to="/" className="h-16 md:h-20 flex items-center">
               <img
-                alt="Aurevane Digital — High-Converting Contractor Website Design Agency"
-                width={200}
-                height={80}
+                alt="Aurevane Digital Studio logo"
+                width={532}
+                height={423}
                 loading="lazy"
                 className="h-14 md:h-18 w-auto object-contain object-left"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyrjlaVmDQP0ISYNJv_U_2aSx69k68JCXVH2KJSwz1g_q6Pu1TbcXF_TQF0kEDuvms5ny5YsuQCTFCmmoU1VUnfZi8rLRvsINw4ktT33X8z9yOiAIchEgxD3VgHf-xUss54-kCUrzWZjdF91lYJAY8Md69cDzyvRoat77EHqAzkNqZzCbsTGRMOf1SO7lgtigsIOtckAT2XuZoKTBV_os-KsFuLxPmnm8tuOooSv7mu-r4EQl98Ghbfg"
+                src="/logo.png"
               />
             </Link>
             <p className="text-xs md:text-sm text-[#59544E] max-w-sm leading-relaxed font-light">
