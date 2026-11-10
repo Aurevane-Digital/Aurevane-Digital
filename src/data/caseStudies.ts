@@ -1,4 +1,5 @@
 import { CaseStudy } from '../types';
+import { getFrameUrl } from '../utils/frames';
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
@@ -12,7 +13,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     subdomainType: 'Fleet Dispatch & Volume Estimator',
     description:
       'Replacing chaotic phone bidding with an interactive truck volume visualizer and automated fleet dispatch calendar. Turned commodity hauling into a clean, premium trade service.',
-    image: '/frames/ezgif-frame-001.jpg',
+    image: getFrameUrl(1),
     badgeText: 'Interactive Visualizer • View Architecture',
     stats: [
       { label: 'Online Direct Bookings', value: '3.4x' },
@@ -52,7 +53,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     subdomainType: 'Heavy Civil Earthworks & Site Prep',
     description:
       'Turnkey digital platform for residential and commercial earthworks. Engineered around instant project scope estimators, GPS-backed site preparation galleries, and commercial tender intake.',
-    image: '/frames/ezgif-frame-150.jpg',
+    image: getFrameUrl(150),
     badgeText: 'Heavy Earthworks • View Blueprint',
     stats: [
       { label: 'Direct Bid Volume', value: '$2.4M' },
@@ -92,7 +93,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     subdomainType: 'Structural Fabrication & Architectural Iron',
     description:
       'Seven decades of unyielding structural fabrication, ornamental iron craft, and certified commercial steel across regional construction sectors.',
-    image: '/frames/ezgif-frame-185.jpg',
+    image: getFrameUrl(185),
     badgeText: 'AISC Certified • View Specification',
     stats: [
       { label: 'Commercial RFPs', value: '+180%' },
@@ -132,7 +133,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     subdomainType: 'Commercial Electrical & Mechanical Contracting',
     description:
       'Licensed commercial electrical and mechanical contractors serving regional facilities with engineered reliability, 24/7 emergency MEP service, and turnkey switchgear installation.',
-    image: '/frames/ezgif-frame-218.jpg',
+    image: getFrameUrl(218),
     badgeText: 'Industrial Authority • View Specification',
     stats: [
       { label: 'Direct Bid Pipeline', value: '$1.8M' },
@@ -172,7 +173,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     subdomainType: 'Flagship Contractor & Insurance Restoration',
     description:
       'We protect your home like its our own. High-precision drone imagery, military-grade shingle specifications, storm hail damage claims expertise, and an automated free inspection dispatch flow.',
-    image: '/frames/ezgif-frame-285.jpg',
+    image: getFrameUrl(285),
     badgeText: 'Featured Transformation • View Case Details',
     stats: [
       { label: 'Qualified Inspections', value: '+214%' },

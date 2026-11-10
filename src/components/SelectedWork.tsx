@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { CASE_STUDIES } from '../data/caseStudies';
 import { CaseStudy } from '../types';
+import { getFrameUrl } from '../utils/frames';
 
 interface SelectedWorkProps {
   onSelectCaseStudy: (study: CaseStudy) => void;
@@ -92,14 +93,7 @@ export const WORK_PROJECT_FRAMES = [
 
 const TOTAL_FRAMES = 289;
 const CROSS_FADE_WINDOW = 6; // +/- 6 frames transition buffer for smooth cross-fade
-
-function formatFrameNumber(num: number): string {
-  return String(num).padStart(3, '0');
-}
-
-function getFrameUrl(frameNum: number): string {
-  return `/frames/ezgif-frame-${formatFrameNumber(frameNum)}.jpg`;
-}
+const ANCHOR_FRAMES = [1, 147, 181, 217, 248, 289];
 
 /**
  * Calculates smooth cross-fade opacity for each project title overlay
@@ -156,13 +150,70 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     let isCancelled = false;
     const loadedImages = new Map<number, HTMLImageElement>();
 
-    // Load initial 25 frames immediately for instant responsiveness
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const isSaveData =
+      typeof navigator !== 'undefined' &&
+      Boolean(
+        (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData
+      );
+
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+    // (c) If prefers-reduced-motion: reduce is set, show one static frame and skip streaming
+    if (prefersReducedMotion) {
+      const img = new Image();
+      img.src = getFrameUrl(1);
+      img.onload = () => {
+        if (isCancelled) return;
+        loadedImages.set(1, img);
+        imagesRef.current = loadedImages;
+        setIsImagesLoaded(true);
+        drawFrame(1);
+      };
+      return () => {
+        isCancelled = true;
+      };
+    }
+
+    // (b) If navigator.connection?.saveData is true, load only anchor frames and skip streaming
+    if (isSaveData) {
+      const framesToLoad = isMobile
+        ? ANCHOR_FRAMES.map((f) => (f === 1 ? 1 : f % 2 !== 0 ? f + 1 : f))
+        : ANCHOR_FRAMES;
+
+      framesToLoad.forEach((frame) => {
+        const img = new Image();
+        img.src = getFrameUrl(frame);
+        img.onload = () => {
+          if (isCancelled) return;
+          loadedImages.set(frame, img);
+          imagesRef.current = loadedImages;
+          if (frame === 1 || (!loadedImages.has(1) && loadedImages.size === 1)) {
+            setIsImagesLoaded(true);
+            drawFrame(frame);
+          }
+        };
+      });
+      return () => {
+        isCancelled = true;
+      };
+    }
+
+    // Standard preloading flow (desktop loads all frames, mobile loads only even frames)
     const loadBatch = async (start: number, end: number) => {
       for (let i = start; i <= end; i++) {
         if (isCancelled) return;
+        // (a) On screens under 768px, preload only even-numbered frames (plus frame 1 for initial render)
+        if (isMobile && i % 2 !== 0 && i !== 1) {
+          continue;
+        }
         const img = new Image();
         img.src = getFrameUrl(i);
         img.onload = () => {
+          if (isCancelled) return;
           loadedImages.set(i, img);
           imagesRef.current = loadedImages;
           if (i === 1) {
@@ -173,13 +224,16 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       }
     };
 
-    // Load priority frames (initial + anchor frames for each project)
+    // Load initial 30 frames immediately for instant responsiveness
     loadBatch(1, 30).then(() => {
+      if (isCancelled) return;
       [147, 181, 217, 248, 289].forEach((frame) => {
+        const targetFrame = isMobile && frame % 2 !== 0 ? frame + 1 : frame;
         const img = new Image();
-        img.src = getFrameUrl(frame);
+        img.src = getFrameUrl(targetFrame);
         img.onload = () => {
-          loadedImages.set(frame, img);
+          if (isCancelled) return;
+          loadedImages.set(targetFrame, img);
           imagesRef.current = loadedImages;
         };
       });
@@ -244,6 +298,14 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     const handleScroll = () => {
       if (!containerRef.current) return;
 
+      // (c) If prefers-reduced-motion: reduce is set, skip scroll scrubbing
+      if (
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ) {
+        return;
+      }
+
       const rect = containerRef.current.getBoundingClientRect();
       const scrollableDistance = containerRef.current.offsetHeight - window.innerHeight;
 
@@ -257,7 +319,16 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       setScrollProgress(progress);
 
       // Map progress directly to frame index: 1 to TOTAL_FRAMES
-      const frameIdx = Math.max(1, Math.min(TOTAL_FRAMES, Math.round(1 + progress * (TOTAL_FRAMES - 1))));
+      let frameIdx = Math.max(1, Math.min(TOTAL_FRAMES, Math.round(1 + progress * (TOTAL_FRAMES - 1))));
+
+      // (a) On screens under 768px wide, scrub only even-numbered frames
+      if (window.innerWidth < 768) {
+        if (frameIdx % 2 !== 0) {
+          frameIdx = frameIdx >= TOTAL_FRAMES ? frameIdx - 1 : frameIdx + 1;
+        }
+        frameIdx = Math.max(2, Math.min(TOTAL_FRAMES - 1, frameIdx));
+      }
+
       setCurrentFrame(frameIdx);
 
       ticking = false;
@@ -339,6 +410,8 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
           {/* High-Performance Canvas */}
           <canvas
             ref={canvasRef}
+            role="img"
+            aria-label="Interactive frame-by-frame contractor website showcase animation"
             className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
             style={{
               display: isImagesLoaded ? 'block' : 'none',
