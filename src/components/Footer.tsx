@@ -40,7 +40,7 @@ export const Footer: React.FC<FooterProps> = ({
             <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
               Navigation
             </h3>
-            <nav aria-label="Footer Navigation" className="flex flex-col gap-2.5 text-xs text-[#59544E] font-medium">
+            <nav aria-label="Footer" className="flex flex-col gap-2.5 text-xs text-[#59544E] font-medium">
               <Link
                 to="/"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"

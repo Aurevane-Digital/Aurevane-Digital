@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { X, ShieldCheck, ArrowRight } from 'lucide-react';
 import { AuditReportData } from '../types';
 
@@ -13,11 +13,38 @@ export const AuditReportModal: React.FC<AuditReportModalProps> = ({
   onClose,
   onBookCure,
 }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!report) return;
+    const previousActiveElement = document.activeElement as HTMLElement | null;
+    dialogRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      previousActiveElement?.focus();
+    };
+  }, [report, onClose]);
+
   if (!report) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[#141210]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-2xl overflow-hidden my-8">
+      <div
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="audit-report-title"
+        className="relative w-full max-w-3xl bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-2xl overflow-hidden my-8 focus:outline-none"
+      >
         {/* Header */}
         <div className="px-6 py-4 bg-[#F5EDE2] border-b border-[#D9D0C3] flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -28,6 +55,7 @@ export const AuditReportModal: React.FC<AuditReportModalProps> = ({
           </div>
           <button
             onClick={onClose}
+            aria-label="Close dialog"
             className="p-1.5 text-[#59544E] hover:text-[#141210] hover:bg-[#ECE2D3] rounded-xs transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -39,7 +67,7 @@ export const AuditReportModal: React.FC<AuditReportModalProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#D9D0C3]">
             <div>
               <span className="text-xs font-mono text-[#59544E]">{report.url}</span>
-              <h2 className="font-serif text-2xl md:text-3xl text-[#141210] font-normal">
+              <h2 id="audit-report-title" className="font-serif text-2xl md:text-3xl text-[#141210] font-normal">
                 {report.businessName}
               </h2>
               <div className="flex items-center gap-2 mt-1">
@@ -76,9 +104,9 @@ export const AuditReportModal: React.FC<AuditReportModalProps> = ({
 
           {/* Detailed Findings */}
           <div className="space-y-4">
-            <h4 className="text-xs uppercase tracking-widest font-bold text-[#141210]">
+            <h3 className="text-xs uppercase tracking-widest font-bold text-[#141210]">
               Identified High-Ticket Conversion Bottlenecks
-            </h4>
+            </h3>
 
             <div className="space-y-3">
               {report.metrics.map((metric, i) => (

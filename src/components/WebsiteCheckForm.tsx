@@ -136,10 +136,13 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="audit-name" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Your Name *
                 </label>
                 <input
+                  id="audit-name"
+                  name="name"
+                  autoComplete="name"
                   type="text"
                   required
                   value={formData.name}
@@ -150,10 +153,13 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="audit-business" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Business Name *
                 </label>
                 <input
+                  id="audit-business"
+                  name="organization"
+                  autoComplete="organization"
                   type="text"
                   required
                   value={formData.businessName}
@@ -166,10 +172,13 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="audit-url" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Website URL *
                 </label>
                 <input
+                  id="audit-url"
+                  name="url"
+                  autoComplete="url"
                   type="text"
                   required
                   value={formData.websiteUrl}
@@ -180,10 +189,13 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="audit-email" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Email Address *
                 </label>
                 <input
+                  id="audit-email"
+                  name="email"
+                  autoComplete="email"
                   type="email"
                   required
                   value={formData.email}
@@ -196,10 +208,12 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="audit-trade" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Primary Trade / Category
                 </label>
                 <select
+                  id="audit-trade"
+                  name="tradeType"
                   value={formData.tradeType}
                   onChange={(e) => setFormData({ ...formData, tradeType: e.target.value })}
                   className="w-full px-4 py-2.5 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm text-sm text-[#141210] focus:outline-none focus:border-[#141210]"
@@ -215,10 +229,12 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="audit-contract-size" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Estimated Average Contract Size
                 </label>
                 <select
+                  id="audit-contract-size"
+                  name="contractSize"
                   value={formData.contractSize || '5k-15k'}
                   onChange={(e) => setFormData({ ...formData, contractSize: e.target.value })}
                   className="w-full px-4 py-2.5 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm text-sm text-[#141210] focus:outline-none focus:border-[#141210]"
@@ -232,10 +248,12 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
             </div>
 
             <div>
-              <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+              <label htmlFor="audit-notes" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                 What would you like us to evaluate?
               </label>
               <textarea
+                id="audit-notes"
+                name="notes"
                 rows={3}
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}

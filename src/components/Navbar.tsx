@@ -68,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
 
         {/* Clean Multi-Page Navigation */}
         <nav
-          aria-label="Primary Navigation"
+          aria-label="Primary"
           className="hidden lg:flex items-center gap-8 text-[12px] tracking-[0.2em] font-medium uppercase text-[#59544E]"
         >
           {navLinks.map((item) => (

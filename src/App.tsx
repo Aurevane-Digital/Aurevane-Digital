@@ -66,6 +66,14 @@ export default function App() {
     <Router>
       <ScrollToTop />
       <div className="min-h-screen bg-[#FAF6F0] text-[#1A1715] flex flex-col font-sans selection:bg-[#EAE0D2] selection:text-[#141210]">
+        {/* Accessible Skip Link (Visible only when focused) */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-[#141210] focus:text-[#FAF6F0] focus:text-xs focus:font-semibold focus:uppercase focus:tracking-wider focus:rounded-sm focus:shadow-2xl focus:outline-2 focus:outline-[#9E5249]"
+        >
+          Skip to main content
+        </a>
+
         {/* FIXED HEADER NAVIGATION (With direct route links) */}
         <Navbar
           onOpenAuditModal={() => {
@@ -79,7 +87,7 @@ export default function App() {
         />
 
         {/* MULTI-PAGE APPLICATION ROUTES */}
-        <main className="w-full flex-grow">
+        <main id="main-content" tabIndex={-1} className="w-full flex-grow focus:outline-none">
           <Routes>
             <Route
               path="/"

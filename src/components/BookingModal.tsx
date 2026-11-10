@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, ArrowRight, Loader2 } from 'lucide-react';
 import { ServicePackage } from '../types';
 import { SERVICE_PACKAGES, ADD_ON_OPTIONS } from '../data/packages';
@@ -15,9 +15,27 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   onClose,
   onSuccess,
 }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
   const [currentPkgId, setCurrentPkgId] = useState<string>(
     selectedPackage ? selectedPackage.id : 'professional'
   );
+
+  useEffect(() => {
+    const previousActiveElement = document.activeElement as HTMLElement | null;
+    dialogRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      previousActiveElement?.focus();
+    };
+  }, [onClose]);
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -83,7 +101,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[#141210]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-2xl overflow-hidden my-8">
+      <div
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="booking-modal-title"
+        className="relative w-full max-w-2xl bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-2xl overflow-hidden my-8 focus:outline-none"
+      >
         {/* Header */}
         <div className="px-6 py-4 bg-[#F5EDE2] border-b border-[#D9D0C3] flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -91,10 +116,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               Engagement Intake
             </span>
             <span className="text-[#827C75]">•</span>
-            <span className="text-xs font-semibold text-[#141210]">Reserve Studio Capacity</span>
+            <h2 id="booking-modal-title" className="text-xs font-semibold text-[#141210]">Reserve Studio Capacity</h2>
           </div>
           <button
             onClick={onClose}
+            aria-label="Close dialog"
             className="p-1.5 text-[#59544E] hover:text-[#141210] hover:bg-[#ECE2D3] rounded-xs transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -174,16 +200,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
           {/* Contact Fields */}
           <div className="space-y-4 pt-2 border-t border-[#D9D0C3]">
-            <h4 className="text-xs uppercase tracking-widest font-bold text-[#141210]">
+            <h3 className="text-xs uppercase tracking-widest font-bold text-[#141210]">
               Organization &amp; Stakeholder Information
-            </h4>
+            </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="booking-name" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Full Name *
                 </label>
                 <input
+                  id="booking-name"
+                  name="name"
+                  autoComplete="name"
                   type="text"
                   required
                   value={name}
@@ -194,10 +223,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="booking-email" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Email Address *
                 </label>
                 <input
+                  id="booking-email"
+                  name="email"
+                  autoComplete="email"
                   type="email"
                   required
                   value={email}
@@ -210,10 +242,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="booking-business" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Business Entity / Legal Trade *
                 </label>
                 <input
+                  id="booking-business"
+                  name="organization"
+                  autoComplete="organization"
                   type="text"
                   required
                   value={businessName}
@@ -224,10 +259,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                <label htmlFor="booking-launch" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                   Target Launch Horizon
                 </label>
                 <select
+                  id="booking-launch"
+                  name="targetLaunch"
                   value={targetLaunch}
                   onChange={(e) => setTargetLaunch(e.target.value)}
                   className="w-full px-3.5 py-2 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm text-sm text-[#141210] focus:outline-none focus:border-[#141210]"
@@ -241,10 +278,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+              <label htmlFor="booking-notes" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                 Project Specifics or Key Challenges
               </label>
               <textarea
+                id="booking-notes"
+                name="notes"
                 rows={3}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}

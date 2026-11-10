@@ -194,7 +194,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             <div className="flex items-start gap-4">
               <ShieldCheck className="w-6 h-6 text-[#9E5249] shrink-0 mt-1" />
               <div>
-                <h4 className="font-serif text-lg text-[#141210] mb-1">100% Code Ownership</h4>
+                <h3 className="font-serif text-lg text-[#141210] mb-1">100% Code Ownership</h3>
                 <p className="text-xs text-[#59544E] leading-relaxed font-light">
                   You own all design files, production code, and domains upon final payment. No lock-in or proprietary agency platforms.
                 </p>
@@ -204,7 +204,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             <div className="flex items-start gap-4">
               <Clock className="w-6 h-6 text-[#9E5249] shrink-0 mt-1" />
               <div>
-                <h4 className="font-serif text-lg text-[#141210] mb-1">Milestone Accountability</h4>
+                <h3 className="font-serif text-lg text-[#141210] mb-1">Milestone Accountability</h3>
                 <p className="text-xs text-[#59544E] leading-relaxed font-light">
                   Strict delivery timelines backed by clear weekly progress demos and staging access.
                 </p>
@@ -214,7 +214,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             <div className="flex items-start gap-4">
               <HelpCircle className="w-6 h-6 text-[#9E5249] shrink-0 mt-1" />
               <div>
-                <h4 className="font-serif text-lg text-[#141210] mb-1">Questions on Scope?</h4>
+                <h3 className="font-serif text-lg text-[#141210] mb-1">Questions on Scope?</h3>
                 <p className="text-xs text-[#59544E] leading-relaxed font-light">
                   Reach out for a direct consultation to confirm exactly which package aligns with your target territory.
                 </p>

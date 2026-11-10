@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { X, CheckCircle2, ArrowRight, Quote } from 'lucide-react';
 import { CaseStudy } from '../types';
 
@@ -13,11 +13,38 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
   onClose,
   onBookSimilar,
 }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!caseStudy) return;
+    const previousActiveElement = document.activeElement as HTMLElement | null;
+    dialogRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      previousActiveElement?.focus();
+    };
+  }, [caseStudy, onClose]);
+
   if (!caseStudy) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[#141210]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-2xl overflow-hidden my-8">
+      <div
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="case-study-title"
+        className="relative w-full max-w-4xl bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-2xl overflow-hidden my-8 focus:outline-none"
+      >
         {/* Modal Top Bar */}
         <div className="px-6 py-4 bg-[#F5EDE2] border-b border-[#D9D0C3] flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -44,7 +71,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
             <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#59544E] mb-2">
               <span className="text-[#9E5249] font-medium">{caseStudy.category}</span>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl text-[#141210] font-normal">
+            <h2 id="case-study-title" className="font-serif text-3xl md:text-4xl text-[#141210] font-normal">
               {caseStudy.title}
             </h2>
             <p className="text-sm md:text-base text-[#59544E] font-light mt-2 leading-relaxed">

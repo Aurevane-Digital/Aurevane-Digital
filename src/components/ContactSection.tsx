@@ -104,10 +104,13 @@ export const ContactSection: React.FC = () => {
               <form className="space-y-5" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                    <label htmlFor="contact-name" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                       Name *
                     </label>
                     <input
+                      id="contact-name"
+                      name="name"
+                      autoComplete="name"
                       type="text"
                       required
                       value={formState.name}
@@ -118,10 +121,13 @@ export const ContactSection: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                    <label htmlFor="contact-email" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                       Email *
                     </label>
                     <input
+                      id="contact-email"
+                      name="email"
+                      autoComplete="email"
                       type="email"
                       required
                       value={formState.email}
@@ -133,10 +139,13 @@ export const ContactSection: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                  <label htmlFor="contact-business" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                     Business Name &amp; Trade *
                   </label>
                   <input
+                    id="contact-business"
+                    name="organization"
+                    autoComplete="organization"
                     type="text"
                     required
                     value={formState.business}
@@ -147,10 +156,12 @@ export const ContactSection: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                  <label htmlFor="contact-message" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
                     Project Details &amp; Objectives *
                   </label>
                   <textarea
+                    id="contact-message"
+                    name="message"
                     rows={4}
                     required
                     value={formState.message}
