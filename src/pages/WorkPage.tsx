@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Compass, ShieldCheck } from 'lucide-react';
 import { SelectedWork } from '../components/SelectedWork';
 import { SEO } from '../components/SEO';
+import { getSeo } from '../data/seoRoutes';
 import { CaseStudy } from '../types';
 
 interface WorkPageProps {
@@ -10,13 +11,11 @@ interface WorkPageProps {
 }
 
 export const WorkPage: React.FC<WorkPageProps> = ({ onSelectCaseStudy }) => {
+  const s = getSeo('/our-work');
+
   return (
     <>
-      <SEO
-        title="Our Work — Cinematic Portfolio | Aurevane Digital"
-        description="Explore five bespoke contractor websites engineered by Aurevane Digital for roofing, junk removal, excavation, electrical, and structural steel firms."
-        canonicalPath="/our-work"
-      />
+      <SEO title={s.title} description={s.description} canonicalPath="/our-work" />
 
       {/* MASTHEAD HEADER */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">

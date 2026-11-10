@@ -3,6 +3,7 @@ import { Mail, Instagram, CheckCircle2, ArrowRight, Loader2, Sparkles } from 'lu
 import { submitToWeb3Forms } from '../services/formService';
 import { WebsiteCheckForm } from '../components/WebsiteCheckForm';
 import { SEO } from '../components/SEO';
+import { getSeo } from '../data/seoRoutes';
 import { AuditReportData } from '../types';
 
 interface ContactPageProps {
@@ -10,6 +11,7 @@ interface ContactPageProps {
 }
 
 export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) => {
+  const s = getSeo('/contact');
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -42,11 +44,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
 
   return (
     <>
-      <SEO
-        title="Contact & Free Website Audit | Aurevane Digital"
-        description="Initiate a contractor website project with Aurevane Digital or request a complimentary website diagnostic audit. Inquire today."
-        canonicalPath="/contact"
-      />
+      <SEO title={s.title} description={s.description} canonicalPath="/contact" />
 
       {/* HEADER MASTHEAD */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">

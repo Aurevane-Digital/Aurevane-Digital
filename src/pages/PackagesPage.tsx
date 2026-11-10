@@ -4,19 +4,18 @@ import { CheckCircle2, Clock, Plus, ArrowRight, ShieldCheck, HelpCircle } from '
 import { SERVICE_PACKAGES, ADD_ON_OPTIONS } from '../data/packages';
 import { ServicePackage } from '../types';
 import { SEO } from '../components/SEO';
+import { getSeo } from '../data/seoRoutes';
 
 interface PackagesPageProps {
   onSelectPackage: (pkg: ServicePackage) => void;
 }
 
 export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) => {
+  const s = getSeo('/packages');
+
   return (
     <>
-      <SEO
-        title="Service Packages & Transparent Pricing | Aurevane Digital"
-        description="Transparent contractor website design packages and pricing. Starter ($1,000), Professional ($1,500), and Custom solutions for trade contractors."
-        canonicalPath="/packages"
-      />
+      <SEO title={s.title} description={s.description} canonicalPath="/packages" />
 
       {/* HEADER MASTHEAD */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">

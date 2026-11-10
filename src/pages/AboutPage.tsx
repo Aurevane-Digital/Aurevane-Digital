@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Compass, Sparkles, Zap, Gauge, Building2, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { getSeo } from '../data/seoRoutes';
 
 export const AboutPage: React.FC = () => {
+  const s = getSeo('/about');
   const pillars = [
     {
       num: '01',
@@ -39,11 +41,7 @@ export const AboutPage: React.FC = () => {
 
   return (
     <>
-      <SEO
-        title="About Our Studio | Aurevane Digital"
-        description="Learn about Aurevane Digital's architectural approach and design philosophy crafting bespoke websites for high-ticket trade contractors."
-        canonicalPath="/about"
-      />
+      <SEO title={s.title} description={s.description} canonicalPath="/about" />
 
       {/* HERO MASTHEAD */}
       <section className="w-full pt-32 pb-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">

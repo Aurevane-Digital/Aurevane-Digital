@@ -4,6 +4,7 @@ import { ArrowRight, Compass, ShieldCheck, Zap, Layers, CheckCircle2 } from 'luc
 import { Hero } from '../components/Hero';
 import { WebsiteCheckForm } from '../components/WebsiteCheckForm';
 import { SEO } from '../components/SEO';
+import { getSeo } from '../data/seoRoutes';
 import { AuditReportData } from '../types';
 
 interface HomePageProps {
@@ -12,6 +13,7 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
   const navigate = useNavigate();
+  const s = getSeo('/');
 
   const portfolioHighlights = [
     {
@@ -66,11 +68,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
 
   return (
     <>
-      <SEO
-        title="Contractor Website Design | Aurevane Digital"
-        description="Aurevane Digital designs high-converting websites for roofers, junk removal, electrical and other home service contractors. Get more calls and quotes."
-        canonicalPath="/"
-      />
+      <SEO title={s.title} description={s.description} canonicalPath="/" />
 
       {/* 1. HERO SECTION */}
       <Hero
