@@ -1,5 +1,5 @@
 import React, { useState, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -8,6 +8,7 @@ import { WorkPage } from './pages/WorkPage';
 import { AboutPage } from './pages/AboutPage';
 import { PackagesPage } from './pages/PackagesPage';
 import { ContactPage } from './pages/ContactPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { CaseStudy, ServicePackage, AuditReportData } from './types';
 import { SERVICE_PACKAGES } from './data/packages';
 import { ArrowUp } from 'lucide-react';
@@ -101,7 +102,7 @@ export default function App() {
               path="/contact"
               element={<ContactPage onAuditGenerated={handleAuditGenerated} />}
             />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
 

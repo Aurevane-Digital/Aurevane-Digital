@@ -80,10 +80,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWork, onRequestAudit }) => 
       {/* Monumental Editorial Headline */}
       <div className="max-w-5xl mx-auto flex flex-col items-center">
         <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[64px] font-normal uppercase leading-[1.12] tracking-tight text-[#141210]">
-          Website Design for Contractors Who Want More Calls
+          Blue Collar Business Website Design That Generates Leads
         </h1>
-        <p className="font-serif italic text-xl sm:text-3xl md:text-4xl font-normal uppercase leading-[1.18] tracking-tight text-[#9E5249] mt-3">
-          Digital Experiences That Make Businesses Impossible to Overlook
+        <p className="font-serif italic text-xl sm:text-3xl md:text-4xl font-normal leading-[1.18] tracking-tight text-[#9E5249] mt-3">
+          Digital experiences that make businesses impossible to overlook
         </p>
       </div>
 
@@ -92,32 +92,32 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWork, onRequestAudit }) => 
 
       {/* Subtitle Description with Natural Industry Mentions */}
       <p className="text-sm md:text-base text-[#59544E] max-w-2xl mx-auto font-normal leading-relaxed">
-        We engineer high-converting websites for roofers, junk removal, electrical contractors, excavation specialists, fence and landscaping companies, and home service businesses. Built with minimal aesthetics, architectural rigor, and precision conversion mechanics.
+        Aurevane Digital builds custom, mobile-friendly websites for contractors, trades, home-service companies and junk removal businesses across the United States.
       </p>
 
       {/* Dual Hero CTAs */}
       <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-        <a
-          href="#work"
-          onClick={(e) => {
-            e.preventDefault();
-            onExploreWork();
-          }}
-          className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-all duration-200 group shadow-sm cursor-pointer"
-        >
-          <span>Explore Contractor Work</span>
-          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-        </a>
-
         <a
           href="#website-check"
           onClick={(e) => {
             e.preventDefault();
             onRequestAudit();
           }}
+          className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-all duration-200 group shadow-sm cursor-pointer"
+        >
+          <span>Get a Free Website Quote</span>
+          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+        </a>
+
+        <a
+          href="#work"
+          onClick={(e) => {
+            e.preventDefault();
+            onExploreWork();
+          }}
           className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-transparent border border-[#141210]/30 text-[#141210] text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#ECE2D3]/60 transition-all duration-200 cursor-pointer"
         >
-          Request Free Website Check
+          See Our Work
         </a>
       </div>
 
