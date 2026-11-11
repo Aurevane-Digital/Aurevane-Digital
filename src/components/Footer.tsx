@@ -15,7 +15,7 @@ export const Footer: React.FC<FooterProps> = ({
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
           {/* Logo & Mission Column */}
-          <div className="lg:col-span-5 flex flex-col gap-4">
+          <div className="lg:col-span-4 flex flex-col gap-4">
             <Link to="/" className="h-16 md:h-20 flex items-center">
               <img
                 alt="Aurevane Digital Studio logo"
@@ -36,7 +36,7 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Navigation Links */}
-          <div className="lg:col-span-3 flex flex-col gap-3">
+          <div className="lg:col-span-2 flex flex-col gap-3">
             <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
               Navigation
             </h3>
@@ -57,25 +57,64 @@ export const Footer: React.FC<FooterProps> = ({
                 to="/our-work"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
-                Our Work (Cinematic Presentation)
+                Our Work
               </Link>
               <Link
                 to="/packages"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
-                Service Packages
+                Packages
               </Link>
               <Link
                 to="/contact"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
-                Contact &amp; Free Audit
+                Contact
+              </Link>
+            </nav>
+          </div>
+
+          {/* Services Column */}
+          <div className="lg:col-span-3 flex flex-col gap-3">
+            <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
+              Services
+            </h3>
+            <nav aria-label="Services" className="flex flex-col gap-2.5 text-xs text-[#59544E] font-medium">
+              <Link
+                to="/contractor-website-design"
+                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+              >
+                Contractor Website Design
+              </Link>
+              <Link
+                to="/home-services-website-design"
+                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+              >
+                Home Services Website Design
+              </Link>
+              <Link
+                to="/junk-removal-website-design"
+                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+              >
+                Junk Removal Website Design
+              </Link>
+              <Link
+                to="/junk-removal-seo"
+                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+              >
+                Junk Removal SEO
+              </Link>
+              <Link
+                to="/website-redesign"
+                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+              >
+                Website Redesign
               </Link>
             </nav>
           </div>
 
           {/* Practice & Focus */}
-          <div className="lg:col-span-4 flex flex-col gap-3">
+          <div className="lg:col-span-3 flex flex-col gap-3">
             <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
               Practice &amp; Focus
             </h3>

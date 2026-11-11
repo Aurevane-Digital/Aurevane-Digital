@@ -120,8 +120,42 @@ export const SEO_ROUTES: SeoRoute[] = [
     links: [
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
       { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
+      { label: 'Website Redesign', to: '/website-redesign' },
       { label: 'Packages', to: '/packages' },
-      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/junk-removal-seo',
+    title: 'Junk Removal SEO & Local Search | Aurevane Digital',
+    description:
+      'Junk removal SEO for hauling companies: Google Business Profile, service-area pages, reviews and site structure that ranks and converts.',
+    h1: 'Junk Removal SEO That Gets Your Phone Ringing',
+    intro:
+      'Junk removal SEO for hauling companies: Google Business Profile, service-area pages, reviews and site structure that ranks and converts. Built to keep your trucks on the road.',
+    links: [
+      { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/website-redesign',
+    title: 'Website Redesign for Service Businesses | Aurevane Digital',
+    description:
+      'Website redesign for contractors, home-service and junk removal companies. Faster, mobile-first, conversion-focused rebuilds without losing your rankings.',
+    h1: 'Website Redesign for Service Businesses',
+    intro:
+      'Website redesign for contractors, home-service and junk removal companies. Faster, mobile-first, conversion-focused rebuilds without losing your rankings.',
+    links: [
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+      { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
+      { label: 'Packages', to: '/packages' },
       { label: 'Contact', to: '/contact' },
     ],
   },

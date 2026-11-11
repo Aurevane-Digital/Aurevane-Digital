@@ -12,6 +12,8 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { ContractorPage } from './pages/ContractorPage';
 import { HomeServicesPage } from './pages/HomeServicesPage';
 import { JunkRemovalPage } from './pages/JunkRemovalPage';
+import { JunkRemovalSeoPage } from './pages/JunkRemovalSeoPage';
+import { WebsiteRedesignPage } from './pages/WebsiteRedesignPage';
 import { CaseStudy, ServicePackage, AuditReportData } from './types';
 import { SERVICE_PACKAGES } from './data/packages';
 import { ArrowUp } from 'lucide-react';
@@ -116,6 +118,8 @@ export default function App() {
             <Route path="/contractor-website-design" element={<ContractorPage />} />
             <Route path="/home-services-website-design" element={<HomeServicesPage />} />
             <Route path="/junk-removal-website-design" element={<JunkRemovalPage />} />
+            <Route path="/junk-removal-seo" element={<JunkRemovalSeoPage />} />
+            <Route path="/website-redesign" element={<WebsiteRedesignPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

@@ -88,8 +88,9 @@ export const ContractorPage: React.FC = () => {
   const relatedLinks = [
     { label: 'Home Services Website Design', to: '/home-services-website-design' },
     { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+    { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
+    { label: 'Website Redesign', to: '/website-redesign' },
     { label: 'Transparent Packages & Pricing', to: '/packages' },
-    { label: 'Cinematic Concept Portfolio', to: '/our-work' },
   ];
 
   return (

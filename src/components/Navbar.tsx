@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Menu, X, ArrowUpRight, ShieldCheck, ChevronDown } from 'lucide-react';
 
 interface NavbarProps {
   onOpenAuditModal?: () => void;
@@ -9,7 +9,21 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const serviceLinks = [
+    { label: 'Contractor Website Design', path: '/contractor-website-design' },
+    { label: 'Home Services Website Design', path: '/home-services-website-design' },
+    { label: 'Junk Removal Website Design', path: '/junk-removal-website-design' },
+    { label: 'Junk Removal SEO', path: '/junk-removal-seo' },
+    { label: 'Website Redesign', path: '/website-redesign' },
+  ];
+
+  const isServiceActive = serviceLinks.some((s) => s.path === location.pathname);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +35,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setServicesOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setServicesOpen(false);
+      }
+    };
+
+    if (servicesOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [servicesOpen]);
 
   const handleAuditClick = () => {
     setMobileMenuOpen(false);
@@ -66,26 +102,125 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
           </div>
         </Link>
 
-        {/* Clean Multi-Page Navigation */}
+        {/* Clean Multi-Page Navigation with Services Dropdown */}
         <nav
           aria-label="Primary"
           className="hidden lg:flex items-center gap-8 text-[12px] tracking-[0.2em] font-medium uppercase text-[#59544E]"
         >
-          {navLinks.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
-                  isActive
-                    ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
-                    : 'hover:text-[#141210]'
-                }`
-              }
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+                isActive
+                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
+                  : 'hover:text-[#141210]'
+              }`
+            }
+          >
+            Home
+          </NavLink>
+
+          {/* Services Dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setServicesOpen(!servicesOpen)}
+              aria-expanded={servicesOpen}
+              aria-haspopup="true"
+              aria-controls="desktop-services-menu"
+              className={`flex items-center gap-1.5 transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+                isServiceActive || servicesOpen
+                  ? 'text-[#141210] font-semibold'
+                  : 'hover:text-[#141210]'
+              }`}
             >
-              {item.label}
-            </NavLink>
-          ))}
+              <span>Services</span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                  servicesOpen ? 'rotate-180 text-[#9E5249]' : 'text-[#827C75]'
+                }`}
+                aria-hidden="true"
+              />
+            </button>
+
+            {servicesOpen && (
+              <div
+                id="desktop-services-menu"
+                role="menu"
+                className="absolute top-full left-0 mt-3 w-64 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+              >
+                {serviceLinks.map((service) => (
+                  <NavLink
+                    key={service.path}
+                    to={service.path}
+                    role="menuitem"
+                    onClick={() => setServicesOpen(false)}
+                    className={({ isActive }) =>
+                      `block px-4 py-2.5 text-[11px] tracking-wider uppercase transition-colors ${
+                        isActive
+                          ? 'bg-[#F5EDE2] text-[#9E5249] font-bold'
+                          : 'text-[#59544E] hover:text-[#141210] hover:bg-[#F5EDE2]/70'
+                      }`
+                    }
+                  >
+                    {service.label}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+                isActive
+                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
+                  : 'hover:text-[#141210]'
+              }`
+            }
+          >
+            About
+          </NavLink>
+
+          <NavLink
+            to="/our-work"
+            className={({ isActive }) =>
+              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+                isActive
+                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
+                  : 'hover:text-[#141210]'
+              }`
+            }
+          >
+            Our Work
+          </NavLink>
+
+          <NavLink
+            to="/packages"
+            className={({ isActive }) =>
+              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+                isActive
+                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
+                  : 'hover:text-[#141210]'
+              }`
+            }
+          >
+            Packages
+          </NavLink>
+
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+                isActive
+                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
+                  : 'hover:text-[#141210]'
+              }`
+            }
+          >
+            Contact
+          </NavLink>
         </nav>
 
         {/* Action Button */}
@@ -123,20 +258,104 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-[#FAF6F0] border-b border-[#D9D0C3] px-6 py-6 space-y-4 shadow-2xl animate-in slide-in-from-top duration-200">
           <div className="flex flex-col space-y-3 text-xs tracking-[0.2em] uppercase font-medium">
-            {navLinks.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className={({ isActive }) =>
-                  `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
-                    isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
-                  }`
-                }
+            <NavLink
+              to="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
+                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
+                }`
+              }
+            >
+              Home
+            </NavLink>
+
+            {/* Mobile Services Accordion */}
+            <div className="border-b border-[#D9D0C3]/40">
+              <button
+                type="button"
+                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                aria-expanded={mobileServicesOpen}
+                className="w-full flex items-center justify-between py-2.5 text-left text-xs tracking-[0.2em] uppercase font-medium text-[#59544E] hover:text-[#141210] cursor-pointer"
               >
-                {item.label}
-              </NavLink>
-            ))}
+                <span className={isServiceActive ? 'text-[#9E5249] font-bold' : ''}>Services</span>
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-200 ${
+                    mobileServicesOpen ? 'rotate-180 text-[#9E5249]' : 'text-[#827C75]'
+                  }`}
+                  aria-hidden="true"
+                />
+              </button>
+              {mobileServicesOpen && (
+                <div className="pl-3 pb-2 space-y-2 border-l border-[#D9D0C3] my-1">
+                  {serviceLinks.map((service) => (
+                    <NavLink
+                      key={service.path}
+                      to={service.path}
+                      onClick={() => {
+                        setMobileServicesOpen(false);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={({ isActive }) =>
+                        `block py-1.5 text-[11px] tracking-wider uppercase ${
+                          isActive ? 'text-[#9E5249] font-bold' : 'text-[#59544E] hover:text-[#141210]'
+                        }`
+                      }
+                    >
+                      {service.label}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <NavLink
+              to="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
+                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
+                }`
+              }
+            >
+              About
+            </NavLink>
+
+            <NavLink
+              to="/our-work"
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
+                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
+                }`
+              }
+            >
+              Our Work
+            </NavLink>
+
+            <NavLink
+              to="/packages"
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
+                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
+                }`
+              }
+            >
+              Packages
+            </NavLink>
+
+            <NavLink
+              to="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
+                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
+                }`
+              }
+            >
+              Contact
+            </NavLink>
           </div>
           <div className="pt-2">
             <button
@@ -151,3 +370,4 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
     </header>
   );
 };
+

@@ -80,7 +80,185 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
         }}
       />
 
-      {/* 2. SERVICES & CAPABILITIES OVERVIEW */}
+      {/* 2. INDUSTRIES WE BUILD FOR */}
+      <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
+                Specialized Trade Focus
+              </span>
+              <h2 className="font-serif text-3xl md:text-5xl text-[#141210] font-normal mt-2">
+                Industries We Build For
+              </h2>
+            </div>
+            <p className="text-xs md:text-sm text-[#59544E] max-w-md font-light leading-relaxed">
+              Tailored digital platforms engineered specifically for trades, contractors, and local hauling fleets demanding more booked bids and dispatch calls.
+            </p>
+          </div>
+
+          {/* 4 Industry Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            {/* Card 1: Contractors */}
+            <Link
+              to="/contractor-website-design"
+              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
+                  Trade Specialists
+                </span>
+                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
+                  Contractors
+                </h3>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
+                  Roofers, remodelers, excavators, and commercial trade builders looking to command high-ticket bids.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
+                <span>Explore Contractor Design</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            {/* Card 2: Home Services */}
+            <Link
+              to="/home-services-website-design"
+              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
+                  Residential Services
+                </span>
+                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
+                  Home Services
+                </h3>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
+                  Plumbers, electricians, HVAC technicians, and landscapers who need phones ringing every morning.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
+                <span>Explore Home Services</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            {/* Card 3: Junk Removal */}
+            <Link
+              to="/junk-removal-website-design"
+              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
+                  Hauling & Cleanouts
+                </span>
+                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
+                  Junk Removal
+                </h3>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
+                  High-speed booking funnels, photo-upload estimators, and multi-truck dispatch management.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
+                <span>Explore Junk Removal</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            {/* Card 4: Website Redesign */}
+            <Link
+              to="/website-redesign"
+              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
+                  Performance Upgrades
+                </span>
+                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
+                  Website Redesign
+                </h3>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
+                  Rebuild slow, outdated WordPress sites into lightning-fast platforms without losing existing rankings.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
+                <span>Explore Redesign Solutions</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+          </div>
+
+          {/* 6 Required H2s with 1-2 sentences of real copy each */}
+          <div className="border-t border-[#D9D0C3] pt-16">
+            <div className="max-w-3xl mb-12">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
+                Comprehensive Core Services
+              </span>
+              <p className="text-xs md:text-sm text-[#59544E] font-light mt-1">
+                Every service we offer is purposefully tailored for blue-collar businesses across the United States.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+                <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
+                  Contractor Website Design
+                </h2>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
+                  We engineer custom, lead-generating websites for general contractors, roofers, remodelers, and specialty trade builders. Every layout commands trust and positions your business to win high-ticket bids.
+                </p>
+              </div>
+
+              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+                <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
+                  Home Services Website Design
+                </h2>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
+                  Mobile-optimized websites designed specifically for residential plumbers, HVAC technicians, electricians, and landscapers. We build frictionless intake funnels that turn searchers into scheduled service calls.
+                </p>
+              </div>
+
+              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+                <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
+                  Junk Removal Website Design
+                </h2>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
+                  Conversion-focused websites for junk hauling companies featuring smartphone photo-estimate uploads and instant truck dispatch scheduling. Built to maximize route density and revenue per truckload.
+                </p>
+              </div>
+
+              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+                <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
+                  Local Service Business Website Development
+                </h2>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
+                  Fast, custom-coded web development built without bulky CMS templates or vulnerable plugins. You receive 100% source code ownership and reliable cloud hosting with zero ongoing subscription lock-in.
+                </p>
+              </div>
+
+              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+                <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
+                  Website Redesign and Optimization
+                </h2>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
+                  Upgrade your outdated, sluggish website into an ultra-fast modern platform with passing Core Web Vitals. We execute meticulous 301 redirects and technical migrations that preserve your hard-earned search rankings.
+                </p>
+              </div>
+
+              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+                <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
+                  Local SEO and Google Business Profile Support
+                </h2>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
+                  Dominate Google Maps and local search results across your target service counties and suburbs. We optimize profile categories, implement localized schema, and structure multi-county landing hubs.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. CAPABILITIES OVERVIEW */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
