@@ -9,6 +9,9 @@ import { AboutPage } from './pages/AboutPage';
 import { PackagesPage } from './pages/PackagesPage';
 import { ContactPage } from './pages/ContactPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { ContractorPage } from './pages/ContractorPage';
+import { HomeServicesPage } from './pages/HomeServicesPage';
+import { JunkRemovalPage } from './pages/JunkRemovalPage';
 import { CaseStudy, ServicePackage, AuditReportData } from './types';
 import { SERVICE_PACKAGES } from './data/packages';
 import { ArrowUp } from 'lucide-react';
@@ -110,6 +113,9 @@ export default function App() {
               path="/contact"
               element={<ContactPage onAuditGenerated={handleAuditGenerated} />}
             />
+            <Route path="/contractor-website-design" element={<ContractorPage />} />
+            <Route path="/home-services-website-design" element={<HomeServicesPage />} />
+            <Route path="/junk-removal-website-design" element={<JunkRemovalPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

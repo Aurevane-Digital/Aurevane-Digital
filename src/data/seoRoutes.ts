@@ -77,6 +77,54 @@ export const SEO_ROUTES: SeoRoute[] = [
       { label: 'Our Work', to: '/our-work' },
     ],
   },
+  {
+    path: '/contractor-website-design',
+    title: 'Contractor Website Design & Development | Aurevane Digital',
+    description:
+      'Contractor website design for roofers, remodelers, excavators, painters and builders. Custom, fast, lead-focused websites built for the United States.',
+    h1: 'Contractor Website Design Built to Win More Bids',
+    intro:
+      'Aurevane Digital builds custom, fast, lead-focused websites for general contractors, roofers, remodelers, and specialty trade builders across the United States.',
+    links: [
+      { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/home-services-website-design',
+    title: 'Home Services Website Design | Aurevane Digital',
+    description:
+      'Website design for plumbers, HVAC, electricians, landscapers, cleaners and movers. Mobile-friendly sites that turn visitors into calls and bookings.',
+    h1: 'Home Services Website Design That Fills Your Calendar',
+    intro:
+      'Mobile-friendly websites engineered for local service businesses including plumbers, HVAC technicians, electricians, landscapers, and residential cleaners.',
+    links: [
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/junk-removal-website-design',
+    title: 'Junk Removal Website Design | Aurevane Digital',
+    description:
+      'Junk removal website design with instant quote forms, photo upload and online booking. Built for junk hauling companies across the United States.',
+    h1: 'Junk Removal Website Design That Books More Jobs',
+    intro:
+      'High-converting websites for junk hauling companies with smartphone photo uploads, interactive truck volume pricing estimators, and instant online dispatch booking.',
+    links: [
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
 ];
 
 export function getSeo(path: string): SeoRoute {
