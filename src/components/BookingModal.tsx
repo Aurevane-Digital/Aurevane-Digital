@@ -43,6 +43,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [businessName, setBusinessName] = useState('');
   const [targetLaunch, setTargetLaunch] = useState('Within 30 Days');
   const [notes, setNotes] = useState('');
+  const [honeypot, setHoneypot] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const currentPkg =
@@ -68,6 +69,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !businessName) return;
+
+    if (honeypot) {
+      setIsSubmitting(false);
+      onSuccess(
+        `Booking request confirmed for ${currentPkg.name} package. We will send an agreement draft to ${email}.`
+      );
+      onClose();
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -129,6 +139,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
         {/* Scrollable Form */}
         <form onSubmit={handleSubmit} className="p-6 md:p-8 max-h-[75vh] overflow-y-auto space-y-6">
+          {/* Honeypot field for bot spam prevention */}
+          <input
+            type="text"
+            name="website_hp"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+            tabIndex={-1}
+            aria-hidden="true"
+            autoComplete="off"
+            className="absolute -left-[9999px] -top-[9999px] opacity-0 pointer-events-none"
+          />
+
           {/* Package Selector Pills */}
           <div>
             <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-2">

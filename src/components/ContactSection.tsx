@@ -10,12 +10,19 @@ export const ContactSection: React.FC = () => {
     message: '',
   });
 
+  const [honeypot, setHoneypot] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formState.name || !formState.email) return;
+
+    if (honeypot) {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      return;
+    }
 
     setIsSubmitting(true);
     await submitToWeb3Forms({
@@ -93,6 +100,7 @@ export const ContactSection: React.FC = () => {
                 <button
                   onClick={() => {
                     setSubmitted(false);
+                    setHoneypot('');
                     setFormState({ name: '', email: '', business: '', message: '' });
                   }}
                   className="text-xs text-[#9E5249] uppercase tracking-wider font-semibold hover:underline cursor-pointer"
@@ -102,6 +110,17 @@ export const ContactSection: React.FC = () => {
               </div>
             ) : (
               <form className="space-y-5" onSubmit={handleSubmit}>
+                {/* Honeypot field for bot spam prevention */}
+                <input
+                  type="text"
+                  name="website_hp"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  autoComplete="off"
+                  className="absolute -left-[9999px] -top-[9999px] opacity-0 pointer-events-none"
+                />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="contact-name" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">

@@ -18,12 +18,19 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
     contractSize: '5k-15k',
   });
 
+  const [honeypot, setHoneypot] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.websiteUrl || !formData.email || !formData.businessName) return;
+
+    if (honeypot) {
+      setIsSubmitting(false);
+      setSuccess(true);
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -125,7 +132,10 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
             </p>
             <div className="pt-2">
               <button
-                onClick={() => setSuccess(false)}
+                onClick={() => {
+                  setSuccess(false);
+                  setHoneypot('');
+                }}
                 className="text-xs text-[#9E5249] font-semibold uppercase tracking-wider hover:underline cursor-pointer"
               >
                 Run Another Audit
@@ -134,6 +144,17 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
           </div>
         ) : (
           <form className="space-y-4" onSubmit={handleSubmit}>
+            {/* Honeypot field for bot spam prevention */}
+            <input
+              type="text"
+              name="website_hp"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              tabIndex={-1}
+              aria-hidden="true"
+              autoComplete="off"
+              className="absolute -left-[9999px] -top-[9999px] opacity-0 pointer-events-none"
+            />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="audit-name" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">

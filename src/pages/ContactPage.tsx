@@ -19,12 +19,19 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
     message: '',
   });
 
+  const [honeypot, setHoneypot] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formState.name || !formState.email) return;
+
+    if (honeypot) {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      return;
+    }
 
     setIsSubmitting(true);
     await submitToWeb3Forms({
@@ -152,6 +159,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
                   <button
                     onClick={() => {
                       setSubmitted(false);
+                      setHoneypot('');
                       setFormState({ name: '', email: '', business: '', message: '' });
                     }}
                     className="text-xs text-[#9E5249] uppercase tracking-wider font-semibold hover:underline cursor-pointer"
@@ -161,6 +169,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
                 </div>
               ) : (
                 <form className="space-y-5" onSubmit={handleSubmit}>
+                  {/* Honeypot field for bot spam prevention */}
+                  <input
+                    type="text"
+                    name="website_hp"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    autoComplete="off"
+                    className="absolute -left-[9999px] -top-[9999px] opacity-0 pointer-events-none"
+                  />
                   <div className="flex items-center gap-2 mb-2">
                     <Sparkles className="w-4 h-4 text-[#9E5249]" />
                     <h3 className="font-serif text-xl text-[#141210]">
