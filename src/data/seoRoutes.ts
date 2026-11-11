@@ -1,3 +1,5 @@
+import { BLOG_POSTS } from './posts';
+
 export type SeoRoute = {
   path: string;
   title: string;
@@ -8,7 +10,7 @@ export type SeoRoute = {
   noindex?: boolean;
 };
 
-export const SEO_ROUTES: SeoRoute[] = [
+const BASE_SEO_ROUTES: SeoRoute[] = [
   {
     path: '/',
     title: 'Blue Collar Business Website Design | Aurevane Digital',
@@ -159,7 +161,40 @@ export const SEO_ROUTES: SeoRoute[] = [
       { label: 'Contact', to: '/contact' },
     ],
   },
+  {
+    path: '/blog',
+    title: 'Website & SEO Guides for Contractors & Junk Removal | Aurevane Digital',
+    description:
+      'Practical guides on contractor website design, junk removal SEO, website development costs, and local search rankings for trade businesses.',
+    h1: 'Website & SEO Guides for Contractors and Junk Removal Companies',
+    intro:
+      'Actionable guides, pricing breakdowns, and local search strategies engineered for contractors and junk removal businesses across the United States.',
+    links: [
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+      { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
+      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
 ];
+
+const blogPostRoutes: SeoRoute[] = BLOG_POSTS.map((post) => ({
+  path: `/blog/${post.slug}`,
+  title: `${post.title} | Aurevane Digital`,
+  description: post.description,
+  h1: post.title,
+  intro: post.description,
+  links: [
+    ...post.relatedLinks,
+    { label: 'All Blog Guides', to: '/blog' },
+    { label: 'Direct Project Inquiry', to: '/contact' },
+  ],
+}));
+
+export const SEO_ROUTES: SeoRoute[] = [...BASE_SEO_ROUTES, ...blogPostRoutes];
 
 export function getSeo(path: string): SeoRoute {
   const match = SEO_ROUTES.find((r) => r.path === path);

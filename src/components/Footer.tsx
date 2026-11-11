@@ -66,6 +66,12 @@ export const Footer: React.FC<FooterProps> = ({
                 Packages
               </Link>
               <Link
+                to="/blog"
+                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+              >
+                Blog
+              </Link>
+              <Link
                 to="/contact"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >

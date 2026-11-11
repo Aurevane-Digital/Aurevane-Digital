@@ -210,6 +210,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
           </NavLink>
 
           <NavLink
+            to="/blog"
+            className={({ isActive }) =>
+              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+                isActive
+                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
+                  : 'hover:text-[#141210]'
+              }`
+            }
+          >
+            Blog
+          </NavLink>
+
+          <NavLink
             to="/contact"
             className={({ isActive }) =>
               `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
@@ -343,6 +356,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
               }
             >
               Packages
+            </NavLink>
+
+            <NavLink
+              to="/blog"
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
+                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
+                }`
+              }
+            >
+              Blog
             </NavLink>
 
             <NavLink

@@ -75,3 +75,71 @@ export function buildServiceSchema({
 
   return [serviceSchema, faqSchema, breadcrumbSchema];
 }
+
+export interface ArticleSchemaParams {
+  slug: string;
+  headline: string;
+  description: string;
+  datePublished: string;
+  dateModified?: string;
+}
+
+/**
+ * Builds schema.org JSON-LD representations for blog articles.
+ * Returns an array containing:
+ * 1. Article schema (headline, description, datePublished, dateModified, author, publisher, image, mainEntityOfPage)
+ * 2. BreadcrumbList schema (Home > Blog > Post)
+ */
+export function buildArticleSchema({
+  slug,
+  headline,
+  description,
+  datePublished,
+  dateModified = datePublished,
+}: ArticleSchemaParams): Array<Record<string, unknown>> {
+  const pageUrl = `https://aurevanedigital.vercel.app/blog/${slug}`;
+
+  const articleSchema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description,
+    datePublished,
+    dateModified,
+    mainEntityOfPage: pageUrl,
+    image: 'https://aurevanedigital.vercel.app/og-image.png',
+    author: {
+      '@id': 'https://aurevanedigital.vercel.app/#organization',
+    },
+    publisher: {
+      '@id': 'https://aurevanedigital.vercel.app/#organization',
+    },
+  };
+
+  const breadcrumbSchema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://aurevanedigital.vercel.app/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://aurevanedigital.vercel.app/blog',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: headline,
+        item: pageUrl,
+      },
+    ],
+  };
+
+  return [articleSchema, breadcrumbSchema];
+}
