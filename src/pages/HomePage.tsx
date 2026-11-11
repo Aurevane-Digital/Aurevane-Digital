@@ -137,7 +137,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 Cinematic Portfolio Archive
               </span>
               <h2 className="font-serif text-3xl md:text-5xl text-[#141210] font-normal mt-2">
-                Five Proven Contractor Websites
+                Five Contractor Website Concepts
               </h2>
             </div>
             <Link
@@ -158,9 +158,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
               >
                 <div>
-                  <span className="font-mono text-xs text-[#9E5249] font-bold block mb-1">
-                    {proj.number}
-                  </span>
+                  <div className="flex items-center justify-between gap-1 mb-2">
+                    <span className="font-mono text-xs text-[#9E5249] font-bold">
+                      {proj.number}
+                    </span>
+                    <span className="text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-xs bg-[#FAF6F0] text-[#9E5249] border border-[#D9D0C3]">
+                      Concept Project
+                    </span>
+                  </div>
                   <h3 className="font-serif text-lg text-[#141210] group-hover:text-[#9E5249] transition-colors leading-tight mb-1">
                     {proj.title}
                   </h3>

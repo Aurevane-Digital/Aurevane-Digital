@@ -5,20 +5,10 @@ export interface CaseStudy {
   category: string;
   discipline: 'contractors' | 'commercial' | 'logistics' | 'luxury';
   location: string;
-  domain: string;
   subdomainType: string;
   description: string;
-  stats: {
-    label: string;
-    value: string;
-  }[];
   image?: string;
   badgeText: string;
-  clientQuote?: {
-    quote: string;
-    author: string;
-    role: string;
-  };
   deliverables: string[];
   transformationDetails: {
     challenge: string;

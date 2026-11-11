@@ -22,12 +22,7 @@ export const WORK_PROJECT_FRAMES = [
     category: 'Junk Removal & Hauling',
     startFrame: 1,
     endFrame: 146,
-    domain: 'junkbolt-logistics.com',
     tagline: 'Visual Truck Volume Calculator & Instant Booking Dispatch',
-    stats: [
-      { label: 'Online Bookings', value: '3.4x' },
-      { label: 'Intake Overhead', value: '-40%' },
-    ],
   },
   {
     id: 'vision-excavation',
@@ -37,12 +32,7 @@ export const WORK_PROJECT_FRAMES = [
     category: 'Excavation & Construction',
     startFrame: 147,
     endFrame: 180,
-    domain: 'visionexcavation.com',
     tagline: 'Heavy Earthworks & Instant Site Scope Estimator',
-    stats: [
-      { label: 'Direct Bid Volume', value: '$2.4M' },
-      { label: 'Conversion Rate', value: '94%' },
-    ],
   },
   {
     id: 'james-iron-steel',
@@ -52,12 +42,7 @@ export const WORK_PROJECT_FRAMES = [
     category: 'Steel & Metal Services',
     startFrame: 181,
     endFrame: 216,
-    domain: 'jamesironsteel.com',
     tagline: 'AISC Certified Structural Steel & Fabrication Tenders',
-    stats: [
-      { label: 'Commercial RFPs', value: '+180%' },
-      { label: 'Tender Close', value: '38%' },
-    ],
   },
   {
     id: 'action-electrical',
@@ -67,12 +52,7 @@ export const WORK_PROJECT_FRAMES = [
     category: 'Electrical Services',
     startFrame: 217,
     endFrame: 247,
-    domain: 'actionelectrical-tx.com',
     tagline: 'High-Voltage Grid & Emergency Commercial MEP Service',
-    stats: [
-      { label: 'Direct Bid Pipeline', value: '$1.8M' },
-      { label: 'Response Latency', value: '< 15min' },
-    ],
   },
   {
     id: 'storm-shield',
@@ -82,12 +62,7 @@ export const WORK_PROJECT_FRAMES = [
     category: 'Roofing & Exterior Services',
     startFrame: 248,
     endFrame: 289,
-    domain: 'stormshield-exteriors.com',
     tagline: 'Architectural Roofing Restoration & Automated Drone Intake',
-    stats: [
-      { label: 'Qualified Inspections', value: '+214%' },
-      { label: 'Load Index', value: '0.6s' },
-    ],
   },
 ];
 
@@ -451,6 +426,12 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
                     className="absolute bottom-0 left-0 w-full transition-opacity duration-150 ease-out select-none"
                     style={{ opacity }}
                   >
+                    <div className="mb-1 sm:mb-2">
+                      <span className="inline-block text-[9px] sm:text-[10px] uppercase tracking-widest font-semibold px-2 py-0.5 rounded-xs bg-[#FAF6F0] text-[#9E5249] border border-[#D9D0C3]">
+                        Concept Project
+                      </span>
+                    </div>
+
                     {/* Project Title H3 */}
                     <h3 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[#141210] font-normal tracking-tight uppercase leading-none">
                       {project.displayTitle}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { X, CheckCircle2, ArrowRight, Quote } from 'lucide-react';
+import { X, CheckCircle2, ArrowRight } from 'lucide-react';
 import { CaseStudy } from '../types';
 
 interface CaseStudyModalProps {
@@ -47,12 +47,14 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
       >
         {/* Modal Top Bar */}
         <div className="px-6 py-4 bg-[#F5EDE2] border-b border-[#D9D0C3] flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <span className="text-[10px] tracking-widest uppercase font-bold text-[#9E5249]">
               Case Study {caseStudy.number}
             </span>
             <span className="text-[#827C75]">•</span>
-            <span className="text-xs font-mono text-[#59544E]">{caseStudy.domain}</span>
+            <span className="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-xs bg-[#FAF6F0] text-[#9E5249] border border-[#D9D0C3]">
+              Concept Project
+            </span>
           </div>
 
           <button
@@ -93,18 +95,19 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
             </div>
           )}
 
-          {/* Key Metrics Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]">
-            {caseStudy.stats.map((stat, i) => (
-              <div key={i} className="text-center">
-                <span className="font-serif text-2xl md:text-3xl text-[#9E5249] font-normal block">
-                  {stat.value}
-                </span>
-                <span className="text-[10px] uppercase tracking-wider text-[#59544E] font-medium mt-1 block">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
+          {/* What We Built List */}
+          <div className="p-5 md:p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]">
+            <h3 className="text-xs uppercase tracking-widest font-bold text-[#141210] mb-3">
+              What We Built
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-[#59544E]">
+              {caseStudy.deliverables.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#9E5249] shrink-0" />
+                  <span className="text-[#141210] font-medium">{item}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Challenge, Solution, Impact 3-part layout */}
@@ -130,46 +133,18 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
 
               <div className="p-4 bg-[#F5EDE2]/60 border border-[#D9D0C3] rounded-sm">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#9E5249] block mb-1">
-                  Documented Impact
+                  Design Architecture
                 </span>
                 <p className="text-[#59544E]">{caseStudy.transformationDetails.impact}</p>
               </div>
             </div>
           </div>
-
-          {/* Deliverables List */}
-          <div className="space-y-3">
-            <h4 className="text-xs uppercase tracking-widest font-bold text-[#141210]">
-              System Deliverables Included
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#59544E]">
-              {caseStudy.deliverables.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#9E5249] shrink-0" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Client Testimonial */}
-          {caseStudy.clientQuote && (
-            <div className="p-6 bg-[#F5EDE2] border-l-2 border-[#9E5249] rounded-sm">
-              <Quote className="w-6 h-6 text-[#9E5249] mb-2 opacity-60" />
-              <p className="font-serif italic text-base md:text-lg text-[#141210] mb-2 leading-relaxed">
-                "{caseStudy.clientQuote.quote}"
-              </p>
-              <div className="text-[11px] uppercase tracking-wider text-[#59544E]">
-                <strong className="text-[#141210]">{caseStudy.clientQuote.author}</strong> — {caseStudy.clientQuote.role}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Modal Footer */}
         <div className="px-6 py-4 bg-[#F5EDE2] border-t border-[#D9D0C3] flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="text-xs text-[#59544E]">
-            Looking for similar results in your local market?
+            Looking to commission a custom architecture like this?
           </span>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">

@@ -28,7 +28,7 @@ export const SEO_ROUTES: SeoRoute[] = [
     path: '/our-work',
     title: 'Our Work — Cinematic Portfolio | Aurevane Digital',
     description:
-      'Explore five bespoke contractor websites engineered by Aurevane Digital for roofing, junk removal, excavation, electrical, and structural steel firms.',
+      'Explore five concept website designs for roofing, junk removal, excavation, electrical, and structural steel firms.',
     h1: 'Contractor Websites Built for High-Ticket Bids.',
     intro:
       'Every digital build below is engineered specifically for home service and trade contractors where average job values range from $5,000 to $100,000+.',
