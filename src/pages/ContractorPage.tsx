@@ -60,6 +60,18 @@ export const ContractorPage: React.FC = () => {
         'Complete 100% code ownership with zero proprietary agency lock-in',
       ],
     },
+    {
+      h2: 'Trade-Specific Website Pages for Specialized Contracting Sectors',
+      paragraphs: [
+        'While our general contractor frameworks provide a strong baseline, distinct construction disciplines demand dedicated layouts, workflow integrations, and credentialing signals. If your company focuses on heavy earthworks, commercial electrical, or whole-home remodeling, trade-specific architecture delivers far higher conversion rates than a one-size-fits-all approach.',
+        'Explore our dedicated platforms tailored specifically for your primary scope of work: our General Contractor Website Design platform is engineered for commercial general contractors, home builders, and design-build remodelers managing multi-phase projects; our Excavation Website Design system features civil bid request forms, engineering print uploads, and heavy machinery capacity displays; and our Electrical Contractor Website Design solution provides emergency electrical dispatch workflows and high-voltage commercial panel quote funnels.',
+      ],
+      bullets: [
+        'General Contractors: Portfolio showcases, architect tender channels, and milestone contract funnels',
+        'Excavation Contractors: Civil site prep bid forms, plan uploads, and equipment tonnage highlights',
+        'Electrical Contractors: 24/7 emergency dispatch bars, commercial MEP RFP tools, and licensing badges',
+      ],
+    },
   ];
 
   const faqs = [
@@ -83,14 +95,23 @@ export const ContractorPage: React.FC = () => {
       q: 'Will our new website integrate with our existing contractor CRM or estimating software?',
       a: 'Yes. Our intake forms connect seamlessly with standard contractor workflows, CRM software, and dispatch pipelines such as Jobber, ServiceTitan, Housecall Pro, and standard webhook endpoints.',
     },
+    {
+      q: 'Will our contractor website be cited in Google AI Overviews and ChatGPT search?',
+      a: 'No agency can guarantee placement in generative AI overviews or specific search positions. What we do provide is clean semantic structure, verified trade licensing Schema.org markup, thorough technical FAQs, and high-performance code that make it effortless for search engines and AI models to parse, cite, and recommend your contracting business accurately.',
+    },
   ];
 
   const relatedLinks = [
+    { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
+    { label: 'Excavation Website Design', to: '/excavation-website-design' },
+    { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
     { label: 'Home Services Website Design', to: '/home-services-website-design' },
     { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
     { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
     { label: 'Website Redesign', to: '/website-redesign' },
     { label: 'Transparent Packages & Pricing', to: '/packages' },
+    { label: 'Our Work', to: '/our-work' },
+    { label: 'Contact', to: '/contact' },
   ];
 
   return (

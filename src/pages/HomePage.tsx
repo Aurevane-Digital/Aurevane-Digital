@@ -83,74 +83,34 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
       {/* 2. INDUSTRIES WE BUILD FOR */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-            <div>
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-                Specialized Trade Focus
-              </span>
-              <h2 className="font-serif text-3xl md:text-5xl text-[#141210] font-normal mt-2">
-                Industries We Build For
-              </h2>
-            </div>
-            <p className="text-xs md:text-sm text-[#59544E] max-w-md font-light leading-relaxed">
+          <div className="max-w-4xl mb-14">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-3">
+              Specialized Trade Focus
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#141210] font-normal leading-[1.15]">
+              Websites That Turn Calls, Quotes and Bookings Into Jobs for Blue-Collar Businesses
+            </h2>
+            <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mt-4 max-w-2xl">
               Tailored digital platforms engineered specifically for trades, contractors, and local hauling fleets demanding more booked bids and dispatch calls.
             </p>
           </div>
 
-          {/* 4 Industry Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-            {/* Card 1: Contractors */}
-            <Link
-              to="/contractor-website-design"
-              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
-                  Trade Specialists
-                </span>
-                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
-                  Contractors
-                </h3>
-                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
-                  Roofers, remodelers, excavators, and commercial trade builders looking to command high-ticket bids.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
-                <span>Explore Contractor Design</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-              </div>
-            </Link>
+          <div className="mb-6 flex items-center justify-between">
+            <h3 className="font-serif text-2xl md:text-3xl text-[#141210] font-normal">
+              Industries We Build For
+            </h3>
+          </div>
 
-            {/* Card 2: Home Services */}
-            <Link
-              to="/home-services-website-design"
-              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
-                  Residential Services
-                </span>
-                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
-                  Home Services
-                </h3>
-                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
-                  Plumbers, electricians, HVAC technicians, and landscapers who need phones ringing every morning.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
-                <span>Explore Home Services</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-              </div>
-            </Link>
-
-            {/* Card 3: Junk Removal */}
+          {/* 6 Industry Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {/* Card 1: Junk Removal */}
             <Link
               to="/junk-removal-website-design"
               className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
             >
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
-                  Hauling & Cleanouts
+                  Hauling &amp; Cleanouts
                 </span>
                 <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
                   Junk Removal
@@ -165,26 +125,132 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               </div>
             </Link>
 
-            {/* Card 4: Website Redesign */}
+            {/* Card 2: Excavation */}
             <Link
-              to="/website-redesign"
+              to="/excavation-website-design"
               className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
             >
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
-                  Performance Upgrades
+                  Earthwork &amp; Site Prep
                 </span>
                 <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
-                  Website Redesign
+                  Excavation
                 </h3>
                 <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
-                  Rebuild slow, outdated WordPress sites into lightning-fast platforms without losing existing rankings.
+                  Civil bid intake forms, blueprint uploads, fleet capacity showcases, and regional mobilization zones.
                 </p>
               </div>
               <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
-                <span>Explore Redesign Solutions</span>
+                <span>Explore Excavation</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </div>
+            </Link>
+
+            {/* Card 3: Electrical Contractors */}
+            <Link
+              to="/electrical-contractor-website-design"
+              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
+                  Licensed Trades
+                </span>
+                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
+                  Electrical Contractors
+                </h3>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
+                  Emergency dispatch triggers, commercial panel bids, residential service calls, and verified credentials.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
+                <span>Explore Electrical</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            {/* Card 4: General Contractors */}
+            <Link
+              to="/general-contractor-website-design"
+              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
+                  Commercial &amp; Residential
+                </span>
+                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
+                  General Contractors
+                </h3>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
+                  High-ticket project portfolios, architect &amp; engineer bid qualification, and milestone intake funnels.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
+                <span>Explore General Contractors</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            {/* Card 5: Mobile Detailing */}
+            <Link
+              to="/mobile-detailing-website-design"
+              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
+                  Automotive Care
+                </span>
+                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
+                  Mobile Detailing
+                </h3>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
+                  Package tier selectors, mobile unit service perimeters, and direct online booking calendar workflows.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
+                <span>Explore Mobile Detailing</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            {/* Card 6: Home Services */}
+            <Link
+              to="/home-services-website-design"
+              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
+                  Residential Services
+                </span>
+                <h3 className="font-serif text-xl text-[#141210] group-hover:text-[#9E5249] transition-colors mb-3">
+                  Home Services
+                </h3>
+                <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed mb-4">
+                  Plumbers, HVAC technicians, roofers, and landscapers who need phones ringing every morning.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
+                <span>Explore Home Services</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+          </div>
+
+          {/* Text link row to Contractor Website Design & Website Redesign */}
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs md:text-sm text-[#59544E] font-light mb-16 pt-4 border-t border-[#D9D0C3]/50">
+            <span>Looking for broader contractor web design or an existing site upgrade?</span>
+            <Link
+              to="/contractor-website-design"
+              className="font-medium text-[#141210] hover:text-[#9E5249] underline underline-offset-4 flex items-center gap-1 transition-colors"
+            >
+              Contractor Website Design <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <span className="text-[#D9D0C3] hidden sm:inline">|</span>
+            <Link
+              to="/website-redesign"
+              className="font-medium text-[#141210] hover:text-[#9E5249] underline underline-offset-4 flex items-center gap-1 transition-colors"
+            >
+              Website Redesign <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 

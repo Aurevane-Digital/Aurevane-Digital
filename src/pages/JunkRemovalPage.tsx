@@ -137,22 +137,30 @@ export const JunkRemovalPage: React.FC = () => {
       q: 'Do you offer redesigns for established junk removal businesses looking to upgrade?',
       a: 'Yes. We specialize in junk removal website redesigns that replace slow WordPress templates or basic DIY builder sites with fast, high-converting platforms engineered to compete with national franchises.',
     },
+    {
+      q: 'Will our junk removal website rank in Google AI Overviews and ChatGPT?',
+      a: 'No agency can guarantee placement in AI overviews or search results. However, we engineer clean semantic code, fast loading speeds, detailed service descriptions, structured FAQs, and complete Schema.org LocalBusiness markup, making it easy for AI engines and search crawlers to recognize, cite, and recommend your junk removal company accurately.',
+    },
   ];
 
   const relatedLinks = [
+    { label: 'Excavation Website Design', to: '/excavation-website-design' },
+    { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
+    { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
     { label: 'Contractor Website Design', to: '/contractor-website-design' },
     { label: 'Home Services Website Design', to: '/home-services-website-design' },
-    { label: 'Transparent Packages & Pricing', to: '/packages' },
-    { label: 'Cinematic Concept Portfolio', to: '/our-work' },
     { label: 'Junk Removal SEO Guide', to: '/junk-removal-seo' },
     { label: 'Website Redesign Services', to: '/website-redesign' },
+    { label: 'Transparent Packages & Pricing', to: '/packages' },
+    { label: 'Cinematic Concept Portfolio', to: '/our-work' },
+    { label: 'Contact', to: '/contact' },
   ];
 
   return (
     <ServicePageTemplate
       path="/junk-removal-website-design"
       name="Junk Removal Website Design"
-      h1="Junk Removal Website Design That Books More Jobs"
+      h1="Junk Removal Website Design: Photo Quotes to Booked Jobs"
       intro="Junk removal website design with instant quote forms, photo upload and online booking. Built for junk hauling companies across the United States seeking more calls and booked jobs."
       sections={sections}
       faqs={faqs}

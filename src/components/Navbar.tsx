@@ -15,15 +15,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const serviceLinks = [
+  const tradeLinks = [
+    { label: 'Junk Removal', path: '/junk-removal-website-design' },
+    { label: 'Excavation', path: '/excavation-website-design' },
+    { label: 'Electrical Contractor', path: '/electrical-contractor-website-design' },
+    { label: 'General Contractor', path: '/general-contractor-website-design' },
+    { label: 'Mobile Detailing', path: '/mobile-detailing-website-design' },
+    { label: 'Home Services', path: '/home-services-website-design' },
+  ];
+
+  const coreServiceLinks = [
     { label: 'Contractor Website Design', path: '/contractor-website-design' },
-    { label: 'Home Services Website Design', path: '/home-services-website-design' },
-    { label: 'Junk Removal Website Design', path: '/junk-removal-website-design' },
     { label: 'Junk Removal SEO', path: '/junk-removal-seo' },
     { label: 'Website Redesign', path: '/website-redesign' },
   ];
 
-  const isServiceActive = serviceLinks.some((s) => s.path === location.pathname);
+  const allServiceLinks = [...tradeLinks, ...coreServiceLinks];
+  const isServiceActive = allServiceLinks.some((s) => s.path === location.pathname);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -147,16 +155,42 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
               <div
                 id="desktop-services-menu"
                 role="menu"
-                className="absolute top-full left-0 mt-3 w-64 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+                className="absolute top-full left-0 mt-3 w-64 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-xl py-3 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
               >
-                {serviceLinks.map((service) => (
+                <div className="px-4 py-1 text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249]">
+                  By Trade
+                </div>
+                {tradeLinks.map((service) => (
                   <NavLink
                     key={service.path}
                     to={service.path}
                     role="menuitem"
                     onClick={() => setServicesOpen(false)}
                     className={({ isActive }) =>
-                      `block px-4 py-2.5 text-[11px] tracking-wider uppercase transition-colors ${
+                      `block px-4 py-1.5 text-[11px] tracking-wider uppercase transition-colors ${
+                        isActive
+                          ? 'bg-[#F5EDE2] text-[#9E5249] font-bold'
+                          : 'text-[#59544E] hover:text-[#141210] hover:bg-[#F5EDE2]/70'
+                      }`
+                    }
+                  >
+                    {service.label}
+                  </NavLink>
+                ))}
+
+                <div className="my-2 border-t border-[#D9D0C3]/60" />
+
+                <div className="px-4 py-1 text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249]">
+                  Services
+                </div>
+                {coreServiceLinks.map((service) => (
+                  <NavLink
+                    key={service.path}
+                    to={service.path}
+                    role="menuitem"
+                    onClick={() => setServicesOpen(false)}
+                    className={({ isActive }) =>
+                      `block px-4 py-1.5 text-[11px] tracking-wider uppercase transition-colors ${
                         isActive
                           ? 'bg-[#F5EDE2] text-[#9E5249] font-bold'
                           : 'text-[#59544E] hover:text-[#141210] hover:bg-[#F5EDE2]/70'
@@ -300,24 +334,56 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
                 />
               </button>
               {mobileServicesOpen && (
-                <div className="pl-3 pb-2 space-y-2 border-l border-[#D9D0C3] my-1">
-                  {serviceLinks.map((service) => (
-                    <NavLink
-                      key={service.path}
-                      to={service.path}
-                      onClick={() => {
-                        setMobileServicesOpen(false);
-                        setMobileMenuOpen(false);
-                      }}
-                      className={({ isActive }) =>
-                        `block py-1.5 text-[11px] tracking-wider uppercase ${
-                          isActive ? 'text-[#9E5249] font-bold' : 'text-[#59544E] hover:text-[#141210]'
-                        }`
-                      }
-                    >
-                      {service.label}
-                    </NavLink>
-                  ))}
+                <div className="pl-3 pb-2 space-y-3 border-l border-[#D9D0C3] my-1">
+                  <div>
+                    <span className="block text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249] mb-1">
+                      By Trade
+                    </span>
+                    <div className="space-y-1">
+                      {tradeLinks.map((service) => (
+                        <NavLink
+                          key={service.path}
+                          to={service.path}
+                          onClick={() => {
+                            setMobileServicesOpen(false);
+                            setMobileMenuOpen(false);
+                          }}
+                          className={({ isActive }) =>
+                            `block py-1 text-[11px] tracking-wider uppercase ${
+                              isActive ? 'text-[#9E5249] font-bold' : 'text-[#59544E] hover:text-[#141210]'
+                            }`
+                          }
+                        >
+                          {service.label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="block text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249] mb-1">
+                      Services
+                    </span>
+                    <div className="space-y-1">
+                      {coreServiceLinks.map((service) => (
+                        <NavLink
+                          key={service.path}
+                          to={service.path}
+                          onClick={() => {
+                            setMobileServicesOpen(false);
+                            setMobileMenuOpen(false);
+                          }}
+                          className={({ isActive }) =>
+                            `block py-1 text-[11px] tracking-wider uppercase ${
+                              isActive ? 'text-[#9E5249] font-bold' : 'text-[#59544E] hover:text-[#141210]'
+                            }`
+                          }
+                        >
+                          {service.label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

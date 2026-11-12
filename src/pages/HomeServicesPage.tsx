@@ -83,14 +83,22 @@ export const HomeServicesPage: React.FC = () => {
       q: 'How does the website showcase customer reviews and trade licenses?',
       a: 'We embed authentic review feeds directly from your Google Business Profile and display prominent trust badges for state licensing, bonding, insurance, and manufacturer certifications directly alongside booking triggers.',
     },
+    {
+      q: 'Will our home services company appear in ChatGPT or Google AI Overviews?',
+      a: 'No web agency can guarantee specific inclusion in AI-generated answers or search engine algorithms. What we do guarantee is building clean semantic code, comprehensive service FAQs, accurate Schema.org LocalBusiness markup, and sub-second load times that provide search crawlers and AI models with the precise, structured data needed to recommend your business.',
+    },
   ];
 
   const relatedLinks = [
+    { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
+    { label: 'Mobile Detailing Website Design', to: '/mobile-detailing-website-design' },
     { label: 'Contractor Website Design', to: '/contractor-website-design' },
     { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
     { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
     { label: 'Website Redesign', to: '/website-redesign' },
     { label: 'Transparent Packages & Pricing', to: '/packages' },
+    { label: 'Our Work', to: '/our-work' },
+    { label: 'Contact', to: '/contact' },
   ];
 
   return (

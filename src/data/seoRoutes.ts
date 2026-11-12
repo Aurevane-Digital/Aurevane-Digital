@@ -15,7 +15,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     path: '/',
     title: 'Blue Collar Business Website Design | Aurevane Digital',
     description:
-      'Lead-generating websites for contractors, trades, home-service and junk removal businesses across the United States. Get more calls, quotes and bookings.',
+      'Fast, mobile-friendly websites for junk removal, excavation, electrical, general contracting and mobile detailing businesses across the United States.',
     h1: 'Blue Collar Business Website Design That Generates Leads',
     intro:
       'Aurevane Digital builds custom, mobile-friendly websites for contractors, trades, home-service companies and junk removal businesses across the United States.',
@@ -88,6 +88,9 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     intro:
       'Aurevane Digital builds custom, fast, lead-focused websites for general contractors, roofers, remodelers, and specialty trade builders across the United States.',
     links: [
+      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
+      { label: 'Excavation Website Design', to: '/excavation-website-design' },
+      { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
       { label: 'Home Services Website Design', to: '/home-services-website-design' },
       { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
       { label: 'Packages', to: '/packages' },
@@ -104,6 +107,8 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     intro:
       'Mobile-friendly websites engineered for local service businesses including plumbers, HVAC technicians, electricians, landscapers, and residential cleaners.',
     links: [
+      { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
+      { label: 'Mobile Detailing Website Design', to: '/mobile-detailing-website-design' },
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
       { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
       { label: 'Packages', to: '/packages' },
@@ -116,10 +121,13 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     title: 'Junk Removal Website Design | Aurevane Digital',
     description:
       'Junk removal website design with instant quote forms, photo upload and online booking. Built for junk hauling companies across the United States.',
-    h1: 'Junk Removal Website Design That Books More Jobs',
+    h1: 'Junk Removal Website Design: Photo Quotes to Booked Jobs',
     intro:
       'High-converting websites for junk hauling companies with smartphone photo uploads, interactive truck volume pricing estimators, and instant online dispatch booking.',
     links: [
+      { label: 'Excavation Website Design', to: '/excavation-website-design' },
+      { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
+      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
       { label: 'Home Services Website Design', to: '/home-services-website-design' },
       { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
@@ -158,6 +166,74 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
       { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
       { label: 'Packages', to: '/packages' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/excavation-website-design',
+    title: 'Excavation Website Design | Aurevane Digital',
+    description:
+      'Excavation website design for grading, land clearing and site prep contractors. Fast, mobile-first sites built around bid requests and project proof.',
+    h1: 'Excavation Website Design That Brings In Bid Requests',
+    intro:
+      'Fast, mobile-first websites for excavating, grading, land clearing and site-prep contractors across the United States, built around bid requests, project proof and service areas.',
+    links: [
+      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/electrical-contractor-website-design',
+    title: 'Electrical Contractor Website Design | Aurevane Digital',
+    description:
+      'Electrical contractor website design for residential and commercial electricians. Fast, mobile-friendly sites built around service calls and trust.',
+    h1: 'Electrical Contractor Website Design That Brings In Service Calls',
+    intro:
+      'Fast, mobile-friendly websites for electricians and electrical contractors across the United States, built around service calls, estimate requests and trust.',
+    links: [
+      { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/general-contractor-website-design',
+    title: 'General Contractor Website Design | Aurevane Digital',
+    description:
+      'General contractor website design for builders, remodelers and design-build firms. Custom sites built around project proof, estimate requests and trust.',
+    h1: 'General Contractor Website Design That Wins More Projects',
+    intro:
+      'Custom websites for general contractors, builders, remodelers and design-build firms across the United States, built around project proof, estimate requests and trust.',
+    links: [
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Excavation Website Design', to: '/excavation-website-design' },
+      { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/mobile-detailing-website-design',
+    title: 'Mobile Detailing Website Design | Aurevane Digital',
+    description:
+      'Mobile detailing website design with online booking, package pricing and service areas. Fast, mobile-first sites built to convert drivers into bookings.',
+    h1: 'Mobile Detailing Website Design With Online Booking Built In',
+    intro:
+      'Fast, mobile-first websites for mobile car detailers across the United States, built around online booking, clear packages and a service-area selector.',
+    links: [
+      { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },
     ],
   },

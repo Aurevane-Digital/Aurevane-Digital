@@ -14,6 +14,10 @@ import { HomeServicesPage } from './pages/HomeServicesPage';
 import { JunkRemovalPage } from './pages/JunkRemovalPage';
 import { JunkRemovalSeoPage } from './pages/JunkRemovalSeoPage';
 import { WebsiteRedesignPage } from './pages/WebsiteRedesignPage';
+import { ExcavationPage } from './pages/ExcavationPage';
+import { ElectricalPage } from './pages/ElectricalPage';
+import { GeneralContractorPage } from './pages/GeneralContractorPage';
+import { MobileDetailingPage } from './pages/MobileDetailingPage';
 import { BlogPage } from './pages/BlogPage';
 import { PostPage } from './pages/PostPage';
 import { CaseStudy, ServicePackage, AuditReportData } from './types';
@@ -122,6 +126,10 @@ export default function App() {
             <Route path="/junk-removal-website-design" element={<JunkRemovalPage />} />
             <Route path="/junk-removal-seo" element={<JunkRemovalSeoPage />} />
             <Route path="/website-redesign" element={<WebsiteRedesignPage />} />
+            <Route path="/excavation-website-design" element={<ExcavationPage />} />
+            <Route path="/electrical-contractor-website-design" element={<ElectricalPage />} />
+            <Route path="/general-contractor-website-design" element={<GeneralContractorPage />} />
+            <Route path="/mobile-detailing-website-design" element={<MobileDetailingPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<PostPage />} />
             <Route path="*" element={<NotFoundPage />} />

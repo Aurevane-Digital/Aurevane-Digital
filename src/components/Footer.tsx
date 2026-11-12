@@ -81,42 +81,76 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Services Column */}
-          <div className="lg:col-span-3 flex flex-col gap-3">
-            <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-1">
-              Services
-            </h3>
-            <nav aria-label="Services" className="flex flex-col gap-2.5 text-xs text-[#59544E] font-medium">
-              <Link
-                to="/contractor-website-design"
-                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
-              >
-                Contractor Website Design
-              </Link>
-              <Link
-                to="/home-services-website-design"
-                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
-              >
-                Home Services Website Design
-              </Link>
-              <Link
-                to="/junk-removal-website-design"
-                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
-              >
-                Junk Removal Website Design
-              </Link>
-              <Link
-                to="/junk-removal-seo"
-                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
-              >
-                Junk Removal SEO
-              </Link>
-              <Link
-                to="/website-redesign"
-                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
-              >
-                Website Redesign
-              </Link>
-            </nav>
+          <div className="lg:col-span-3 flex flex-col gap-4">
+            <div>
+              <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-2">
+                By Trade
+              </h3>
+              <nav aria-label="Services by trade" className="flex flex-col gap-2 text-xs text-[#59544E] font-medium">
+                <Link
+                  to="/junk-removal-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Junk Removal
+                </Link>
+                <Link
+                  to="/excavation-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Excavation
+                </Link>
+                <Link
+                  to="/electrical-contractor-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Electrical Contractor
+                </Link>
+                <Link
+                  to="/general-contractor-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  General Contractor
+                </Link>
+                <Link
+                  to="/mobile-detailing-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Mobile Detailing
+                </Link>
+                <Link
+                  to="/home-services-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Home Services
+                </Link>
+              </nav>
+            </div>
+
+            <div>
+              <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-2">
+                Services
+              </h3>
+              <nav aria-label="Core services" className="flex flex-col gap-2 text-xs text-[#59544E] font-medium">
+                <Link
+                  to="/contractor-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Contractor Website Design
+                </Link>
+                <Link
+                  to="/junk-removal-seo"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Junk Removal SEO
+                </Link>
+                <Link
+                  to="/website-redesign"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Website Redesign
+                </Link>
+              </nav>
+            </div>
           </div>
 
           {/* Practice & Focus */}

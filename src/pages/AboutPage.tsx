@@ -98,6 +98,37 @@ export const AboutPage: React.FC = () => {
         </div>
       </section>
 
+      {/* AUREVANE DIGITAL AT A GLANCE */}
+      <section className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-2">
+              Studio Overview
+            </span>
+            <h2 className="font-serif text-2xl md:text-3xl text-[#141210] font-normal mb-6">
+              Aurevane Digital at a glance
+            </h2>
+            <div className="space-y-4 text-sm md:text-base text-[#59544E] font-light leading-relaxed">
+              <p>
+                Aurevane Digital is an independent web design and development studio focused exclusively on trade contractors, home-service companies, and junk removal businesses across the United States.
+              </p>
+              <p>
+                The studio builds bespoke websites featuring clean editorial typography, fast mobile-first page speeds, structured local SEO markup, and intake workflows designed around phone calls, photo quotes, and online bookings.
+              </p>
+              <p>
+                Every project is delivered under transparent milestone pricing—including the $1,000 Starter package and the $1,500 Professional package—with fixed delivery timelines and zero mandatory agency retainers.
+              </p>
+              <p>
+                Clients retain 100% unconditional ownership of all custom source code, design assets, and domain configurations upon completion of their build.
+              </p>
+              <p>
+                Direct project inquiries and diagnostic website audits can be requested online or by emailing aurevanedigital@gmail.com.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 5 CORE PILLARS */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
