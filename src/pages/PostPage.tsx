@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   Calendar,
@@ -26,18 +26,22 @@ export const PostPage: React.FC = () => {
     return <NotFoundPage />;
   }
 
-  const jsonLd = buildArticleSchema({
-    slug: post.slug,
-    headline: post.title,
-    description: post.description,
-    datePublished: post.datePublished,
-    dateModified: post.datePublished,
-  });
+  const jsonLd = useMemo(
+    () =>
+      buildArticleSchema({
+        slug: post.slug,
+        headline: post.title,
+        description: post.description,
+        datePublished: post.datePublished,
+        dateModified: post.datePublished,
+      }),
+    [post.slug, post.title, post.description, post.datePublished]
+  );
 
   return (
     <>
       <SEO
-        title={`${post.title} | Aurevane Digital`}
+        title={`${post.seoTitle ?? post.title} | Aurevane Digital`}
         description={post.description}
         canonicalPath={`/blog/${post.slug}`}
         jsonLd={jsonLd}

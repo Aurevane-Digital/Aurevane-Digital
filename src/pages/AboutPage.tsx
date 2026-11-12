@@ -78,7 +78,7 @@ export const AboutPage: React.FC = () => {
                 The Core Problem
               </span>
               <h2 className="font-serif text-3xl md:text-4xl text-[#141210] font-normal leading-tight">
-                Why 95% of Contractor Websites Fail to Win Premium Clients.
+                Why Many Contractor Websites Fail to Win Premium Clients.
               </h2>
               <div className="h-0.5 w-16 bg-[#B89255]" />
             </div>

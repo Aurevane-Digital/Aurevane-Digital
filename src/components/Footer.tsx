@@ -136,7 +136,7 @@ export const Footer: React.FC<FooterProps> = ({
                 Direct: aurevanedigital@gmail.com
               </a>
               <a
-                href="https://www.instagram.com/aurevanedigital/?__pwa=1"
+                href="https://www.instagram.com/aurevanedigital/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[11px] text-[#59544E] hover:text-[#141210] transition-colors underline-offset-4 hover:underline"

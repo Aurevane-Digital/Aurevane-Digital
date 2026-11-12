@@ -163,7 +163,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/blog',
-    title: 'Website & SEO Guides for Contractors & Junk Removal | Aurevane Digital',
+    title: 'Website & SEO Guides for Contractors | Aurevane Digital',
     description:
       'Practical guides on contractor website design, junk removal SEO, website development costs, and local search rankings for trade businesses.',
     h1: 'Website & SEO Guides for Contractors and Junk Removal Companies',
@@ -183,7 +183,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
 
 const blogPostRoutes: SeoRoute[] = BLOG_POSTS.map((post) => ({
   path: `/blog/${post.slug}`,
-  title: `${post.title} | Aurevane Digital`,
+  title: `${post.seoTitle ?? post.title} | Aurevane Digital`,
   description: post.description,
   h1: post.title,
   intro: post.description,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -51,13 +51,17 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
     setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 
-  const jsonLd = buildServiceSchema({
-    path,
-    name,
-    description: seo.description,
-    serviceType,
-    faqs,
-  });
+  const jsonLd = useMemo(
+    () =>
+      buildServiceSchema({
+        path,
+        name,
+        description: seo.description,
+        serviceType,
+        faqs,
+      }),
+    [path, name, seo.description, serviceType, faqs]
+  );
 
   const includedChecklist = [
     {

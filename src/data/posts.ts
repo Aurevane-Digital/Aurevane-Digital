@@ -19,6 +19,7 @@ export interface RelatedLink {
 export interface BlogPost {
   slug: string;
   title: string;
+  seoTitle?: string;
   description: string;
   datePublished: string;
   readingTime: string;
@@ -37,6 +38,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'what-should-a-junk-removal-website-include',
     title: 'What Should a Junk Removal Website Include?',
+    seoTitle: 'What Should a Junk Removal Website Have?',
     description:
       'Essential guide to junk removal website features: online booking, photo estimate uploads, Google reviews, fast mobile speed, and call tracking.',
     datePublished: '2026-11-10',
