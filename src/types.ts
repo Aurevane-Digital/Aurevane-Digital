@@ -23,7 +23,9 @@ export interface ServicePackage {
   badge?: string;
   tagline: string;
   price: string;
+  pricePrefix?: string;
   priceNum: number;
+  paymentType?: string;
   featured?: boolean;
   description: string;
   features: string[];

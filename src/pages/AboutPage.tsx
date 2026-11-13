@@ -3,9 +3,14 @@ import { Link } from 'react-router-dom';
 import { Compass, Sparkles, Zap, Gauge, Building2, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { getSeo } from '../data/seoRoutes';
+import { SERVICE_PACKAGES, MONTHLY_RETAINERS } from '../data/packages';
 
 export const AboutPage: React.FC = () => {
   const s = getSeo('/about');
+  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
+  const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
+  const carePlan = MONTHLY_RETAINERS.find((r) => r.id === 'website-care') || MONTHLY_RETAINERS[0];
+  const growthPlan = MONTHLY_RETAINERS.find((r) => r.id === 'growth-seo') || MONTHLY_RETAINERS[1];
   const pillars = [
     {
       num: '01',
@@ -116,7 +121,7 @@ export const AboutPage: React.FC = () => {
                 The studio builds bespoke websites featuring clean editorial typography, fast mobile-first page speeds, structured local SEO markup, and intake workflows designed around phone calls, photo quotes, and online bookings.
               </p>
               <p>
-                Every project is delivered under transparent milestone pricing—including the $1,000 Starter package and the $1,500 Professional package—with fixed delivery timelines and zero mandatory agency retainers.
+                Website projects are delivered as one-time fees—with our Essential package starting at {essentialPrice} and our Professional package starting at {proPrice}—under clear delivery timelines and no mandatory monthly retainer. Optional {carePlan.name} ({carePlan.price} {carePlan.priceSuffix}) and {growthPlan.name} ({growthPlan.price} {growthPlan.priceSuffix}) plans are billed separately.
               </p>
               <p>
                 Clients retain 100% unconditional ownership of all custom source code, design assets, and domain configurations upon completion of their build.
@@ -188,7 +193,7 @@ export const AboutPage: React.FC = () => {
               </div>
               <div className="pt-6 border-t border-[#34302D] flex items-center gap-2 text-xs text-[#FAF6F0]">
                 <CheckCircle2 className="w-4 h-4 text-[#B89255]" />
-                <span>Zero Outsourced Retainers</span>
+                <span>Direct Principal Delivery</span>
               </div>
             </div>
           </div>

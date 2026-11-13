@@ -67,7 +67,7 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
             status: 'warning',
             title: 'Mobile Hero Render Latency (3.8s)',
             finding: 'Large uncompressed imagery is delaying above-the-fold content on mobile cellular networks.',
-            fix: 'Deploy Next-gen WebP/AVIF formats and sub-second critical inline CSS styling.',
+            fix: 'Deploy Next-gen WebP/AVIF formats and fast critical inline CSS styling.',
           },
           {
             category: 'Authority & Trust Signals',

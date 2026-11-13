@@ -463,7 +463,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               How We Build Your Digital Advantage
             </h2>
             <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
-              Every project is personally directed by our principal team, operating with architectural rigor, transparent milestones, and zero bloated agency retainers.
+              Every project is personally directed by our principal team, operating with architectural rigor, transparent milestones, and no mandatory monthly retainers.
             </p>
           </div>
 
@@ -484,7 +484,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 </div>
                 <div className="mt-6 pt-4 border-t border-[#D9D0C3]/50 flex items-center gap-2 text-[10px] uppercase tracking-wider text-[#827C75]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#B89255]" />
-                  <span>Guaranteed Deliverable</span>
+                  <span>Defined Deliverable</span>
                 </div>
               </div>
             ))}

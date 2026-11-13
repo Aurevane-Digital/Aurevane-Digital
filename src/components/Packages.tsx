@@ -19,7 +19,7 @@ export const Packages: React.FC<PackagesProps> = ({ onSelectPackage }) => {
             Engineered for Compounding ROI
           </h2>
           <p className="text-sm text-[#59544E] leading-relaxed">
-            No bloated retainers or surprise scope clauses. Clear, turnkey digital architecture designed to pay for itself with your next 1 to 2 signed high-ticket contracts.
+            One-time project fees with no mandatory monthly retainer, plus optional monthly care and SEO plans available separately. Clear, turnkey digital architecture designed for your next high-ticket contracts.
           </p>
         </div>
 
@@ -63,8 +63,8 @@ export const Packages: React.FC<PackagesProps> = ({ onSelectPackage }) => {
 
                   <div className="my-6">
                     <div className="flex items-baseline gap-2">
-                      {pkg.id !== 'custom' && (
-                        <span className="text-xs text-[#59544E]">Starting at</span>
+                      {pkg.pricePrefix && (
+                        <span className="text-xs text-[#59544E]">{pkg.pricePrefix}</span>
                       )}
                       <span className="font-serif text-3xl md:text-4xl text-[#141210] font-normal">
                         {pkg.price}
@@ -104,10 +104,10 @@ export const Packages: React.FC<PackagesProps> = ({ onSelectPackage }) => {
                         : 'bg-transparent border border-[#141210] text-[#141210] hover:bg-[#141210] hover:text-white'
                     }`}
                   >
-                    {pkg.id === 'custom' ? 'Schedule Consultation' : `Book ${pkg.name} Package`}
+                    {pkg.id === 'custom' ? 'Book a Consultation' : 'Start Your Project'}
                   </button>
                   <p className="text-[10px] text-center text-[#59544E] mt-2">
-                    {pkg.id === 'custom' ? 'Direct Founder Strategy Session' : 'Locked-in Quote • Guaranteed Delivery'}
+                    {pkg.id === 'custom' ? 'Custom Scope & Direct Consultation' : 'One-Time Project Fee • 100% Code Ownership'}
                   </p>
                 </div>
               </div>

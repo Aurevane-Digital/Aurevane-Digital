@@ -143,3 +143,59 @@ export function buildArticleSchema({
 
   return [articleSchema, breadcrumbSchema];
 }
+
+export interface FaqPageSchemaParams {
+  path: string;
+  name: string;
+  faqs: ServiceSchemaFaq[];
+}
+
+/**
+ * Builds schema.org JSON-LD representations for pages with an FAQ section (e.g. Packages).
+ * Returns an array containing:
+ * 1. FAQPage schema matching visible on-page FAQs
+ * 2. BreadcrumbList schema (Home > Page Name)
+ */
+export function buildFaqPageSchema({
+  path,
+  name,
+  faqs,
+}: FaqPageSchemaParams): Array<Record<string, unknown>> {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
+
+  const faqSchema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
+      },
+    })),
+  };
+
+  const breadcrumbSchema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://aurevanedigital.vercel.app/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name,
+        item: pageUrl,
+      },
+    ],
+  };
+
+  return [faqSchema, breadcrumbSchema];
+}
+

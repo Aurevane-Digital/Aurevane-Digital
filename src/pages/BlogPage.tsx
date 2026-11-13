@@ -101,7 +101,7 @@ export const BlogPage: React.FC = () => {
             Ready to upgrade your contractor website?
           </h2>
           <p className="text-xs sm:text-sm text-[#D9D0C3] font-light leading-relaxed max-w-xl mx-auto">
-            We build high-converting, sub-second websites with transparent milestone pricing and 100% code ownership. Explore packages or request a diagnostic check.
+            We build high-converting, fast-loading websites with one-time milestone pricing, no mandatory monthly retainers, and 100% code ownership. Explore packages or request a diagnostic check.
           </p>
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link

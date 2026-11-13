@@ -77,17 +77,17 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
             </>
           ) : (
             <>
-              <h3 className="font-serif text-lg text-[#141210]">Engagement &amp; Retainer Scope</h3>
+              <h3 className="font-serif text-lg text-[#141210]">Engagement &amp; Payment Terms</h3>
               <p>
-                Every Aurevane commission operates with a fixed scope, transparent schedule, and guaranteed completion milestone. Kickoff requires a 50% retainer, with the remaining 50% due upon production deployment and domain handover.
+                Every Aurevane website commission operates with a clear scope, transparent schedule, and defined completion milestone. Website projects start with a 50% deposit, with the remaining 50% due before final launch and handover. Optional monthly care and SEO plans are billed monthly in advance under a separate scope agreement.
               </p>
               <h3 className="font-serif text-lg text-[#141210] pt-2">Client Ownership &amp; Code Handover</h3>
               <p>
                 Upon project completion and final settlement, 100% of bespoke code, graphic assets, typography licenses, and domain configurations transfer entirely to the client. We do not lock businesses into proprietary website builders.
               </p>
-              <h3 className="font-serif text-lg text-[#141210] pt-2">Performance Guarantees</h3>
+              <h3 className="font-serif text-lg text-[#141210] pt-2">Performance Standards</h3>
               <p>
-                Every bespoke platform is guaranteed to achieve sub-second load times on modern networks and comply with responsive mobile standards.
+                Every bespoke platform is engineered to deliver fast, reliable load times on modern networks and comply with responsive mobile standards.
               </p>
             </>
           )}

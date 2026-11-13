@@ -57,14 +57,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
   };
 
-  const addonsTotal = selectedAddons.reduce((acc, id) => {
-    const item = ADD_ON_OPTIONS.find((a) => a.id === id);
-    return acc + (item ? item.price : 0);
-  }, 0);
+  const selectedAddonObjects = selectedAddons
+    .map((id) => ADD_ON_OPTIONS.find((a) => a.id === id))
+    .filter((a): a is NonNullable<typeof a> => Boolean(a));
+
+  const addonsTotal = selectedAddonObjects.reduce(
+    (acc, item) => acc + (item.custom ? 0 : item.price),
+    0
+  );
+  const hasCustomAddon = selectedAddonObjects.some((item) => Boolean(item.custom));
 
   const basePrice = currentPkg.priceNum || 1500;
   const isCustom = currentPkg.id === 'custom';
-  const totalPrice = isCustom ? 'Custom Quote' : `$${(basePrice + addonsTotal).toLocaleString()}`;
+  const totalPrice = isCustom
+    ? 'Custom Quote'
+    : `$${(basePrice + addonsTotal).toLocaleString()}${hasCustomAddon ? ' + custom quote' : ''}`;
+
+  const selectedPkgPriceLabel = `${currentPkg.pricePrefix ? `${currentPkg.pricePrefix} ` : ''}${currentPkg.price}`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,9 +90,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
     setIsSubmitting(true);
 
-    const chosenAddonNames = selectedAddons
-      .map((id) => ADD_ON_OPTIONS.find((a) => a.id === id)?.name)
-      .filter(Boolean)
+    const chosenAddonNames = selectedAddonObjects
+      .map((addon) =>
+        addon.custom
+          ? `${addon.name} (Custom quote)`
+          : `${addon.name} (${addon.pricePrefix ? `${addon.pricePrefix} ` : ''}+$${addon.price})`
+      )
       .join(', ');
 
     await submitToWeb3Forms({
@@ -92,9 +104,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       name,
       email,
       data: {
-        'Selected Package': `${currentPkg.name} (${currentPkg.price})`,
+        'Selected Package': `${currentPkg.name} (${selectedPkgPriceLabel})`,
         'Selected Add-ons': chosenAddonNames || 'None selected',
-        'Total Estimated Investment': totalPrice,
+        'Estimated Starting Investment': totalPrice,
+        'Scope Note': 'Final pricing depends on project scope.',
         'Business Entity / Legal Trade': businessName,
         'Target Launch Horizon': targetLaunch,
         'Project Specifics or Key Challenges': notes || 'None provided',
@@ -156,7 +169,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-2">
               Select Desired Tier
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {SERVICE_PACKAGES.map((pkg) => (
                 <button
                   key={pkg.id}
@@ -169,7 +182,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   }`}
                 >
                   <span className="text-xs font-bold block text-[#141210]">{pkg.name}</span>
-                  <span className="text-[11px] text-[#9E5249] font-serif block mt-0.5">{pkg.price}</span>
+                  <span className="text-[11px] text-[#9E5249] font-serif block mt-0.5">
+                    {pkg.pricePrefix ? `${pkg.pricePrefix} ` : ''}
+                    {pkg.price}
+                  </span>
                 </button>
               ))}
             </div>
@@ -179,7 +195,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           {!isCustom && (
             <div>
               <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-2">
-                Optional High-Ticket Accelerators
+                Optional Enhancements
               </label>
               <div className="space-y-2">
                 {ADD_ON_OPTIONS.map((addon) => {
@@ -211,7 +227,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         </div>
                       </div>
                       <span className="text-xs font-mono font-bold text-[#141210] shrink-0 ml-3">
-                        +${addon.price}
+                        {addon.custom
+                          ? 'Custom quote'
+                          : `${addon.pricePrefix ? `${addon.pricePrefix} ` : ''}+$${addon.price}`}
                       </span>
                     </div>
                   );
@@ -316,18 +334,21 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
 
           {/* Price Summary & Submit */}
-          <div className="p-4 bg-[#F5EDE2] border border-[#D9D0C3] rounded-sm flex items-center justify-between">
+          <div className="p-4 bg-[#F5EDE2] border border-[#D9D0C3] rounded-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="text-[10px] uppercase tracking-wider text-[#59544E] block">
-                Estimated Project Investment
+                {currentPkg.name} ({selectedPkgPriceLabel}) — Estimated Starting Investment
               </span>
               <span className="font-serif text-2xl font-bold text-[#141210]">
                 {totalPrice}
               </span>
+              <span className="block text-[10px] text-[#59544E] mt-0.5">
+                Final pricing depends on project scope.
+              </span>
             </div>
-            <div className="text-right text-[11px] text-[#59544E]">
+            <div className="sm:text-right text-[11px] text-[#59544E]">
               <span>50% Deposit upon kickoff</span>
-              <span className="block text-[10px] text-[#9E5249]">Guaranteed delivery date</span>
+              <span className="block text-[10px] text-[#9E5249]">Defined delivery timeline</span>
             </div>
           </div>
 

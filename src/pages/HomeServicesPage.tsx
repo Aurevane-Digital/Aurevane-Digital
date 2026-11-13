@@ -3,8 +3,9 @@ import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTe
 import { SERVICE_PACKAGES } from '../data/packages';
 
 export const HomeServicesPage: React.FC = () => {
-  const starterPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
+  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
+  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
 
   const sections: ServiceSection[] = [
     {
@@ -15,8 +16,8 @@ export const HomeServicesPage: React.FC = () => {
       ],
       bullets: [
         'Prominent, persistent click-to-call bars optimized for one-thumb mobile tapping',
-        'Immediate emergency dispatch badges signaling 24/7 or same-day readiness',
-        'Sub-second load times that keep frustrated homeowners from clicking back to Google',
+        'Immediate emergency dispatch badges signaling same-day readiness',
+        'Fast, reliable load times that keep urgent homeowners from clicking back to Google',
         'Transparent upfront fee guidelines that build instant trust with new customers',
       ],
     },
@@ -65,7 +66,7 @@ export const HomeServicesPage: React.FC = () => {
   const faqs = [
     {
       q: 'How much does a home services website design package cost?',
-      a: `We provide transparent milestone pricing with zero recurring agency maintenance lock-ins. Our Starter package is ${starterPrice} for a fast, mobile-first 3-page foundation, while our comprehensive Professional platform is ${proPrice} and includes multi-county territory siloing, custom quote estimators, and complete copywriting polish. Review our full deliverables on our packages page.`,
+      a: `We offer one-time project pricing with no mandatory monthly retainer (optional Website Care and Growth & SEO plans are available separately). Our Essential package starts at ${essentialPrice} (delivered in ${essentialTime}) for a mobile-first 3-page foundation, while our Professional platform starts at ${proPrice} and includes multi-city SEO architecture, custom scope estimators, and full website copywriting. Review our full deliverables on our packages page.`,
     },
     {
       q: 'How quickly can homeowners schedule emergency or routine calls through the website?',
@@ -77,7 +78,7 @@ export const HomeServicesPage: React.FC = () => {
     },
     {
       q: 'Are your websites built on WordPress themes or proprietary website builder platforms?',
-      a: 'Neither. We build modern, lightweight static React and TypeScript architectures that deliver sub-second speeds, zero plugin vulnerability risks, and full 100% client code ownership upon project completion.',
+      a: 'Neither. We build modern, lightweight static React and TypeScript architectures engineered for fast performance, minimal third-party maintenance dependencies, and full 100% client code ownership upon project completion.',
     },
     {
       q: 'How does the website showcase customer reviews and trade licenses?',
@@ -85,7 +86,7 @@ export const HomeServicesPage: React.FC = () => {
     },
     {
       q: 'Will our home services company appear in ChatGPT or Google AI Overviews?',
-      a: 'No web agency can guarantee specific inclusion in AI-generated answers or search engine algorithms. What we do guarantee is building clean semantic code, comprehensive service FAQs, accurate Schema.org LocalBusiness markup, and sub-second load times that provide search crawlers and AI models with the precise, structured data needed to recommend your business.',
+      a: 'No web agency can guarantee specific inclusion in AI-generated answers or search engine algorithms. What we focus on is building clean semantic code, comprehensive service FAQs, accurate Schema.org LocalBusiness markup, and fast, reliable load times that provide search crawlers and AI models with the precise, structured data needed to recommend your business.',
     },
   ];
 

@@ -3,9 +3,9 @@ import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTe
 import { SERVICE_PACKAGES } from '../data/packages';
 
 export const ElectricalPage: React.FC = () => {
-  const starterPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
+  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
-  const starterTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '10 to 14 Business Days';
+  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
   const proTime = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.turnaround || '2 to 3 Weeks';
 
   const sections: ServiceSection[] = [
@@ -84,7 +84,7 @@ export const ElectricalPage: React.FC = () => {
         'Clear dual-path navigation funneling residential homeowners and commercial clients',
         'Dynamic call tracking insertion to measure lead attribution across marketing sources',
         'Google Analytics 4 event tracking for phone clicks, estimate forms, and service bookings',
-        'Seamless integration with field service software such as ServiceTitan, Jobber, or Housecall Pro',
+        'Optional webhook connections to compatible field service software (scoped separately per project)',
       ],
     },
   ];
@@ -92,7 +92,7 @@ export const ElectricalPage: React.FC = () => {
   const faqs = [
     {
       q: 'How much does an electrical contractor website design cost?',
-      a: `Our electrician website design pricing is fixed and transparent. Our Starter package is ${starterPrice} (delivered in ${starterTime}), and our comprehensive Professional package with multi-service siloing, commercial RFP intake, and local SEO is ${proPrice} (delivered in ${proTime}). View our packages page for complete details.`,
+      a: `Our electrician website design pricing uses transparent one-time project fees with no mandatory monthly retainer. Our Essential package starts at ${essentialPrice} (delivered in ${essentialTime}), and our Professional package with multi-city architecture, commercial RFP intake, and local SEO starts at ${proPrice} (delivered in ${proTime}). View our packages page for complete details on one-time builds and optional monthly plans.`,
     },
     {
       q: 'Can our website show our state license numbers and credential badges?',

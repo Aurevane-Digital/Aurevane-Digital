@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -24,19 +24,10 @@ import { CaseStudy, ServicePackage, AuditReportData } from './types';
 import { SERVICE_PACKAGES } from './data/packages';
 import { ArrowUp } from 'lucide-react';
 
-// Lazy-load on-demand modals to optimize initial bundle size & Core Web Vitals
-const CaseStudyModal = React.lazy(() =>
-  import('./components/CaseStudyModal').then((m) => ({ default: m.CaseStudyModal }))
-);
-const AuditReportModal = React.lazy(() =>
-  import('./components/AuditReportModal').then((m) => ({ default: m.AuditReportModal }))
-);
-const BookingModal = React.lazy(() =>
-  import('./components/BookingModal').then((m) => ({ default: m.BookingModal }))
-);
-const LegalModal = React.lazy(() =>
-  import('./components/LegalModal').then((m) => ({ default: m.LegalModal }))
-);
+import { CaseStudyModal } from './components/CaseStudyModal';
+import { AuditReportModal } from './components/AuditReportModal';
+import { BookingModal } from './components/BookingModal';
+import { LegalModal } from './components/LegalModal';
 
 export default function App() {
   // Modals state
@@ -153,40 +144,38 @@ export default function App() {
           </button>
         </div>
 
-        {/* Interactive Modals (Lazy Loaded on Demand) */}
-        <Suspense fallback={null}>
-          {selectedCaseStudy && (
-            <CaseStudyModal
-              caseStudy={selectedCaseStudy}
-              onClose={() => setSelectedCaseStudy(null)}
-              onBookSimilar={handleBookSimilar}
-            />
-          )}
+        {/* Interactive Modals */}
+        {selectedCaseStudy && (
+          <CaseStudyModal
+            caseStudy={selectedCaseStudy}
+            onClose={() => setSelectedCaseStudy(null)}
+            onBookSimilar={handleBookSimilar}
+          />
+        )}
 
-          {auditReport && (
-            <AuditReportModal
-              report={auditReport}
-              onClose={() => setAuditReport(null)}
-              onBookCure={() => {
-                setAuditReport(null);
-                setBookingPackage(SERVICE_PACKAGES[1]);
-                setIsBookingModalOpen(true);
-              }}
-            />
-          )}
+        {auditReport && (
+          <AuditReportModal
+            report={auditReport}
+            onClose={() => setAuditReport(null)}
+            onBookCure={() => {
+              setAuditReport(null);
+              setBookingPackage(SERVICE_PACKAGES[1]);
+              setIsBookingModalOpen(true);
+            }}
+          />
+        )}
 
-          {isBookingModalOpen && (
-            <BookingModal
-              selectedPackage={bookingPackage}
-              onClose={() => setIsBookingModalOpen(false)}
-              onSuccess={(msg) => showToast(msg)}
-            />
-          )}
+        {isBookingModalOpen && (
+          <BookingModal
+            selectedPackage={bookingPackage}
+            onClose={() => setIsBookingModalOpen(false)}
+            onSuccess={(msg) => showToast(msg)}
+          />
+        )}
 
-          {legalModal && (
-            <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />
-          )}
-        </Suspense>
+        {legalModal && (
+          <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />
+        )}
 
         {/* Toast Feedback Notification */}
         {toast && (

@@ -3,7 +3,6 @@ import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTe
 import { SERVICE_PACKAGES } from '../data/packages';
 
 export const JunkRemovalSeoPage: React.FC = () => {
-  const starterPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
 
   const sections: ServiceSection[] = [
@@ -47,13 +46,13 @@ export const JunkRemovalSeoPage: React.FC = () => {
       ],
     },
     {
-      h2: 'Sub-Second Page Speed, Call Tracking, and Conversion Architecture',
+      h2: 'Fast Page Speed, Call Tracking, and Conversion Architecture',
       paragraphs: [
         'Local SEO for junk removal companies is only effective if clicking a search result leads to a booked pickup. If mobile homeowners encounter a sluggish site with broken phone links, your hard-won search rankings produce zero revenue.',
-        'Every website we engineer achieves sub-second load times on mobile cellular connections, paired with dynamic call tracking and dedicated form conversion logging. You receive absolute clarity on which search terms, cities, and services produce your highest-margin truckloads.',
+        'Every website we engineer is built for fast load times on mobile cellular connections, paired with dynamic call tracking and dedicated form conversion logging. You receive clear visibility into which search terms, cities, and services produce your highest-margin truckloads.',
       ],
       bullets: [
-        'Ultra-fast semantic code loading in less than one second on mobile networks',
+        'Lightweight semantic code built for fast loading on mobile networks',
         'Call tracking integration to attribute phone leads to specific channels',
         'Google Analytics 4 conversion event logging for quote submissions and calls',
         'High-contrast mobile tap-to-call bars that eliminate booking hesitation',
@@ -64,7 +63,7 @@ export const JunkRemovalSeoPage: React.FC = () => {
   const faqs = [
     {
       q: 'How does junk removal SEO work alongside website design?',
-      a: `A fast, well-structured website is the foundation of local SEO. Our Professional website package at ${proPrice} includes multi-county territory siloing, Schema.org LocalBusiness markup, and brand positioning polish designed to rank on Google Maps and organic search. You can review all deliverables on our packages page.`,
+      a: `A fast, well-structured website is the foundation of local SEO. Our Professional website package starts at ${proPrice} (one-time project fee) and includes multi-city local SEO architecture, Schema.org LocalBusiness markup, and brand positioning—with optional Growth & SEO monthly plans available separately on our packages page.`,
     },
     {
       q: 'How long does it take for a junk removal company to rank on Google Maps?',

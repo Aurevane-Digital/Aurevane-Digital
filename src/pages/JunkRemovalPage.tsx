@@ -3,8 +3,9 @@ import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTe
 import { SERVICE_PACKAGES } from '../data/packages';
 
 export const JunkRemovalPage: React.FC = () => {
-  const starterPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
+  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
+  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
 
   const sections: ServiceSection[] = [
     {
@@ -55,7 +56,7 @@ export const JunkRemovalPage: React.FC = () => {
       bullets: [
         'Prominent emergency and same-day dispatch status callout bars',
         'Sticky one-tap mobile calling and SMS dispatch buttons',
-        'Sub-second page speeds that load instantly on spotty cellular signals',
+        'Fast page speeds engineered to load reliably on cellular signals',
         'Clear payment and credit card acceptance icons to reduce checkout hesitation',
       ],
     },
@@ -88,7 +89,7 @@ export const JunkRemovalPage: React.FC = () => {
     {
       h2: 'High-Volume Junk Hauling and Fleet Logistics Platforms',
       paragraphs: [
-        'As hauling businesses scale from two trucks to multi-territory fleets, their digital requirements expand. Multiple dispatch locations, localized suburb hubs, and automated webhook connections to operational software like Jobber, Workiz, or Housecall Pro become essential to prevent operational bottlenecks.',
+        'As hauling businesses scale from two trucks to multi-territory fleets, their digital requirements expand. Multiple dispatch locations, localized suburb hubs, and custom webhook connections to compatible operational and dispatch software (scoped separately per project) help prevent operational bottlenecks.',
         'We engineer scalable platforms designed to support multiple dispatch hubs across regional territories. Every location page is built with unique community-level service content, localized Google Maps integration, and dedicated phone tracking numbers to maintain pristine campaign attribution.',
       ],
       bullets: [
@@ -119,19 +120,19 @@ export const JunkRemovalPage: React.FC = () => {
   const faqs = [
     {
       q: 'How much does a custom junk removal website cost?',
-      a: `Our website packages operate with transparent milestone pricing and no recurring agency leases. Our Starter package is ${starterPrice} for a fast, mobile-first 3-page custom site, while our flagship Professional package is ${proPrice} and includes our interactive truck volume estimator, multi-county SEO siloing, and complete brand copywriting polish. You can view full package details on our packages page.`,
+      a: `Our website packages are one-time project fees with no mandatory monthly retainer (optional Website Care and Growth & SEO plans are available separately). Our Essential package starts at ${essentialPrice} (delivered in ${essentialTime}) for a mobile-first 3-page custom site, while our flagship Professional package starts at ${proPrice} and includes our interactive scope and volume estimator, multi-city SEO architecture, and full website copywriting. You can view full package details on our packages page.`,
     },
     {
       q: 'Can customers upload photos of their junk pile directly on their phones?',
-      a: 'Yes. Our intake forms are optimized for mobile cellular browsers, enabling customers to capture and attach multiple photos of their furniture, appliances, or garage piles directly from their smartphone camera with instantaneous client-side compression.',
+      a: 'Yes. Our intake forms are optimized for mobile cellular browsers, enabling customers to capture and attach multiple photos of their furniture, appliances, or garage piles directly from their smartphone camera with client-side compression.',
     },
     {
       q: 'How does the interactive truck-volume calculator work for customers?',
-      a: 'The visual estimator illustrates fraction-of-bed load sizes (such as 1/4, 1/2, 3/4, or full truck bed) with your custom pricing guidelines. Customers select their estimated volume and see upfront price ranges, establishing trust and qualifying job scopes before dispatch.',
+      a: 'The visual estimator illustrates fraction-of-bed load sizes (such as 1/4, 1/2, 3/4, or full truck bed) with your client-approved pricing rules. Customers select their estimated volume and see upfront price ranges, establishing trust and qualifying job scopes before dispatch.',
     },
     {
-      q: 'Will this website integrate with hauling software like Jobber, Housecall Pro, or Workiz?',
-      a: 'Yes. Inquiries and booking reservations connect seamlessly via standard webhooks, allowing form submissions to pass directly into your field management software, dispatch pipeline, or email inboxes.',
+      q: 'Will this website integrate with our dispatch or field management software?',
+      a: 'Yes. Inquiries and booking reservations can connect with compatible field management platforms via webhooks, or through our optional CRM Integration & Lead Routing enhancement scoped and quoted per project.',
     },
     {
       q: 'Do you offer redesigns for established junk removal businesses looking to upgrade?',

@@ -1,4 +1,4 @@
-import { SERVICE_PACKAGES } from './packages';
+import { SERVICE_PACKAGES, MONTHLY_RETAINERS } from './packages';
 
 export interface PostSection {
   h2: string;
@@ -28,11 +28,20 @@ export interface BlogPost {
   relatedLinks: RelatedLink[];
 }
 
-const starterPkg = SERVICE_PACKAGES.find((p) => p.id === 'starter');
-const starterPrice = starterPkg ? starterPkg.price : '$1,000';
+const essentialPkg = SERVICE_PACKAGES.find((p) => p.id === 'starter');
+const essentialPrice = essentialPkg ? essentialPkg.price : '$1,000';
+const essentialTurnaround = essentialPkg
+  ? essentialPkg.turnaround.toLowerCase()
+  : '7 to 10 business days';
 
 const proPkg = SERVICE_PACKAGES.find((p) => p.id === 'professional');
 const proPrice = proPkg ? proPkg.price : '$1,500';
+const proTurnaround = proPkg ? proPkg.turnaround.toLowerCase() : '2 to 3 weeks';
+
+const carePlan =
+  MONTHLY_RETAINERS.find((r) => r.id === 'website-care') || MONTHLY_RETAINERS[0];
+const growthPlan =
+  MONTHLY_RETAINERS.find((r) => r.id === 'growth-seo') || MONTHLY_RETAINERS[1];
 
 export const BLOG_POSTS: BlogPost[] = [
   {
@@ -73,7 +82,7 @@ export const BLOG_POSTS: BlogPost[] = [
         bullets: [
           'Two-hour arrival window selection aligned with real crew availability',
           'Automated confirmation notifications sent instantly via email and SMS',
-          'Integration with field service management platforms such as Jobber, Workiz, or Housecall Pro',
+          'Optional webhook integration with compatible field service management platforms',
           'Address autofill to avoid misdirected drivers and invalid zip code bookings',
         ],
       },
@@ -104,13 +113,13 @@ export const BLOG_POSTS: BlogPost[] = [
         ],
       },
       {
-        h2: 'Sub-Second Page Speed, Mobile Layouts, and Dynamic Call Tracking',
+        h2: 'Fast Page Speed, Mobile Layouts, and Dynamic Call Tracking',
         paragraphs: [
-          'Over eighty percent of local junk removal searches take place on mobile devices. A website with bulky animations, uncompressed photos, or third-party script bloat that takes five seconds to load causes mobile bounce rates to skyrocket. Clean, semantic code delivering sub-second load times on 4G networks ensures you retain every interested homeowner.',
+          'Most local junk removal searches take place on mobile devices. A website with bulky animations, uncompressed photos, or third-party script bloat that takes five seconds to load causes mobile bounce rates to rise quickly. Clean, semantic code engineered for fast load times on mobile connections ensures you retain interested homeowners.',
           'Furthermore, pair your site speed with dynamic call tracking and analytics event logging. Tracking distinct phone numbers and form triggers lets you evaluate precisely which service areas, marketing campaigns, and search terms generate your most profitable full-truck cleanouts.',
         ],
         bullets: [
-          'Lightweight static architecture delivering sub-second first contentful paint',
+          'Lightweight static architecture engineered for fast first contentful paint',
           'Sticky mobile contact bar featuring immediate one-tap calling and quote submission buttons',
           'Dynamic number insertion to measure telephone lead attribution across traffic sources',
           'Google Analytics 4 event tracking for quote submissions, phone clicks, and booking completions',
@@ -124,7 +133,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         q: 'How does site speed affect our junk removal customer bookings?',
-        a: 'Urgent mobile searchers abandon sites taking longer than three seconds to load. Sub-second speed keeps prospective customers on your page and directly improves your Google local search rankings.',
+        a: 'Urgent mobile searchers abandon slow-loading sites quickly. Fast, reliable mobile performance keeps prospective customers on your page and supports stronger local search usability.',
       },
       {
         q: 'What is the most important element on a junk removal homepage?',
@@ -156,64 +165,81 @@ export const BLOG_POSTS: BlogPost[] = [
         ],
       },
       {
-        h2: 'Turnkey Fixed-Price Packages vs. Monthly Retainer Traps',
+        h2: 'One-Time Project Pricing vs. Mandatory Retainer Contracts',
         paragraphs: [
-          'The traditional agency model often relies on opaque retainer contracts. An agency may offer a low initial build fee but require an ongoing contract of $300 to $1,000 every month under the guise of "hosting and maintenance." Over three years, a contractor can easily spend $15,000 on a website they do not even own.',
-          'At Aurevane Digital, we believe in transparent, locked-in milestone pricing with 100% client code ownership. Our Starter package is priced at a fixed ' +
-            starterPrice +
-            ', and our flagship Professional package is priced at ' +
+          'Many traditional marketing agencies bundle website builds inside multi-year retainer contracts. They may offer a modest initial setup fee, then require ongoing monthly payments under restrictive contracts where your domain, design, and files remain locked on proprietary systems—meaning your site can effectively be held hostage if you ever decide to leave.',
+          'At Aurevane Digital, our website projects are one-time project fees, and we never make a monthly plan mandatory. Our Essential package starts at ' +
+            essentialPrice +
+            ', and our flagship Professional package starts at ' +
             proPrice +
-            '. Once your platform is built and approved, you own every line of code, every design asset, and all your content with zero proprietary hostage fees.',
+            '. Once your platform is completed and paid in full, you retain 100% ownership of your codebase, visual assets, and domain. For business owners who want ongoing technical care or continuous search optimization after launch, optional monthly plans (' +
+            carePlan.name +
+            ' at ' +
+            carePlan.price +
+            ' ' +
+            carePlan.priceSuffix +
+            ' and ' +
+            growthPlan.name +
+            ' at ' +
+            growthPlan.price +
+            ' ' +
+            growthPlan.priceSuffix +
+            ') are available separately under a clear scope.',
         ],
         bullets: [
-          'Turnkey fixed milestone pricing with zero hidden maintenance retainers',
+          'One-time website project fees with no mandatory monthly retainer',
           'Complete, unencumbered 100% ownership of your source code and visual assets',
-          'Deployment on modern edge hosting infrastructure with near-zero hosting overhead',
-          'Direct access to your codebase without proprietary agency builder lock-in',
+          'Optional ' + carePlan.name + ' (' + carePlan.price + '/month) and ' + growthPlan.name + ' (' + growthPlan.price + '/month) plans billed separately',
+          'Direct access to your codebase without proprietary builder lock-in',
         ],
       },
       {
-        h2: 'The Starter Foundation (' + starterPrice + '): What It Delivers',
+        h2: 'The Essential Foundation (' + essentialPrice + '): What It Delivers',
         paragraphs: [
-          'Our Starter package at ' +
-            starterPrice +
-            ' is engineered for specialty trade contractors, independent operators, and growing firms seeking an immediate escape from cookie-cutter builder templates. It provides a polished, high-performance foundation built to convert local traffic into phone calls and quote requests.',
-          'Delivered within 10 to 14 business days, the Starter build includes a bespoke three-page architecture (Home, Services, Contact), an inspection intake form, sub-second speed optimization, basic local Google Schema.org markup, a high-resolution project portfolio showcase, and direct domain SSL deployment.',
+          'Our Essential package starting at ' +
+            essentialPrice +
+            ' is engineered for specialty trade contractors, independent operators, and growing local service businesses ready to move beyond cookie-cutter templates. It provides a polished, mobile-first foundation built to convert local traffic into phone calls and qualified inquiries.',
+          'Delivered within ' +
+            essentialTurnaround +
+            ', the Essential build includes a bespoke 3-page architecture (Home, Services, Contact), a mobile-first inquiry and inspection form, performance-focused speed optimization, foundational local SEO and Google Schema markup, a high-resolution project gallery, and domain configuration with SSL deployment.',
         ],
         bullets: [
-          'Turnaround timeline: 10 to 14 business days',
-          'Bespoke 3-page architecture covering core capabilities and quote requests',
-          'Mobile-first project inspection intake forms with instant email notifications',
-          'Sub-second speed optimization built with clean, modern semantic code',
-          'LocalBusiness schema markup to help Google recognize your service categories',
+          'Turnaround timeline: ' + essentialTurnaround,
+          'Bespoke 3-page architecture (Home, Services, Contact)',
+          'Mobile-first inquiry and inspection form',
+          'Performance-focused speed optimization built with clean semantic code',
+          'Foundational local SEO & Google Schema markup',
+          'High-resolution project gallery and domain configuration with SSL deployment',
         ],
       },
       {
-        h2: 'The Professional Flagship (' + proPrice + '): Regional Authority',
+        h2: 'The Professional Flagship (' + proPrice + '): Trade Authority',
         paragraphs: [
-          'Our Professional package at ' +
+          'Our Professional package starting at ' +
             proPrice +
-            ' is our most popular choice for established remodelers, roofing contractors, excavators, and commercial trade businesses aiming to capture premium, high-value projects. When bidding jobs valued from $10,000 to $100,000+, a website must project authority and institutional capability.',
-          'This package includes an expansive 6 to 8 page architecture featuring dedicated service silos and suburban territory hubs. We build custom interactive scope and volume estimators tailored to your trade, implement multi-city local SEO siloing, provide professional copywriting polish, and configure Google Analytics 4 conversion event logging.',
+            ' is our most popular choice for established remodelers, roofing contractors, excavators, and multi-service firms aiming to capture higher-value projects. When bidding jobs valued from $10,000 to $100,000+, a website must project credibility and institutional capability.',
+          'Delivered in ' +
+            proTurnaround +
+            ', this package includes a bespoke 6 to 8 page architecture featuring city hubs and trade specializations, a custom interactive scope and volume estimator, multi-city local SEO architecture, full website copywriting and brand positioning, Google Analytics 4 conversion tracking, automated email and SMS lead notifications, and high-performance CDN infrastructure.',
         ],
         bullets: [
-          'Turnaround timeline: 2 to 3 weeks',
-          'Bespoke 6 to 8 page system with dedicated service-area and trade specializations',
-          'Custom interactive scope or price estimator to engage qualified prospects',
-          'Multi-city geo SEO silo architecture to expand reach into adjacent wealthy suburbs',
-          'End-to-end editorial copywriting that positions your firm as the regional authority',
-          'Comprehensive analytics and conversion tracking for phone calls and estimate requests',
+          'Turnaround timeline: ' + proTurnaround,
+          'Bespoke 6 to 8 page website architecture (city hubs & trade specializations)',
+          'Custom interactive scope & volume estimator tailored to your trade',
+          'Multi-city local SEO architecture to expand reach into adjacent territories',
+          'Full website copywriting, brand positioning, and advanced project galleries',
+          'Google Analytics 4 conversion tracking and automated lead notifications',
         ],
       },
       {
         h2: 'Hidden Costs and Pitfalls to Avoid When Hiring an Agency',
         paragraphs: [
-          'Before signing any website proposal, trade contractors should ask three critical questions to avoid expensive mistakes: Who owns the code? What happens if we cancel? What are the recurring software costs?',
-          'Many agencies build on proprietary website builders where canceling your monthly subscription deletes your entire website. Others rely on dozens of third-party WordPress plugins that require ongoing security patches, paid renewal licenses, and periodic troubleshooting when updates break your forms.',
+          'Before signing any website proposal, trade contractors should ask three critical questions to avoid expensive surprises: Who owns the code? What happens if we pause ongoing services? What third-party fees are separate?',
+          'Some agencies build on proprietary platforms where canceling your monthly subscription takes your entire website offline. Others rely on dozens of third-party plugins that require ongoing renewal licenses and troubleshooting when software updates break your intake forms.',
         ],
         bullets: [
-          'Proprietary website builders that hold your design and domain hostage if you leave',
-          'Heavy WordPress theme and plugin licensing fees totaling hundreds of dollars annually',
+          'Contracts that hold your design, content, or domain hostage if you cancel a monthly plan',
+          'Heavy third-party plugin licensing fees that compound annually',
           'Hidden per-lead surcharges or markup on basic contact form submissions',
           'Agencies that refuse to grant administrative access to your own hosting and analytics accounts',
         ],
@@ -222,40 +248,74 @@ export const BLOG_POSTS: BlogPost[] = [
         h2: 'Calculating ROI: How a Contractor Website Pays for Itself',
         paragraphs: [
           'When evaluating website costs, consider your average project margin. For a roofer, a single residential replacement might yield $8,000 to $18,000 in revenue. For an excavation or commercial remodeling contractor, a single bid can easily exceed $40,000.',
-          'A professionally engineered website costing ' +
-            starterPrice +
+          'A professionally engineered website starting at ' +
+            essentialPrice +
             ' or ' +
             proPrice +
-            ' that secures just one or two additional high-margin contracts has paid for itself multiple times over. By presenting your company with architectural rigor, eliminating bidding friction, and ranking in local search, your website becomes your most reliable revenue producer.',
+            ' that helps capture just one or two additional high-margin contracts has paid for itself multiple times over. By presenting your company clearly, eliminating inquiry friction, and supporting local search visibility, your website becomes a durable business asset.',
         ],
         bullets: [
           'High-ticket trade contracts provide rapid break-even within the first few client bids',
-          'Higher perceived professionalism allows your firm to justify premium project pricing',
-          'Automated intake qualifying questions weed out tire-kickers and protect estimator time',
-          'Permanent code ownership provides an enduring asset that produces leads for years',
+          'Higher perceived professionalism supports stronger pricing power on estimates',
+          'Structured inquiry forms gather scope details up front and save estimator hours',
+          '100% code ownership gives you an enduring digital asset you fully control',
         ],
       },
     ],
     faqs: [
       {
         q: 'How much should a local contractor spend on a new website?',
-        a: 'Most independent and regional contractors achieve excellent returns investing between ' +
-          starterPrice +
+        a: 'Most independent and regional contractors see strong value investing between ' +
+          essentialPrice +
           ' and ' +
           proPrice +
-          ' for a custom, high-speed website with full code ownership and local SEO optimization.',
+          ' for a custom, mobile-first website with 100% code ownership and local SEO structure.',
       },
       {
         q: 'Are there ongoing monthly fees with your contractor websites?',
-        a: 'No. Our packages are fixed-price milestones with 100% code ownership. We deploy on high-performance cloud edge hosting with near-zero ongoing server costs and no mandatory monthly retainers.',
+        a: 'No. Website projects are one-time fees with no mandatory monthly retainer, and you keep 100% ownership of your code. Optional ' +
+          carePlan.name +
+          ' (' +
+          carePlan.price +
+          ' ' +
+          carePlan.priceSuffix +
+          ') and ' +
+          growthPlan.name +
+          ' (' +
+          growthPlan.price +
+          ' ' +
+          growthPlan.priceSuffix +
+          ') plans are billed separately if you want ongoing support.',
+      },
+      {
+        q: 'What is included in your optional monthly plans?',
+        a: 'We offer two optional plans billed monthly in advance under a separate scope: ' +
+          carePlan.name +
+          ' (' +
+          carePlan.price +
+          ' ' +
+          carePlan.priceSuffix +
+          ') includes hosting management, SSL and security monitoring, regular backups, uptime monitoring, technical maintenance, minor content updates, basic technical SEO maintenance, and a monthly health report. ' +
+          growthPlan.name +
+          ' (' +
+          growthPlan.price +
+          ' ' +
+          growthPlan.priceSuffix +
+          ') includes everything in ' +
+          carePlan.name +
+          ' plus monthly SEO optimization, local keyword research, Search Console and Google Business Profile optimization, on-page and content updates, conversion analysis, and a monthly report.',
       },
       {
         q: 'Why not just build a website myself on a generic site builder?',
-        a: 'Generic DIY builders frequently suffer from poor mobile loading speeds, rigid templates, and weak local SEO schema. When bidding five-figure jobs, a custom-built website establishes the credibility needed to win bids.',
+        a: 'Generic DIY builders frequently suffer from sluggish mobile loading, rigid templates, and weak local SEO schema. When bidding five-figure jobs, a custom-built website establishes the credibility needed to win bids.',
       },
       {
         q: 'How long does it take to launch a contractor website?',
-        a: 'Our Starter package launches in 10 to 14 business days, while our Professional package is delivered in 2 to 3 weeks upon receipt of project details and photography.',
+        a: 'Our Essential package launches in ' +
+          essentialTurnaround +
+          ', while our Professional package is delivered in ' +
+          proTurnaround +
+          ' upon receipt of project details and photography.',
       },
     ],
     relatedLinks: [
@@ -321,12 +381,12 @@ export const BLOG_POSTS: BlogPost[] = [
         h2: 'Technical Site Speed, Core Web Vitals, and Local Schema Markup',
         paragraphs: [
           'Your website and your Google Business Profile operate as an interconnected ecosystem. Google crawls your website to verify the operational details, address, telephone numbers, and service categories listed on your profile.',
-          'Ensure your website achieves sub-second load times on mobile devices and includes structured JSON-LD LocalBusiness schema markup. This machine-readable metadata communicates your exact geo-coordinates, telephone number, business hours, and accepted payment methods directly to search engine bots, reinforcing your local relevance.',
+          'Ensure your website delivers fast, reliable load times on mobile devices and includes structured JSON-LD LocalBusiness schema markup. This machine-readable metadata communicates your exact geo-coordinates, telephone number, business hours, and accepted payment methods directly to search engine bots, reinforcing your local relevance.',
         ],
         bullets: [
           'Implement comprehensive Schema.org LocalBusiness and Service JSON-LD markup',
           'Maintain absolute consistency in Name, Address, and Phone (NAP) across all web properties',
-          'Optimize image assets and scripts to pass Google Core Web Vitals with sub-second speeds',
+          'Optimize image assets and scripts to support strong Google Core Web Vitals and fast speeds',
           'Use clear semantic header tags (H1, H2, H3) structuring your service and geographic focus',
         ],
       },

@@ -3,8 +3,10 @@ import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTe
 import { SERVICE_PACKAGES } from '../data/packages';
 
 export const ContractorPage: React.FC = () => {
-  const starterPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
+  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
+  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
+  const proTime = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.turnaround || '2 to 3 Weeks';
 
   const sections: ServiceSection[] = [
     {
@@ -15,7 +17,7 @@ export const ContractorPage: React.FC = () => {
       ],
       bullets: [
         'Architectural typography and generous negative space',
-        'Sub-second page loading speeds across cellular networks',
+        'Fast page loading speeds across mobile cellular networks',
         'Structured project galleries detailing material specifications',
         'Built-in scope qualification forms that weed out tire-kickers',
       ],
@@ -69,7 +71,7 @@ export const ContractorPage: React.FC = () => {
       bullets: [
         'General Contractors: Portfolio showcases, architect tender channels, and milestone contract funnels',
         'Excavation Contractors: Civil site prep bid forms, plan uploads, and equipment tonnage highlights',
-        'Electrical Contractors: 24/7 emergency dispatch bars, commercial MEP RFP tools, and licensing badges',
+        'Electrical Contractors: Emergency dispatch bars, commercial MEP RFP tools, and licensing badges',
       ],
     },
   ];
@@ -77,11 +79,11 @@ export const ContractorPage: React.FC = () => {
   const faqs = [
     {
       q: 'How much does custom contractor website design cost?',
-      a: `Our contractor website platforms feature transparent, milestone-based pricing with zero hidden agency retainers. The Starter package begins at ${starterPrice} for an essential 3-page custom digital foundation, while our comprehensive Professional package is ${proPrice} and includes multi-county SEO siloing, custom intake tools, and comprehensive copywriting polish. You can review all deliverables on our packages page.`,
+      a: `Our contractor website platforms are one-time project fees with no mandatory monthly retainer (optional monthly care and SEO plans are available separately). The Essential package starts at ${essentialPrice} for a bespoke 3-page custom digital foundation, while our Professional package starts at ${proPrice} and includes multi-city SEO architecture, custom scope estimators, and full website copywriting. You can review all deliverables on our packages page.`,
     },
     {
       q: 'How long does the website build process take from start to launch?',
-      a: 'A standard Starter platform deploys in 10 to 14 business days. The comprehensive Professional system typically takes 2 to 3 weeks, which includes architectural design, scope funnel calibration, content positioning, and complete mobile device performance testing.',
+      a: `Our Essential platform deploys in ${essentialTime.toLowerCase()}. The Professional system typically takes ${proTime.toLowerCase()}, which includes architectural design, scope funnel calibration, content positioning, and mobile device performance testing.`,
     },
     {
       q: 'Do you design websites for trade contractors outside of roofing and general building?',
@@ -93,7 +95,7 @@ export const ContractorPage: React.FC = () => {
     },
     {
       q: 'Will our new website integrate with our existing contractor CRM or estimating software?',
-      a: 'Yes. Our intake forms connect seamlessly with standard contractor workflows, CRM software, and dispatch pipelines such as Jobber, ServiceTitan, Housecall Pro, and standard webhook endpoints.',
+      a: 'Yes. Website inquiry forms can connect with compatible CRM platforms via standard webhooks or through our optional CRM Integration & Lead Routing enhancement scoped per project.',
     },
     {
       q: 'Will our contractor website be cited in Google AI Overviews and ChatGPT search?',

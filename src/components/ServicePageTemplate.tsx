@@ -100,8 +100,8 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
       icon: Smartphone,
     },
     {
-      title: 'Sub-Second Fast Loading',
-      desc: 'Lightweight static assets, modern image formats, and zero bloated plugins to ensure instantaneous load speeds on cellular connections.',
+      title: 'Fast Mobile Loading',
+      desc: 'Lightweight static assets, modern image formats, and clean code engineered for fast load times on cellular connections.',
       icon: Zap,
     },
   ];

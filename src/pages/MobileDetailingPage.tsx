@@ -3,9 +3,9 @@ import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTe
 import { SERVICE_PACKAGES } from '../data/packages';
 
 export const MobileDetailingPage: React.FC = () => {
-  const starterPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
+  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
-  const starterTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '10 to 14 Business Days';
+  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
   const proTime = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.turnaround || '2 to 3 Weeks';
 
   const sections: ServiceSection[] = [
@@ -13,13 +13,13 @@ export const MobileDetailingPage: React.FC = () => {
       h2: 'Seamless Five-Step Online Booking Built Directly for Mobile Vans',
       paragraphs: [
         'Mobile car detailing is a fast-paced, high-convenience service. Vehicle owners searching for a detailer while at work or at home do not want to endure three rounds of phone tag just to check whether an operator has an opening on Friday morning. If your mobile car detailing website forces customers to dial a phone number for basic availability, many will bounce to local franchise competitors.',
-        'We engineer multi-step self-service booking funnels optimized for mobile touchscreens. Customers easily select their vehicle classification (coupe, sedan, compact SUV, full-size truck, minivan), choose their desired service tier, select high-margin add-ons like pet hair removal or ozone treatment, verify their location, and book a confirmed arrival window in under two minutes.',
+        'We engineer multi-step self-service booking funnels optimized for mobile touchscreens. Customers easily select their vehicle classification (coupe, sedan, compact SUV, full-size truck, minivan), choose their desired service tier, select high-margin add-ons like pet hair removal or ozone treatment, verify their location, and submit a confirmed booking request in under two minutes.',
       ],
       bullets: [
-        'Vehicle size and class selector adjusting pricing tiers automatically',
+        'Vehicle size and class selector adjusting pricing tiers using your client-approved rules',
         'Intuitive package selector with customizable add-on services (engine bay, pet hair, ceramic spray)',
         'Convenient arrival window selection synchronized with your daily mobile van routes',
-        'Optional integration with booking software like Urable, Fieldd, Jobber, or Square',
+        'Optional integration with compatible mobile detailing booking platforms (scoped separately per project)',
       ],
     },
     {
@@ -70,8 +70,8 @@ export const MobileDetailingPage: React.FC = () => {
       bullets: [
         'Sticky mobile footer bar with instant click-to-call and text-to-book triggers',
         'Pre-populated SMS text templates enabling quick one-tap customer inquiries',
-        'Prominent business operating hours and mobile dispatch response time guarantees',
-        'Lightweight clean code delivering sub-second load times on 4G and 5G cellular signals',
+        'Prominent business operating hours and clear booking response expectations',
+        'Lightweight clean code delivering fast load times on mobile connections',
       ],
     },
     {
@@ -92,11 +92,11 @@ export const MobileDetailingPage: React.FC = () => {
   const faqs = [
     {
       q: 'How much does a custom mobile detailing website design cost?',
-      a: `Our mobile car detailing website packages are transparent and milestone-based. Our Starter package is ${starterPrice} (delivered in ${starterTime}), and our comprehensive Professional package featuring multi-service package tables, custom booking funnels, and local SEO is ${proPrice} (delivered in ${proTime}). Full pricing details can be explored on our packages page.`,
+      a: `Our mobile car detailing website packages are transparent one-time project fees with no mandatory monthly retainer. Our Essential package starts at ${essentialPrice} (delivered in ${essentialTime}), and our Professional package featuring multi-service package tables, custom booking funnels, and local SEO starts at ${proPrice} (delivered in ${proTime}). Full pricing details and optional monthly plans can be explored on our packages page.`,
     },
     {
-      q: 'Can the detailing website take customer online bookings and deposits?',
-      a: 'Yes. We can integrate self-service booking modules and secure deposit payment gateways like Stripe or Square, or connect directly with specialized detailing booking platforms like Urable, Fieldd, or Jobber.',
+      q: 'Can the detailing website link to our existing booking or scheduling platform?',
+      a: 'Yes. We can link directly to your external booking or scheduling checkout pages, and custom CRM or booking integrations can be scoped and quoted per project.',
     },
     {
       q: 'Should mobile detailers display exact package prices on their website?',

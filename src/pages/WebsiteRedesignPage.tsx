@@ -3,8 +3,9 @@ import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTe
 import { SERVICE_PACKAGES } from '../data/packages';
 
 export const WebsiteRedesignPage: React.FC = () => {
-  const starterPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
+  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
+  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
 
   const sections: ServiceSection[] = [
     {
@@ -37,13 +38,13 @@ export const WebsiteRedesignPage: React.FC = () => {
       h2: 'Speed Optimization and Perfect Core Web Vitals',
       paragraphs: [
         'Outdated WordPress themes, unoptimized plugins, and heavy video backgrounds drag load times down to five, eight, or even ten seconds on cellular connections. Mobile homeowners looking for urgent emergency repairs or quick hauling quotes will not wait.',
-        'We rebuild your website using lightweight, static-optimized code free from bulky CMS dependencies and fragile third-party plugins. By delivering modern image formats, streamlined CSS, and instantaneous asset delivery, every redesigned page achieves sub-second load times and passing scores across Google Core Web Vitals.',
+        'We rebuild your website using lightweight, static-optimized code free from bulky CMS dependencies and fragile third-party plugins. By delivering modern image formats and streamlined CSS, every redesigned page is engineered for fast load times and strong Google Core Web Vitals.',
       ],
       bullets: [
-        'Sub-second first contentful paint on mobile 4G and 5G cellular networks',
-        'Elimination of vulnerable third-party plugins, databases, and bloated page builders',
+        'Fast first contentful paint on mobile 4G and 5G cellular networks',
+        'Elimination of fragile third-party plugins, heavy databases, and bloated page builders',
         'Next-generation WebP and AVIF image compression with responsive srcset delivery',
-        'Zero layout shifts, delivering a stable and smooth browsing experience on touchscreens',
+        'Stable, smooth layout rendering on mobile touchscreens',
       ],
     },
     {
@@ -62,14 +63,14 @@ export const WebsiteRedesignPage: React.FC = () => {
     {
       h2: 'Reliable Hosting, Ongoing Maintenance, and 100% Code Ownership',
       paragraphs: [
-        'Many agency redesigns lock contractors into restrictive proprietary website builders with ongoing monthly platform ransom fees, where you lose your entire site the moment you cancel. We reject that business model entirely.',
-        'With Aurevane Digital, you retain 100% ownership of your website source code, visual assets, and content. We deploy your site on global cloud infrastructure that eliminates traditional database security vulnerabilities and server downtime, and we provide transparent ongoing maintenance whenever you want to add new service lines.',
+        'Many agency redesigns lock contractors into restrictive proprietary website builders with mandatory ongoing platform fees, where you lose your entire site the moment you cancel. We reject that business model entirely.',
+        'With Aurevane Digital, you retain 100% ownership of your website source code, visual assets, and content. We deploy your site on fast, reliable hosting with SSL, and optional ongoing technical care is available separately through our Website Care plan on our packages page whenever you want routine maintenance and updates.',
       ],
       bullets: [
-        'Full ownership of all custom code, assets, and project files with zero vendor lock-in',
-        'High-availability global edge hosting with automatic SSL certificates and 99.9% uptime',
-        'Protection against database hacks, theme vulnerabilities, and malware injections',
-        'Hassle-free routine updates for new service offerings, project galleries, and territory expansions',
+        'Full ownership of all custom code, assets, and project files with no vendor lock-in',
+        'Fast, reliable global edge hosting with automatic SSL certificates',
+        'Clean static frontend architecture that avoids unnecessary database or plugin overhead',
+        'Optional ongoing care and content updates available through our Website Care plan on the packages page',
       ],
     },
   ];
@@ -77,11 +78,11 @@ export const WebsiteRedesignPage: React.FC = () => {
   const faqs = [
     {
       q: 'Will redesigning our service website cause us to lose our Google rankings?',
-      a: 'Not with our migration protocol. We inventory every existing indexed page, preserve high-ranking URL paths, configure comprehensive 301 redirects, and maintain on-page keyword relevance. In most cases, the drastic improvement in mobile speed and structured schema helps rankings improve after launch.',
+      a: 'We take concrete steps to protect your search equity. We inventory every existing indexed page, preserve high-ranking URL paths, configure comprehensive 301 redirects, and maintain on-page keyword relevance alongside improved mobile speed and structured schema.',
     },
     {
       q: 'How much does a complete website redesign cost?',
-      a: `Our website redesign packages are completely transparent. Our Starter package begins at ${starterPrice} for essential high-converting local service sites, while our Professional package at ${proPrice} includes multi-page service territory silos and advanced SEO architecture. You can compare full package details on our packages page.`,
+      a: `Our website redesign packages are one-time project fees with no mandatory monthly retainer. Our Essential package starts at ${essentialPrice} (delivered in ${essentialTime}) for essential high-converting local service sites, while our Professional package starts at ${proPrice} and includes multi-city SEO architecture and full website copywriting. Optional monthly care and SEO plans are available separately on our packages page.`,
     },
     {
       q: 'How long does a typical contractor website redesign take?',

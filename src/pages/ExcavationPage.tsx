@@ -3,9 +3,9 @@ import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTe
 import { SERVICE_PACKAGES } from '../data/packages';
 
 export const ExcavationPage: React.FC = () => {
-  const starterPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
+  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
-  const starterTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '10 to 14 Business Days';
+  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
   const proTime = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.turnaround || '2 to 3 Weeks';
 
   const sections: ServiceSection[] = [
@@ -62,13 +62,13 @@ export const ExcavationPage: React.FC = () => {
       ],
     },
     {
-      h2: 'Sub-Second Speed on Remote Job-Site Mobile Connections',
+      h2: 'Fast Speed on Remote Job-Site Mobile Connections',
       paragraphs: [
         'Site superintendents, project managers, and utility foreman frequently search for emergency trenching or subgrade repair while standing in muddy work boots on an active parcel with poor cellular reception. If an excavation contractor website design takes seven seconds to load heavy video backgrounds, superintendents immediately tap back to search results.',
-        'We build ultra-fast, lightweight websites that load in less than one second, even on remote cellular connections. Persistent, high-contrast click-to-call buttons ensure that general contractors can reach your operations team with a single tap from any field device.',
+        'We build lightweight websites engineered for fast load times, even on remote cellular connections. Persistent, high-contrast click-to-call buttons ensure that general contractors can reach your operations team with a single tap from any field device.',
       ],
       bullets: [
-        'Lightweight semantic code loading in less than one second on mobile networks',
+        'Lightweight semantic code built for fast loading on mobile networks',
         'Persistent sticky mobile contact bar featuring immediate click-to-call dialing',
         'Zero bloated WordPress plugins or heavy external page-builder dependencies',
         'Optimized WebP image delivery that preserves crisp detail while saving mobile data',
@@ -92,7 +92,7 @@ export const ExcavationPage: React.FC = () => {
   const faqs = [
     {
       q: 'How much does a custom excavation website design cost?',
-      a: `Our excavation contractor website design packages are fully transparent. Our Starter package is priced at ${starterPrice} (delivered in ${starterTime}), and our flagship Professional package with multi-page service-area siloing and custom quote tools is priced at ${proPrice} (delivered in ${proTime}). You can review all deliverables on our packages page.`,
+      a: `Our excavation contractor website design packages are one-time project fees with no mandatory monthly retainer. Our Essential package starts at ${essentialPrice} (delivered in ${essentialTime}), and our flagship Professional package with multi-city SEO architecture and a custom scope estimator starts at ${proPrice} (delivered in ${proTime}). Optional monthly care and SEO plans are available separately on our packages page.`,
     },
     {
       q: 'Which pages should an excavation contractor website include?',

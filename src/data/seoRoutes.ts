@@ -43,10 +43,10 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     path: '/packages',
     title: 'Service Packages & Transparent Pricing | Aurevane Digital',
     description:
-      'Transparent contractor website design packages and pricing. Starter ($1,000), Professional ($1,500), and Custom solutions for trade contractors.',
-    h1: 'Contractor Website Packages. Zero Hidden Fees.',
+      'Contractor website packages: Essential from $1,000, Professional from $1,500, custom Enterprise builds, plus optional monthly care and SEO plans.',
+    h1: 'Contractor Website Packages and Pricing',
     intro:
-      'Clear, turnkey digital platforms with locked-in milestone pricing, zero bloated retainers, and 100% code ownership.',
+      'One-time website project pricing for contractors and local service businesses, with optional enhancements and optional monthly care and SEO plans billed separately.',
     links: [
       { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },

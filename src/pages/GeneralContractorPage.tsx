@@ -3,9 +3,9 @@ import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTe
 import { SERVICE_PACKAGES } from '../data/packages';
 
 export const GeneralContractorPage: React.FC = () => {
-  const starterPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
+  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
-  const starterTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '10 to 14 Business Days';
+  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
   const proTime = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.turnaround || '2 to 3 Weeks';
 
   const sections: ServiceSection[] = [
@@ -78,11 +78,11 @@ export const GeneralContractorPage: React.FC = () => {
       h2: 'Authentic Customer Reviews, CRM Integration, and Call Tracking',
       paragraphs: [
         'Reputation is the lifeblood of general contracting. Our digital platforms synchronize authentic reviews directly from verified platforms, allowing potential clients to read unvarnished feedback from real community homeowners and commercial clients.',
-        'Furthermore, your GC lead generation website connects seamlessly with leading construction CRMs and project management tools such as BuilderTrend, CoConstruct, Procore, or Jobber. Dynamic call tracking ensures your team measures exactly which marketing channels, project categories, and geographic territories produce your most profitable building contracts.',
+        'Furthermore, your GC lead generation website can connect with compatible construction CRM workflows through our optional CRM Integration & Lead Routing enhancement scoped per project. Dynamic call tracking ensures your team measures which marketing channels, project categories, and geographic territories produce your most profitable building contracts.',
       ],
       bullets: [
         'Direct feed of authentic customer testimonials synchronized with Google Business Profile',
-        'Automated webhook pipelines feeding project inquiries directly into your construction CRM',
+        'Optional webhook and CRM lead routing pipelines (scoped separately per project)',
         'Dynamic call tracking to evaluate marketing source attribution across phone leads',
         'Google Analytics 4 event logging measuring form submissions, blueprint uploads, and calls',
       ],
@@ -92,7 +92,7 @@ export const GeneralContractorPage: React.FC = () => {
   const faqs = [
     {
       q: 'How much does a general contractor website design cost?',
-      a: `Our general contractor website design packages feature transparent, milestone-based pricing. Our Starter package begins at ${starterPrice} (delivered in ${starterTime}), and our comprehensive Professional package with multi-page project case studies, custom budget qualifying forms, and local SEO is ${proPrice} (delivered in ${proTime}). Full package details are available on our packages page.`,
+      a: `Our general contractor website design packages feature one-time project pricing with no mandatory monthly retainer. Our Essential package starts at ${essentialPrice} (delivered in ${essentialTime}), and our Professional package with multi-page project case studies, custom scope estimators, and local SEO starts at ${proPrice} (delivered in ${proTime}). Full details—including optional monthly plans—are available on our packages page.`,
     },
     {
       q: 'What should a general contractor website include to win more bids?',
@@ -108,7 +108,7 @@ export const GeneralContractorPage: React.FC = () => {
     },
     {
       q: 'Can website leads route automatically into our construction CRM?',
-      a: 'Yes. Our intake forms connect with leading construction and contractor management software, including BuilderTrend, CoConstruct, Jobber, and custom webhooks, ensuring new project inquiries immediately notify your project managers.',
+      a: 'Yes. Through our optional CRM Integration & Lead Routing enhancement (scoped per project), inquiry forms can connect with compatible construction management platforms so new project inquiries immediately notify your project managers.',
     },
     {
       q: 'Will my website show up in ChatGPT, Perplexity or Google AI Overviews?',
