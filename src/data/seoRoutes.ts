@@ -28,7 +28,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/our-work',
-    title: 'Our Work — Cinematic Portfolio | Aurevane Digital',
+    title: 'Contractor Website Portfolio | Aurevane Digital',
     description:
       'Explore five concept website designs for roofing, junk removal, excavation, electrical, and structural steel firms.',
     h1: 'Contractor Websites Built for High-Ticket Bids.',
@@ -54,7 +54,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/about',
-    title: 'About Our Studio | Aurevane Digital',
+    title: 'About Our Website Design Studio | Aurevane Digital',
     description:
       'Learn about Aurevane Digital\'s architectural approach and design philosophy crafting bespoke websites for high-ticket trade contractors.',
     h1: 'Architectural Rigor for the Modern Trades.',
