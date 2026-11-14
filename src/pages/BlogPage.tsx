@@ -41,7 +41,7 @@ export const BlogPage: React.FC = () => {
       {/* ARTICLES LISTING */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {BLOG_POSTS.map((post) => (
               <article
                 key={post.slug}
@@ -49,14 +49,14 @@ export const BlogPage: React.FC = () => {
               >
                 <div>
                   {/* Meta Tags */}
-                  <div className="flex items-center gap-4 text-[10px] uppercase tracking-wider text-[#827C75] mb-4">
+                  <div className="flex items-center gap-4 text-[10px] uppercase tracking-wider text-[#59544E] mb-4">
                     <span className="flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-[#B89255]" />
+                      <Calendar className="w-3.5 h-3.5 text-[#9E5249]" aria-hidden="true" />
                       <span>{post.datePublished}</span>
                     </span>
-                    <span className="w-1 h-1 rounded-full bg-[#D9D0C3]" />
+                    <span className="w-1 h-1 rounded-full bg-[#D9D0C3]" aria-hidden="true" />
                     <span className="flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-[#B89255]" />
+                      <Clock className="w-3.5 h-3.5 text-[#9E5249]" aria-hidden="true" />
                       <span>{post.readingTime}</span>
                     </span>
                   </div>
@@ -83,7 +83,7 @@ export const BlogPage: React.FC = () => {
                     <span>Read Full Guide</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                  <BookOpen className="w-4 h-4 text-[#827C75]/60" />
+                  <BookOpen aria-hidden="true" className="w-4 h-4 text-[#59544E]" />
                 </div>
               </article>
             ))}
@@ -106,13 +106,13 @@ export const BlogPage: React.FC = () => {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to="/packages"
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B89255]"
             >
               View Service Packages
             </Link>
             <Link
               to="/contact"
-              className="w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B89255]"
             >
               Get a Free Website Quote
             </Link>

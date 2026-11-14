@@ -336,7 +336,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     <section
       id="work"
       ref={containerRef}
-      className="relative w-full h-[460vh] bg-[#FAF5EE]"
+      className="relative w-full h-[460vh] bg-[#0A0A0A]"
     >
       {/* 
         STICKY FULL-SCREEN VIEWPORT:
@@ -347,42 +347,47 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between z-20 pointer-events-none select-none">
         
         {/* SUBTLE HORIZONTAL PROGRESS LINE (Advances precisely as visitor scrolls) */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#D9D0C3]/30 z-30 pointer-events-none">
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-white/10 z-30 pointer-events-none">
           <div
-            className="h-full bg-[#9E5249] transition-all duration-75 ease-out"
+            className="h-full bg-[var(--accent)] transition-all duration-75 ease-out"
             style={{ width: `${Math.round(scrollProgress * 100)}%` }}
           />
         </div>
 
+        {/* PROTECTIVE TOP CONTRAST SCRIM FOR TEXT OVER CANVAS FRAMES */}
+        <div
+          className="pointer-events-none absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#0A0A0A]/85 via-[#0A0A0A]/45 to-transparent z-20"
+          aria-hidden="true"
+        />
+
+        {/* PROTECTIVE BOTTOM CONTRAST SCRIM FOR TEXT OVER CANVAS FRAMES */}
+        <div
+          className="pointer-events-none absolute bottom-0 inset-x-0 h-56 bg-gradient-to-t from-[#0A0A0A]/90 via-[#0A0A0A]/55 to-transparent z-20"
+          aria-hidden="true"
+        />
+
         {/* TOP STATUS BAR: Subtle Archive Header & Minimal Project Indicator */}
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-14 pt-8 sm:pt-10 flex items-center justify-between z-30 pointer-events-auto">
-          {/* Section Heading */}
+        <div className="w-full max-w-[1280px] mx-auto px-6 pt-8 sm:pt-10 flex items-center justify-between z-30 pointer-events-auto">
           <div className="flex items-center gap-2">
-            <h2 className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#827C75]">
+            <h2 className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.28em] text-[#FAFAFA]/80">
               Selected Work / Contractor Website Design Portfolio
             </h2>
           </div>
 
-          {/* Minimal Project Progress Number: 01 / 05, 02 / 05, etc. */}
           <div className="flex items-center gap-3">
-            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-mono text-[#59544E]">
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-mono text-[#FAFAFA]/65">
               Project
             </span>
-            <div className="font-mono text-sm sm:text-base tracking-widest text-[#141210] flex items-baseline gap-1">
-              <span className="text-[#9E5249] font-bold">{activeProject.number}</span>
-              <span className="text-[#827C75] text-xs">/</span>
-              <span className="text-xs text-[#59544E]">05</span>
+            <div className="font-mono text-sm sm:text-base tracking-widest text-[#FAFAFA] flex items-baseline gap-1 tabular-nums">
+              <span className="text-[var(--accent)] font-bold">{activeProject.number}</span>
+              <span className="text-white/40 text-xs">/</span>
+              <span className="text-xs text-[#FAFAFA]/65">05</span>
             </div>
           </div>
         </div>
 
-        {/* 
-          FULL BLEED FRAME ANIMATION VIEWPORT:
-          Uses object-cover to completely fill the side sections and viewport edge-to-edge,
-          ensuring zero empty margins on any screen width.
-        */}
+        {/* FULL BLEED FRAME ANIMATION VIEWPORT */}
         <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none select-none z-10 overflow-hidden">
-          {/* High-Performance Canvas */}
           <canvas
             ref={canvasRef}
             role="img"
@@ -393,7 +398,6 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
             }}
           />
 
-          {/* Initial buffer fallback */}
           {!isImagesLoaded && (
             <img
               src={getFrameUrl(currentFrame)}
@@ -406,15 +410,9 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
           )}
         </div>
 
-        {/* 
-          BOTTOM SECTION: SYNCHRONIZED HTML TEXT OVERLAYS
-          Each project title and category fades in when its website appears
-          and fades out when the next begins.
-        */}
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-14 pb-8 sm:pb-12 z-30 pointer-events-auto">
-          <div className="relative min-h-[90px] sm:min-h-[110px] md:min-h-[125px] flex items-end justify-between gap-6">
-            
-            {/* Absolute Stacking for Seamless Cross-Fade */}
+        {/* BOTTOM SECTION: SYNCHRONIZED HTML TEXT OVERLAYS */}
+        <div className="w-full max-w-[1280px] mx-auto px-6 pb-8 sm:pb-12 z-30 pointer-events-auto">
+          <div className="relative min-h-[100px] sm:min-h-[120px] flex items-end justify-between gap-6">
             <div className="relative flex-1 h-full">
               {WORK_PROJECT_FRAMES.map((project, idx) => {
                 const opacity = getProjectOpacity(idx, currentFrame);
@@ -426,19 +424,17 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
                     className="absolute bottom-0 left-0 w-full transition-opacity duration-150 ease-out select-none"
                     style={{ opacity }}
                   >
-                    <div className="mb-1 sm:mb-2">
-                      <span className="inline-block text-[9px] sm:text-[10px] uppercase tracking-widest font-semibold px-2 py-0.5 rounded-xs bg-[#FAF6F0] text-[#9E5249] border border-[#D9D0C3]">
+                    <div className="mb-1.5 sm:mb-2">
+                      <span className="inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--accent)]">
                         Concept Project
                       </span>
                     </div>
 
-                    {/* Project Title H3 */}
-                    <h3 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[#141210] font-normal tracking-tight uppercase leading-none">
+                    <h3 className="text-2xl sm:text-4xl md:text-5xl text-[#FAFAFA] font-semibold tracking-tight uppercase leading-none">
                       {project.displayTitle}
                     </h3>
-                    
-                    {/* Project Category */}
-                    <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm md:text-base text-[#59544E] font-sans font-light tracking-wider uppercase">
+
+                    <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm md:text-base text-[rgba(250,250,250,0.75)] tracking-wider uppercase font-mono">
                       {project.category}
                     </p>
                   </div>
@@ -446,15 +442,14 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
               })}
             </div>
 
-            {/* Action Trigger: Inspect Case Study */}
             <div className="shrink-0 mb-1 hidden sm:block">
               <button
                 onClick={() => handleOpenCaseStudy()}
                 aria-label={`Inspect ${activeProject.displayTitle} case study blueprint`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#141210] text-[#FAF6F0] text-[11px] font-semibold uppercase tracking-[0.18em] rounded-sm hover:bg-[#34302D] transition-colors cursor-pointer group shadow-xs"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent)] text-[#0A0A0A] text-xs font-semibold rounded-[16px] hover:brightness-105 transition-all cursor-pointer group"
               >
                 <span>Inspect Case Study</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>

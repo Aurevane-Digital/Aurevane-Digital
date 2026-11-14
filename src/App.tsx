@@ -18,6 +18,10 @@ import { ExcavationPage } from './pages/ExcavationPage';
 import { ElectricalPage } from './pages/ElectricalPage';
 import { GeneralContractorPage } from './pages/GeneralContractorPage';
 import { MobileDetailingPage } from './pages/MobileDetailingPage';
+import { RoofingPage } from './pages/RoofingPage';
+import { FenceInstallationPage } from './pages/FenceInstallationPage';
+import { LandscapingPage } from './pages/LandscapingPage';
+import { PlumbingHvacPage } from './pages/PlumbingHvacPage';
 import { BlogPage } from './pages/BlogPage';
 import { PostPage } from './pages/PostPage';
 import { CaseStudy, ServicePackage, AuditReportData } from './types';
@@ -121,6 +125,10 @@ export default function App() {
             <Route path="/electrical-contractor-website-design" element={<ElectricalPage />} />
             <Route path="/general-contractor-website-design" element={<GeneralContractorPage />} />
             <Route path="/mobile-detailing-website-design" element={<MobileDetailingPage />} />
+            <Route path="/roofing-website-design" element={<RoofingPage />} />
+            <Route path="/fence-installation-website-design" element={<FenceInstallationPage />} />
+            <Route path="/landscaping-website-design" element={<LandscapingPage />} />
+            <Route path="/plumbing-hvac-website-design" element={<PlumbingHvacPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<PostPage />} />
             <Route path="*" element={<NotFoundPage />} />

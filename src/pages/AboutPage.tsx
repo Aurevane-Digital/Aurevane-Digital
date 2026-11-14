@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Compass, Sparkles, Zap, Gauge, Building2, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { getSeo } from '../data/seoRoutes';
+import { buildPageServiceSchema } from '../utils/schema';
 import { SERVICE_PACKAGES, MONTHLY_RETAINERS } from '../data/packages';
 
 export const AboutPage: React.FC = () => {
   const s = getSeo('/about');
+  const jsonLd = useMemo(
+    () =>
+      buildPageServiceSchema({
+        path: '/about',
+        name: 'Aurevane Digital Contractor Web Design Studio',
+        description: s.description,
+        serviceType: ['Contractor Website Design', 'Local SEO Architecture'],
+      }),
+    [s.description]
+  );
   const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
   const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
   const carePlan = MONTHLY_RETAINERS.find((r) => r.id === 'website-care') || MONTHLY_RETAINERS[0];
@@ -46,7 +57,7 @@ export const AboutPage: React.FC = () => {
 
   return (
     <>
-      <SEO title={s.title} description={s.description} canonicalPath="/about" />
+      <SEO title={s.title} description={s.description} canonicalPath="/about" jsonLd={jsonLd} />
 
       {/* HERO MASTHEAD */}
       <section className="w-full pt-32 pb-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">

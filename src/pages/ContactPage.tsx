@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Mail, Instagram, CheckCircle2, ArrowRight, Loader2, Sparkles } from 'lucide-react';
 import { submitToWeb3Forms } from '../services/formService';
 import { WebsiteCheckForm } from '../components/WebsiteCheckForm';
 import { SEO } from '../components/SEO';
 import { getSeo } from '../data/seoRoutes';
+import { buildPageServiceSchema } from '../utils/schema';
 import { AuditReportData } from '../types';
 
 interface ContactPageProps {
@@ -12,6 +13,16 @@ interface ContactPageProps {
 
 export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) => {
   const s = getSeo('/contact');
+  const jsonLd = useMemo(
+    () =>
+      buildPageServiceSchema({
+        path: '/contact',
+        name: 'Contractor Website Design Consultation & Audit',
+        description: s.description,
+        serviceType: ['Contractor Website Design', 'Website Diagnostic Audit'],
+      }),
+    [s.description]
+  );
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -51,7 +62,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
 
   return (
     <>
-      <SEO title={s.title} description={s.description} canonicalPath="/contact" />
+      <SEO title={s.title} description={s.description} canonicalPath="/contact" jsonLd={jsonLd} />
 
       {/* HEADER MASTHEAD */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">

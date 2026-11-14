@@ -1,163 +1,197 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Hls from 'hls.js';
 import { ArrowRight } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { HERO_POSTER_IMAGE } from '../data/homeMedia';
 
 interface HeroProps {
-  onExploreWork: () => void;
-  onRequestAudit: () => void;
+  hlsStreamUrl?: string;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onExploreWork, onRequestAudit }) => {
-  const [scrollY, setScrollY] = useState(0);
-  const currentScrollRef = useRef(0);
+export const Hero: React.FC<HeroProps> = ({ hlsStreamUrl }) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [videoReady, setVideoReady] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
+  // Optional HLS video stream setup with graceful fallback to high-res poster image
   useEffect(() => {
-    let rAFId: number | null = null;
+    const video = videoRef.current;
+    if (!video || !hlsStreamUrl) return;
 
-    const handleScroll = () => {
-      if (rAFId !== null) return;
+    let hls: Hls | null = null;
 
-      rAFId = window.requestAnimationFrame(() => {
-        rAFId = null;
-        const currentY = Math.round(window.pageYOffset || document.documentElement.scrollTop);
-        if (currentY !== currentScrollRef.current) {
-          currentScrollRef.current = currentY;
-          setScrollY(currentY);
+    if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = hlsStreamUrl;
+      video.addEventListener('loadeddata', () => setVideoReady(true), { once: true });
+    } else if (Hls.isSupported()) {
+      hls = new Hls({ enableWorker: true, lowLatencyMode: false });
+      hls.loadSource(hlsStreamUrl);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(() => {});
+      });
+      hls.on(Hls.Events.FRAG_LOADED, () => setVideoReady(true));
+      hls.on(Hls.Events.ERROR, (_evt, data) => {
+        if (data.fatal) {
+          setVideoReady(false);
+          hls?.destroy();
         }
       });
-    };
+    }
 
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (rAFId !== null) {
-        window.cancelAnimationFrame(rAFId);
-      }
+      hls?.destroy();
     };
-  }, []);
+  }, [hlsStreamUrl]);
 
-  // Compute smooth fade & shrink for hero logo as page is scrolled
-  const revealThreshold = 220;
-  const ratio = Math.max(0, 1 - scrollY / revealThreshold);
-  const heroLogoOpacity = scrollY > revealThreshold ? 0.15 : Math.max(0.15, ratio);
-  const heroLogoScale = 1 - (1 - ratio) * 0.08;
-  const heroLogoTranslate = -(1 - ratio) * 12;
+  // Subtle ambient dust particles canvas (skipped on reduced motion or mobile)
+  useEffect(() => {
+    if (prefersReducedMotion || typeof window === 'undefined') return;
+    if (window.innerWidth < 768) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let rafId = 0;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const resize = () => {
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+
+    const particles = Array.from({ length: 34 }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: Math.random() * 1.4 + 0.4,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: -Math.random() * 0.22 - 0.06,
+      alpha: Math.random() * 0.35 + 0.1,
+    }));
+
+    const render = () => {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.y < -8) p.y = window.innerHeight + 8;
+        if (p.x < -8) p.x = window.innerWidth + 8;
+        if (p.x > window.innerWidth + 8) p.x = -8;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212, 255, 79, ${p.alpha})`;
+        ctx.fill();
+      }
+      rafId = window.requestAnimationFrame(render);
+    };
+
+    rafId = window.requestAnimationFrame(render);
+    window.addEventListener('resize', resize);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', resize);
+    };
+  }, [prefersReducedMotion]);
 
   return (
     <section
       id="hero"
-      className="relative w-full px-6 md:px-12 lg:px-16 pt-28 pb-20 md:pt-36 md:pb-24 flex flex-col items-center justify-center text-center overflow-hidden border-b border-[#D9D0C3]/40"
+      className="relative min-h-[100svh] w-full flex items-center justify-center overflow-hidden bg-[#0A0A0A] pt-24 pb-16 px-6 border-b border-white/[0.06]"
     >
-      {/* Ambient Glow Behind Hero */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#B89255]/10 rounded-full blur-[120px] pointer-events-none -z-10" />
-
-      {/* Aurevane Main Hero Logo (Style 1 Dark) */}
-      <div
-        className="mb-8 flex justify-center transform origin-center transition-all duration-300 ease-out"
-        style={{
-          opacity: heroLogoOpacity,
-          transform: `scale(${heroLogoScale}) translateY(${heroLogoTranslate}px)`,
-        }}
-      >
+      {/* Full-bleed poster fallback + HLS video layer */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <img
-          alt="Aurevane Digital Studio logo"
-          className="h-28 sm:h-36 md:h-44 w-auto object-contain filter drop-shadow-sm transition-transform duration-300 hover:scale-[1.01]"
-          width={532}
-          height={423}
+          src={HERO_POSTER_IMAGE}
+          alt="Custom residential architecture crafted by US home-service contractors at dusk"
+          width={1600}
+          height={900}
           loading="eager"
           fetchPriority="high"
           decoding="async"
-          src="/logo.png"
+          referrerPolicy="no-referrer"
+          className={`w-full h-full object-cover object-center ${
+            prefersReducedMotion ? '' : 'animate-hero-drift'
+          }`}
         />
+
+        <video
+          ref={videoRef}
+          poster={HERO_POSTER_IMAGE}
+          playsInline
+          muted
+          loop
+          autoPlay
+          aria-hidden="true"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            videoReady ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
+        {/* 50% Black Overlay + Atmospheric Scrim for AA Contrast */}
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/75 via-black/35 to-[#0A0A0A]" />
       </div>
 
-      {/* Category Tag */}
-      <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#F5EDE2] border border-[#D9D0C3] mb-6 shadow-xs">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#9E5249] animate-pulse" />
-        <span className="text-[10px] md:text-[11px] tracking-[0.24em] uppercase text-[#59544E] font-semibold">
-          DIGITAL STUDIO / CONTRACTORS &amp; LUXURY SERVICES
-        </span>
-      </div>
+      {/* Subtle Dust Particle Layer */}
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        className="absolute inset-0 z-10 w-full h-full pointer-events-none hidden md:block"
+      />
 
-      {/* Monumental Editorial Headline */}
-      <div className="max-w-5xl mx-auto flex flex-col items-center">
-        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[64px] font-normal uppercase leading-[1.12] tracking-tight text-[#141210]">
-          Blue Collar Business Website Design That Generates Leads
-        </h1>
-        <p className="font-serif italic text-xl sm:text-3xl md:text-4xl font-normal leading-[1.18] tracking-tight text-[#9E5249] mt-3">
-          Digital experiences that make businesses impossible to overlook
+      {/* Centered Content */}
+      <motion.div
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-20 max-w-[1040px] mx-auto flex flex-col items-center text-center"
+      >
+        {/* Eyebrow */}
+        <p className="font-mono text-[12px] sm:text-[13px] leading-[1.7] uppercase tracking-[0.4em] text-[var(--accent)] mb-6">
+          WEB DESIGN FOR HOME SERVICES · 2026
         </p>
-      </div>
 
-      {/* Subtle Accent Divider */}
-      <div className="w-12 h-px bg-[#B89255]/60 my-6" />
-
-      {/* Subtitle Description with Natural Industry Mentions */}
-      <p className="text-sm md:text-base text-[#59544E] max-w-2xl mx-auto font-normal leading-relaxed">
-        Aurevane Digital builds custom, mobile-friendly websites for contractors, trades, home-service companies and junk removal businesses across the United States.
-      </p>
-
-      {/* Dual Hero CTAs */}
-      <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-        <a
-          href="#website-check"
-          onClick={(e) => {
-            e.preventDefault();
-            onRequestAudit();
-          }}
-          className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-all duration-200 group shadow-sm cursor-pointer"
-        >
-          <span>Get a Free Website Quote</span>
-          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-        </a>
-
-        <a
-          href="#work"
-          onClick={(e) => {
-            e.preventDefault();
-            onExploreWork();
-          }}
-          className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-transparent border border-[#141210]/30 text-[#141210] text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#ECE2D3]/60 transition-all duration-200 cursor-pointer"
-        >
-          See Our Work
-        </a>
-      </div>
-
-      {/* Qualitative Metrics Row - No Invented Stats */}
-      <div className="mt-14 pt-8 border-t border-[#D9D0C3]/60 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 w-full max-w-4xl text-center">
-        <div className="flex flex-col items-center">
-          <span className="font-serif text-xl sm:text-2xl md:text-3xl text-[#9E5249] font-normal">
-            Contractor-Focused
+        {/* Single Page H1: Sans + Instrument Serif Italic Accent */}
+        <h1 className="text-[clamp(36px,5vw,64px)] font-semibold tracking-[-0.025em] leading-[1.08] text-[#FAFAFA] text-balance max-w-4xl">
+          Websites that{' '}
+          <span className="font-serif italic font-normal text-[var(--accent)] text-[clamp(40px,5.6vw,74px)] leading-none">
+            make your phone ring
           </span>
-          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[#59544E] font-medium mt-1">
-            Niche Expertise
-          </span>
+          , not just look good.
+        </h1>
+
+        {/* Subheadline */}
+        <p className="mt-6 text-[16px] leading-[1.6] text-[rgba(250,250,250,0.64)] max-w-2xl font-normal">
+          Premium, custom-built websites for roofers, excavators, junk removal, electricians and
+          contractors across the US.
+        </p>
+
+        {/* Dual Action Row */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+          <Link
+            to="/contact"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 bg-[var(--accent)] text-[#0A0A0A] text-[14px] font-semibold tracking-tight rounded-[16px] hover:scale-[1.02] transition-transform duration-200 whitespace-nowrap shrink-0 shadow-[0_0_32px_-8px_rgba(212,255,79,0.5)]"
+          >
+            <span>Get your free mockup</span>
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          </Link>
+
+          <Link
+            to="/our-work"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-4 bg-white/[0.04] backdrop-blur-xl border border-white/15 text-[#FAFAFA] text-[14px] font-medium tracking-tight rounded-[16px] hover:border-[var(--accent)]/60 hover:bg-white/[0.08] hover:scale-[1.02] transition-all duration-200 whitespace-nowrap shrink-0"
+          >
+            See our work
+          </Link>
         </div>
-        <div className="flex flex-col items-center">
-          <span className="font-serif text-xl sm:text-2xl md:text-3xl text-[#141210] font-normal">
-            Mobile-First
-          </span>
-          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[#59544E] font-medium mt-1">
-            Every Layout
-          </span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="font-serif text-xl sm:text-2xl md:text-3xl text-[#141210] font-normal">
-            Custom-Coded
-          </span>
-          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[#59544E] font-medium mt-1">
-            No Templates
-          </span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="font-serif text-xl sm:text-2xl md:text-3xl text-[#9E5249] font-normal">
-            Lead-Focused
-          </span>
-          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[#59544E] font-medium mt-1">
-            Quote Flows
-          </span>
-        </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

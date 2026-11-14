@@ -138,6 +138,30 @@ export const Footer: React.FC<FooterProps> = ({
                   Contractor Website Design
                 </Link>
                 <Link
+                  to="/roofing-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Roofing Website Design
+                </Link>
+                <Link
+                  to="/fence-installation-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Fence Installation Website Design
+                </Link>
+                <Link
+                  to="/landscaping-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Landscaping Website Design
+                </Link>
+                <Link
+                  to="/plumbing-hvac-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Plumbing &amp; HVAC Website Design
+                </Link>
+                <Link
                   to="/junk-removal-seo"
                   className="text-left hover:text-[#141210] transition-colors cursor-pointer"
                 >

@@ -77,10 +77,11 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
     () =>
       buildFaqPageSchema({
         path: '/packages',
-        name: 'Packages',
+        name: 'Contractor Website Packages',
+        description: s.description,
         faqs,
       }),
-    [faqs]
+    [s.description, faqs]
   );
 
   const toggleFaq = (index: number) => {
