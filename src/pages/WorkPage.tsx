@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Compass, ShieldCheck } from 'lucide-react';
-import { SelectedWork } from '../components/SelectedWork';
-import { LaptopJourneyShowcase } from '../components/LaptopJourneyShowcase';
+import { WorkShowcase } from '../components/WorkShowcase';
 import { MagneticWrap } from '../components/MagneticButton';
 import { SEO } from '../components/SEO';
 import { getSeo } from '../data/seoRoutes';
@@ -95,11 +94,8 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onSelectCaseStudy }) => {
         </div>
       </section>
 
-      {/* Subtle scroll-controlled frame animation intro above the showcase */}
-      <SelectedWork onSelectCaseStudy={onSelectCaseStudy} />
-
-      {/* Rebuilt Project Showcase: GSAP ScrollTrigger Laptop Journey */}
-      <LaptopJourneyShowcase />
+      {/* Scroll-Driven 5-Site Video Showcase */}
+      <WorkShowcase />
 
       {/* POST-SHOWCASE COMMISSION / CONVERSION SECTION */}
       <section className="w-full py-24 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-t border-[#D9D0C3]/60">

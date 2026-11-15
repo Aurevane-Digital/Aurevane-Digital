@@ -109,6 +109,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
   const imagesRef = useRef<Map<number, HTMLImageElement>>(new Map());
 
   const [currentFrame, setCurrentFrame] = useState<number>(1);
+  const latestFrameRef = useRef<number>(1);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [isImagesLoaded, setIsImagesLoaded] = useState<boolean>(false);
 
@@ -193,7 +194,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
           imagesRef.current = loadedImages;
           if (i === 1) {
             setIsImagesLoaded(true);
-            drawFrame(1);
+            drawFrame(latestFrameRef.current);
           }
         };
       }
@@ -304,6 +305,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
         frameIdx = Math.max(2, Math.min(TOTAL_FRAMES - 1, frameIdx));
       }
 
+      latestFrameRef.current = frameIdx;
       setCurrentFrame(frameIdx);
 
       ticking = false;
@@ -346,17 +348,17 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between z-20 pointer-events-none select-none">
         
-        {/* SUBTLE HORIZONTAL PROGRESS LINE (Advances precisely as visitor scrolls) */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-white/10 z-30 pointer-events-none">
+        {/* SUBTLE HORIZONTAL PROGRESS LINE (Advances cleanly below fixed navbar as visitor scrolls) */}
+        <div className="absolute top-20 md:top-24 left-0 right-0 h-[2px] bg-white/10 z-30 pointer-events-none">
           <div
-            className="h-full bg-[var(--accent)] transition-all duration-75 ease-out"
+            className="h-full bg-[#B89255] transition-all duration-75 ease-out"
             style={{ width: `${Math.round(scrollProgress * 100)}%` }}
           />
         </div>
 
         {/* PROTECTIVE TOP CONTRAST SCRIM FOR TEXT OVER CANVAS FRAMES */}
         <div
-          className="pointer-events-none absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#0A0A0A]/85 via-[#0A0A0A]/45 to-transparent z-20"
+          className="pointer-events-none absolute top-0 inset-x-0 h-52 bg-gradient-to-b from-[#0A0A0A]/85 via-[#0A0A0A]/45 to-transparent z-20"
           aria-hidden="true"
         />
 
@@ -367,19 +369,19 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
         />
 
         {/* TOP STATUS BAR: Subtle Archive Header & Minimal Project Indicator */}
-        <div className="w-full max-w-[1280px] mx-auto px-6 pt-8 sm:pt-10 flex items-center justify-between z-30 pointer-events-auto">
+        <div className="w-full max-w-[1280px] mx-auto px-6 pt-24 md:pt-28 flex items-center justify-between gap-4 z-30 pointer-events-auto">
           <div className="flex items-center gap-2">
-            <h2 className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.28em] text-[#FAFAFA]/80">
+            <h2 className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.28em] text-[#FAFAFA]/85">
               Selected Work / Contractor Website Design Portfolio
             </h2>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-mono text-[#FAFAFA]/65">
               Project
             </span>
             <div className="font-mono text-sm sm:text-base tracking-widest text-[#FAFAFA] flex items-baseline gap-1 tabular-nums">
-              <span className="text-[var(--accent)] font-bold">{activeProject.number}</span>
+              <span className="text-[#B89255] font-bold">{activeProject.number}</span>
               <span className="text-white/40 text-xs">/</span>
               <span className="text-xs text-[#FAFAFA]/65">05</span>
             </div>
@@ -404,7 +406,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
               alt="High-Converting Contractor Website Showcase Frame"
               width={1920}
               height={1080}
-              loading="lazy"
+              loading="eager"
               className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
             />
           )}
@@ -425,7 +427,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
                     style={{ opacity }}
                   >
                     <div className="mb-1.5 sm:mb-2">
-                      <span className="inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--accent)]">
+                      <span className="inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-[#B89255] font-semibold">
                         Concept Project
                       </span>
                     </div>
@@ -446,7 +448,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
               <button
                 onClick={() => handleOpenCaseStudy()}
                 aria-label={`Inspect ${activeProject.displayTitle} case study blueprint`}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent)] text-[#0A0A0A] text-xs font-semibold rounded-[16px] hover:brightness-105 transition-all cursor-pointer group"
+                className="btn-editorial inline-flex items-center gap-2 px-6 py-3 bg-[#B89255] text-[#141210] hover:bg-[#cfa867] text-xs font-semibold uppercase tracking-[0.16em] rounded-sm transition-colors cursor-pointer group shadow-md"
               >
                 <span>Inspect Case Study</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
