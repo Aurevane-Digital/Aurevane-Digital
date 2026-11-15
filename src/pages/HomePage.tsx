@@ -1,11 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Compass, ShieldCheck, Zap, Layers, CheckCircle2 } from 'lucide-react';
 import { Hero } from '../components/Hero';
 import { WebsiteCheckForm } from '../components/WebsiteCheckForm';
 import { SEO } from '../components/SEO';
 import { getSeo } from '../data/seoRoutes';
-import { buildPageServiceSchema } from '../utils/schema';
 import { AuditReportData } from '../types';
 
 interface HomePageProps {
@@ -15,22 +14,6 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
   const navigate = useNavigate();
   const s = getSeo('/');
-  const jsonLd = useMemo(
-    () =>
-      buildPageServiceSchema({
-        path: '/',
-        name: 'Contractor & Home Services Website Design',
-        description: s.description,
-        serviceType: [
-          'Contractor Website Design',
-          'Junk Removal Website Design',
-          'Roofing Website Design',
-          'Plumbing & HVAC Website Design',
-          'Landscaping & Fence Contractor Websites',
-        ],
-      }),
-    [s.description]
-  );
 
   const portfolioHighlights = [
     {
@@ -85,7 +68,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
 
   return (
     <>
-      <SEO title={s.title} description={s.description} canonicalPath="/" jsonLd={jsonLd} />
+      <SEO title={s.title} description={s.description} canonicalPath="/" />
 
       {/* 1. HERO SECTION */}
       <Hero

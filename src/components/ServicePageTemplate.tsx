@@ -14,7 +14,6 @@ import {
   Zap,
 } from 'lucide-react';
 import { SEO } from './SEO';
-import { TrustSection } from './TrustSection';
 import { getSeo } from '../data/seoRoutes';
 import { buildServiceSchema, ServiceSchemaFaq } from '../utils/schema';
 
@@ -120,14 +119,11 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-4">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 Specialized Trade Architecture
               </span>
               <div className="h-px w-10 bg-[#9E5249]/40" />
-              <span className="text-[11px] text-[#59544E] font-medium">
-                Last updated: November 2026
-              </span>
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#141210] font-normal leading-[1.1] mb-6">
@@ -244,11 +240,8 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
         </div>
       </section>
 
-      {/* 4. REUSABLE TRUST & OWNERSHIP SECTION */}
-      <TrustSection />
-
-      {/* 5. ACCESSIBLE FAQ ACCORDION */}
-      <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
+      {/* 4. ACCESSIBLE FAQ ACCORDION */}
+      <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-4xl mx-auto">
           <div className="text-center max-w-xl mx-auto mb-12">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
@@ -284,8 +277,7 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
                     >
                       <span className="font-medium">{faq.q}</span>
                       <ChevronDown
-                        aria-hidden="true"
-                        className={`w-4 h-4 text-[#59544E] shrink-0 transition-transform duration-200 ${
+                        className={`w-4 h-4 text-[#827C75] shrink-0 transition-transform duration-200 ${
                           isOpen ? 'rotate-180 text-[#9E5249]' : ''
                         }`}
                       />
@@ -311,9 +303,9 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
         </div>
       </section>
 
-      {/* 6. RELATED PAGE LINKS */}
+      {/* 5. RELATED PAGE LINKS */}
       {relatedLinks && relatedLinks.length > 0 && (
-        <section className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
+        <section className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
           <div className="max-w-7xl mx-auto">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-4">
               Explore Related Services
@@ -323,12 +315,12 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
                 <Link
                   key={idx}
                   to={link.to}
-                  className="p-5 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-colors group flex items-center justify-between focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9E5249]"
+                  className="p-5 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-colors group flex items-center justify-between"
                 >
                   <span className="text-xs md:text-sm font-medium text-[#141210] group-hover:text-[#9E5249] transition-colors">
                     {link.label}
                   </span>
-                  <ArrowRight aria-hidden="true" className="w-3.5 h-3.5 text-[#59544E] group-hover:text-[#9E5249] group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#827C75] group-hover:text-[#9E5249] group-hover:translate-x-1 transition-all" />
                 </Link>
               ))}
             </div>
@@ -355,13 +347,13 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 shrink-0 w-full lg:w-auto">
               <Link
                 to="/contact"
-                className="px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors text-center cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B89255]"
+                className="px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors text-center cursor-pointer"
               >
                 Get a Free Website Quote
               </Link>
               <Link
                 to="/packages"
-                className="px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors text-center cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B89255]"
+                className="px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors text-center cursor-pointer"
               >
                 View Packages
               </Link>

@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Compass, ShieldCheck } from 'lucide-react';
 import { SelectedWork } from '../components/SelectedWork';
+import { LaptopJourneyShowcase } from '../components/LaptopJourneyShowcase';
 import { SEO } from '../components/SEO';
 import { getSeo } from '../data/seoRoutes';
-import { buildPageServiceSchema } from '../utils/schema';
 import { CaseStudy } from '../types';
 
 interface WorkPageProps {
@@ -13,20 +13,10 @@ interface WorkPageProps {
 
 export const WorkPage: React.FC<WorkPageProps> = ({ onSelectCaseStudy }) => {
   const s = getSeo('/our-work');
-  const jsonLd = useMemo(
-    () =>
-      buildPageServiceSchema({
-        path: '/our-work',
-        name: 'Contractor Website Design Portfolio',
-        description: s.description,
-        serviceType: ['Contractor Website Design', 'Trade Website Architecture'],
-      }),
-    [s.description]
-  );
 
   return (
     <>
-      <SEO title={s.title} description={s.description} canonicalPath="/our-work" jsonLd={jsonLd} />
+      <SEO title={s.title} description={s.description} canonicalPath="/our-work" />
 
       {/* MASTHEAD HEADER */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
@@ -65,17 +55,11 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onSelectCaseStudy }) => {
         </div>
       </section>
 
-      {/* 
-        CINEMATIC SCROLL-CONTROLLED FRAME ANIMATION:
-        The exact, intact frame sequence (1 to 289 frames)
-        Preserving:
-        1. Junk Bolt
-        2. Vision Excavation
-        3. James Iron and Steel
-        4. Action Electrical
-        5. Storm Shield Roofing
-      */}
+      {/* Subtle scroll-controlled frame animation intro above the showcase */}
       <SelectedWork onSelectCaseStudy={onSelectCaseStudy} />
+
+      {/* Rebuilt Project Showcase: GSAP ScrollTrigger Laptop Journey */}
+      <LaptopJourneyShowcase />
 
       {/* POST-SHOWCASE COMMISSION / CONVERSION SECTION */}
       <section className="w-full py-24 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-t border-[#D9D0C3]/60">
