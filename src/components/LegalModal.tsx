@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { motion } from 'motion/react';
 import { X, Shield, FileText } from 'lucide-react';
 
 interface LegalModalProps {
@@ -30,13 +31,23 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
   if (!type) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#141210]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#141210]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+    >
+      <motion.div
         ref={dialogRef}
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="legal-modal-title"
+        initial={{ opacity: 0, y: 18, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.985 }}
+        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
         className="relative w-full max-w-2xl bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-2xl overflow-hidden my-8 focus:outline-none"
       >
         <div className="px-6 py-4 bg-[#F5EDE2] border-b border-[#D9D0C3] flex items-center justify-between">
@@ -96,12 +107,12 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
         <div className="px-6 py-3 bg-[#F5EDE2] border-t border-[#D9D0C3] text-right">
           <button
             onClick={onClose}
-            className="px-5 py-2 bg-[#141210] text-white text-[11px] font-semibold uppercase tracking-widest rounded-sm hover:bg-[#34302D] cursor-pointer"
+            className="btn-editorial px-5 py-2 bg-[#141210] text-white text-[11px] font-semibold uppercase tracking-widest rounded-sm hover:bg-[#34302D] cursor-pointer"
           >
             Acknowledge
           </button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

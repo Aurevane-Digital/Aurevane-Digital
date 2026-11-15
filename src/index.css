@@ -54,3 +54,35 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Editorial Micro-Interactions (Compositor-only GPU transforms) */
+.card-editorial {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease,
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .card-editorial:hover {
+    transform: translateY(-3px);
+  }
+}
+
+.btn-editorial {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+  .btn-editorial:hover {
+    transform: scale(1.02);
+  }
+}
+
+.btn-editorial:active {
+  transform: scale(0.985);
+}

@@ -38,6 +38,12 @@ const proPkg = SERVICE_PACKAGES.find((p) => p.id === 'professional');
 const proPrice = proPkg ? proPkg.price : '$1,500';
 const proTurnaround = proPkg ? proPkg.turnaround.toLowerCase() : '2 to 3 weeks';
 
+const enterprisePkg = SERVICE_PACKAGES.find((p) => p.id === 'custom');
+const enterprisePrice = enterprisePkg ? enterprisePkg.price : "Let's Discuss";
+const enterpriseTurnaround = enterprisePkg
+  ? enterprisePkg.turnaround.toLowerCase()
+  : '4 to 6 weeks (subject to project scope)';
+
 const carePlan =
   MONTHLY_RETAINERS.find((r) => r.id === 'website-care') || MONTHLY_RETAINERS[0];
 const growthPlan =
@@ -425,6 +431,315 @@ export const BLOG_POSTS: BlogPost[] = [
     relatedLinks: [
       { label: 'Junk Removal SEO Services', to: '/junk-removal-seo' },
       { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+    ],
+  },
+  {
+    slug: 'how-much-does-a-junk-removal-website-cost',
+    title: 'How Much Does a Junk Removal Website Cost?',
+    seoTitle: 'Junk Removal Website Cost Guide',
+    description:
+      'Compare real junk removal website costs: Essential from ' +
+      essentialPrice +
+      ', Professional from ' +
+      proPrice +
+      ', custom Enterprise builds, and what drives ROI.',
+    datePublished: '2026-11-14',
+    readingTime: '5 min read',
+    sections: [
+      {
+        h2: 'What Junk Hauling Operators Actually Pay for a Website',
+        paragraphs: [
+          'Junk removal operators regularly see confusing price quotes when shopping for a new website. Offshore template sellers advertise ultra-cheap pages that fail to rank or load cleanly on mobile, while multi-year marketing agencies pitch high upfront fees locked behind recurring monthly contracts where you never own your domain or code.',
+          'At Aurevane Digital, website builds are transparent one-time project fees with zero lock-in contracts: Essential starts at ' +
+            essentialPrice +
+            ', Professional starts at ' +
+            proPrice +
+            ', and Enterprise custom platforms are scoped directly (' +
+            enterprisePrice +
+            '). Optional monthly care and SEO plans remain strictly separate and never mandatory.',
+        ],
+        bullets: [
+          'Essential tier starting at ' + essentialPrice + ' (' + essentialTurnaround + ') for independent single-truck operators',
+          'Professional tier starting at ' + proPrice + ' (' + proTurnaround + ') with interactive estimators and multi-city SEO',
+          'Enterprise custom scope (' + enterprisePrice + ', ' + enterpriseTurnaround + ') for multi-location hauling fleets',
+          '100% ownership of your website domain, source code, and incoming hauling leads',
+        ],
+      },
+      {
+        h2: 'Essential vs. Professional vs. Enterprise for Junk Hauling',
+        paragraphs: [
+          'An independent hauler launching in one metro needs a fast, mobile-first foundation: clear tap-to-call triggers, smartphone photo upload intake forms, foundational local Schema markup, and real job photos. Our Essential build starting at ' +
+            essentialPrice +
+            ' covers that foundation cleanly without bloated page builders.',
+          'Established operators running multiple trucks benefit from our Professional package starting at ' +
+            proPrice +
+            ', which adds an interactive truck-bed volume estimator, dedicated county and suburb service-area hubs, full copywriting, and conversion tracking. Multi-territory franchises and high-volume fleets step into Enterprise custom builds (' +
+            enterprisePrice +
+            ') for bespoke dispatch workflows and multi-location architecture.',
+        ],
+        bullets: [
+          'Smartphone photo upload forms reduce estimating calls and price-shopping friction',
+          'Dedicated suburb service-area pages expand Google Maps and organic reach beyond one zip code',
+          'Optional CRM & Dispatch Integration quoted transparently to match your existing stack',
+          'Separate optional ' + carePlan.name + ' (' + carePlan.price + ' ' + carePlan.priceSuffix + ') and ' + growthPlan.name + ' (' + growthPlan.price + ' ' + growthPlan.priceSuffix + ') plans if ongoing support is wanted',
+        ],
+      },
+      {
+        h2: 'Evaluating Ongoing Costs Without Proprietary Lock-In',
+        paragraphs: [
+          'Before hiring any agency, confirm what happens if you stop paying a monthly fee. On proprietary builders, canceling a subscription often takes your entire hauling website offline and costs you your domain authority.',
+          'With one-time milestone builds and full code handover, your website stays live under your complete control. Whether you manage updates internally or add our optional monthly maintenance or local SEO plan later, your digital asset belongs exclusively to your company.',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'How much does a junk removal website cost at Aurevane Digital?',
+        a: 'Our one-time website packages start at ' +
+          essentialPrice +
+          ' for Essential (' +
+          essentialTurnaround +
+          ') and ' +
+          proPrice +
+          ' for Professional (' +
+          proTurnaround +
+          '), with Enterprise custom builds (' +
+          enterprisePrice +
+          ') scoped to project complexity. There are no mandatory monthly retainers.',
+      },
+      {
+        q: 'Do junk removal websites include photo uploads and volume estimators?',
+        a: 'Yes. Essential builds include mobile-first inquiry and inspection photo forms, while Professional builds add custom interactive scope and truck-volume estimators tailored to your pricing structure.',
+      },
+      {
+        q: 'Are ongoing monthly care or SEO plans required after launch?',
+        a: 'No. Ongoing plans (' +
+          carePlan.name +
+          ' at ' +
+          carePlan.price +
+          ' ' +
+          carePlan.priceSuffix +
+          ' and ' +
+          growthPlan.name +
+          ' at ' +
+          growthPlan.price +
+          ' ' +
+          growthPlan.priceSuffix +
+          ') are completely optional and billed separately.',
+      },
+      {
+        q: 'Do I own my junk removal website, domain, and customer leads?',
+        a: 'Yes. You own 100% of your website domain, source code, content, and every lead generated through your site with zero lock-in contracts.',
+      },
+    ],
+    relatedLinks: [
+      { label: 'View Packages & Pricing', to: '/packages' },
+      { label: 'Get a Free Website Quote', to: '/contact' },
+      { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+      { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
+    ],
+  },
+  {
+    slug: 'contractor-website-cost-2026',
+    title: 'Contractor Website Cost Guide for 2026',
+    description:
+      '2026 breakdown of contractor website pricing: Essential from ' +
+      essentialPrice +
+      ', Professional from ' +
+      proPrice +
+      ', custom builds, ownership rights, and hidden fees.',
+    datePublished: '2026-11-14',
+    readingTime: '6 min read',
+    sections: [
+      {
+        h2: 'What Shapes Contractor Website Pricing in 2026',
+        paragraphs: [
+          'In 2026, homeowners and commercial project managers judge a contracting business within seconds on mobile. Pricing for a contractor website still spans wide extremes—from DIY templates that struggle with mobile speed and SEO structure to enterprise agency engagements priced like custom software systems.',
+          'The meaningful factors determining real-world cost are custom mobile architecture, structured quote qualification tools, city-level local SEO depth, authentic project gallery presentation, and whether you actually own the finished codebase.',
+        ],
+        bullets: [
+          'Essential foundation starting at ' + essentialPrice + ' (' + essentialTurnaround + ') for clean 3-page trade authority',
+          'Professional flagship starting at ' + proPrice + ' (' + proTurnaround + ') with custom estimators and multi-city SEO',
+          'Enterprise custom platforms (' + enterprisePrice + ', ' + enterpriseTurnaround + ') for multi-division firms',
+          'Optional enhancements scoped transparently rather than hidden inside bloated retainers',
+        ],
+      },
+      {
+        h2: 'Comparing DIY Builders, Agency Leases, and One-Time Custom Builds',
+        paragraphs: [
+          'DIY drag-and-drop platforms look inexpensive upfront but routinely leave contractors paying ongoing subscription fees for slow themes, fragmented plugin updates, and weak local schema. Meanwhile, lease-style marketing agencies tie your domain and pages to indefinite monthly retainers.',
+          'A one-time custom build puts your investment into a permanent digital asset. Our Essential package (' +
+            essentialPrice +
+            ') and Professional package (' +
+            proPrice +
+            ') operate on clear 50% deposit and 50% completion milestones—and you retain full ownership of your domain, code, and leads.',
+        ],
+        bullets: [
+          'Clean custom code outperforms heavy visual builders on cellular connections',
+          'Zero per-lead markup or restrictive proprietary hosting lock-in',
+          'License, liability insurance, and bonding trust signals placed prominently across key templates',
+          'Optional ' + carePlan.name + ' (' + carePlan.price + '/month) and ' + growthPlan.name + ' (' + growthPlan.price + '/month) available separately post-launch',
+        ],
+      },
+      {
+        h2: 'Choosing the Right Investment Tier for Your Trade',
+        paragraphs: [
+          'Newer single-truck or specialty residential operators rarely need complex multi-location architecture on day one; a sharp 3-page Essential platform gets your phone ringing cleanly. Roofing, fencing, landscaping, plumbing, HVAC, electrical, excavation, and general contracting companies expanding across surrounding suburbs gain far stronger return from the Professional package’s multi-city SEO hubs and custom estimate funnels.',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'What is a fair budget for a custom contractor website in 2026?',
+        a: 'Independent and regional contractors typically invest ' +
+          essentialPrice +
+          ' to ' +
+          proPrice +
+          ' for a custom, mobile-first website with local SEO structure and 100% code ownership, with custom Enterprise scope (' +
+          enterprisePrice +
+          ') reserved for multi-division platforms.',
+      },
+      {
+        q: 'Are there mandatory monthly agency retainers after launch?',
+        a: 'No. All website packages are one-time project fees. Optional monthly plans for hosting/maintenance (' +
+          carePlan.name +
+          ') or ongoing SEO (' +
+          growthPlan.name +
+          ') are separate and optional.',
+      },
+      {
+        q: 'What ongoing costs should a contractor budget for outside web design?',
+        a: 'Domain registration renewals and any third-party software subscriptions (such as external CRM tools or paid call tracking) remain separate from your build fee and are registered directly under your business.',
+      },
+      {
+        q: 'How do 50/50 payment milestones work?',
+        a: 'Website projects begin with a 50% kickoff deposit, with the remaining 50% due upon completion prior to final launch handover and code transfer.',
+      },
+    ],
+    relatedLinks: [
+      { label: 'View Packages & Pricing', to: '/packages' },
+      { label: 'Get a Free Website Quote', to: '/contact' },
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+    ],
+  },
+  {
+    slug: 'emergency-vs-planned-job-website-design-for-contractors',
+    title: 'Emergency vs. Planned Job Website Design',
+    description:
+      'Learn how contractor websites convert urgent tap-to-call emergencies separately from planned high-ticket quotes without losing mobile leads.',
+    datePublished: '2026-11-14',
+    readingTime: '5 min read',
+    sections: [
+      {
+        h2: 'Why Mixing Emergency Calls and Planned Quotes Hurts Conversions',
+        paragraphs: [
+          'A homeowner standing in ankle-deep water from a burst pipe has zero patience for a five-question remodeling questionnaire. Conversely, a property owner planning a $25,000 standing seam roof replacement or backyard hardscape build wants structured scope intake, photo uploads, and reassuring project proof before booking an appointment.',
+          'Most contractor websites force both buyers into one generic Contact Us page. As a result, urgent callers bounce back to Google Maps, while planned project buyers submit vague messages lacking square footage, material goals, or property photos.',
+        ],
+      },
+      {
+        h2: 'Designing the Mobile Tap-to-Call Path for Urgent Service Jobs',
+        paragraphs: [
+          'Trades such as plumbing, HVAC, electrical, emergency roofing, storm fencing repair, and urgent drainage cleanup win emergency dispatch work on smartphones. Your mobile header and hero section must make phone dialing effortless without scrolling.',
+          'High-contrast tap-to-call buttons, clear response-area indicators, and visible licensing and insurance badges reassure panicked homeowners within three seconds that they are calling an established local contractor rather than an anonymous national lead broker.',
+        ],
+        bullets: [
+          'Persistent tap-to-call dispatch triggers positioned cleanly above the fold on mobile',
+          'Clear distinction of urgent capabilities such as leak tarping, no-heat outages, or downed gates',
+          'Fast mobile load speed with clean typography readable in low-light or outdoor glare',
+          'Immediate confirmation of county and city service areas right next to the call trigger',
+        ],
+      },
+      {
+        h2: 'Designing the Structured Quote Funnel for High-Margin Planned Work',
+        paragraphs: [
+          'Planned installations—full roof replacements, cedar or vinyl perimeter fences, patio hardscaping, heat pump retrofits, and home remodels—benefit from deliberate pre-qualification. Asking guided questions saves estimators hours of unbilled windshield time.',
+          'Pairing a concise secondary CTA ("Request a Planned Estimate") with scope selectors, rough timelines, and optional smartphone photo uploads delivers rich project briefs directly to your inbox while letting urgent callers tap straight through to dispatch.',
+        ],
+        bullets: [
+          'Guided project scope questions tailored to materials, linear footage, or system age',
+          'Smartphone photo upload fields allowing prospects to attach yard, roof, or utility photos',
+          'Before-and-after galleries linked right beside the quote path to justify premium pricing',
+          'Automated lead routing to your inbox or connected field CRM without per-lead fees',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'Which contracting trades benefit most from separating emergency and planned job paths?',
+        a: 'Roofing, plumbing, HVAC, electrical, fence repair, storm landscaping, and excavation contractors all handle urgent repairs alongside multi-week planned installations—and convert significantly better when each visitor sees the right action immediately.',
+      },
+      {
+        q: 'Should phone numbers replace quote forms completely on contractor sites?',
+        a: 'No. Many planned-project homeowners browse and submit scope details after dinner or on weekends. Offering instant tap-to-call alongside a clear 60-second quote form captures both daytime emergencies and evening replacement inquiries.',
+      },
+      {
+        q: 'How does mobile-first speed impact emergency job calls?',
+        a: 'Urgent searchers on cellular data rarely wait for heavy animations or slow page builders to load. Lightweight custom code ensures your phone button and service areas appear right away.',
+      },
+    ],
+    relatedLinks: [
+      { label: 'View Packages & Pricing', to: '/packages' },
+      { label: 'Get a Free Website Quote', to: '/contact' },
+      { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
+      { label: 'Roofing Website Design', to: '/roofing-website-design' },
+    ],
+  },
+  {
+    slug: 'why-contractors-need-a-project-gallery',
+    title: 'Why Contractors Need a Project Gallery',
+    description:
+      'Discover how authentic before-and-after project galleries help roofing, fencing, landscaping, and remodeling contractors win higher-margin bids.',
+    datePublished: '2026-11-14',
+    readingTime: '5 min read',
+    sections: [
+      {
+        h2: 'Stock Photos Destroy Credibility on Five-Figure Bids',
+        paragraphs: [
+          'Property owners comparing multiple local quotes for a new roof, backyard paver patio, privacy fence, or mechanical room upgrade immediately recognize sterile stock photography. When a website relies on generic stock smiles and unfamiliar houses, skeptical homeowners assume the business either lacks real experience or outsources work.',
+          'An authentic project gallery showcasing real before-and-after job transformations proves capability visually in ways bulleted claims never can. Homeowners see clean job sites, straight architectural lines, and finished craftsmanship matching homes in their own area.',
+        ],
+      },
+      {
+        h2: 'What Makes a Before-and-After Contractor Gallery Convert',
+        paragraphs: [
+          'Dumping thirty unorganized snapshots into a slow carousel does little to close bids. High-converting contractor galleries organize work by trade category and include brief technical context alongside visual contrast.',
+          'Showing torn-off roof decking alongside finished standing seam panels, a leaning rotted fence next to new board-on-board cedar, or an eroded backyard slope transformed into a multi-tier retaining wall patio explains both the complexity of the job and the value behind your estimate.',
+        ],
+        bullets: [
+          'Clear before-and-after pairing showing site preparation as well as finished craftsmanship',
+          'Category organization by material, system type, or project scope',
+          'Short project captions noting materials used, neighborhood/county context, and technical challenges solved',
+          'Direct quote-request buttons beside each showcased project to turn admiration into leads',
+        ],
+      },
+      {
+        h2: 'How Optimized Project Galleries Also Support Local SEO',
+        paragraphs: [
+          'Descriptive alt text, compressed modern image formatting, and project summaries mentioning specific cities and installation types provide rich local signals for search engines without sacrificing page load speed.',
+          'Combined with verified licensing, insurance, and bonding badges and 100% ownership of your site assets, an organized project gallery becomes your strongest sales asset before an estimator ever steps on a driveway.',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'Do contractors need professional photography to build a strong project gallery?',
+        a: 'Sharp, well-lit smartphone photos taken in horizontal orientation—showing the before state, mid-job prep work, and clean finished result—outperform expensive stock photos because homeowners trust real job-site proof.',
+      },
+      {
+        q: 'Will a large photo gallery slow down our mobile contractor website?',
+        a: 'Not when properly engineered. We optimize image dimensions, serve lightweight web formats, and lazy-load gallery frames so mobile visitors experience fast load times.',
+      },
+      {
+        q: 'Which trades see the highest impact from before-and-after galleries?',
+        a: 'Roofing, fence installation, landscaping and hardscaping, general contracting, junk removal, excavation, and even clean mechanical room plumbing/HVAC installations all see stronger trust and estimate conversion with visual proof.',
+      },
+    ],
+    relatedLinks: [
+      { label: 'View Packages & Pricing', to: '/packages' },
+      { label: 'Get a Free Website Quote', to: '/contact' },
+      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
     ],
   },
 ];

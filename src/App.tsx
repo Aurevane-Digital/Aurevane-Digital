@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { MotionConfig, AnimatePresence, motion } from 'motion/react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -23,13 +24,17 @@ import { PostPage } from './pages/PostPage';
 import { CaseStudy, ServicePackage, AuditReportData } from './types';
 import { SERVICE_PACKAGES } from './data/packages';
 import { ArrowUp } from 'lucide-react';
+import { useEditorialScrollMotion } from './hooks/useEditorialScrollMotion';
 
 import { CaseStudyModal } from './components/CaseStudyModal';
 import { AuditReportModal } from './components/AuditReportModal';
 import { BookingModal } from './components/BookingModal';
 import { LegalModal } from './components/LegalModal';
 
-export default function App() {
+function AppShell() {
+  const location = useLocation();
+  useEditorialScrollMotion(location.pathname);
+
   // Modals state
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
   const [auditReport, setAuditReport] = useState<AuditReportData | null>(null);
@@ -50,7 +55,7 @@ export default function App() {
     setIsBookingModalOpen(true);
   };
 
-  const handleBookSimilar = (study: CaseStudy) => {
+  const handleBookSimilar = (_study: CaseStudy) => {
     const pro = SERVICE_PACKAGES.find((p) => p.id === 'professional') || SERVICE_PACKAGES[1];
     setBookingPackage(pro);
     setIsBookingModalOpen(true);
@@ -65,86 +70,88 @@ export default function App() {
   };
 
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="min-h-screen bg-[#FAF6F0] text-[#1A1715] flex flex-col font-sans selection:bg-[#EAE0D2] selection:text-[#141210]">
-        {/* Accessible Skip Link (Visible only when focused) */}
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-[#141210] focus:text-[#FAF6F0] focus:text-xs focus:font-semibold focus:uppercase focus:tracking-wider focus:rounded-sm focus:shadow-2xl focus:outline-2 focus:outline-[#9E5249]"
-        >
-          Skip to main content
-        </a>
+    <div className="min-h-screen bg-[#FAF6F0] text-[#1A1715] flex flex-col font-sans selection:bg-[#EAE0D2] selection:text-[#141210]">
+      {/* Accessible Skip Link (Visible only when focused) */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-[#141210] focus:text-[#FAF6F0] focus:text-xs focus:font-semibold focus:uppercase focus:tracking-wider focus:rounded-sm focus:shadow-2xl focus:outline-2 focus:outline-[#9E5249]"
+      >
+        Skip to main content
+      </a>
 
-        {/* FIXED HEADER NAVIGATION (With direct route links) */}
-        <Navbar
-          onOpenAuditModal={() => {
-            const checkEl = document.getElementById('website-check');
-            if (checkEl) {
-              checkEl.scrollIntoView({ behavior: 'smooth' });
-            } else {
-              window.location.href = '/contact#website-check';
+      {/* FIXED HEADER NAVIGATION */}
+      <Navbar
+        onOpenAuditModal={() => {
+          const checkEl = document.getElementById('website-check');
+          if (checkEl) {
+            checkEl.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.location.href = '/contact#website-check';
+          }
+        }}
+      />
+
+      {/* MULTI-PAGE APPLICATION ROUTES (Transform-free wrapper preserves ScrollTrigger pin accuracy) */}
+      <main id="main-content" tabIndex={-1} className="w-full flex-grow focus:outline-none">
+        <Routes>
+          <Route
+            path="/"
+            element={<HomePage onAuditGenerated={handleAuditGenerated} />}
+          />
+          <Route
+            path="/our-work"
+            element={
+              <WorkPage
+                onSelectCaseStudy={(study) => setSelectedCaseStudy(study)}
+              />
             }
-          }}
-        />
+          />
+          <Route path="/about" element={<AboutPage />} />
+          <Route
+            path="/packages"
+            element={<PackagesPage onSelectPackage={handleSelectPackage} />}
+          />
+          <Route
+            path="/contact"
+            element={<ContactPage onAuditGenerated={handleAuditGenerated} />}
+          />
+          <Route path="/contractor-website-design" element={<ContractorPage />} />
+          <Route path="/home-services-website-design" element={<HomeServicesPage />} />
+          <Route path="/junk-removal-website-design" element={<JunkRemovalPage />} />
+          <Route path="/junk-removal-seo" element={<JunkRemovalSeoPage />} />
+          <Route path="/website-redesign" element={<WebsiteRedesignPage />} />
+          <Route path="/excavation-website-design" element={<ExcavationPage />} />
+          <Route path="/electrical-contractor-website-design" element={<ElectricalPage />} />
+          <Route path="/general-contractor-website-design" element={<GeneralContractorPage />} />
+          <Route path="/mobile-detailing-website-design" element={<MobileDetailingPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<PostPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
 
-        {/* MULTI-PAGE APPLICATION ROUTES */}
-        <main id="main-content" tabIndex={-1} className="w-full flex-grow focus:outline-none">
-          <Routes>
-            <Route
-              path="/"
-              element={<HomePage onAuditGenerated={handleAuditGenerated} />}
-            />
-            <Route
-              path="/our-work"
-              element={
-                <WorkPage
-                  onSelectCaseStudy={(study) => setSelectedCaseStudy(study)}
-                />
-              }
-            />
-            <Route path="/about" element={<AboutPage />} />
-            <Route
-              path="/packages"
-              element={<PackagesPage onSelectPackage={handleSelectPackage} />}
-            />
-            <Route
-              path="/contact"
-              element={<ContactPage onAuditGenerated={handleAuditGenerated} />}
-            />
-            <Route path="/contractor-website-design" element={<ContractorPage />} />
-            <Route path="/home-services-website-design" element={<HomeServicesPage />} />
-            <Route path="/junk-removal-website-design" element={<JunkRemovalPage />} />
-            <Route path="/junk-removal-seo" element={<JunkRemovalSeoPage />} />
-            <Route path="/website-redesign" element={<WebsiteRedesignPage />} />
-            <Route path="/excavation-website-design" element={<ExcavationPage />} />
-            <Route path="/electrical-contractor-website-design" element={<ElectricalPage />} />
-            <Route path="/general-contractor-website-design" element={<GeneralContractorPage />} />
-            <Route path="/mobile-detailing-website-design" element={<MobileDetailingPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/blog/:slug" element={<PostPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </main>
+      {/* ARCHIVAL FOOTER */}
+      <Footer
+        onOpenPrivacyModal={() => setLegalModal('privacy')}
+        onOpenTermsModal={() => setLegalModal('terms')}
+      />
 
-        {/* ARCHIVAL FOOTER */}
-        <Footer
-          onOpenPrivacyModal={() => setLegalModal('privacy')}
-          onOpenTermsModal={() => setLegalModal('terms')}
-        />
+      {/* Minimal Floating Scroll-to-Top Button */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <motion.button
+          whileHover={{ scale: 1.06, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          onClick={scrollToTop}
+          className="p-3 bg-[#FAF6F0] text-[#59544E] hover:text-[#141210] border border-[#D9D0C3] rounded-full shadow-md hover:shadow-lg transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-[#9E5249]"
+          aria-label="Scroll to Top of Page"
+        >
+          <ArrowUp className="w-4 h-4" />
+        </motion.button>
+      </div>
 
-        {/* Minimal Floating Scroll-to-Top Button */}
-        <div className="fixed bottom-6 right-6 z-40">
-          <button
-            onClick={scrollToTop}
-            className="p-3 bg-[#FAF6F0] text-[#59544E] hover:text-[#141210] border border-[#D9D0C3] rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-[#9E5249]"
-            aria-label="Scroll to Top of Page"
-          >
-            <ArrowUp className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Interactive Modals */}
+      {/* Interactive Modals */}
+      <AnimatePresence>
         {selectedCaseStudy && (
           <CaseStudyModal
             caseStudy={selectedCaseStudy}
@@ -152,7 +159,9 @@ export default function App() {
             onBookSimilar={handleBookSimilar}
           />
         )}
+      </AnimatePresence>
 
+      <AnimatePresence>
         {auditReport && (
           <AuditReportModal
             report={auditReport}
@@ -164,7 +173,9 @@ export default function App() {
             }}
           />
         )}
+      </AnimatePresence>
 
+      <AnimatePresence>
         {isBookingModalOpen && (
           <BookingModal
             selectedPackage={bookingPackage}
@@ -172,19 +183,40 @@ export default function App() {
             onSuccess={(msg) => showToast(msg)}
           />
         )}
+      </AnimatePresence>
 
+      <AnimatePresence>
         {legalModal && (
           <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />
         )}
+      </AnimatePresence>
 
-        {/* Toast Feedback Notification */}
+      {/* Toast Feedback Notification */}
+      <AnimatePresence>
         {toast && (
-          <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#141210] text-white px-6 py-3 rounded-sm shadow-2xl border border-[#B89255]/40 text-xs tracking-wider flex items-center gap-3 animate-in fade-in slide-in-from-bottom duration-300">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#141210] text-white px-6 py-3 rounded-sm shadow-2xl border border-[#B89255]/40 text-xs tracking-wider flex items-center gap-3"
+          >
             <span className="w-2 h-2 rounded-full bg-[#B89255]" />
             <span>{toast}</span>
-          </div>
+          </motion.div>
         )}
-      </div>
-    </Router>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <MotionConfig reducedMotion="user">
+      <Router>
+        <ScrollToTop />
+        <AppShell />
+      </Router>
+    </MotionConfig>
   );
 }

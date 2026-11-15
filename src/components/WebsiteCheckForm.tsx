@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { ShieldCheck, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
 import { AuditFormState, AuditReportData } from '../types';
+import { MagneticWrap } from './MagneticButton';
 import { submitToWeb3Forms } from '../services/formService';
 
 interface WebsiteCheckFormProps {
@@ -101,7 +103,10 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
 
   return (
     <section id="website-check" className="w-full py-20 px-6 md:px-12 lg:px-16 border-b border-[#D9D0C3]/60">
-      <div className="max-w-4xl mx-auto bg-[#F5EDE2] border border-[#D9D0C3] rounded-sm p-8 md:p-12 shadow-xs">
+      <div
+        data-reveal="fade"
+        className="max-w-4xl mx-auto bg-[#F5EDE2] border border-[#D9D0C3] rounded-sm p-8 md:p-12 shadow-xs"
+      >
         <div className="text-center max-w-xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF6F0] border border-[#D9D0C3] mb-3">
             <ShieldCheck className="w-3.5 h-3.5 text-[#9E5249]" />
@@ -119,31 +124,47 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
           </p>
         </div>
 
-        {success ? (
-          <div className="bg-[#FAF6F0] p-8 border border-[#9E5249]/40 rounded-sm text-center space-y-4 animate-in fade-in">
-            <div className="w-12 h-12 mx-auto rounded-full bg-[#9E5249]/10 flex items-center justify-center text-[#9E5249]">
-              <CheckCircle2 className="w-7 h-7" />
-            </div>
-            <h3 className="font-serif text-2xl text-[#141210]">
-              Diagnostic Completed for {formData.businessName}
-            </h3>
-            <p className="text-xs md:text-sm text-[#59544E] max-w-lg mx-auto">
-              We have generated your instant preliminary score report and sent a confirmation to <span className="font-semibold text-[#141210]">{formData.email}</span>. An Aurevane senior designer will conduct a full manual inspection within 24 to 48 hours.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={() => {
-                  setSuccess(false);
-                  setHoneypot('');
-                }}
-                className="text-xs text-[#9E5249] font-semibold uppercase tracking-wider hover:underline cursor-pointer"
-              >
-                Run Another Audit
-              </button>
-            </div>
-          </div>
-        ) : (
-          <form className="space-y-4" onSubmit={handleSubmit}>
+        <AnimatePresence mode="wait">
+          {success ? (
+            <motion.div
+              key="audit-success"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-[#FAF6F0] p-8 border border-[#9E5249]/40 rounded-sm text-center space-y-4"
+            >
+              <div className="w-12 h-12 mx-auto rounded-full bg-[#9E5249]/10 flex items-center justify-center text-[#9E5249]">
+                <CheckCircle2 className="w-7 h-7" />
+              </div>
+              <h3 className="font-serif text-2xl text-[#141210]">
+                Diagnostic Completed for {formData.businessName}
+              </h3>
+              <p className="text-xs md:text-sm text-[#59544E] max-w-lg mx-auto">
+                We have generated your instant preliminary score report and sent a confirmation to <span className="font-semibold text-[#141210]">{formData.email}</span>. An Aurevane senior designer will conduct a full manual inspection within 24 to 48 hours.
+              </p>
+              <div className="pt-2">
+                <button
+                  onClick={() => {
+                    setSuccess(false);
+                    setHoneypot('');
+                  }}
+                  className="text-xs text-[#9E5249] font-semibold uppercase tracking-wider hover:underline cursor-pointer"
+                >
+                  Run Another Audit
+                </button>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.form
+              key="audit-form"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="space-y-4"
+              onSubmit={handleSubmit}
+            >
             {/* Honeypot field for bot spam prevention */}
             <input
               type="text"
@@ -284,29 +305,32 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
             </div>
 
             <div className="pt-2 text-center">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full md:w-auto inline-flex items-center justify-center px-10 py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-colors duration-200 shadow-sm cursor-pointer disabled:opacity-50"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    <span>Analyzing Site Architecture...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Request Free Audit</span>
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </>
-                )}
-              </button>
+              <MagneticWrap className="w-full md:w-auto">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-editorial w-full md:w-auto inline-flex items-center justify-center px-10 py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] shadow-sm cursor-pointer disabled:opacity-50 group"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      <span>Analyzing Site Architecture...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Request Free Audit</span>
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                    </>
+                  )}
+                </button>
+              </MagneticWrap>
               <p className="text-[10px] text-[#59544E] tracking-wider uppercase mt-3">
                 Strictly confidential • 24 to 48 hr manual turnaround • Instant preliminary preview
               </p>
             </div>
-          </form>
-        )}
+            </motion.form>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

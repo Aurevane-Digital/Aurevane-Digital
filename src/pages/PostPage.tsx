@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import {
   Calendar,
   Clock,
@@ -9,6 +10,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { MagneticWrap } from '../components/MagneticButton';
 import { NotFoundPage } from './NotFoundPage';
 import { getBlogPost } from '../data/posts';
 import { buildArticleSchema } from '../utils/schema';
@@ -50,7 +52,7 @@ export const PostPage: React.FC = () => {
       {/* ARTICLE HEADER HERO */}
       <article className="w-full">
         <header className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
-          <div className="max-w-4xl mx-auto">
+          <div data-reveal="heading" className="max-w-4xl mx-auto">
             {/* Breadcrumb Navigation */}
             <nav aria-label="Breadcrumb" className="mb-6">
               <ol className="flex items-center flex-wrap gap-2 text-[11px] uppercase tracking-wider text-[#827C75]">
@@ -100,7 +102,7 @@ export const PostPage: React.FC = () => {
         <div className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
           <div className="max-w-3xl mx-auto space-y-12">
             {post.sections.map((section, idx) => (
-              <section key={idx} className="space-y-4">
+              <section key={idx} data-reveal="fade" className="space-y-4">
                 <h2 className="font-serif text-2xl sm:text-3xl text-[#141210] font-normal tracking-tight">
                   {section.h2}
                 </h2>
@@ -135,7 +137,7 @@ export const PostPage: React.FC = () => {
             {/* FAQS SECTION */}
             {post.faqs && post.faqs.length > 0 && (
               <section className="pt-8 border-t border-[#D9D0C3]">
-                <div className="mb-6">
+                <div data-reveal="heading" className="mb-6">
                   <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                     Frequently Asked Questions
                   </span>
@@ -144,37 +146,55 @@ export const PostPage: React.FC = () => {
                   </h2>
                 </div>
 
-                <div className="space-y-3">
+                <div data-reveal="fade" className="space-y-3">
                   {post.faqs.map((faq, index) => {
                     const isOpen = openFaq === index;
+                    const qId = `post-faq-q-${index}`;
+                    const aId = `post-faq-ans-${index}`;
                     return (
                       <div
                         key={index}
-                        className="border border-[#D9D0C3] rounded-sm bg-[#F5EDE2] overflow-hidden"
+                        className="border border-[#D9D0C3] rounded-sm bg-[#F5EDE2] overflow-hidden transition-colors duration-200 hover:border-[#B89255]"
                       >
                         <button
                           type="button"
+                          id={qId}
                           onClick={() => setOpenFaq(isOpen ? null : index)}
                           aria-expanded={isOpen}
-                          aria-controls={`post-faq-ans-${index}`}
+                          aria-controls={aId}
                           className="w-full flex items-center justify-between p-5 text-left font-serif text-base sm:text-lg text-[#141210] hover:text-[#9E5249] transition-colors cursor-pointer"
                         >
                           <span>{faq.q}</span>
-                          <ChevronDown
-                            className={`w-4 h-4 text-[#827C75] shrink-0 ml-4 transition-transform duration-200 ${
-                              isOpen ? 'rotate-180 text-[#9E5249]' : ''
-                            }`}
+                          <motion.span
+                            animate={{ rotate: isOpen ? 180 : 0 }}
+                            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                            className="shrink-0 ml-4"
                             aria-hidden="true"
-                          />
+                          >
+                            <ChevronDown
+                              className={`w-4 h-4 transition-colors duration-200 ${
+                                isOpen ? 'text-[#9E5249]' : 'text-[#827C75]'
+                              }`}
+                            />
+                          </motion.span>
                         </button>
-                        <div
-                          id={`post-faq-ans-${index}`}
-                          className={`px-5 pb-5 pt-0 text-xs sm:text-sm text-[#59544E] font-light leading-relaxed ${
-                            isOpen ? 'block' : 'hidden'
-                          }`}
+                        <motion.div
+                          id={aId}
+                          role="region"
+                          aria-labelledby={qId}
+                          aria-hidden={!isOpen}
+                          initial={false}
+                          animate={{
+                            height: isOpen ? 'auto' : 0,
+                            opacity: isOpen ? 1 : 0,
+                          }}
+                          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
                         >
-                          {faq.a}
-                        </div>
+                          <div className="px-5 pb-5 pt-2 text-xs sm:text-sm text-[#59544E] font-light leading-relaxed border-t border-[#D9D0C3]/40">
+                            {faq.a}
+                          </div>
+                        </motion.div>
                       </div>
                     );
                   })}
@@ -184,15 +204,22 @@ export const PostPage: React.FC = () => {
 
             {/* RELATED PAGES */}
             <section className="pt-8 border-t border-[#D9D0C3]">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-4">
+              <span
+                data-reveal="fade"
+                className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-4"
+              >
                 Related Solutions &amp; Guides
               </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div
+                data-reveal="stagger-group"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+              >
                 {post.relatedLinks.map((link) => (
                   <Link
                     key={link.to}
                     to={link.to}
-                    className="p-5 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-colors group flex items-center justify-between"
+                    data-reveal-item
+                    className="card-editorial p-5 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-sm group flex items-center justify-between"
                   >
                     <div>
                       <span className="text-[10px] uppercase tracking-wider text-[#827C75] block mb-1">
@@ -212,7 +239,7 @@ export const PostPage: React.FC = () => {
 
         {/* CALL TO ACTION */}
         <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#141210] text-[#FAF6F0] text-center">
-          <div className="max-w-3xl mx-auto space-y-6">
+          <div data-reveal="fade" className="max-w-3xl mx-auto space-y-6">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#B89255] font-bold">
               Direct Consultation
             </span>
@@ -223,18 +250,22 @@ export const PostPage: React.FC = () => {
               We engineer custom, lead-generating websites for contractors and junk hauling companies with transparent milestone pricing and 100% code ownership.
             </p>
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                to="/contact"
-                className="w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-              >
-                Get a Free Website Quote
-              </Link>
-              <Link
-                to="/packages"
-                className="w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-              >
-                View Packages &amp; Pricing
-              </Link>
+              <MagneticWrap className="w-full sm:w-auto">
+                <Link
+                  to="/contact"
+                  className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+                >
+                  Get a Free Website Quote
+                </Link>
+              </MagneticWrap>
+              <MagneticWrap className="w-full sm:w-auto">
+                <Link
+                  to="/packages"
+                  className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+                >
+                  View Packages &amp; Pricing
+                </Link>
+              </MagneticWrap>
             </div>
             <div className="pt-4">
               <Link

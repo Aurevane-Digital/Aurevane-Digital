@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, ShieldCheck, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { MagneticWrap } from './MagneticButton';
 
 interface NavbarProps {
   onOpenAuditModal?: () => void;
 }
+
+const EDITORIAL_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -53,10 +57,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setServicesOpen(false);
+        setMobileMenuOpen(false);
       }
     };
 
-    if (servicesOpen) {
+    if (servicesOpen || mobileMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleKeyDown);
     }
@@ -64,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [servicesOpen]);
+  }, [servicesOpen, mobileMenuOpen]);
 
   const handleAuditClick = () => {
     setMobileMenuOpen(false);
@@ -75,13 +80,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
     }
   };
 
-  const navLinks = [
-    { label: 'Home', path: '/' },
-    { label: 'About', path: '/about' },
-    { label: 'Our Work', path: '/our-work' },
-    { label: 'Packages', path: '/packages' },
-    { label: 'Contact', path: '/contact' },
-  ];
+  const renderDesktopLink = (to: string, label: string) => (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `group/nav transition-colors duration-200 cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+          isActive ? 'text-[#141210] font-semibold' : 'hover:text-[#141210]'
+        }`
+      }
+    >
+      {({ isActive }) => (
+        <>
+          <span>{label}</span>
+          {isActive ? (
+            <motion.span
+              layoutId="navbar-active-indicator"
+              transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+              className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#9E5249]"
+            />
+          ) : (
+            <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#9E5249]/50 scale-x-0 group-hover/nav:scale-x-100 transition-transform duration-300 origin-left" />
+          )}
+        </>
+      )}
+    </NavLink>
+  );
 
   return (
     <header
@@ -115,18 +138,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
           aria-label="Primary"
           className="hidden lg:flex items-center gap-8 text-[12px] tracking-[0.2em] font-medium uppercase text-[#59544E]"
         >
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
-                isActive
-                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
-                  : 'hover:text-[#141210]'
-              }`
-            }
-          >
-            Home
-          </NavLink>
+          {renderDesktopLink('/', 'Home')}
 
           {/* Services Dropdown */}
           <div className="relative" ref={dropdownRef}>
@@ -136,149 +148,129 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
               aria-expanded={servicesOpen}
               aria-haspopup="true"
               aria-controls="desktop-services-menu"
-              className={`flex items-center gap-1.5 transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
+              className={`group/nav flex items-center gap-1.5 transition-colors duration-200 cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
                 isServiceActive || servicesOpen
                   ? 'text-[#141210] font-semibold'
                   : 'hover:text-[#141210]'
               }`}
             >
               <span>Services</span>
-              <ChevronDown
-                className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                  servicesOpen ? 'rotate-180 text-[#9E5249]' : 'text-[#827C75]'
-                }`}
-                aria-hidden="true"
-              />
+              <motion.span
+                animate={{ rotate: servicesOpen ? 180 : 0 }}
+                transition={{ duration: 0.24, ease: EDITORIAL_EASE }}
+                className="inline-flex"
+              >
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-colors duration-200 ${
+                    servicesOpen ? 'text-[#9E5249]' : 'text-[#827C75]'
+                  }`}
+                  aria-hidden="true"
+                />
+              </motion.span>
+              {isServiceActive ? (
+                <motion.span
+                  layoutId="navbar-active-indicator"
+                  transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                  className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#9E5249]"
+                />
+              ) : (
+                <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#9E5249]/50 scale-x-0 group-hover/nav:scale-x-100 transition-transform duration-300 origin-left" />
+              )}
             </button>
 
-            {servicesOpen && (
-              <div
-                id="desktop-services-menu"
-                role="menu"
-                className="absolute top-full left-0 mt-3 w-64 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-xl py-3 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
-              >
-                <div className="px-4 py-1 text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249]">
-                  By Trade
-                </div>
-                {tradeLinks.map((service) => (
-                  <NavLink
-                    key={service.path}
-                    to={service.path}
-                    role="menuitem"
-                    onClick={() => setServicesOpen(false)}
-                    className={({ isActive }) =>
-                      `block px-4 py-1.5 text-[11px] tracking-wider uppercase transition-colors ${
-                        isActive
-                          ? 'bg-[#F5EDE2] text-[#9E5249] font-bold'
-                          : 'text-[#59544E] hover:text-[#141210] hover:bg-[#F5EDE2]/70'
-                      }`
-                    }
-                  >
-                    {service.label}
-                  </NavLink>
-                ))}
+            <AnimatePresence>
+              {servicesOpen && (
+                <motion.div
+                  id="desktop-services-menu"
+                  role="menu"
+                  initial={{ opacity: 0, y: 8, scale: 0.985 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.985 }}
+                  transition={{ duration: 0.22, ease: EDITORIAL_EASE }}
+                  className="absolute top-full left-0 mt-3 w-64 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-xl py-3 z-50 origin-top"
+                >
+                  <div className="px-4 py-1 text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249]">
+                    By Trade
+                  </div>
+                  {tradeLinks.map((service, idx) => (
+                    <motion.div
+                      key={service.path}
+                      initial={{ opacity: 0, x: -6 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: idx * 0.025, ease: EDITORIAL_EASE }}
+                    >
+                      <NavLink
+                        to={service.path}
+                        role="menuitem"
+                        onClick={() => setServicesOpen(false)}
+                        className={({ isActive }) =>
+                          `block px-4 py-1.5 text-[11px] tracking-wider uppercase transition-all duration-150 ${
+                            isActive
+                              ? 'bg-[#F5EDE2] text-[#9E5249] font-bold'
+                              : 'text-[#59544E] hover:text-[#141210] hover:bg-[#F5EDE2]/70 hover:pl-5'
+                          }`
+                        }
+                      >
+                        {service.label}
+                      </NavLink>
+                    </motion.div>
+                  ))}
 
-                <div className="my-2 border-t border-[#D9D0C3]/60" />
+                  <div className="my-2 border-t border-[#D9D0C3]/60" />
 
-                <div className="px-4 py-1 text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249]">
-                  Services
-                </div>
-                {coreServiceLinks.map((service) => (
-                  <NavLink
-                    key={service.path}
-                    to={service.path}
-                    role="menuitem"
-                    onClick={() => setServicesOpen(false)}
-                    className={({ isActive }) =>
-                      `block px-4 py-1.5 text-[11px] tracking-wider uppercase transition-colors ${
-                        isActive
-                          ? 'bg-[#F5EDE2] text-[#9E5249] font-bold'
-                          : 'text-[#59544E] hover:text-[#141210] hover:bg-[#F5EDE2]/70'
-                      }`
-                    }
-                  >
-                    {service.label}
-                  </NavLink>
-                ))}
-              </div>
-            )}
+                  <div className="px-4 py-1 text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249]">
+                    Services
+                  </div>
+                  {coreServiceLinks.map((service, idx) => (
+                    <motion.div
+                      key={service.path}
+                      initial={{ opacity: 0, x: -6 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        duration: 0.2,
+                        delay: (tradeLinks.length + idx) * 0.025,
+                        ease: EDITORIAL_EASE,
+                      }}
+                    >
+                      <NavLink
+                        to={service.path}
+                        role="menuitem"
+                        onClick={() => setServicesOpen(false)}
+                        className={({ isActive }) =>
+                          `block px-4 py-1.5 text-[11px] tracking-wider uppercase transition-all duration-150 ${
+                            isActive
+                              ? 'bg-[#F5EDE2] text-[#9E5249] font-bold'
+                              : 'text-[#59544E] hover:text-[#141210] hover:bg-[#F5EDE2]/70 hover:pl-5'
+                          }`
+                        }
+                      >
+                        {service.label}
+                      </NavLink>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
-                isActive
-                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
-                  : 'hover:text-[#141210]'
-              }`
-            }
-          >
-            About
-          </NavLink>
-
-          <NavLink
-            to="/our-work"
-            className={({ isActive }) =>
-              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
-                isActive
-                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
-                  : 'hover:text-[#141210]'
-              }`
-            }
-          >
-            Our Work
-          </NavLink>
-
-          <NavLink
-            to="/packages"
-            className={({ isActive }) =>
-              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
-                isActive
-                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
-                  : 'hover:text-[#141210]'
-              }`
-            }
-          >
-            Packages
-          </NavLink>
-
-          <NavLink
-            to="/blog"
-            className={({ isActive }) =>
-              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
-                isActive
-                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
-                  : 'hover:text-[#141210]'
-              }`
-            }
-          >
-            Blog
-          </NavLink>
-
-          <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              `transition-colors cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
-                isActive
-                  ? 'text-[#141210] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#9E5249]'
-                  : 'hover:text-[#141210]'
-              }`
-            }
-          >
-            Contact
-          </NavLink>
+          {renderDesktopLink('/about', 'About')}
+          {renderDesktopLink('/our-work', 'Our Work')}
+          {renderDesktopLink('/packages', 'Packages')}
+          {renderDesktopLink('/blog', 'Blog')}
+          {renderDesktopLink('/contact', 'Contact')}
         </nav>
 
         {/* Action Button */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={handleAuditClick}
-            className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 bg-[#141210] text-white text-[11px] font-semibold tracking-[0.18em] uppercase rounded-sm hover:bg-[#34302D] transition-all duration-200 shadow-sm cursor-pointer group focus-visible:outline-2 focus-visible:outline-[#9E5249]"
-          >
-            <span>Request a Website Check</span>
-            <ArrowUpRight className="w-3.5 h-3.5 ml-1.5 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </button>
+          <MagneticWrap className="hidden sm:inline-block" strength={4}>
+            <button
+              onClick={handleAuditClick}
+              className="btn-editorial hidden sm:inline-flex items-center justify-center px-5 py-2.5 bg-[#141210] text-white text-[11px] font-semibold tracking-[0.18em] uppercase rounded-sm hover:bg-[#34302D] shadow-sm cursor-pointer group focus-visible:outline-2 focus-visible:outline-[#9E5249]"
+            >
+              <span>Request a Website Check</span>
+              <ArrowUpRight className="w-3.5 h-3.5 ml-1.5 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+            </button>
+          </MagneticWrap>
 
           {/* Mobile Check Icon */}
           <button
@@ -295,6 +287,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden p-2 text-[#141210] hover:text-[#9E5249] transition-colors cursor-pointer"
             aria-label="Toggle Navigation Menu"
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -302,163 +295,175 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
       </div>
 
       {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#FAF6F0] border-b border-[#D9D0C3] px-6 py-6 space-y-4 shadow-2xl animate-in slide-in-from-top duration-200">
-          <div className="flex flex-col space-y-3 text-xs tracking-[0.2em] uppercase font-medium">
-            <NavLink
-              to="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
-                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
-                }`
-              }
-            >
-              Home
-            </NavLink>
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.28, ease: EDITORIAL_EASE }}
+            className="lg:hidden bg-[#FAF6F0] border-b border-[#D9D0C3] overflow-hidden shadow-2xl"
+          >
+            <div className="px-6 py-6 space-y-4">
+              <div className="flex flex-col space-y-3 text-xs tracking-[0.2em] uppercase font-medium">
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.22, delay: 0.03, ease: EDITORIAL_EASE }}
+                >
+                  <NavLink
+                    to="/"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `block text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
+                        isActive
+                          ? 'font-bold text-[#9E5249]'
+                          : 'text-[#59544E] hover:text-[#141210]'
+                      }`
+                    }
+                  >
+                    Home
+                  </NavLink>
+                </motion.div>
 
-            {/* Mobile Services Accordion */}
-            <div className="border-b border-[#D9D0C3]/40">
-              <button
-                type="button"
-                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                aria-expanded={mobileServicesOpen}
-                className="w-full flex items-center justify-between py-2.5 text-left text-xs tracking-[0.2em] uppercase font-medium text-[#59544E] hover:text-[#141210] cursor-pointer"
-              >
-                <span className={isServiceActive ? 'text-[#9E5249] font-bold' : ''}>Services</span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    mobileServicesOpen ? 'rotate-180 text-[#9E5249]' : 'text-[#827C75]'
-                  }`}
-                  aria-hidden="true"
-                />
-              </button>
-              {mobileServicesOpen && (
-                <div className="pl-3 pb-2 space-y-3 border-l border-[#D9D0C3] my-1">
-                  <div>
-                    <span className="block text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249] mb-1">
-                      By Trade
-                    </span>
-                    <div className="space-y-1">
-                      {tradeLinks.map((service) => (
-                        <NavLink
-                          key={service.path}
-                          to={service.path}
-                          onClick={() => {
-                            setMobileServicesOpen(false);
-                            setMobileMenuOpen(false);
-                          }}
-                          className={({ isActive }) =>
-                            `block py-1 text-[11px] tracking-wider uppercase ${
-                              isActive ? 'text-[#9E5249] font-bold' : 'text-[#59544E] hover:text-[#141210]'
-                            }`
-                          }
-                        >
-                          {service.label}
-                        </NavLink>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="block text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249] mb-1">
+                {/* Mobile Services Accordion */}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.22, delay: 0.06, ease: EDITORIAL_EASE }}
+                  className="border-b border-[#D9D0C3]/40"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                    aria-expanded={mobileServicesOpen}
+                    className="w-full flex items-center justify-between py-2.5 text-left text-xs tracking-[0.2em] uppercase font-medium text-[#59544E] hover:text-[#141210] cursor-pointer"
+                  >
+                    <span className={isServiceActive ? 'text-[#9E5249] font-bold' : ''}>
                       Services
                     </span>
-                    <div className="space-y-1">
-                      {coreServiceLinks.map((service) => (
-                        <NavLink
-                          key={service.path}
-                          to={service.path}
-                          onClick={() => {
-                            setMobileServicesOpen(false);
-                            setMobileMenuOpen(false);
-                          }}
-                          className={({ isActive }) =>
-                            `block py-1 text-[11px] tracking-wider uppercase ${
-                              isActive ? 'text-[#9E5249] font-bold' : 'text-[#59544E] hover:text-[#141210]'
-                            }`
-                          }
-                        >
-                          {service.label}
-                        </NavLink>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
+                    <motion.span
+                      animate={{ rotate: mobileServicesOpen ? 180 : 0 }}
+                      transition={{ duration: 0.22, ease: EDITORIAL_EASE }}
+                    >
+                      <ChevronDown
+                        className={`w-4 h-4 ${
+                          mobileServicesOpen ? 'text-[#9E5249]' : 'text-[#827C75]'
+                        }`}
+                        aria-hidden="true"
+                      />
+                    </motion.span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {mobileServicesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.25, ease: EDITORIAL_EASE }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pl-3 pb-2 space-y-3 border-l border-[#D9D0C3] my-1">
+                          <div>
+                            <span className="block text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249] mb-1">
+                              By Trade
+                            </span>
+                            <div className="space-y-1">
+                              {tradeLinks.map((service) => (
+                                <NavLink
+                                  key={service.path}
+                                  to={service.path}
+                                  onClick={() => {
+                                    setMobileServicesOpen(false);
+                                    setMobileMenuOpen(false);
+                                  }}
+                                  className={({ isActive }) =>
+                                    `block py-1 text-[11px] tracking-wider uppercase ${
+                                      isActive
+                                        ? 'text-[#9E5249] font-bold'
+                                        : 'text-[#59544E] hover:text-[#141210]'
+                                    }`
+                                  }
+                                >
+                                  {service.label}
+                                </NavLink>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div>
+                            <span className="block text-[9px] uppercase tracking-[0.2em] font-bold text-[#9E5249] mb-1">
+                              Services
+                            </span>
+                            <div className="space-y-1">
+                              {coreServiceLinks.map((service) => (
+                                <NavLink
+                                  key={service.path}
+                                  to={service.path}
+                                  onClick={() => {
+                                    setMobileServicesOpen(false);
+                                    setMobileMenuOpen(false);
+                                  }}
+                                  className={({ isActive }) =>
+                                    `block py-1 text-[11px] tracking-wider uppercase ${
+                                      isActive
+                                        ? 'text-[#9E5249] font-bold'
+                                        : 'text-[#59544E] hover:text-[#141210]'
+                                    }`
+                                  }
+                                >
+                                  {service.label}
+                                </NavLink>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+
+                {[
+                  { to: '/about', label: 'About', delay: 0.09 },
+                  { to: '/our-work', label: 'Our Work', delay: 0.12 },
+                  { to: '/packages', label: 'Packages', delay: 0.15 },
+                  { to: '/blog', label: 'Blog', delay: 0.18 },
+                  { to: '/contact', label: 'Contact', delay: 0.21 },
+                ].map((item) => (
+                  <motion.div
+                    key={item.to}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.22, delay: item.delay, ease: EDITORIAL_EASE }}
+                  >
+                    <NavLink
+                      to={item.to}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `block text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
+                          isActive
+                            ? 'font-bold text-[#9E5249]'
+                            : 'text-[#59544E] hover:text-[#141210]'
+                        }`
+                      }
+                    >
+                      {item.label}
+                    </NavLink>
+                  </motion.div>
+                ))}
+              </div>
+              <div className="pt-2">
+                <button
+                  onClick={handleAuditClick}
+                  className="btn-editorial block w-full py-3 bg-[#141210] text-white text-[11px] font-semibold tracking-[0.2em] uppercase rounded-sm text-center cursor-pointer"
+                >
+                  Request a Website Check
+                </button>
+              </div>
             </div>
-
-            <NavLink
-              to="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
-                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
-                }`
-              }
-            >
-              About
-            </NavLink>
-
-            <NavLink
-              to="/our-work"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
-                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
-                }`
-              }
-            >
-              Our Work
-            </NavLink>
-
-            <NavLink
-              to="/packages"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
-                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
-                }`
-              }
-            >
-              Packages
-            </NavLink>
-
-            <NavLink
-              to="/blog"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
-                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
-                }`
-              }
-            >
-              Blog
-            </NavLink>
-
-            <NavLink
-              to="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
-                  isActive ? 'text-[#141210] font-bold text-[#9E5249]' : 'text-[#59544E] hover:text-[#141210]'
-                }`
-              }
-            >
-              Contact
-            </NavLink>
-          </div>
-          <div className="pt-2">
-            <button
-              onClick={handleAuditClick}
-              className="block w-full py-3 bg-[#141210] text-white text-[11px] font-semibold tracking-[0.2em] uppercase rounded-sm text-center cursor-pointer"
-            >
-              Request a Website Check
-            </button>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
-

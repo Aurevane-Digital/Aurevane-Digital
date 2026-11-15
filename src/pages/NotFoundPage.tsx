@@ -16,12 +16,12 @@ export const NotFoundPage: React.FC = () => {
       {/* HERO MASTHEAD */}
       <section className="w-full pt-32 pb-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
+          <div data-reveal="heading" className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 Error 404
               </span>
-              <div className="h-px w-10 bg-[#9E5249]/40" />
+              <div data-reveal="line" className="h-px w-10 bg-[#9E5249]/40" />
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#141210] font-normal leading-[1.1] mb-6">
@@ -42,7 +42,7 @@ export const NotFoundPage: React.FC = () => {
       {/* NAVIGATION BUTTONS SECTION */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] flex-grow">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl mb-8">
+          <div data-reveal="heading" className="max-w-3xl mb-8">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
               Helpful Destinations
             </span>
@@ -51,11 +51,15 @@ export const NotFoundPage: React.FC = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          >
             {/* Button 1: Home */}
             <Link
               to="/"
-              className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <Home className="w-5 h-5 text-[#B89255] mb-3" />
@@ -75,7 +79,8 @@ export const NotFoundPage: React.FC = () => {
             {/* Button 2: Our Work */}
             <Link
               to="/our-work"
-              className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <Compass className="w-5 h-5 text-[#B89255] mb-3" />
@@ -95,7 +100,8 @@ export const NotFoundPage: React.FC = () => {
             {/* Button 3: Packages */}
             <Link
               to="/packages"
-              className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <Package className="w-5 h-5 text-[#B89255] mb-3" />
@@ -115,7 +121,8 @@ export const NotFoundPage: React.FC = () => {
             {/* Button 4: Contact */}
             <Link
               to="/contact"
-              className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <Mail className="w-5 h-5 text-[#B89255] mb-3" />

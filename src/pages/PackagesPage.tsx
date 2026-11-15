@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import {
   CheckCircle2,
   Clock,
@@ -23,6 +24,7 @@ import {
 } from '../data/packages';
 import { ServicePackage } from '../types';
 import { SEO } from '../components/SEO';
+import { MagneticWrap } from '../components/MagneticButton';
 import { getSeo } from '../data/seoRoutes';
 import { buildFaqPageSchema, ServiceSchemaFaq } from '../utils/schema';
 
@@ -99,12 +101,12 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
       {/* 1. HERO MASTHEAD */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
+          <div data-reveal="heading" className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 Transparent Investment
               </span>
-              <div className="h-px w-10 bg-[#9E5249]/40" />
+              <div data-reveal="line" className="h-px w-10 bg-[#9E5249]/40" />
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#141210] font-normal leading-[1.1] mb-6">
@@ -121,7 +123,10 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
       {/* 2. PACKAGE CARDS */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch"
+          >
             {SERVICE_PACKAGES.map((pkg) => {
               const isFeatured = pkg.featured;
               const isEnterprise = pkg.id === 'custom';
@@ -129,10 +134,11 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               return (
                 <div
                   key={pkg.id}
-                  className={`p-8 md:p-9 rounded-sm flex flex-col justify-between transition-all relative ${
+                  data-reveal-item
+                  className={`card-editorial p-8 md:p-9 rounded-sm flex flex-col justify-between relative ${
                     isFeatured
                       ? 'border-2 border-[#9E5249] shadow-xl ring-1 ring-[#9E5249]/20 bg-[#FAF6F0]'
-                      : 'bg-[#F5EDE2] border border-[#D9D0C3] hover:shadow-md'
+                      : 'bg-[#F5EDE2] border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md'
                   }`}
                 >
                   {pkg.badge && (
@@ -211,7 +217,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
                   <div className="pt-4">
                     <button
                       onClick={() => onSelectPackage(pkg)}
-                      className={`w-full inline-flex items-center justify-center py-3.5 px-4 text-[11px] font-semibold uppercase tracking-widest rounded-sm transition-all duration-200 cursor-pointer ${
+                      className={`btn-editorial w-full inline-flex items-center justify-center py-3.5 px-4 text-[11px] font-semibold uppercase tracking-widest rounded-sm cursor-pointer ${
                         isFeatured
                           ? 'bg-[#9E5249] text-white hover:bg-[#BA685E] shadow-xs'
                           : 'bg-[#141210] text-[#FAF6F0] hover:bg-[#34302D]'
@@ -235,7 +241,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
       {/* 3. OPTIONAL ENHANCEMENTS */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mb-12">
+          <div data-reveal="heading" className="max-w-2xl mb-12">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
               Modular Extensions
             </span>
@@ -247,11 +253,15 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
             {ADD_ON_OPTIONS.map((addon) => (
               <div
                 key={addon.id}
-                className="p-7 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] flex flex-col justify-between"
+                data-reveal-item
+                className="card-editorial p-7 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md flex flex-col justify-between"
               >
                 <div>
                   <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
@@ -286,7 +296,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
       {/* 4. OPTIONAL MONTHLY RETAINERS ("Beyond Launch. Built for Growth.") */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl mb-12">
+          <div data-reveal="heading" className="max-w-3xl mb-12">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
               Optional monthly retainers
             </span>
@@ -298,13 +308,17 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch"
+          >
             {MONTHLY_RETAINERS.map((retainer) => {
               const isRecommended = Boolean(retainer.badge);
               return (
                 <div
                   key={retainer.id}
-                  className={`p-8 md:p-9 rounded-sm bg-[#141210] text-[#FAF6F0] flex flex-col justify-between relative ${
+                  data-reveal-item
+                  className={`card-editorial p-8 md:p-9 rounded-sm bg-[#141210] text-[#FAF6F0] flex flex-col justify-between relative ${
                     isRecommended
                       ? 'border-2 border-[#B89255] shadow-xl'
                       : 'border border-[#34302D]'
@@ -360,14 +374,14 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
                   <div className="pt-2">
                     <Link
                       to="/contact"
-                      className={`w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 text-[11px] font-semibold uppercase tracking-widest rounded-sm transition-colors ${
+                      className={`btn-editorial w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 text-[11px] font-semibold uppercase tracking-widest rounded-sm group ${
                         isRecommended
                           ? 'bg-[#B89255] text-[#141210] hover:bg-[#cfa867]'
                           : 'bg-[#FAF6F0] text-[#141210] hover:bg-white'
                       }`}
                     >
                       <span>{retainer.cta}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
                     </Link>
                   </div>
                 </div>
@@ -375,7 +389,10 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             })}
           </div>
 
-          <p className="mt-8 text-[11px] text-[#59544E] font-light leading-relaxed max-w-4xl">
+          <p
+            data-reveal="fade"
+            className="mt-8 text-[11px] text-[#59544E] font-light leading-relaxed max-w-4xl"
+          >
             {RETAINER_TERMS}
           </p>
         </div>
@@ -384,7 +401,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
       {/* 5. PAYMENT INFORMATION */}
       <section className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mb-10">
+          <div data-reveal="heading" className="max-w-2xl mb-10">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
               Payment Structure
             </span>
@@ -393,8 +410,14 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-7 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            <div
+              data-reveal-item
+              className="card-editorial p-7 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm hover:border-[#9E5249]/60"
+            >
               <div className="flex items-center gap-2.5 mb-4">
                 <Layers className="w-5 h-5 text-[#9E5249]" />
                 <h3 className="font-serif text-xl text-[#141210] font-normal">
@@ -411,7 +434,10 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               </ul>
             </div>
 
-            <div className="p-7 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm">
+            <div
+              data-reveal-item
+              className="card-editorial p-7 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm hover:border-[#9E5249]/60"
+            >
               <div className="flex items-center gap-2.5 mb-4">
                 <CreditCard className="w-5 h-5 text-[#9E5249]" />
                 <h3 className="font-serif text-xl text-[#141210] font-normal">
@@ -434,8 +460,11 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
       {/* 6. TRUST TRIO (CODE OWNERSHIP ETC.) */}
       <section className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex items-start gap-4">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            <div data-reveal-item className="flex items-start gap-4">
               <ShieldCheck className="w-6 h-6 text-[#9E5249] shrink-0 mt-1" />
               <div>
                 <h3 className="font-serif text-lg text-[#141210] mb-1">100% Code Ownership</h3>
@@ -445,7 +474,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
+            <div data-reveal-item className="flex items-start gap-4">
               <Clock className="w-6 h-6 text-[#9E5249] shrink-0 mt-1" />
               <div>
                 <h3 className="font-serif text-lg text-[#141210] mb-1">Milestone Accountability</h3>
@@ -455,7 +484,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
+            <div data-reveal-item className="flex items-start gap-4">
               <HelpCircle className="w-6 h-6 text-[#9E5249] shrink-0 mt-1" />
               <div>
                 <h3 className="font-serif text-lg text-[#141210] mb-1">Questions on Scope?</h3>
@@ -471,7 +500,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
       {/* 7. FAQ ACCORDION */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
+          <div data-reveal="heading" className="text-center mb-12">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
               Common Questions
             </span>
@@ -483,7 +512,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div data-reveal="fade" className="space-y-4">
             {faqs.map((faq, idx) => {
               const isOpen = openFaqIndex === idx;
               const qId = `pkg-faq-q-${idx}`;
@@ -491,7 +520,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               return (
                 <div
                   key={idx}
-                  className="bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm overflow-hidden"
+                  className="bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm overflow-hidden transition-colors duration-200 hover:border-[#B89255]"
                 >
                   <h3>
                     <button
@@ -505,25 +534,34 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
                       <span className="font-serif text-base md:text-lg text-[#141210] font-normal">
                         {faq.q}
                       </span>
-                      <ChevronDown
-                        className={`w-4 h-4 text-[#9E5249] shrink-0 transition-transform duration-200 ${
-                          isOpen ? 'rotate-180' : ''
-                        }`}
-                      />
+                      <motion.span
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                        className="shrink-0"
+                        aria-hidden="true"
+                      >
+                        <ChevronDown className="w-4 h-4 text-[#9E5249]" />
+                      </motion.span>
                     </button>
                   </h3>
 
-                  <div
+                  <motion.div
                     id={aId}
                     role="region"
                     aria-labelledby={qId}
-                    hidden={!isOpen}
-                    className={`px-6 text-xs md:text-sm text-[#59544E] font-light leading-relaxed border-t border-[#D9D0C3]/50 transition-all ${
-                      isOpen ? 'py-5 block' : 'hidden'
-                    }`}
+                    aria-hidden={!isOpen}
+                    initial={false}
+                    animate={{
+                      height: isOpen ? 'auto' : 0,
+                      opacity: isOpen ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
                   >
-                    <p>{faq.a}</p>
-                  </div>
+                    <div className="px-6 py-5 text-xs md:text-sm text-[#59544E] font-light leading-relaxed border-t border-[#D9D0C3]/50">
+                      <p>{faq.a}</p>
+                    </div>
+                  </motion.div>
                 </div>
               );
             })}
@@ -533,7 +571,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
 
       {/* 8. FINAL CTA BAND */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#141210] text-[#FAF6F0] text-center">
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div data-reveal="fade" className="max-w-3xl mx-auto space-y-6">
           <span className="text-[10px] uppercase tracking-[0.25em] text-[#B89255] font-bold">
             Start Your Transformation
           </span>
@@ -544,18 +582,22 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             Start your build directly or talk with our team about your project scope and timeline.
           </p>
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={() => onSelectPackage(proPkg)}
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-            >
-              Start a Professional Project (from {proPkg.price})
-            </button>
-            <Link
-              to="/contact"
-              className="w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-            >
-              Contact Our Principal
-            </Link>
+            <MagneticWrap className="w-full sm:w-auto">
+              <button
+                onClick={() => onSelectPackage(proPkg)}
+                className="btn-editorial w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+              >
+                Start a Professional Project (from {proPkg.price})
+              </button>
+            </MagneticWrap>
+            <MagneticWrap className="w-full sm:w-auto">
+              <Link
+                to="/contact"
+                className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+              >
+                Contact Our Principal
+              </Link>
+            </MagneticWrap>
           </div>
         </div>
       </section>

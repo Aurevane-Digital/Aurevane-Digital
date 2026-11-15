@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { motion } from 'motion/react';
 import { X, ShieldCheck, ArrowRight } from 'lucide-react';
 import { AuditReportData } from '../types';
 
@@ -36,13 +37,23 @@ export const AuditReportModal: React.FC<AuditReportModalProps> = ({
   if (!report) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#141210]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#141210]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+    >
+      <motion.div
         ref={dialogRef}
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="audit-report-title"
+        initial={{ opacity: 0, y: 18, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.985 }}
+        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
         className="relative w-full max-w-3xl bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-2xl overflow-hidden my-8 focus:outline-none"
       >
         {/* Header */}
@@ -155,14 +166,14 @@ export const AuditReportModal: React.FC<AuditReportModalProps> = ({
                 onClose();
                 onBookCure();
               }}
-              className="px-6 py-2.5 bg-[#9E5249] text-white text-[11px] font-semibold uppercase tracking-widest rounded-sm hover:bg-[#BA685E] transition-colors cursor-pointer flex items-center gap-2"
+              className="btn-editorial px-6 py-2.5 bg-[#9E5249] text-white text-[11px] font-semibold uppercase tracking-widest rounded-sm hover:bg-[#BA685E] cursor-pointer flex items-center gap-2 group"
             >
               <span>Schedule Fix Consultation</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

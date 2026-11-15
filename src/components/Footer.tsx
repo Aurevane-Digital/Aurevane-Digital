@@ -13,7 +13,7 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="w-full bg-[#F5EDE2] border-t border-[#D9D0C3]/80">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
+        <div data-reveal="fade" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
           {/* Logo & Mission Column */}
           <div className="lg:col-span-4 flex flex-col gap-4">
             <Link to="/" className="h-16 md:h-20 flex items-center">
@@ -29,7 +29,7 @@ export const Footer: React.FC<FooterProps> = ({
             <p className="text-xs md:text-sm text-[#59544E] max-w-sm leading-relaxed font-light">
               High-converting website design for contractors and luxury trades. Built with minimal aesthetics, architectural rigor, and precision code.
             </p>
-            <div className="w-10 h-px bg-[#B89255]/60 my-1" />
+            <div data-reveal="line" className="w-10 h-px bg-[#B89255]/60 my-1" />
             <span className="text-[10px] uppercase tracking-widest text-[#9E5249] font-semibold">
               Archival Digital Atelier
             </span>

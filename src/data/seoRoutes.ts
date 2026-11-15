@@ -238,6 +238,70 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     ],
   },
   {
+    path: '/roofing-website-design',
+    title: 'Roofing Website Design | Aurevane Digital',
+    description:
+      'Mobile-first roofing contractor websites with emergency tap-to-call paths, replacement quote funnels, before-and-after galleries, and local SEO.',
+    h1: 'Roofing Website Design Built for Storm Calls and Full Replacements',
+    intro:
+      'Mobile-first websites for residential and commercial roofing contractors across the United States—combining emergency tap-to-call dispatch paths, structured replacement quote funnels, before-and-after roof galleries, and local SEO architecture.',
+    links: [
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/fence-installation-website-design',
+    title: 'Fence Installation Website Design | Aurevane Digital',
+    description:
+      'Custom mobile-first websites for fence contractors with emergency repair calls, quote funnels, before-and-after project galleries, and local SEO.',
+    h1: 'Fence Installation Website Design That Turns Yard Searches Into Estimates',
+    intro:
+      'Custom mobile-first websites for residential and commercial fence contractors across the United States—built with emergency repair tap-to-call paths, linear-footage quote requests, before-and-after fenceline galleries, and local SEO structure.',
+    links: [
+      { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/landscaping-website-design',
+    title: 'Landscaping Website Design | Aurevane Digital',
+    description:
+      'Mobile-first landscaping and hardscape contractor websites with urgent call paths, project quote funnels, before-and-after galleries, and local SEO.',
+    h1: 'Landscaping Website Design Built for Design-Build and Hardscape Leads',
+    intro:
+      'Mobile-first websites for landscaping, hardscaping, and drainage contractors across the United States—combining urgent tap-to-call dispatch, planned project quote funnels, before-and-after yard galleries, and local SEO structure.',
+    links: [
+      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Excavation Website Design', to: '/excavation-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/plumbing-hvac-website-design',
+    title: 'Plumbing & HVAC Website Design | Aurevane Digital',
+    description:
+      'Mobile-first plumbing and HVAC contractor websites with tap-to-call emergency dispatch, replacement quote funnels, project galleries, and local SEO.',
+    h1: 'Plumbing & HVAC Website Design Built for Urgent Dispatch and Replacements',
+    intro:
+      'Mobile-first websites for plumbing, heating, and cooling contractors across the United States—combining emergency tap-to-call paths, planned system quote funnels, before-and-after installation galleries, and local SEO structure.',
+    links: [
+      { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
+      { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
     path: '/blog',
     title: 'Website & SEO Guides for Contractors | Aurevane Digital',
     description:

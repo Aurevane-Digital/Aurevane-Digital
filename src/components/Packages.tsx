@@ -11,7 +11,7 @@ export const Packages: React.FC<PackagesProps> = ({ onSelectPackage }) => {
   return (
     <section id="packages" className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div data-reveal="heading" className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
             Transparent Investment
           </span>
@@ -24,17 +24,21 @@ export const Packages: React.FC<PackagesProps> = ({ onSelectPackage }) => {
         </div>
 
         {/* 3 Tier Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        <div
+          data-reveal="stagger-group"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch"
+        >
           {SERVICE_PACKAGES.map((pkg) => {
             const isFeatured = pkg.featured;
 
             return (
               <div
                 key={pkg.id}
-                className={`bg-[#FAF6F0] p-8 md:p-9 rounded-sm flex flex-col justify-between transition-all relative ${
+                data-reveal-item
+                className={`card-editorial bg-[#FAF6F0] p-8 md:p-9 rounded-sm flex flex-col justify-between relative ${
                   isFeatured
                     ? 'border-2 border-[#9E5249] shadow-lg ring-1 ring-[#9E5249]/20'
-                    : 'border border-[#D9D0C3] hover:shadow-md'
+                    : 'border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md'
                 }`}
               >
                 {isFeatured && (
@@ -98,7 +102,7 @@ export const Packages: React.FC<PackagesProps> = ({ onSelectPackage }) => {
                 <div className="pt-4">
                   <button
                     onClick={() => onSelectPackage(pkg)}
-                    className={`w-full inline-flex items-center justify-center py-3.5 px-4 text-[11px] font-semibold uppercase tracking-widest rounded-sm transition-all duration-200 cursor-pointer ${
+                    className={`btn-editorial w-full inline-flex items-center justify-center py-3.5 px-4 text-[11px] font-semibold uppercase tracking-widest rounded-sm cursor-pointer ${
                       isFeatured
                         ? 'bg-[#9E5249] text-white hover:bg-[#BA685E] shadow-xs'
                         : 'bg-transparent border border-[#141210] text-[#141210] hover:bg-[#141210] hover:text-white'

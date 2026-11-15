@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock, Calendar, BookOpen } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { MagneticWrap } from '../components/MagneticButton';
 import { getSeo } from '../data/seoRoutes';
 import { BLOG_POSTS } from '../data/posts';
 
@@ -19,12 +20,12 @@ export const BlogPage: React.FC = () => {
       {/* HEADER HERO */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
+          <div data-reveal="heading" className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 Knowledge Base &amp; Strategy
               </span>
-              <div className="h-px w-10 bg-[#9E5249]/40" />
+              <div data-reveal="line" className="h-px w-10 bg-[#9E5249]/40" />
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#141210] font-normal leading-[1.1] mb-6">
@@ -41,11 +42,15 @@ export const BlogPage: React.FC = () => {
       {/* ARTICLES LISTING */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
             {BLOG_POSTS.map((post) => (
               <article
                 key={post.slug}
-                className="bg-[#F5EDE2] p-8 rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
+                data-reveal-item
+                className="card-editorial bg-[#F5EDE2] p-8 rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] flex flex-col justify-between group shadow-xs hover:shadow-md"
               >
                 <div>
                   {/* Meta Tags */}
@@ -93,7 +98,7 @@ export const BlogPage: React.FC = () => {
 
       {/* CALL TO ACTION */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#141210] text-[#FAF6F0] text-center">
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div data-reveal="fade" className="max-w-3xl mx-auto space-y-6">
           <span className="text-[10px] uppercase tracking-[0.25em] text-[#B89255] font-bold">
             Tailored Development
           </span>
@@ -104,18 +109,22 @@ export const BlogPage: React.FC = () => {
             We build high-converting, fast-loading websites with one-time milestone pricing, no mandatory monthly retainers, and 100% code ownership. Explore packages or request a diagnostic check.
           </p>
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/packages"
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-            >
-              View Service Packages
-            </Link>
-            <Link
-              to="/contact"
-              className="w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-            >
-              Get a Free Website Quote
-            </Link>
+            <MagneticWrap className="w-full sm:w-auto">
+              <Link
+                to="/packages"
+                className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+              >
+                View Service Packages
+              </Link>
+            </MagneticWrap>
+            <MagneticWrap className="w-full sm:w-auto">
+              <Link
+                to="/contact"
+                className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+              >
+                Get a Free Website Quote
+              </Link>
+            </MagneticWrap>
           </div>
         </div>
       </section>

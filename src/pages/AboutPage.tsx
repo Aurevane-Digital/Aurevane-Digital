@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Compass, Sparkles, Zap, Gauge, Building2, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { MagneticWrap } from '../components/MagneticButton';
 import { getSeo } from '../data/seoRoutes';
 import { SERVICE_PACKAGES, MONTHLY_RETAINERS } from '../data/packages';
 
@@ -51,12 +52,12 @@ export const AboutPage: React.FC = () => {
       {/* HERO MASTHEAD */}
       <section className="w-full pt-32 pb-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
+          <div data-reveal="heading" className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 About Aurevane Digital
               </span>
-              <div className="h-px w-10 bg-[#9E5249]/40" />
+              <div data-reveal="line" className="h-px w-10 bg-[#9E5249]/40" />
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#141210] font-normal leading-[1.1] mb-6">
@@ -78,17 +79,20 @@ export const AboutPage: React.FC = () => {
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-5 space-y-6">
+            <div data-reveal="heading" className="lg:col-span-5 space-y-6">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 The Core Problem
               </span>
               <h2 className="font-serif text-3xl md:text-4xl text-[#141210] font-normal leading-tight">
                 Why Many Contractor Websites Fail to Win Premium Clients.
               </h2>
-              <div className="h-0.5 w-16 bg-[#B89255]" />
+              <div data-reveal="line" className="h-0.5 w-16 bg-[#B89255]" />
             </div>
 
-            <div className="lg:col-span-7 space-y-6 text-sm md:text-base text-[#59544E] font-light leading-relaxed">
+            <div
+              data-reveal="fade"
+              className="lg:col-span-7 space-y-6 text-sm md:text-base text-[#59544E] font-light leading-relaxed"
+            >
               <p>
                 Most contractor websites are built on bloated, interchangeable agency templates. Whether for roofing specialists, junk removal operators, electrical contractors, excavation teams, or fence and landscaping companies, generic websites broadcast compromise before a client conversation even begins.
               </p>
@@ -106,7 +110,7 @@ export const AboutPage: React.FC = () => {
       {/* AUREVANE DIGITAL AT A GLANCE */}
       <section className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
+          <div data-reveal="fade" className="max-w-3xl">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-2">
               Studio Overview
             </span>
@@ -137,7 +141,7 @@ export const AboutPage: React.FC = () => {
       {/* 5 CORE PILLARS */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mb-16">
+          <div data-reveal="heading" className="max-w-2xl mb-16">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
               Our Methodology
             </span>
@@ -149,13 +153,17 @@ export const AboutPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {pillars.map((pillar) => {
               const Icon = pillar.icon;
               return (
                 <div
                   key={pillar.num}
-                  className="p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 transition-all flex flex-col justify-between"
+                  data-reveal-item
+                  className="card-editorial p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -176,7 +184,10 @@ export const AboutPage: React.FC = () => {
             })}
 
             {/* Qualitative Promise Card */}
-            <div className="p-8 bg-[#141210] text-[#FAF6F0] rounded-sm flex flex-col justify-between">
+            <div
+              data-reveal-item
+              className="card-editorial p-8 bg-[#141210] text-[#FAF6F0] rounded-sm flex flex-col justify-between hover:shadow-xl"
+            >
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-mono text-xs font-bold text-[#B89255]">
@@ -202,7 +213,7 @@ export const AboutPage: React.FC = () => {
 
       {/* CTA SECTION */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0]">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
+        <div data-reveal="fade" className="max-w-4xl mx-auto text-center space-y-6">
           <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
             Next Steps
           </span>
@@ -213,24 +224,31 @@ export const AboutPage: React.FC = () => {
             Experience our interactive frame-by-frame portfolio or explore our transparent project pricing.
           </p>
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/our-work"
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#141210] text-white hover:bg-[#34302D] text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-            >
-              Explore Our Work
-            </Link>
-            <Link
-              to="/packages"
-              className="w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#141210] text-[#141210] hover:bg-[#141210] hover:text-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-            >
-              View Packages &amp; Pricing
-            </Link>
-            <Link
-              to="/contact"
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] border border-[#9E5249] text-[#9E5249] hover:bg-[#9E5249] hover:text-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-            >
-              Contact Us
-            </Link>
+            <MagneticWrap className="w-full sm:w-auto">
+              <Link
+                to="/our-work"
+                className="btn-editorial inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 bg-[#141210] text-white hover:bg-[#34302D] text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer group"
+              >
+                <span>Explore Our Work</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+              </Link>
+            </MagneticWrap>
+            <MagneticWrap className="w-full sm:w-auto">
+              <Link
+                to="/packages"
+                className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#141210] text-[#141210] hover:bg-[#141210] hover:text-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+              >
+                View Packages &amp; Pricing
+              </Link>
+            </MagneticWrap>
+            <MagneticWrap className="w-full sm:w-auto">
+              <Link
+                to="/contact"
+                className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] border border-[#9E5249] text-[#9E5249] hover:bg-[#9E5249] hover:text-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+              >
+                Contact Us
+              </Link>
+            </MagneticWrap>
           </div>
         </div>
       </section>

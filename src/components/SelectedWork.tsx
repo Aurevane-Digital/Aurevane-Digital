@@ -67,7 +67,41 @@ export const WORK_PROJECT_FRAMES = [
 ];
 
 const TOTAL_FRAMES = 289;
+const CROSS_FADE_WINDOW = 6; // +/- 6 frames transition buffer for smooth cross-fade
 const ANCHOR_FRAMES = [1, 147, 181, 217, 248, 289];
+
+/**
+ * Calculates smooth cross-fade opacity for each project title overlay
+ * based on current frame position.
+ */
+function getProjectOpacity(index: number, frame: number): number {
+  const current = WORK_PROJECT_FRAMES[index];
+  const { startFrame, endFrame } = current;
+
+  // Before entrance cross-fade window
+  if (index > 0 && frame < startFrame - CROSS_FADE_WINDOW) {
+    return 0;
+  }
+  // After exit cross-fade window
+  if (index < WORK_PROJECT_FRAMES.length - 1 && frame > endFrame + CROSS_FADE_WINDOW) {
+    return 0;
+  }
+
+  // Entrance cross-fade (if not first project)
+  if (index > 0 && frame < startFrame + CROSS_FADE_WINDOW) {
+    const t = (frame - (startFrame - CROSS_FADE_WINDOW)) / (2 * CROSS_FADE_WINDOW);
+    return Math.max(0, Math.min(1, t));
+  }
+
+  // Exit cross-fade (if not last project)
+  if (index < WORK_PROJECT_FRAMES.length - 1 && frame > endFrame - CROSS_FADE_WINDOW) {
+    const t = (endFrame + CROSS_FADE_WINDOW - frame) / (2 * CROSS_FADE_WINDOW);
+    return Math.max(0, Math.min(1, t));
+  }
+
+  // Fully visible in center of range
+  return 1;
+}
 
 export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -232,13 +266,14 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     drawFrame(currentFrame);
   }, [currentFrame]);
 
-  // Scroll scrub smoothly across the intro strip viewport travel
+  // Scroll listener strictly locked within #work section
   useEffect(() => {
     let ticking = false;
 
     const handleScroll = () => {
       if (!containerRef.current) return;
 
+      // (c) If prefers-reduced-motion: reduce is set, skip scroll scrubbing
       if (
         typeof window !== 'undefined' &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -247,17 +282,21 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       }
 
       const rect = containerRef.current.getBoundingClientRect();
-      const totalTravel = window.innerHeight + rect.height;
-      if (totalTravel <= 0) return;
+      const scrollableDistance = containerRef.current.offsetHeight - window.innerHeight;
 
-      const progress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / totalTravel));
+      if (scrollableDistance <= 0) return;
+
+      // Distance scrolled into the section
+      const scrolled = -rect.top;
+      // Progress between 0 and 1 strictly within this section
+      const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
+
       setScrollProgress(progress);
 
-      let frameIdx = Math.max(
-        1,
-        Math.min(TOTAL_FRAMES, Math.round(1 + progress * (TOTAL_FRAMES - 1)))
-      );
+      // Map progress directly to frame index: 1 to TOTAL_FRAMES
+      let frameIdx = Math.max(1, Math.min(TOTAL_FRAMES, Math.round(1 + progress * (TOTAL_FRAMES - 1))));
 
+      // (a) On screens under 768px wide, scrub only even-numbered frames
       if (window.innerWidth < 768) {
         if (frameIdx % 2 !== 0) {
           frameIdx = frameIdx >= TOTAL_FRAMES ? frameIdx - 1 : frameIdx + 1;
@@ -266,6 +305,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       }
 
       setCurrentFrame(frameIdx);
+
       ticking = false;
     };
 
@@ -296,64 +336,123 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     <section
       id="work"
       ref={containerRef}
-      aria-label="Architectural Frame Sequence Intro"
-      className="relative w-full h-[36vh] sm:h-[42vh] min-h-[260px] max-h-[420px] bg-[#FAF5EE] border-b border-[#D9D0C3]/60 overflow-hidden"
+      className="relative w-full h-[460vh] bg-[#0A0A0A]"
     >
-      {/* Subtle 289-frame background motion study */}
-      <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none select-none overflow-hidden opacity-60">
-        <canvas
-          ref={canvasRef}
-          role="img"
-          aria-label="Subtle scroll-scrubbed architectural frame study"
-          className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
-          style={{
-            display: isImagesLoaded ? 'block' : 'none',
-          }}
-        />
-
-        {!isImagesLoaded && (
-          <img
-            src={getFrameUrl(currentFrame)}
-            alt="Contractor Website Frame Preview"
-            width={1920}
-            height={1080}
-            loading="lazy"
-            className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
+      {/* 
+        STICKY FULL-SCREEN VIEWPORT:
+        Pins firmly when #work enters top of viewport,
+        unpins cleanly when #work finishes.
+        Zero leftover frames or pinned overlays after this section.
+      */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between z-20 pointer-events-none select-none">
+        
+        {/* SUBTLE HORIZONTAL PROGRESS LINE (Advances precisely as visitor scrolls) */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-white/10 z-30 pointer-events-none">
+          <div
+            className="h-full bg-[var(--accent)] transition-all duration-75 ease-out"
+            style={{ width: `${Math.round(scrollProgress * 100)}%` }}
           />
-        )}
-      </div>
+        </div>
 
-      {/* Soft parchment atmospheric veil for subtle editorial restraint */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-[#FAF6F0]/55 via-[#FAF6F0]/35 to-[#FAF6F0]/85 pointer-events-none"
-      />
-
-      {/* Quiet bottom progress line */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#D9D0C3]/40 z-20 pointer-events-none">
+        {/* PROTECTIVE TOP CONTRAST SCRIM FOR TEXT OVER CANVAS FRAMES */}
         <div
-          className="h-full bg-[#9E5249]/70 transition-all duration-75 ease-out"
-          style={{ width: `${Math.round(scrollProgress * 100)}%` }}
+          className="pointer-events-none absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#0A0A0A]/85 via-[#0A0A0A]/45 to-transparent z-20"
+          aria-hidden="true"
         />
-      </div>
 
-      {/* Subtle architectural label & optional archive inspection */}
-      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-6 flex flex-col justify-end">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.22em] text-[#59544E]">
-            <span>Motion Prelude</span>
-            <span aria-hidden="true">·</span>
-            <span>{activeProject.category}</span>
+        {/* PROTECTIVE BOTTOM CONTRAST SCRIM FOR TEXT OVER CANVAS FRAMES */}
+        <div
+          className="pointer-events-none absolute bottom-0 inset-x-0 h-56 bg-gradient-to-t from-[#0A0A0A]/90 via-[#0A0A0A]/55 to-transparent z-20"
+          aria-hidden="true"
+        />
+
+        {/* TOP STATUS BAR: Subtle Archive Header & Minimal Project Indicator */}
+        <div className="w-full max-w-[1280px] mx-auto px-6 pt-8 sm:pt-10 flex items-center justify-between z-30 pointer-events-auto">
+          <div className="flex items-center gap-2">
+            <h2 className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.28em] text-[#FAFAFA]/80">
+              Selected Work / Contractor Website Design Portfolio
+            </h2>
           </div>
 
-          <button
-            onClick={() => handleOpenCaseStudy()}
-            aria-label={`Inspect ${activeProject.displayTitle} case study blueprint`}
-            className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.18em] text-[#141210] hover:text-[#9E5249] transition-colors cursor-pointer group"
-          >
-            <span>Inspect {activeProject.number} / 05 Brief</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-          </button>
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-mono text-[#FAFAFA]/65">
+              Project
+            </span>
+            <div className="font-mono text-sm sm:text-base tracking-widest text-[#FAFAFA] flex items-baseline gap-1 tabular-nums">
+              <span className="text-[var(--accent)] font-bold">{activeProject.number}</span>
+              <span className="text-white/40 text-xs">/</span>
+              <span className="text-xs text-[#FAFAFA]/65">05</span>
+            </div>
+          </div>
+        </div>
+
+        {/* FULL BLEED FRAME ANIMATION VIEWPORT */}
+        <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none select-none z-10 overflow-hidden">
+          <canvas
+            ref={canvasRef}
+            role="img"
+            aria-label="Interactive frame-by-frame contractor website showcase animation"
+            className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
+            style={{
+              display: isImagesLoaded ? 'block' : 'none',
+            }}
+          />
+
+          {!isImagesLoaded && (
+            <img
+              src={getFrameUrl(currentFrame)}
+              alt="High-Converting Contractor Website Showcase Frame"
+              width={1920}
+              height={1080}
+              loading="lazy"
+              className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
+            />
+          )}
+        </div>
+
+        {/* BOTTOM SECTION: SYNCHRONIZED HTML TEXT OVERLAYS */}
+        <div className="w-full max-w-[1280px] mx-auto px-6 pb-8 sm:pb-12 z-30 pointer-events-auto">
+          <div className="relative min-h-[100px] sm:min-h-[120px] flex items-end justify-between gap-6">
+            <div className="relative flex-1 h-full">
+              {WORK_PROJECT_FRAMES.map((project, idx) => {
+                const opacity = getProjectOpacity(idx, currentFrame);
+                if (opacity <= 0.001) return null;
+
+                return (
+                  <div
+                    key={project.id}
+                    className="absolute bottom-0 left-0 w-full transition-opacity duration-150 ease-out select-none"
+                    style={{ opacity }}
+                  >
+                    <div className="mb-1.5 sm:mb-2">
+                      <span className="inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--accent)]">
+                        Concept Project
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl sm:text-4xl md:text-5xl text-[#FAFAFA] font-semibold tracking-tight uppercase leading-none">
+                      {project.displayTitle}
+                    </h3>
+
+                    <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm md:text-base text-[rgba(250,250,250,0.75)] tracking-wider uppercase font-mono">
+                      {project.category}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="shrink-0 mb-1 hidden sm:block">
+              <button
+                onClick={() => handleOpenCaseStudy()}
+                aria-label={`Inspect ${activeProject.displayTitle} case study blueprint`}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent)] text-[#0A0A0A] text-xs font-semibold rounded-[16px] hover:brightness-105 transition-all cursor-pointer group"
+              >
+                <span>Inspect Case Study</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { Mail, Instagram, CheckCircle2, ArrowRight, Loader2 } from 'lucide-react';
 import { submitToWeb3Forms } from '../services/formService';
 
@@ -44,7 +45,7 @@ export const ContactSection: React.FC = () => {
     <section id="contact" className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          <div className="lg:col-span-5 flex flex-col justify-between">
+          <div data-reveal="heading" className="lg:col-span-5 flex flex-col justify-between">
             <div>
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 Initiate Project
@@ -85,31 +86,50 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-7 bg-[#F5EDE2] p-8 md:p-10 rounded-sm border border-[#D9D0C3]">
-            {submitted ? (
-              <div className="py-12 text-center space-y-4 animate-in fade-in">
-                <div className="w-12 h-12 mx-auto rounded-full bg-[#9E5249]/10 flex items-center justify-center text-[#9E5249]">
-                  <CheckCircle2 className="w-7 h-7" />
-                </div>
-                <h3 className="font-serif text-2xl text-[#141210]">
-                  Inquiry Received
-                </h3>
-                <p className="text-xs md:text-sm text-[#59544E] max-w-md mx-auto">
-                  Thank you for reaching out, {formState.name}. Aurevane Principal will review your project requirements and respond within one business day.
-                </p>
-                <button
-                  onClick={() => {
-                    setSubmitted(false);
-                    setHoneypot('');
-                    setFormState({ name: '', email: '', business: '', message: '' });
-                  }}
-                  className="text-xs text-[#9E5249] uppercase tracking-wider font-semibold hover:underline cursor-pointer"
+          <div
+            data-reveal="fade"
+            className="lg:col-span-7 bg-[#F5EDE2] p-8 md:p-10 rounded-sm border border-[#D9D0C3]"
+          >
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div
+                  key="contact-section-success"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className="py-12 text-center space-y-4"
                 >
-                  Send another inquiry
-                </button>
-              </div>
-            ) : (
-              <form className="space-y-5" onSubmit={handleSubmit}>
+                  <div className="w-12 h-12 mx-auto rounded-full bg-[#9E5249]/10 flex items-center justify-center text-[#9E5249]">
+                    <CheckCircle2 className="w-7 h-7" />
+                  </div>
+                  <h3 className="font-serif text-2xl text-[#141210]">
+                    Inquiry Received
+                  </h3>
+                  <p className="text-xs md:text-sm text-[#59544E] max-w-md mx-auto">
+                    Thank you for reaching out, {formState.name}. Aurevane Principal will review your project requirements and respond within one business day.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setHoneypot('');
+                      setFormState({ name: '', email: '', business: '', message: '' });
+                    }}
+                    className="text-xs text-[#9E5249] uppercase tracking-wider font-semibold hover:underline cursor-pointer"
+                  >
+                    Send another inquiry
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="contact-section-form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-5"
+                  onSubmit={handleSubmit}
+                >
                 {/* Honeypot field for bot spam prevention */}
                 <input
                   type="text"
@@ -193,7 +213,7 @@ export const ContactSection: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full inline-flex items-center justify-center py-3.5 px-6 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-colors duration-200 shadow-sm cursor-pointer disabled:opacity-60"
+                  className="btn-editorial w-full inline-flex items-center justify-center py-3.5 px-6 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] shadow-sm cursor-pointer disabled:opacity-60 group"
                 >
                   {isSubmitting ? (
                     <>
@@ -203,12 +223,13 @@ export const ContactSection: React.FC = () => {
                   ) : (
                     <>
                       <span>Start a Conversation</span>
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
                     </>
                   )}
                 </button>
-              </form>
-            )}
+                </motion.form>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

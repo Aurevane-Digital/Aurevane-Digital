@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'motion/react';
 import { X, ArrowRight, Loader2 } from 'lucide-react';
 import { ServicePackage } from '../types';
 import { SERVICE_PACKAGES, ADD_ON_OPTIONS } from '../data/packages';
@@ -123,13 +124,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#141210]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#141210]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+    >
+      <motion.div
         ref={dialogRef}
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="booking-modal-title"
+        initial={{ opacity: 0, y: 18, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.985 }}
+        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
         className="relative w-full max-w-2xl bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm shadow-2xl overflow-hidden my-8 focus:outline-none"
       >
         {/* Header */}
@@ -355,7 +366,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-xs disabled:opacity-60"
+            className="btn-editorial w-full py-3.5 bg-[#141210] text-white text-[12px] font-semibold uppercase tracking-[0.2em] rounded-sm hover:bg-[#34302D] cursor-pointer flex items-center justify-center gap-2 shadow-xs disabled:opacity-60 group"
           >
             {isSubmitting ? (
               <>
@@ -365,12 +376,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             ) : (
               <>
                 <span>Confirm &amp; Reserve Studio Capacity</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
               </>
             )}
           </button>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

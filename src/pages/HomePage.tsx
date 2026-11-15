@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Compass, ShieldCheck, Zap, Layers, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Compass, Zap, Layers, CheckCircle2 } from 'lucide-react';
 import { Hero } from '../components/Hero';
 import { WebsiteCheckForm } from '../components/WebsiteCheckForm';
 import { SEO } from '../components/SEO';
+import { MagneticWrap } from '../components/MagneticButton';
 import { getSeo } from '../data/seoRoutes';
 import { AuditReportData } from '../types';
 
@@ -83,7 +84,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
       {/* 2. INDUSTRIES WE BUILD FOR */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-4xl mb-14">
+          <div data-reveal="heading" className="max-w-4xl mb-14">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-3">
               Specialized Trade Focus
             </span>
@@ -95,18 +96,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
             </p>
           </div>
 
-          <div className="mb-6 flex items-center justify-between">
+          <div data-reveal="fade" className="mb-6 flex items-center justify-between">
             <h3 className="font-serif text-2xl md:text-3xl text-[#141210] font-normal">
               Industries We Build For
             </h3>
           </div>
 
           {/* 6 Industry Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+          >
             {/* Card 1: Junk Removal */}
             <Link
               to="/junk-removal-website-design"
-              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
@@ -121,14 +126,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               </div>
               <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
                 <span>Explore Junk Removal</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
               </div>
             </Link>
 
             {/* Card 2: Excavation */}
             <Link
               to="/excavation-website-design"
-              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
@@ -143,14 +149,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               </div>
               <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
                 <span>Explore Excavation</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
               </div>
             </Link>
 
             {/* Card 3: Electrical Contractors */}
             <Link
               to="/electrical-contractor-website-design"
-              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
@@ -165,14 +172,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               </div>
               <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
                 <span>Explore Electrical</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
               </div>
             </Link>
 
             {/* Card 4: General Contractors */}
             <Link
               to="/general-contractor-website-design"
-              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
@@ -187,14 +195,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               </div>
               <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
                 <span>Explore General Contractors</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
               </div>
             </Link>
 
             {/* Card 5: Mobile Detailing */}
             <Link
               to="/mobile-detailing-website-design"
-              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
@@ -209,14 +218,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               </div>
               <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
                 <span>Explore Mobile Detailing</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
               </div>
             </Link>
 
             {/* Card 6: Home Services */}
             <Link
               to="/home-services-website-design"
-              className="p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+              data-reveal-item
+              className="card-editorial p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-[#9E5249] font-semibold block mb-2">
@@ -231,32 +241,37 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               </div>
               <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
                 <span>Explore Home Services</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
               </div>
             </Link>
           </div>
 
           {/* Text link row to Contractor Website Design & Website Redesign */}
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs md:text-sm text-[#59544E] font-light mb-16 pt-4 border-t border-[#D9D0C3]/50">
+          <div
+            data-reveal="fade"
+            className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs md:text-sm text-[#59544E] font-light mb-16 pt-4 border-t border-[#D9D0C3]/50"
+          >
             <span>Looking for broader contractor web design or an existing site upgrade?</span>
             <Link
               to="/contractor-website-design"
-              className="font-medium text-[#141210] hover:text-[#9E5249] underline underline-offset-4 flex items-center gap-1 transition-colors"
+              className="font-medium text-[#141210] hover:text-[#9E5249] underline underline-offset-4 flex items-center gap-1 transition-colors group"
             >
-              Contractor Website Design <ArrowRight className="w-3.5 h-3.5" />
+              Contractor Website Design{' '}
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
             </Link>
             <span className="text-[#D9D0C3] hidden sm:inline">|</span>
             <Link
               to="/website-redesign"
-              className="font-medium text-[#141210] hover:text-[#9E5249] underline underline-offset-4 flex items-center gap-1 transition-colors"
+              className="font-medium text-[#141210] hover:text-[#9E5249] underline underline-offset-4 flex items-center gap-1 transition-colors group"
             >
-              Website Redesign <ArrowRight className="w-3.5 h-3.5" />
+              Website Redesign{' '}
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
             </Link>
           </div>
 
           {/* 6 Required H2s with 1-2 sentences of real copy each */}
           <div className="border-t border-[#D9D0C3] pt-16">
-            <div className="max-w-3xl mb-12">
+            <div data-reveal="heading" className="max-w-3xl mb-12">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 Comprehensive Core Services
               </span>
@@ -265,8 +280,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+            <div
+              data-reveal="stagger-group"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              <div data-reveal-item className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70 hover:border-[#9E5249]/60">
                 <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
                   Contractor Website Design
                 </h2>
@@ -275,7 +293,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 </p>
               </div>
 
-              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+              <div data-reveal-item className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70 hover:border-[#9E5249]/60">
                 <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
                   Home Services Website Design
                 </h2>
@@ -284,7 +302,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 </p>
               </div>
 
-              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+              <div data-reveal-item className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70 hover:border-[#9E5249]/60">
                 <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
                   Junk Removal Website Design
                 </h2>
@@ -293,7 +311,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 </p>
               </div>
 
-              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+              <div data-reveal-item className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70 hover:border-[#9E5249]/60">
                 <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
                   Local Service Business Website Development
                 </h2>
@@ -302,7 +320,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 </p>
               </div>
 
-              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+              <div data-reveal-item className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70 hover:border-[#9E5249]/60">
                 <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
                   Website Redesign and Optimization
                 </h2>
@@ -311,7 +329,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 </p>
               </div>
 
-              <div className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70">
+              <div data-reveal-item className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3]/70 hover:border-[#9E5249]/60">
                 <h2 className="font-serif text-xl text-[#141210] mb-2 font-normal">
                   Local SEO and Google Business Profile Support
                 </h2>
@@ -327,7 +345,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
       {/* 3. CAPABILITIES OVERVIEW */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div
+            data-reveal="heading"
+            className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6"
+          >
             <div>
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 Capabilities &amp; Specialization
@@ -341,9 +362,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {/* Card 1 */}
-            <div className="p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 transition-colors">
+            <div data-reveal-item className="card-editorial p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md">
               <Compass className="w-6 h-6 text-[#B89255] mb-4" />
               <h3 className="font-serif text-xl text-[#141210] mb-2">Bespoke Trade Positioning</h3>
               <p className="text-xs md:text-sm text-[#59544E] leading-relaxed font-light">
@@ -352,7 +376,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
             </div>
 
             {/* Card 2 */}
-            <div className="p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 transition-colors">
+            <div data-reveal-item className="card-editorial p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md">
               <Zap className="w-6 h-6 text-[#B89255] mb-4" />
               <h3 className="font-serif text-xl text-[#141210] mb-2">Interactive Intake Funnels</h3>
               <p className="text-xs md:text-sm text-[#59544E] leading-relaxed font-light">
@@ -361,7 +385,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
             </div>
 
             {/* Card 3 */}
-            <div className="p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 transition-colors">
+            <div data-reveal-item className="card-editorial p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md">
               <Layers className="w-6 h-6 text-[#B89255] mb-4" />
               <h3 className="font-serif text-xl text-[#141210] mb-2">County Geo SEO Architecture</h3>
               <p className="text-xs md:text-sm text-[#59544E] leading-relaxed font-light">
@@ -375,7 +399,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
       {/* 3. CINEMATIC PORTFOLIO PREVIEW */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div
+            data-reveal="heading"
+            className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6"
+          >
             <div>
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
                 Cinematic Portfolio Archive
@@ -389,17 +416,21 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#9E5249] hover:text-[#141210] transition-colors group cursor-pointer"
             >
               <span>Launch Cinematic Presentation</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
           </div>
 
           {/* 5 Project Preview Row Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8"
+          >
             {portfolioHighlights.map((proj) => (
               <Link
                 key={proj.number}
                 to="/our-work"
-                className="p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] transition-all group flex flex-col justify-between"
+                data-reveal-item
+                className="card-editorial p-6 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between gap-1 mb-2">
@@ -422,14 +453,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 </div>
                 <div className="mt-6 pt-3 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
                   <span>Inspect</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
                 </div>
               </Link>
             ))}
           </div>
 
           {/* Cinematic Feature Callout Banner */}
-          <div className="p-8 md:p-10 bg-[#141210] text-[#FAF6F0] rounded-sm flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+          <div
+            data-reveal="fade"
+            className="p-8 md:p-10 bg-[#141210] text-[#FAF6F0] rounded-sm flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl"
+          >
             <div className="space-y-2">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#B89255] font-bold">
                 Interactive Showcase
@@ -441,13 +475,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 Explore our full scroll-controlled sequence showcasing all five responsive contractor websites in realistic 3D perspective.
               </p>
             </div>
-            <Link
-              to="/our-work"
-              className="px-6 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors shrink-0 group flex items-center gap-2 cursor-pointer"
-            >
-              <span>Explore Our Work</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <MagneticWrap className="shrink-0">
+              <Link
+                to="/our-work"
+                className="btn-editorial px-6 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm shrink-0 group flex items-center gap-2 cursor-pointer"
+              >
+                <span>Explore Our Work</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+              </Link>
+            </MagneticWrap>
           </div>
         </div>
       </section>
@@ -455,7 +491,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
       {/* 4. PROCESS & METHODOLOGY */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div data-reveal="heading" className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
               Archival Methodology
             </span>
@@ -467,11 +503,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            data-reveal="stagger-group"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
             {processSteps.map((step) => (
               <div
                 key={step.num}
-                className="p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] relative flex flex-col justify-between"
+                data-reveal-item
+                className="card-editorial p-8 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md relative flex flex-col justify-between"
               >
                 <div>
                   <span className="font-serif text-3xl text-[#9E5249] block mb-3 font-normal">
@@ -497,7 +537,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
 
       {/* 6. FINAL DIRECT CALL TO ACTION */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#141210] text-[#FAF6F0] text-center">
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div data-reveal="heading" className="max-w-3xl mx-auto space-y-6">
           <span className="text-[10px] uppercase tracking-[0.25em] text-[#B89255] font-bold">
             Initiate Project
           </span>
@@ -508,18 +548,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
             We accept a limited number of commissions each quarter to preserve client attention and architectural craft. Explore transparent packages or start a conversation.
           </p>
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/packages"
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-            >
-              View Service Packages
-            </Link>
-            <Link
-              to="/contact"
-              className="w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm transition-colors cursor-pointer"
-            >
-              Direct Inquiry
-            </Link>
+            <MagneticWrap className="w-full sm:w-auto">
+              <Link
+                to="/packages"
+                className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+              >
+                View Service Packages
+              </Link>
+            </MagneticWrap>
+            <MagneticWrap className="w-full sm:w-auto">
+              <Link
+                to="/contact"
+                className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+              >
+                Direct Inquiry
+              </Link>
+            </MagneticWrap>
           </div>
         </div>
       </section>
