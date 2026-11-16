@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { CASE_STUDIES } from '../data/caseStudies';
 import { CaseStudy } from '../types';
-import { getWorkFrameUrl } from '../utils/frames';
+import { getFrameUrl } from '../utils/frames';
 
 interface SelectedWorkProps {
   onSelectCaseStudy: (study: CaseStudy) => void;
@@ -10,8 +10,8 @@ interface SelectedWorkProps {
 
 /**
  * EDITABLE FRAME-TO-PROJECT MAPPING:
- * Adjust startFrame / endFrame to fine-tune transition points.
- * Total frames in sequence: 181 (f_000.webp to f_180.webp)
+ * Adjust startFrame / endFrame to fine-tune transition points without rebuilding the animation.
+ * Total frames in sequence: 289 (ezgif-frame-001.jpg to ezgif-frame-289.jpg)
  */
 export const WORK_PROJECT_FRAMES = [
   {
@@ -20,8 +20,8 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '01 — JUNK BOLT',
     category: 'Junk Removal & Hauling',
-    startFrame: 0,
-    endFrame: 38,
+    startFrame: 1,
+    endFrame: 146,
     tagline: 'Visual Truck Volume Calculator & Instant Booking Dispatch',
   },
   {
@@ -30,8 +30,8 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '02 — VISION EXCAVATION',
     category: 'Excavation & Construction',
-    startFrame: 28,
-    endFrame: 82,
+    startFrame: 147,
+    endFrame: 180,
     tagline: 'Heavy Earthworks & Instant Site Scope Estimator',
   },
   {
@@ -40,8 +40,8 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '03 — JAMES IRON AND STEEL',
     category: 'Steel & Metal Services',
-    startFrame: 72,
-    endFrame: 127,
+    startFrame: 181,
+    endFrame: 216,
     tagline: 'AISC Certified Structural Steel & Fabrication Tenders',
   },
   {
@@ -50,8 +50,8 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '04 — ACTION ELECTRICAL',
     category: 'Electrical Services',
-    startFrame: 117,
-    endFrame: 172,
+    startFrame: 217,
+    endFrame: 247,
     tagline: 'High-Voltage Grid & Emergency Commercial MEP Service',
   },
   {
@@ -60,71 +60,291 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '05 — STORM SHIELD',
     category: 'Roofing & Exterior Services',
-    startFrame: 162,
-    endFrame: 180,
+    startFrame: 248,
+    endFrame: 289,
     tagline: 'Architectural Roofing Restoration & Automated Drone Intake',
   },
 ];
 
-const TOTAL_FRAMES = 181;
+const TOTAL_FRAMES = 289;
 const CROSS_FADE_WINDOW = 6;
-const ANCHOR_FRAMES = [0, 45, 90, 135, 180];
+const ANCHOR_FRAMES = [1, 147, 181, 217, 248, 289];
 
-/**
- * Calculates smooth cross-fade opacity for each project title overlay
- * based on current frame position.
- */
 function getProjectOpacity(index: number, frame: number): number {
   const current = WORK_PROJECT_FRAMES[index];
   const { startFrame, endFrame } = current;
 
-  // Before entrance cross-fade window
   if (index > 0 && frame < startFrame - CROSS_FADE_WINDOW) {
     return 0;
   }
-  // After exit cross-fade window
   if (index < WORK_PROJECT_FRAMES.length - 1 && frame > endFrame + CROSS_FADE_WINDOW) {
     return 0;
   }
-
-  // Entrance cross-fade (if not first project)
   if (index > 0 && frame < startFrame + CROSS_FADE_WINDOW) {
     const t = (frame - (startFrame - CROSS_FADE_WINDOW)) / (2 * CROSS_FADE_WINDOW);
     return Math.max(0, Math.min(1, t));
   }
-
-  // Exit cross-fade (if not last project)
   if (index < WORK_PROJECT_FRAMES.length - 1 && frame > endFrame - CROSS_FADE_WINDOW) {
     const t = (endFrame + CROSS_FADE_WINDOW - frame) / (2 * CROSS_FADE_WINDOW);
     return Math.max(0, Math.min(1, t));
   }
-
-  // Fully visible in center of range
   return 1;
+}
+
+function getActiveProjectIndex(frame: number): number {
+  const idx = WORK_PROJECT_FRAMES.findIndex(
+    (p) => frame >= p.startFrame && frame <= p.endFrame
+  );
+  return idx >= 0 ? idx : 0;
+}
+
+function snapFrameForViewport(rawFrame: number, isMobile: boolean): number {
+  let frameIdx = Math.max(1, Math.min(TOTAL_FRAMES, Math.round(rawFrame)));
+  if (isMobile) {
+    if (frameIdx % 2 !== 0) {
+      frameIdx = frameIdx >= TOTAL_FRAMES ? frameIdx - 1 : frameIdx + 1;
+    }
+    frameIdx = Math.max(2, Math.min(TOTAL_FRAMES - 1, frameIdx));
+  }
+  return frameIdx;
 }
 
 export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imagesRef = useRef<Map<number, HTMLImageElement>>(new Map());
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const overlayRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const [currentFrame, setCurrentFrame] = useState<number>(1);
-  const latestFrameRef = useRef<number>(1);
-  const [scrollProgress, setScrollProgress] = useState<number>(0);
-  const [isImagesLoaded, setIsImagesLoaded] = useState<boolean>(false);
+  // Decoded GPU-ready bitmaps (sliding window) + compressed JPEG blob cache (~17MB total)
+  const bitmapsRef = useRef<Map<number, ImageBitmap>>(new Map());
+  const fallbackImgsRef = useRef<Map<number, HTMLImageElement>>(new Map());
+  const blobsRef = useRef<Map<number, Blob>>(new Map());
+  const decodingSetRef = useRef<Set<number>>(new Set());
+  const pinnedFramesRef = useRef<Set<number>>(new Set());
 
-  // Identify active project based on frame index
-  const activeProject = useMemo(() => {
-    const found = WORK_PROJECT_FRAMES.find(
-      (p) => currentFrame >= p.startFrame && currentFrame <= p.endFrame
-    );
-    return found || WORK_PROJECT_FRAMES[0];
-  }, [currentFrame]);
+  // Scroll & frame animation refs (zero React re-renders per scroll frame)
+  const targetFrameRef = useRef<number>(1);
+  const smoothFrameRef = useRef<number>(1);
+  const lastDrawnFrameRef = useRef<number>(0);
+  const targetProgressRef = useRef<number>(0);
+  const smoothProgressRef = useRef<number>(0);
+  const activeProjectIndexRef = useRef<number>(0);
+  const isMobileRef = useRef<boolean>(
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+  const isMountedRef = useRef<boolean>(true);
+  const rafIdRef = useRef<number | null>(null);
 
-  // Preload frames progressively for high-fps smooth scrubbing
+  const [activeProjectIndex, setActiveProjectIndex] = useState<number>(0);
+  const [isFirstFrameReady, setIsFirstFrameReady] = useState<boolean>(false);
+
+  const activeProject = WORK_PROJECT_FRAMES[activeProjectIndex] || WORK_PROJECT_FRAMES[0];
+
+  // Obtain optimized 2D canvas context without alpha compositing overhead
+  const getCanvasContext = (): CanvasRenderingContext2D | null => {
+    if (ctxRef.current) return ctxRef.current;
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const ctx =
+      canvas.getContext('2d', { alpha: false, desynchronized: true }) ||
+      canvas.getContext('2d', { alpha: false }) ||
+      canvas.getContext('2d');
+    ctxRef.current = ctx;
+    return ctx;
+  };
+
+  // Draw the exact requested frame (or closest decoded bitmap) onto the canvas
+  const drawFrame = (requestedFrame: number) => {
+    const canvas = canvasRef.current;
+    const ctx = getCanvasContext();
+    if (!canvas || !ctx) return;
+
+    let source: ImageBitmap | HTMLImageElement | undefined =
+      bitmapsRef.current.get(requestedFrame) || fallbackImgsRef.current.get(requestedFrame);
+
+    if (!source) {
+      let minDiff = 9999;
+      bitmapsRef.current.forEach((bmp, f) => {
+        const diff = Math.abs(f - requestedFrame);
+        if (diff < minDiff) {
+          minDiff = diff;
+          source = bmp;
+        }
+      });
+      if (!source) {
+        fallbackImgsRef.current.forEach((img, f) => {
+          if (img.complete && img.naturalWidth > 0) {
+            const diff = Math.abs(f - requestedFrame);
+            if (diff < minDiff) {
+              minDiff = diff;
+              source = img;
+            }
+          }
+        });
+      }
+    }
+
+    if (!source) return;
+
+    const srcW =
+      source instanceof ImageBitmap ? source.width : source.naturalWidth;
+    const srcH =
+      source instanceof ImageBitmap ? source.height : source.naturalHeight;
+
+    if (srcW <= 0 || srcH <= 0) return;
+
+    if (canvas.width !== srcW || canvas.height !== srcH) {
+      canvas.width = srcW;
+      canvas.height = srcH;
+    }
+
+    ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+    lastDrawnFrameRef.current = requestedFrame;
+  };
+
+  // Evict far-away decoded ImageBitmaps to keep mobile/tablet GPU memory lean
+  const evictFarBitmaps = (centerFrame: number) => {
+    const maxBitmaps = isMobileRef.current ? 72 : 150;
+    if (bitmapsRef.current.size <= maxBitmaps) return;
+
+    const candidates: Array<{ frame: number; dist: number }> = [];
+    bitmapsRef.current.forEach((_, f) => {
+      if (!pinnedFramesRef.current.has(f)) {
+        candidates.push({ frame: f, dist: Math.abs(f - centerFrame) });
+      }
+    });
+
+    candidates.sort((a, b) => b.dist - a.dist);
+    const excess = bitmapsRef.current.size - maxBitmaps;
+    for (let i = 0; i < excess && i < candidates.length; i++) {
+      const f = candidates[i].frame;
+      const bmp = bitmapsRef.current.get(f);
+      if (bmp && typeof bmp.close === 'function') {
+        bmp.close();
+      }
+      bitmapsRef.current.delete(f);
+    }
+  };
+
+  // Decode a fetched JPEG Blob into an off-main-thread ImageBitmap (downscaled on mobile for 4x faster GPU upload)
+  const decodeBlobFrame = async (frameNum: number) => {
+    if (!isMountedRef.current) return;
+    if (bitmapsRef.current.has(frameNum) || decodingSetRef.current.has(frameNum)) return;
+    const blob = blobsRef.current.get(frameNum);
+    if (!blob) return;
+
+    decodingSetRef.current.add(frameNum);
+    try {
+      let bitmap: ImageBitmap;
+      if (isMobileRef.current && typeof createImageBitmap === 'function') {
+        try {
+          bitmap = await createImageBitmap(blob, {
+            resizeWidth: 960,
+            resizeHeight: 540,
+            resizeQuality: 'medium',
+          });
+        } catch {
+          bitmap = await createImageBitmap(blob);
+        }
+      } else {
+        bitmap = await createImageBitmap(blob);
+      }
+
+      if (!isMountedRef.current) {
+        if (typeof bitmap.close === 'function') bitmap.close();
+        return;
+      }
+
+      bitmapsRef.current.set(frameNum, bitmap);
+      evictFarBitmaps(targetFrameRef.current);
+
+      const currentSnapped = snapFrameForViewport(
+        smoothFrameRef.current,
+        isMobileRef.current
+      );
+      if (frameNum === 1 || frameNum === 2 || Math.abs(frameNum - currentSnapped) <= 2) {
+        setIsFirstFrameReady(true);
+        drawFrame(currentSnapped);
+      }
+    } catch {
+      // Fallback to HTMLImageElement + decode() if createImageBitmap fails
+      const img = new Image();
+      img.decoding = 'async';
+      img.src = getFrameUrl(frameNum);
+      try {
+        if (typeof img.decode === 'function') {
+          await img.decode();
+        }
+        if (isMountedRef.current) {
+          fallbackImgsRef.current.set(frameNum, img);
+          if (frameNum === 1 || frameNum === 2) {
+            setIsFirstFrameReady(true);
+            drawFrame(
+              snapFrameForViewport(smoothFrameRef.current, isMobileRef.current)
+            );
+          }
+        }
+      } catch {
+        // Ignore single-frame decode error
+      }
+    } finally {
+      decodingSetRef.current.delete(frameNum);
+    }
+  };
+
+  // Pre-decode already-fetched blobs around the current scroll frame ahead of the finger
+  const ensureAheadDecoded = (centerFrame: number) => {
+    const step = isMobileRef.current ? 2 : 1;
+    const radiusBack = isMobileRef.current ? 10 : 12;
+    const radiusAhead = isMobileRef.current ? 18 : 20;
+
+    for (let offset = 0; offset <= Math.max(radiusBack, radiusAhead); offset += step) {
+      const fAhead = centerFrame + offset;
+      if (offset <= radiusAhead && fAhead <= TOTAL_FRAMES) {
+        const snapped = snapFrameForViewport(fAhead, isMobileRef.current);
+        if (blobsRef.current.has(snapped) && !bitmapsRef.current.has(snapped)) {
+          void decodeBlobFrame(snapped);
+        }
+      }
+      if (offset > 0 && offset <= radiusBack) {
+        const fBack = centerFrame - offset;
+        if (fBack >= 1) {
+          const snapped = snapFrameForViewport(fBack, isMobileRef.current);
+          if (blobsRef.current.has(snapped) && !bitmapsRef.current.has(snapped)) {
+            void decodeBlobFrame(snapped);
+          }
+        }
+      }
+    }
+  };
+
+  // Update visual overlays and progress bar directly in DOM without React reconciliation
+  const applyVisualOverlays = (frameFloat: number, progress: number) => {
+    if (progressBarRef.current) {
+      progressBarRef.current.style.transform = `scaleX(${progress.toFixed(4)})`;
+    }
+
+    for (let i = 0; i < WORK_PROJECT_FRAMES.length; i++) {
+      const el = overlayRefs.current[i];
+      if (!el) continue;
+      const opacity = getProjectOpacity(i, frameFloat);
+      el.style.opacity = opacity <= 0.002 ? '0' : opacity.toFixed(3);
+      el.style.visibility = opacity <= 0.002 ? 'hidden' : 'visible';
+    }
+
+    const snappedForProject = Math.max(1, Math.min(TOTAL_FRAMES, Math.round(frameFloat)));
+    const nextProjectIdx = getActiveProjectIndex(snappedForProject);
+    if (nextProjectIdx !== activeProjectIndexRef.current) {
+      activeProjectIndexRef.current = nextProjectIdx;
+      setActiveProjectIndex(nextProjectIdx);
+    }
+  };
+
+  // Priority-based frame preloader (fetches nearest to user's scroll position first)
   useEffect(() => {
-    let isCancelled = false;
-    const loadedImages = new Map<number, HTMLImageElement>();
+    isMountedRef.current = true;
+    const controller = new AbortController();
 
     const prefersReducedMotion =
       typeof window !== 'undefined' &&
@@ -137,194 +357,205 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       );
 
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    isMobileRef.current = isMobile;
 
-    // (c) If prefers-reduced-motion: reduce is set, show one static frame and skip streaming
-    if (prefersReducedMotion) {
-      const img = new Image();
-      img.src = getWorkFrameUrl(0);
-      img.onload = () => {
-        if (isCancelled) return;
-        loadedImages.set(0, img);
-        imagesRef.current = loadedImages;
-        setIsImagesLoaded(true);
-        drawFrame(0);
-      };
-      return () => {
-        isCancelled = true;
-      };
-    }
+    const pinnedList = isMobile
+      ? ANCHOR_FRAMES.map((f) => (f === 1 ? 2 : f % 2 !== 0 ? f + 1 : f))
+      : ANCHOR_FRAMES;
+    pinnedFramesRef.current = new Set([1, ...pinnedList]);
 
-    // (b) If navigator.connection?.saveData is true, load only anchor frames and skip streaming
-    if (isSaveData) {
-      const framesToLoad = ANCHOR_FRAMES;
+    const fetchFrame = async (frameNum: number): Promise<void> => {
+      if (!isMountedRef.current || blobsRef.current.has(frameNum)) return;
+      try {
+        const res = await fetch(getFrameUrl(frameNum), {
+          signal: controller.signal,
+          cache: 'force-cache',
+        });
+        if (!res.ok || !isMountedRef.current) return;
+        const blob = await res.blob();
+        blobsRef.current.set(frameNum, blob);
 
-      framesToLoad.forEach((frame) => {
-        const img = new Image();
-        img.src = getWorkFrameUrl(frame);
-        img.onload = () => {
-          if (isCancelled) return;
-          loadedImages.set(frame, img);
-          imagesRef.current = loadedImages;
-          if (frame === 0 || (!loadedImages.has(0) && loadedImages.size === 1)) {
-            setIsImagesLoaded(true);
-            drawFrame(frame);
-          }
-        };
-      });
-      return () => {
-        isCancelled = true;
-      };
-    }
-
-    // Standard preloading flow (desktop loads all frames, mobile loads only even frames)
-    const loadBatch = async (start: number, end: number) => {
-      for (let i = start; i <= end; i++) {
-        if (isCancelled) return;
-        if (isMobile && i % 2 !== 0 && i !== 0) {
-          continue;
+        const dist = Math.abs(frameNum - targetFrameRef.current);
+        if (pinnedFramesRef.current.has(frameNum) || dist <= 26) {
+          await decodeBlobFrame(frameNum);
         }
-        const img = new Image();
-        img.src = getWorkFrameUrl(i);
-        img.onload = () => {
-          if (isCancelled) return;
-          loadedImages.set(i, img);
-          imagesRef.current = loadedImages;
-          if (i === 0) {
-            setIsImagesLoaded(true);
-            drawFrame(latestFrameRef.current);
-          }
-        };
+      } catch {
+        // Ignore aborted or failed frame fetches
       }
     };
 
-    // Load initial 30 frames immediately for instant responsiveness
-    loadBatch(0, 30).then(() => {
-      if (isCancelled) return;
-      ANCHOR_FRAMES.forEach((frame) => {
-        const targetFrame = frame;
-        const img = new Image();
-        img.src = getWorkFrameUrl(targetFrame);
-        img.onload = () => {
-          if (isCancelled) return;
-          loadedImages.set(targetFrame, img);
-          imagesRef.current = loadedImages;
-        };
-      });
+    if (prefersReducedMotion) {
+      void fetchFrame(1);
+      return () => {
+        isMountedRef.current = false;
+        controller.abort();
+      };
+    }
 
-      // Stream background frames
-      setTimeout(() => {
-        if (!isCancelled) {
-          loadBatch(31, TOTAL_FRAMES - 1);
+    if (isSaveData) {
+      Promise.all(pinnedList.map((f) => fetchFrame(f)));
+      return () => {
+        isMountedRef.current = false;
+        controller.abort();
+      };
+    }
+
+    // Build list of frames to preload: mobile uses even frames (+ frame 1 for fallback), desktop uses all 289
+    const allNeeded: number[] = [];
+    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      if (isMobile && i % 2 !== 0) continue;
+      allNeeded.push(i);
+    }
+
+    const pending = new Set<number>(allNeeded);
+    const priorityHead = [
+      isMobile ? 2 : 1,
+      ...pinnedList,
+      ...(isMobile ? [4, 6, 8, 10, 12, 14, 16, 18, 20] : [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16]),
+    ];
+
+    const pickNextFrame = (): number | null => {
+      for (const pf of priorityHead) {
+        if (pending.has(pf)) {
+          pending.delete(pf);
+          return pf;
         }
-      }, 400);
-    });
+      }
+      if (pending.size === 0) return null;
+
+      // Pick frame closest to current scroll target so fast swipes load immediately around the user's position
+      const target = targetFrameRef.current;
+      let bestFrame = -1;
+      let bestDist = Infinity;
+      pending.forEach((f) => {
+        const d = Math.abs(f - target);
+        if (d < bestDist) {
+          bestDist = d;
+          bestFrame = f;
         }
-      }, 150);
-    });
+      });
+      if (bestFrame !== -1) {
+        pending.delete(bestFrame);
+        return bestFrame;
+      }
+      return null;
+    };
+
+    const concurrency = isMobile ? 4 : 6;
+    const runWorker = async () => {
+      while (isMountedRef.current && !controller.signal.aborted) {
+        const next = pickNextFrame();
+        if (next === null) break;
+        await fetchFrame(next);
+      }
+    };
+
+    for (let w = 0; w < concurrency; w++) {
+      void runWorker();
+    }
 
     return () => {
-      isCancelled = true;
+      isMountedRef.current = false;
+      controller.abort();
+      bitmapsRef.current.forEach((bmp) => {
+        if (typeof bmp.close === 'function') bmp.close();
+      });
+      bitmapsRef.current.clear();
+      blobsRef.current.clear();
     };
   }, []);
 
-  // Draw frame on canvas with aspect-ratio preservation
-  const drawFrame = (frameNum: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+  // Scroll scrubbing loop with smooth sub-frame lerp and zero per-frame React setState
+  useEffect(() => {
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    let img = imagesRef.current.get(frameNum);
-    if (!img || !img.complete) {
-      // Find closest loaded frame
-      let closestFrame = 1;
-      let minDiff = 9999;
-      imagesRef.current.forEach((loadedImg, f) => {
-        if (loadedImg && loadedImg.complete) {
-          const diff = Math.abs(f - frameNum);
-          if (diff < minDiff) {
-            minDiff = diff;
-            closestFrame = f;
-          }
-        }
-      });
-      img = imagesRef.current.get(closestFrame);
-    }
+    const stepAnimation = () => {
+      rafIdRef.current = null;
+      if (!isMountedRef.current) return;
 
-    if (img && img.complete && img.naturalWidth > 0) {
-      if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
+      const targetFrame = targetFrameRef.current;
+      const targetProg = targetProgressRef.current;
+
+      const frameDiff = targetFrame - smoothFrameRef.current;
+      const progDiff = targetProg - smoothProgressRef.current;
+
+      // Responsive smoothing: tracks mobile swipes closely while eliminating step jitter
+      const easeFactor = isMobileRef.current ? 0.34 : 0.32;
+
+      if (Math.abs(frameDiff) < 0.05) {
+        smoothFrameRef.current = targetFrame;
+      } else {
+        smoothFrameRef.current += frameDiff * easeFactor;
       }
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
-    }
-  };
+      if (Math.abs(progDiff) < 0.0005) {
+        smoothProgressRef.current = targetProg;
+      } else {
+        smoothProgressRef.current += progDiff * easeFactor;
+      }
 
-  // Redraw when currentFrame changes
-  useEffect(() => {
-    drawFrame(currentFrame);
-  }, [currentFrame]);
+      const displayFrame = snapFrameForViewport(
+        smoothFrameRef.current,
+        isMobileRef.current
+      );
 
-  // Scroll listener strictly locked within #work section
-  useEffect(() => {
-    let ticking = false;
+      if (displayFrame !== lastDrawnFrameRef.current) {
+        drawFrame(displayFrame);
+        ensureAheadDecoded(displayFrame);
+      }
+
+      applyVisualOverlays(smoothFrameRef.current, smoothProgressRef.current);
+
+      if (
+        Math.abs(targetFrame - smoothFrameRef.current) >= 0.05 ||
+        Math.abs(targetProg - smoothProgressRef.current) >= 0.0005
+      ) {
+        rafIdRef.current = window.requestAnimationFrame(stepAnimation);
+      }
+    };
+
+    const scheduleTick = () => {
+      if (rafIdRef.current === null && isMountedRef.current) {
+        rafIdRef.current = window.requestAnimationFrame(stepAnimation);
+      }
+    };
 
     const handleScroll = () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || prefersReducedMotion) return;
 
-      // (c) If prefers-reduced-motion: reduce is set, skip scroll scrubbing
-      if (
-        typeof window !== 'undefined' &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      ) {
-        return;
-      }
+      isMobileRef.current = window.innerWidth < 768;
 
       const rect = containerRef.current.getBoundingClientRect();
       const scrollableDistance = containerRef.current.offsetHeight - window.innerHeight;
-
       if (scrollableDistance <= 0) return;
 
-      // Distance scrolled into the section
       const scrolled = -rect.top;
-      // Progress between 0 and 1 strictly within this section
       const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
 
-      setScrollProgress(progress);
+      targetProgressRef.current = progress;
+      targetFrameRef.current = 1 + progress * (TOTAL_FRAMES - 1);
 
-      // Map progress directly to frame index: 1 to TOTAL_FRAMES
-      let frameIdx = Math.max(1, Math.min(TOTAL_FRAMES, Math.round(1 + progress * (TOTAL_FRAMES - 1))));
-
-      // (a) On screens under 768px wide, scrub only even-numbered frames
-      if (window.innerWidth < 768) {
-        if (frameIdx % 2 !== 0) {
-          frameIdx = frameIdx >= TOTAL_FRAMES ? frameIdx - 1 : frameIdx + 1;
-        }
-        frameIdx = Math.max(2, Math.min(TOTAL_FRAMES - 1, frameIdx));
-      }
-
-      latestFrameRef.current = frameIdx;
-      setCurrentFrame(frameIdx);
-
-      ticking = false;
+      scheduleTick();
     };
 
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(handleScroll);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+    // Initial sync without lag
     handleScroll();
+    smoothFrameRef.current = targetFrameRef.current;
+    smoothProgressRef.current = targetProgressRef.current;
+    applyVisualOverlays(smoothFrameRef.current, smoothProgressRef.current);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      if (rafIdRef.current !== null) {
+        window.cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
     };
   }, []);
 
@@ -341,18 +572,16 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       className="relative w-full h-[460vh] bg-[#0A0A0A]"
     >
       {/* 
-        STICKY FULL-SCREEN VIEWPORT:
-        Pins firmly when #work enters top of viewport,
-        unpins cleanly when #work finishes.
-        Zero leftover frames or pinned overlays after this section.
+        STICKY FULL-SCREEN VIEWPORT (100dvh prevents mobile URL-bar jump/reflow during swipes):
+        Pins cleanly when #work enters top of viewport and unpins cleanly at section end.
       */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between z-20 pointer-events-none select-none">
-        
-        {/* SUBTLE HORIZONTAL PROGRESS LINE (Advances cleanly below fixed navbar as visitor scrolls) */}
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col justify-between z-20 pointer-events-none select-none transform-gpu">
+        {/* SUBTLE HORIZONTAL PROGRESS LINE (GPU scaleX transform — zero layout reflows) */}
         <div className="absolute top-20 md:top-24 left-0 right-0 h-[2px] bg-white/10 z-30 pointer-events-none">
           <div
-            className="h-full bg-[#B89255] transition-all duration-75 ease-out"
-            style={{ width: `${Math.round(scrollProgress * 100)}%` }}
+            ref={progressBarRef}
+            className="h-full w-full bg-[#B89255] origin-left will-change-transform"
+            style={{ transform: 'scaleX(0)' }}
           />
         </div>
 
@@ -368,7 +597,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
           aria-hidden="true"
         />
 
-        {/* TOP STATUS BAR: Subtle Archive Header & Minimal Project Indicator */}
+        {/* TOP STATUS BAR */}
         <div className="w-full max-w-[1280px] mx-auto px-6 pt-24 md:pt-28 flex items-center justify-between gap-4 z-30 pointer-events-auto">
           <div className="flex items-center gap-2">
             <h2 className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.28em] text-[#FAFAFA]/85">
@@ -394,54 +623,56 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
             ref={canvasRef}
             role="img"
             aria-label="Interactive frame-by-frame contractor website showcase animation"
-            className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
+            className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none will-change-contents"
             style={{
-              display: isImagesLoaded ? 'block' : 'none',
+              display: isFirstFrameReady ? 'block' : 'none',
             }}
           />
 
-          {!isImagesLoaded && (
+          {!isFirstFrameReady && (
             <img
-              src={getWorkFrameUrl(currentFrame)}
+              src={getFrameUrl(1)}
               alt="High-Converting Contractor Website Showcase Frame"
               width={1920}
               height={1080}
               loading="eager"
+              decoding="async"
               className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
             />
           )}
         </div>
 
-        {/* BOTTOM SECTION: SYNCHRONIZED HTML TEXT OVERLAYS */}
+        {/* BOTTOM SECTION: SYNCHRONIZED HTML TEXT OVERLAYS (Ref-driven opacity — zero React re-renders during scroll) */}
         <div className="w-full max-w-[1280px] mx-auto px-6 pb-8 sm:pb-12 z-30 pointer-events-auto">
           <div className="relative min-h-[100px] sm:min-h-[120px] flex items-end justify-between gap-6">
             <div className="relative flex-1 h-full">
-              {WORK_PROJECT_FRAMES.map((project, idx) => {
-                const opacity = getProjectOpacity(idx, currentFrame);
-                if (opacity <= 0.001) return null;
-
-                return (
-                  <div
-                    key={project.id}
-                    className="absolute bottom-0 left-0 w-full transition-opacity duration-150 ease-out select-none"
-                    style={{ opacity }}
-                  >
-                    <div className="mb-1.5 sm:mb-2">
-                      <span className="inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-[#B89255] font-semibold">
-                        Concept Project
-                      </span>
-                    </div>
-
-                    <h3 className="text-2xl sm:text-4xl md:text-5xl text-[#FAFAFA] font-semibold tracking-tight uppercase leading-none">
-                      {project.displayTitle}
-                    </h3>
-
-                    <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm md:text-base text-[rgba(250,250,250,0.75)] tracking-wider uppercase font-mono">
-                      {project.category}
-                    </p>
+              {WORK_PROJECT_FRAMES.map((project, idx) => (
+                <div
+                  key={project.id}
+                  ref={(el) => {
+                    overlayRefs.current[idx] = el;
+                  }}
+                  className="absolute bottom-0 left-0 w-full select-none will-change-[opacity]"
+                  style={{
+                    opacity: idx === 0 ? 1 : 0,
+                    visibility: idx === 0 ? 'visible' : 'hidden',
+                  }}
+                >
+                  <div className="mb-1.5 sm:mb-2">
+                    <span className="inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-[#B89255] font-semibold">
+                      Concept Project
+                    </span>
                   </div>
-                );
-              })}
+
+                  <h3 className="text-2xl sm:text-4xl md:text-5xl text-[#FAFAFA] font-semibold tracking-tight uppercase leading-none">
+                    {project.displayTitle}
+                  </h3>
+
+                  <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm md:text-base text-[rgba(250,250,250,0.75)] tracking-wider uppercase font-mono">
+                    {project.category}
+                  </p>
+                </div>
+              ))}
             </div>
 
             <div className="shrink-0 mb-1 hidden sm:block">

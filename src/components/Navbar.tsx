@@ -110,8 +110,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-out ${
         scrolled
-          ? 'bg-[#FAF6F0]/95 backdrop-blur-md border-b border-[#D9D0C3]/80 shadow-xs'
-          : 'bg-[#FAF6F0]/90 backdrop-blur-sm border-b border-[#D9D0C3]/40'
+          ? 'bg-[#FAF6F0]/95 md:backdrop-blur-md border-b border-[#D9D0C3]/80 shadow-xs'
+          : 'bg-[#FAF6F0]/95 md:bg-[#FAF6F0]/90 md:backdrop-blur-sm border-b border-[#D9D0C3]/40'
       }`}
     >
       <div className="max-w-7xl mx-auto h-20 md:h-24 px-6 lg:px-12 flex items-center justify-between gap-6">
