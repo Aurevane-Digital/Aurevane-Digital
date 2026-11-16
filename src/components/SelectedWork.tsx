@@ -1,8 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
 import { CASE_STUDIES } from '../data/caseStudies';
 import { CaseStudy } from '../types';
 import { getFrameUrl } from '../utils/frames';
+
+gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
+
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 interface SelectedWorkProps {
   onSelectCaseStudy: (study: CaseStudy) => void;
@@ -123,25 +131,21 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
   const decodingSetRef = useRef<Set<number>>(new Set());
   const pinnedFramesRef = useRef<Set<number>>(new Set());
 
-  // Scroll & frame animation refs (zero React re-renders per scroll frame)
+  // Animation refs (zero React re-renders per scroll frame)
   const targetFrameRef = useRef<number>(1);
-  const smoothFrameRef = useRef<number>(1);
+  const currentFrameFloatRef = useRef<number>(1);
   const lastDrawnFrameRef = useRef<number>(0);
-  const targetProgressRef = useRef<number>(0);
-  const smoothProgressRef = useRef<number>(0);
   const activeProjectIndexRef = useRef<number>(0);
   const isMobileRef = useRef<boolean>(
-    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
   );
   const isMountedRef = useRef<boolean>(true);
-  const rafIdRef = useRef<number | null>(null);
 
   const [activeProjectIndex, setActiveProjectIndex] = useState<number>(0);
   const [isFirstFrameReady, setIsFirstFrameReady] = useState<boolean>(false);
 
   const activeProject = WORK_PROJECT_FRAMES[activeProjectIndex] || WORK_PROJECT_FRAMES[0];
 
-  // Obtain optimized 2D canvas context without alpha compositing overhead
   const getCanvasContext = (): CanvasRenderingContext2D | null => {
     if (ctxRef.current) return ctxRef.current;
     const canvas = canvasRef.current;
@@ -154,11 +158,37 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     return ctx;
   };
 
-  // Draw the exact requested frame (or closest decoded bitmap) onto the canvas
+  // Match canvas backing store to full 100vw x 100svh CSS size scaled by devicePixelRatio (max 2)
+  const syncCanvasDimensions = (): { width: number; height: number } | null => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const cssWidth = canvas.clientWidth || window.innerWidth;
+    const cssHeight =
+      canvas.clientHeight ||
+      containerRef.current?.clientHeight ||
+      window.innerHeight;
+
+    const targetW = Math.max(1, Math.round(cssWidth * dpr));
+    const targetH = Math.max(1, Math.round(cssHeight * dpr));
+
+    if (canvas.width !== targetW || canvas.height !== targetH) {
+      canvas.width = targetW;
+      canvas.height = targetH;
+    }
+
+    return { width: canvas.width, height: canvas.height };
+  };
+
+  // Draw requested frame (or closest decoded frame) using cover math so no black bars/letterboxing ever appear
   const drawFrame = (requestedFrame: number) => {
     const canvas = canvasRef.current;
     const ctx = getCanvasContext();
     if (!canvas || !ctx) return;
+
+    const dims = syncCanvasDimensions();
+    if (!dims) return;
 
     let source: ImageBitmap | HTMLImageElement | undefined =
       bitmapsRef.current.get(requestedFrame) || fallbackImgsRef.current.get(requestedFrame);
@@ -187,25 +217,29 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
 
     if (!source) return;
 
-    const srcW =
+    const imgWidth =
       source instanceof ImageBitmap ? source.width : source.naturalWidth;
-    const srcH =
+    const imgHeight =
       source instanceof ImageBitmap ? source.height : source.naturalHeight;
 
-    if (srcW <= 0 || srcH <= 0) return;
+    if (imgWidth <= 0 || imgHeight <= 0) return;
 
-    if (canvas.width !== srcW || canvas.height !== srcH) {
-      canvas.width = srcW;
-      canvas.height = srcH;
-    }
+    const canvasWidth = dims.width;
+    const canvasHeight = dims.height;
 
-    ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+    const scale = Math.max(canvasWidth / imgWidth, canvasHeight / imgHeight);
+    const drawWidth = imgWidth * scale;
+    const drawHeight = imgHeight * scale;
+    const offsetX = (canvasWidth - drawWidth) / 2;
+    const offsetY = (canvasHeight - drawHeight) / 2;
+
+    ctx.drawImage(source, offsetX, offsetY, drawWidth, drawHeight);
     lastDrawnFrameRef.current = requestedFrame;
   };
 
-  // Evict far-away decoded ImageBitmaps to keep mobile/tablet GPU memory lean
+  // Evict far-away decoded ImageBitmaps to stay memory-safe on mobile devices
   const evictFarBitmaps = (centerFrame: number) => {
-    const maxBitmaps = isMobileRef.current ? 72 : 150;
+    const maxBitmaps = isMobileRef.current ? 56 : 150;
     if (bitmapsRef.current.size <= maxBitmaps) return;
 
     const candidates: Array<{ frame: number; dist: number }> = [];
@@ -227,7 +261,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     }
   };
 
-  // Decode a fetched JPEG Blob into an off-main-thread ImageBitmap (downscaled on mobile for 4x faster GPU upload)
+  // Off-main-thread JPEG decoding into full-resolution ImageBitmap
   const decodeBlobFrame = async (frameNum: number) => {
     if (!isMountedRef.current) return;
     if (bitmapsRef.current.has(frameNum) || decodingSetRef.current.has(frameNum)) return;
@@ -236,20 +270,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
 
     decodingSetRef.current.add(frameNum);
     try {
-      let bitmap: ImageBitmap;
-      if (isMobileRef.current && typeof createImageBitmap === 'function') {
-        try {
-          bitmap = await createImageBitmap(blob, {
-            resizeWidth: 960,
-            resizeHeight: 540,
-            resizeQuality: 'medium',
-          });
-        } catch {
-          bitmap = await createImageBitmap(blob);
-        }
-      } else {
-        bitmap = await createImageBitmap(blob);
-      }
+      const bitmap = await createImageBitmap(blob);
 
       if (!isMountedRef.current) {
         if (typeof bitmap.close === 'function') bitmap.close();
@@ -260,7 +281,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       evictFarBitmaps(targetFrameRef.current);
 
       const currentSnapped = snapFrameForViewport(
-        smoothFrameRef.current,
+        currentFrameFloatRef.current,
         isMobileRef.current
       );
       if (frameNum === 1 || frameNum === 2 || Math.abs(frameNum - currentSnapped) <= 2) {
@@ -268,7 +289,6 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
         drawFrame(currentSnapped);
       }
     } catch {
-      // Fallback to HTMLImageElement + decode() if createImageBitmap fails
       const img = new Image();
       img.decoding = 'async';
       img.src = getFrameUrl(frameNum);
@@ -281,7 +301,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
           if (frameNum === 1 || frameNum === 2) {
             setIsFirstFrameReady(true);
             drawFrame(
-              snapFrameForViewport(smoothFrameRef.current, isMobileRef.current)
+              snapFrameForViewport(currentFrameFloatRef.current, isMobileRef.current)
             );
           }
         }
@@ -293,7 +313,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     }
   };
 
-  // Pre-decode already-fetched blobs around the current scroll frame ahead of the finger
+  // Pre-decode fetched blobs around the active frame ahead of scroll
   const ensureAheadDecoded = (centerFrame: number) => {
     const step = isMobileRef.current ? 2 : 1;
     const radiusBack = isMobileRef.current ? 10 : 12;
@@ -356,7 +376,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
         (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData
       );
 
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
     isMobileRef.current = isMobile;
 
     const pinnedList = isMobile
@@ -400,7 +420,6 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       };
     }
 
-    // Build list of frames to preload: mobile uses even frames (+ frame 1 for fallback), desktop uses all 289
     const allNeeded: number[] = [];
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       if (isMobile && i % 2 !== 0) continue;
@@ -423,7 +442,6 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       }
       if (pending.size === 0) return null;
 
-      // Pick frame closest to current scroll target so fast swipes load immediately around the user's position
       const target = targetFrameRef.current;
       let bestFrame = -1;
       let bestDist = Infinity;
@@ -465,39 +483,31 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     };
   }, []);
 
-  // Scroll scrubbing loop with smooth sub-frame lerp and zero per-frame React setState
-  useEffect(() => {
+  // GSAP ScrollTrigger pinned scrub timeline with matchMedia (150% desktop, 120% mobile)
+  useIsomorphicLayoutEffect(() => {
+    const section = containerRef.current;
+    if (!section) return;
+
     const prefersReducedMotion =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const stepAnimation = () => {
-      rafIdRef.current = null;
-      if (!isMountedRef.current) return;
+    syncCanvasDimensions();
 
-      const targetFrame = targetFrameRef.current;
-      const targetProg = targetProgressRef.current;
+    if (prefersReducedMotion) {
+      applyVisualOverlays(1, 0);
+      drawFrame(1);
+      return;
+    }
 
-      const frameDiff = targetFrame - smoothFrameRef.current;
-      const progDiff = targetProg - smoothProgressRef.current;
+    const frameState = { frame: 1, progress: 0 };
 
-      // Responsive smoothing: tracks mobile swipes closely while eliminating step jitter
-      const easeFactor = isMobileRef.current ? 0.34 : 0.32;
-
-      if (Math.abs(frameDiff) < 0.05) {
-        smoothFrameRef.current = targetFrame;
-      } else {
-        smoothFrameRef.current += frameDiff * easeFactor;
-      }
-
-      if (Math.abs(progDiff) < 0.0005) {
-        smoothProgressRef.current = targetProg;
-      } else {
-        smoothProgressRef.current += progDiff * easeFactor;
-      }
+    const updateScrubbedFrame = () => {
+      currentFrameFloatRef.current = frameState.frame;
+      targetFrameRef.current = frameState.frame;
 
       const displayFrame = snapFrameForViewport(
-        smoothFrameRef.current,
+        frameState.frame,
         isMobileRef.current
       );
 
@@ -506,56 +516,79 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
         ensureAheadDecoded(displayFrame);
       }
 
-      applyVisualOverlays(smoothFrameRef.current, smoothProgressRef.current);
-
-      if (
-        Math.abs(targetFrame - smoothFrameRef.current) >= 0.05 ||
-        Math.abs(targetProg - smoothProgressRef.current) >= 0.0005
-      ) {
-        rafIdRef.current = window.requestAnimationFrame(stepAnimation);
-      }
+      applyVisualOverlays(frameState.frame, frameState.progress);
     };
 
-    const scheduleTick = () => {
-      if (rafIdRef.current === null && isMountedRef.current) {
-        rafIdRef.current = window.requestAnimationFrame(stepAnimation);
-      }
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      const setupTimeline = (endDistance: string) => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: endDistance,
+            pin: true,
+            scrub: 0.8,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            refreshPriority: 1,
+            onUpdate: (self) => {
+              targetFrameRef.current = 1 + self.progress * (TOTAL_FRAMES - 1);
+            },
+          },
+        });
+
+        tl.to(frameState, {
+          frame: TOTAL_FRAMES,
+          progress: 1,
+          ease: 'none',
+          onUpdate: updateScrubbedFrame,
+        });
+      };
+
+      mm.add('(min-width: 769px)', () => {
+        isMobileRef.current = false;
+        setupTimeline('+=150%');
+      });
+
+      mm.add('(max-width: 768px)', () => {
+        isMobileRef.current = true;
+        setupTimeline('+=120%');
+      });
+    }, section);
+
+    let orientationTimer: number | undefined;
+    const handleViewportChange = () => {
+      isMobileRef.current = window.innerWidth <= 768;
+      syncCanvasDimensions();
+      const currentDisplay = snapFrameForViewport(
+        currentFrameFloatRef.current,
+        isMobileRef.current
+      );
+      drawFrame(currentDisplay);
+      ScrollTrigger.refresh();
     };
 
-    const handleScroll = () => {
-      if (!containerRef.current || prefersReducedMotion) return;
-
-      isMobileRef.current = window.innerWidth < 768;
-
-      const rect = containerRef.current.getBoundingClientRect();
-      const scrollableDistance = containerRef.current.offsetHeight - window.innerHeight;
-      if (scrollableDistance <= 0) return;
-
-      const scrolled = -rect.top;
-      const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
-
-      targetProgressRef.current = progress;
-      targetFrameRef.current = 1 + progress * (TOTAL_FRAMES - 1);
-
-      scheduleTick();
+    const handleOrientationChange = () => {
+      handleViewportChange();
+      window.clearTimeout(orientationTimer);
+      orientationTimer = window.setTimeout(handleViewportChange, 150);
     };
 
-    // Initial sync without lag
-    handleScroll();
-    smoothFrameRef.current = targetFrameRef.current;
-    smoothProgressRef.current = targetProgressRef.current;
-    applyVisualOverlays(smoothFrameRef.current, smoothProgressRef.current);
+    window.addEventListener('resize', handleViewportChange, { passive: true });
+    window.addEventListener('orientationchange', handleOrientationChange, {
+      passive: true,
+    });
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
+    ScrollTrigger.refresh();
+    applyVisualOverlays(1, 0);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-      if (rafIdRef.current !== null) {
-        window.cancelAnimationFrame(rafIdRef.current);
-        rafIdRef.current = null;
-      }
+      window.clearTimeout(orientationTimer);
+      window.removeEventListener('resize', handleViewportChange);
+      window.removeEventListener('orientationchange', handleOrientationChange);
+      ctx.revert();
     };
   }, []);
 
@@ -566,16 +599,48 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
   };
 
   return (
-    <section
-      id="work"
-      ref={containerRef}
-      className="relative w-full h-[460vh] bg-[#0A0A0A]"
-    >
-      {/* 
-        STICKY FULL-SCREEN VIEWPORT (100dvh prevents mobile URL-bar jump/reflow during swipes):
-        Pins cleanly when #work enters top of viewport and unpins cleanly at section end.
-      */}
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col justify-between z-20 pointer-events-none select-none transform-gpu">
+    <section id="work" className="relative w-full">
+      <div
+        ref={containerRef}
+        className="relative w-full h-[100svh] overflow-hidden bg-[#0A0A0A]"
+      >
+      {/* FULL-SCREEN PINNED CANVAS (100vw x 100svh, cover-cropped with zero black bars) */}
+      <canvas
+        ref={canvasRef}
+        role="img"
+        aria-label="Interactive frame-by-frame contractor website showcase animation"
+        className="absolute top-0 left-0 w-[100vw] h-[100svh] pointer-events-none select-none z-10 will-change-contents"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100svh',
+          opacity: isFirstFrameReady ? 1 : 0,
+        }}
+      />
+
+      {!isFirstFrameReady && (
+        <img
+          src={getFrameUrl(1)}
+          alt="High-Converting Contractor Website Showcase Frame"
+          width={1920}
+          height={1080}
+          loading="eager"
+          decoding="async"
+          className="pointer-events-none select-none z-10 object-cover object-center"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100svh',
+          }}
+        />
+      )}
+
+      {/* OVERLAY CHROME LAYER */}
+      <div className="relative z-20 w-full h-full flex flex-col justify-between pointer-events-none select-none">
         {/* SUBTLE HORIZONTAL PROGRESS LINE (GPU scaleX transform — zero layout reflows) */}
         <div className="absolute top-20 md:top-24 left-0 right-0 h-[2px] bg-white/10 z-30 pointer-events-none">
           <div
@@ -617,32 +682,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
           </div>
         </div>
 
-        {/* FULL BLEED FRAME ANIMATION VIEWPORT */}
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none select-none z-10 overflow-hidden">
-          <canvas
-            ref={canvasRef}
-            role="img"
-            aria-label="Interactive frame-by-frame contractor website showcase animation"
-            className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none will-change-contents"
-            style={{
-              display: isFirstFrameReady ? 'block' : 'none',
-            }}
-          />
-
-          {!isFirstFrameReady && (
-            <img
-              src={getFrameUrl(1)}
-              alt="High-Converting Contractor Website Showcase Frame"
-              width={1920}
-              height={1080}
-              loading="eager"
-              decoding="async"
-              className="w-full h-full object-cover min-w-full min-h-full pointer-events-none select-none"
-            />
-          )}
-        </div>
-
-        {/* BOTTOM SECTION: SYNCHRONIZED HTML TEXT OVERLAYS (Ref-driven opacity — zero React re-renders during scroll) */}
+        {/* BOTTOM SECTION: SYNCHRONIZED HTML TEXT OVERLAYS */}
         <div className="w-full max-w-[1280px] mx-auto px-6 pb-8 sm:pb-12 z-30 pointer-events-auto">
           <div className="relative min-h-[100px] sm:min-h-[120px] flex items-end justify-between gap-6">
             <div className="relative flex-1 h-full">
@@ -687,6 +727,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

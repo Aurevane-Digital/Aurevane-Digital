@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ShowcaseSite, WorkPanel } from './WorkPanel';
@@ -7,6 +7,9 @@ import { getWorkFrameUrl, TOTAL_WORK_FRAMES } from '../utils/frames';
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
+
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 /**
  * ============================================================================
@@ -147,7 +150,7 @@ function getProjectOverlayState(
 }
 
 export const WorkShowcase: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
+  const pinContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -327,13 +330,15 @@ export const WorkShowcase: React.FC = () => {
 
   /**
    * GSAP ScrollTrigger Scroll-Controlled Frame Pinning
+   * Uses useLayoutEffect + inner pin container so GSAP's .pin-spacer never
+   * reparents React's root <section> node (prevents NotFoundError: removeChild on route change).
    */
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (prefersReducedMotion) return;
 
-    const section = sectionRef.current;
+    const pinContainer = pinContainerRef.current;
     const canvas = canvasRef.current;
-    if (!section || !canvas) return;
+    if (!pinContainer || !canvas) return;
 
     let rafId = 0;
     let ctx: gsap.Context | undefined;
@@ -366,7 +371,7 @@ export const WorkShowcase: React.FC = () => {
           frame: TOTAL_WORK_FRAMES - 1,
           ease: 'none',
           scrollTrigger: {
-            trigger: section,
+            trigger: pinContainer,
             start: 'top top',
             end: SCROLL_DISTANCE,
             pin: true,
@@ -383,7 +388,7 @@ export const WorkShowcase: React.FC = () => {
             },
           },
         });
-      }, section);
+      }, pinContainer);
 
       ScrollTrigger.refresh();
       updatePanels(0);
@@ -456,44 +461,48 @@ export const WorkShowcase: React.FC = () => {
   return (
     <section
       id="work"
-      ref={sectionRef}
       aria-label="Interactive Scroll-Driven Work Showcase"
-      className="relative w-full h-screen bg-[#FFF8F1] overflow-hidden flex flex-col pt-20 md:pt-0 md:block"
+      className="relative w-full"
     >
-      {/* HTML Canvas Frame Sequence Container */}
-      <div className="w-full aspect-video shrink-0 md:aspect-auto md:absolute md:inset-0 md:h-full bg-[#FFF8F1] relative">
-        <canvas
-          ref={canvasRef}
-          className="w-full h-full block pointer-events-none select-none"
-          aria-label="Scroll-controlled sequence of 5 contractor websites"
-        />
-
-        {/* Subtle preloading progress indicator (fades out after initial frames load) */}
-        {loadedCount < TOTAL_WORK_FRAMES && (
-          <div
-            className={`absolute bottom-4 left-6 z-20 flex items-center gap-3 transition-opacity duration-700 pointer-events-none ${
-              isFirstFrameReady ? 'opacity-35 hover:opacity-100' : 'opacity-90'
-            }`}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#9E5249] animate-pulse" />
-            <span className="text-[10px] uppercase font-mono tracking-widest text-[#59544E]">
-              Preloading Frame Archive: {loadPercent}% ({loadedCount}/{TOTAL_WORK_FRAMES})
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* Synchronized Project Title Overlays */}
-      <div className="relative flex-1 w-full md:static md:w-auto md:h-full pointer-events-none">
-        {WORK_PROJECTS.map((site, idx) => (
-          <WorkPanel
-            key={site.id}
-            site={site}
-            panelRef={(el) => {
-              panelRefs.current[idx] = el;
-            }}
+      <div
+        ref={pinContainerRef}
+        className="relative w-full h-screen bg-[#FFF8F1] overflow-hidden flex flex-col pt-20 md:pt-0 md:block"
+      >
+        {/* HTML Canvas Frame Sequence Container */}
+        <div className="w-full aspect-video shrink-0 md:aspect-auto md:absolute md:inset-0 md:h-full bg-[#FFF8F1] relative">
+          <canvas
+            ref={canvasRef}
+            className="w-full h-full block pointer-events-none select-none"
+            aria-label="Scroll-controlled sequence of 5 contractor websites"
           />
-        ))}
+
+          {/* Subtle preloading progress indicator (fades out after initial frames load) */}
+          {loadedCount < TOTAL_WORK_FRAMES && (
+            <div
+              className={`absolute bottom-4 left-6 z-20 flex items-center gap-3 transition-opacity duration-700 pointer-events-none ${
+                isFirstFrameReady ? 'opacity-35 hover:opacity-100' : 'opacity-90'
+              }`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#9E5249] animate-pulse" />
+              <span className="text-[10px] uppercase font-mono tracking-widest text-[#59544E]">
+                Preloading Frame Archive: {loadPercent}% ({loadedCount}/{TOTAL_WORK_FRAMES})
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Synchronized Project Title Overlays */}
+        <div className="relative flex-1 w-full md:static md:w-auto md:h-full pointer-events-none">
+          {WORK_PROJECTS.map((site, idx) => (
+            <WorkPanel
+              key={site.id}
+              site={site}
+              panelRef={(el) => {
+                panelRefs.current[idx] = el;
+              }}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
