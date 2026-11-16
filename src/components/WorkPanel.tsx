@@ -8,14 +8,19 @@ export interface ShowcaseSite {
   category: string;
   description: string;
   url: string;
-  /** Video timestamp (seconds) when the monitor finishes arriving and holds */
-  holdStart: number;
-  /** Video timestamp (seconds) when the hold ends and the next move begins */
-  holdEnd: number;
+  /** Frame index when this project becomes active/visible in scroll sequence */
+  startFrame?: number;
+  /** Frame index when this project transitions out in scroll sequence */
+  endFrame?: number;
+  /** Frame where this project is fully centered/arrived */
+  peakFrame?: number;
   /** Side of the frame where the empty space (and text panel) sits on desktop */
   textSide: 'left' | 'right';
   /** Vertical center (%) matching the monitor's vertical step on desktop */
   verticalPercent: number;
+  /** Video timestamp (seconds) retained for backwards-compatibility */
+  holdStart?: number;
+  holdEnd?: number;
 }
 
 interface WorkPanelProps {

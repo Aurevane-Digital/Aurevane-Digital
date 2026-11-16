@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { CASE_STUDIES } from '../data/caseStudies';
 import { CaseStudy } from '../types';
-import { getFrameUrl } from '../utils/frames';
+import { getWorkFrameUrl } from '../utils/frames';
 
 interface SelectedWorkProps {
   onSelectCaseStudy: (study: CaseStudy) => void;
@@ -10,8 +10,8 @@ interface SelectedWorkProps {
 
 /**
  * EDITABLE FRAME-TO-PROJECT MAPPING:
- * Adjust startFrame / endFrame to fine-tune transition points without rebuilding the animation.
- * Total frames in sequence: 289 (ezgif-frame-001.jpg to ezgif-frame-289.jpg)
+ * Adjust startFrame / endFrame to fine-tune transition points.
+ * Total frames in sequence: 181 (f_000.webp to f_180.webp)
  */
 export const WORK_PROJECT_FRAMES = [
   {
@@ -20,8 +20,8 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '01 — JUNK BOLT',
     category: 'Junk Removal & Hauling',
-    startFrame: 1,
-    endFrame: 146,
+    startFrame: 0,
+    endFrame: 38,
     tagline: 'Visual Truck Volume Calculator & Instant Booking Dispatch',
   },
   {
@@ -30,8 +30,8 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '02 — VISION EXCAVATION',
     category: 'Excavation & Construction',
-    startFrame: 147,
-    endFrame: 180,
+    startFrame: 28,
+    endFrame: 82,
     tagline: 'Heavy Earthworks & Instant Site Scope Estimator',
   },
   {
@@ -40,8 +40,8 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '03 — JAMES IRON AND STEEL',
     category: 'Steel & Metal Services',
-    startFrame: 181,
-    endFrame: 216,
+    startFrame: 72,
+    endFrame: 127,
     tagline: 'AISC Certified Structural Steel & Fabrication Tenders',
   },
   {
@@ -50,8 +50,8 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '04 — ACTION ELECTRICAL',
     category: 'Electrical Services',
-    startFrame: 217,
-    endFrame: 247,
+    startFrame: 117,
+    endFrame: 172,
     tagline: 'High-Voltage Grid & Emergency Commercial MEP Service',
   },
   {
@@ -60,15 +60,15 @@ export const WORK_PROJECT_FRAMES = [
     totalCount: '05',
     displayTitle: '05 — STORM SHIELD',
     category: 'Roofing & Exterior Services',
-    startFrame: 248,
-    endFrame: 289,
+    startFrame: 162,
+    endFrame: 180,
     tagline: 'Architectural Roofing Restoration & Automated Drone Intake',
   },
 ];
 
-const TOTAL_FRAMES = 289;
-const CROSS_FADE_WINDOW = 6; // +/- 6 frames transition buffer for smooth cross-fade
-const ANCHOR_FRAMES = [1, 147, 181, 217, 248, 289];
+const TOTAL_FRAMES = 181;
+const CROSS_FADE_WINDOW = 6;
+const ANCHOR_FRAMES = [0, 45, 90, 135, 180];
 
 /**
  * Calculates smooth cross-fade opacity for each project title overlay
@@ -141,13 +141,13 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     // (c) If prefers-reduced-motion: reduce is set, show one static frame and skip streaming
     if (prefersReducedMotion) {
       const img = new Image();
-      img.src = getFrameUrl(1);
+      img.src = getWorkFrameUrl(0);
       img.onload = () => {
         if (isCancelled) return;
-        loadedImages.set(1, img);
+        loadedImages.set(0, img);
         imagesRef.current = loadedImages;
         setIsImagesLoaded(true);
-        drawFrame(1);
+        drawFrame(0);
       };
       return () => {
         isCancelled = true;
@@ -156,18 +156,16 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
 
     // (b) If navigator.connection?.saveData is true, load only anchor frames and skip streaming
     if (isSaveData) {
-      const framesToLoad = isMobile
-        ? ANCHOR_FRAMES.map((f) => (f === 1 ? 1 : f % 2 !== 0 ? f + 1 : f))
-        : ANCHOR_FRAMES;
+      const framesToLoad = ANCHOR_FRAMES;
 
       framesToLoad.forEach((frame) => {
         const img = new Image();
-        img.src = getFrameUrl(frame);
+        img.src = getWorkFrameUrl(frame);
         img.onload = () => {
           if (isCancelled) return;
           loadedImages.set(frame, img);
           imagesRef.current = loadedImages;
-          if (frame === 1 || (!loadedImages.has(1) && loadedImages.size === 1)) {
+          if (frame === 0 || (!loadedImages.has(0) && loadedImages.size === 1)) {
             setIsImagesLoaded(true);
             drawFrame(frame);
           }
@@ -182,17 +180,16 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     const loadBatch = async (start: number, end: number) => {
       for (let i = start; i <= end; i++) {
         if (isCancelled) return;
-        // (a) On screens under 768px, preload only even-numbered frames (plus frame 1 for initial render)
-        if (isMobile && i % 2 !== 0 && i !== 1) {
+        if (isMobile && i % 2 !== 0 && i !== 0) {
           continue;
         }
         const img = new Image();
-        img.src = getFrameUrl(i);
+        img.src = getWorkFrameUrl(i);
         img.onload = () => {
           if (isCancelled) return;
           loadedImages.set(i, img);
           imagesRef.current = loadedImages;
-          if (i === 1) {
+          if (i === 0) {
             setIsImagesLoaded(true);
             drawFrame(latestFrameRef.current);
           }
@@ -201,12 +198,12 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
     };
 
     // Load initial 30 frames immediately for instant responsiveness
-    loadBatch(1, 30).then(() => {
+    loadBatch(0, 30).then(() => {
       if (isCancelled) return;
-      [147, 181, 217, 248, 289].forEach((frame) => {
-        const targetFrame = isMobile && frame % 2 !== 0 ? frame + 1 : frame;
+      ANCHOR_FRAMES.forEach((frame) => {
+        const targetFrame = frame;
         const img = new Image();
-        img.src = getFrameUrl(targetFrame);
+        img.src = getWorkFrameUrl(targetFrame);
         img.onload = () => {
           if (isCancelled) return;
           loadedImages.set(targetFrame, img);
@@ -217,7 +214,10 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
       // Stream background frames
       setTimeout(() => {
         if (!isCancelled) {
-          loadBatch(31, TOTAL_FRAMES);
+          loadBatch(31, TOTAL_FRAMES - 1);
+        }
+      }, 400);
+    });
         }
       }, 150);
     });
@@ -402,7 +402,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onSelectCaseStudy })
 
           {!isImagesLoaded && (
             <img
-              src={getFrameUrl(currentFrame)}
+              src={getWorkFrameUrl(currentFrame)}
               alt="High-Converting Contractor Website Showcase Frame"
               width={1920}
               height={1080}
