@@ -75,7 +75,7 @@ export const ContactSection: React.FC = () => {
               <div className="flex items-center gap-3">
                 <Instagram className="w-5 h-5 text-[#B89255]" />
                 <a
-                  href="https://www.instagram.com/aurevanedigital/?__pwa=1"
+                  href="https://www.instagram.com/aurevanedigital/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-[#59544E] hover:text-[#141210] transition-colors underline-offset-4 hover:underline"

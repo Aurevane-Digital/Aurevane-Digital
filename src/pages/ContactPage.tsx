@@ -122,7 +122,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
                       Social &amp; Editorial Archive
                     </span>
                     <a
-                      href="https://www.instagram.com/aurevanedigital/?__pwa=1"
+                      href="https://www.instagram.com/aurevanedigital/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm sm:text-base text-[#141210] hover:text-[#9E5249] transition-colors underline-offset-4 hover:underline font-medium"

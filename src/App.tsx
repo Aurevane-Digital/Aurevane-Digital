@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { MotionConfig, AnimatePresence, motion } from 'motion/react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -19,6 +19,10 @@ import { ExcavationPage } from './pages/ExcavationPage';
 import { ElectricalPage } from './pages/ElectricalPage';
 import { GeneralContractorPage } from './pages/GeneralContractorPage';
 import { MobileDetailingPage } from './pages/MobileDetailingPage';
+import { RoofingPage } from './pages/RoofingPage';
+import { FenceInstallationPage } from './pages/FenceInstallationPage';
+import { LandscapingPage } from './pages/LandscapingPage';
+import { PlumbingHvacPage } from './pages/PlumbingHvacPage';
 import { BlogPage } from './pages/BlogPage';
 import { PostPage } from './pages/PostPage';
 import { CaseStudy, ServicePackage, AuditReportData } from './types';
@@ -33,6 +37,7 @@ import { LegalModal } from './components/LegalModal';
 
 function AppShell() {
   const location = useLocation();
+  const navigate = useNavigate();
   useEditorialScrollMotion(location.pathname);
 
   // Modals state
@@ -86,7 +91,7 @@ function AppShell() {
           if (checkEl) {
             checkEl.scrollIntoView({ behavior: 'smooth' });
           } else {
-            window.location.href = '/contact#website-check';
+            navigate('/contact#website-check');
           }
         }}
       />
@@ -124,6 +129,10 @@ function AppShell() {
           <Route path="/electrical-contractor-website-design" element={<ElectricalPage />} />
           <Route path="/general-contractor-website-design" element={<GeneralContractorPage />} />
           <Route path="/mobile-detailing-website-design" element={<MobileDetailingPage />} />
+          <Route path="/roofing-website-design" element={<RoofingPage />} />
+          <Route path="/fence-installation-website-design" element={<FenceInstallationPage />} />
+          <Route path="/landscaping-website-design" element={<LandscapingPage />} />
+          <Route path="/plumbing-hvac-website-design" element={<PlumbingHvacPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<PostPage />} />
           <Route path="*" element={<NotFoundPage />} />

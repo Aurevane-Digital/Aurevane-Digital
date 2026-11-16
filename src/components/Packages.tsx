@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, ArrowRight, Clock } from 'lucide-react';
+import { CheckCircle2, Clock } from 'lucide-react';
 import { SERVICE_PACKAGES } from '../data/packages';
 import { ServicePackage } from '../types';
 

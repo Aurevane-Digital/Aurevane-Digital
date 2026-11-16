@@ -40,7 +40,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [targetLaunch, setTargetLaunch] = useState('Within 30 Days');
   const [notes, setNotes] = useState('');

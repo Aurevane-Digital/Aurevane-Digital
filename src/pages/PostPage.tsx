@@ -19,26 +19,25 @@ export const PostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  if (!slug) {
-    return <NotFoundPage />;
-  }
-
-  const post = getBlogPost(slug);
-  if (!post) {
-    return <NotFoundPage />;
-  }
+  const post = slug ? getBlogPost(slug) : undefined;
 
   const jsonLd = useMemo(
     () =>
-      buildArticleSchema({
-        slug: post.slug,
-        headline: post.title,
-        description: post.description,
-        datePublished: post.datePublished,
-        dateModified: post.datePublished,
-      }),
-    [post.slug, post.title, post.description, post.datePublished]
+      post
+        ? buildArticleSchema({
+            slug: post.slug,
+            headline: post.title,
+            description: post.description,
+            datePublished: post.datePublished,
+            dateModified: post.datePublished,
+          })
+        : undefined,
+    [post]
   );
+
+  if (!post) {
+    return <NotFoundPage />;
+  }
 
   return (
     <>
