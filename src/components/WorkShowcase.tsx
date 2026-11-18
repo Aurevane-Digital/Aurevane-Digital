@@ -149,18 +149,32 @@ function getProjectOverlayState(
   return { opacity: 1, y: 0 };
 }
 
+const ANCHOR_FRAMES = [0, 45, 90, 135, 180];
+
 export const WorkShowcase: React.FC = () => {
   const pinContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const preloaderBadgeRef = useRef<HTMLDivElement>(null);
+  const preloaderTextRef = useRef<HTMLSpanElement>(null);
 
-  // Cached HTMLImageElement map: frameIndex -> Image
-  const imagesMapRef = useRef<Map<number, HTMLImageElement>>(new Map());
+  // Compressed blobs (~7.4MB total) + sliding GPU ImageBitmap cache + fallback HTMLImageElements
+  const blobsRef = useRef<Map<number, Blob>>(new Map());
+  const bitmapsRef = useRef<Map<number, ImageBitmap>>(new Map());
+  const fallbackImgsRef = useRef<Map<number, HTMLImageElement>>(new Map());
+  const decodingSetRef = useRef<Set<number>>(new Set());
+  const isMountedRef = useRef<boolean>(true);
+
   const targetFrameRef = useRef<number>(0);
   const currentFrameRef = useRef<number>(0);
   const lastDrawnFrameRef = useRef<number>(-1);
+  const loadedCountRef = useRef<number>(0);
+  const canvasSizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
+  const panelCacheRef = useRef<
+    Array<{ opacity: string; y: string; vis: string; interactive: boolean }>
+  >([]);
 
-  const [loadedCount, setLoadedCount] = useState<number>(0);
   const [isFirstFrameReady, setIsFirstFrameReady] = useState<boolean>(false);
 
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(() => {
@@ -177,149 +191,298 @@ export const WorkShowcase: React.FC = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  /**
-   * Draw specific frame onto canvas with high-DPI scaling and aspect-ratio preservation.
-   */
-  const drawFrame = useCallback((frameIndex: number) => {
+  const getCanvasContext = useCallback((): CanvasRenderingContext2D | null => {
+    if (ctxRef.current) return ctxRef.current;
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Retrieve requested image or find nearest loaded fallback
-    let img = imagesMapRef.current.get(frameIndex);
-    if (!img || !img.complete || img.naturalWidth === 0) {
-      let minDiff = Infinity;
-      let nearest: HTMLImageElement | null = null;
-      imagesMapRef.current.forEach((cachedImg, idx) => {
-        if (cachedImg.complete && cachedImg.naturalWidth > 0) {
-          const diff = Math.abs(idx - frameIndex);
-          if (diff < minDiff) {
-            minDiff = diff;
-            nearest = cachedImg;
-          }
-        }
-      });
-      img = nearest || undefined;
-    }
-
-    if (!img || !img.complete || img.naturalWidth === 0) return;
-
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const clientWidth = canvas.clientWidth;
-    const clientHeight = canvas.clientHeight;
-    const targetW = Math.round(clientWidth * dpr);
-    const targetH = Math.round(clientHeight * dpr);
-
-    if (canvas.width !== targetW || canvas.height !== targetH) {
-      canvas.width = targetW;
-      canvas.height = targetH;
-    }
-
-    ctx.save();
-    ctx.scale(dpr, dpr);
-
-    // Warm canvas background fill
-    ctx.fillStyle = '#FFF8F1';
-    ctx.fillRect(0, 0, clientWidth, clientHeight);
-
-    // Original aspect ratio: 1920 / 1080 = 16:9
-    const imgW = img.naturalWidth || 1920;
-    const imgH = img.naturalHeight || 1080;
-    const isMobile = clientWidth < 768;
-
-    // Desktop: cover to fill cinematic monitor space; Mobile: contain
-    const scale = isMobile
-      ? Math.min(clientWidth / imgW, clientHeight / imgH)
-      : Math.max(clientWidth / imgW, clientHeight / imgH);
-
-    const drawW = imgW * scale;
-    const drawH = imgH * scale;
-    const drawX = (clientWidth - drawW) / 2;
-    const drawY = (clientHeight - drawH) / 2;
-
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(img, drawX, drawY, drawW, drawH);
-    ctx.restore();
-
-    lastDrawnFrameRef.current = frameIndex;
+    if (!canvas) return null;
+    const ctx =
+      canvas.getContext('2d', { alpha: false, desynchronized: true }) ||
+      canvas.getContext('2d', { alpha: false }) ||
+      canvas.getContext('2d');
+    ctxRef.current = ctx;
+    return ctx;
   }, []);
 
   /**
-   * Preload animation frames intelligently:
-   * 1. Frame 0 loads immediately so canvas displays on first render.
-   * 2. Key anchor frames (0, 45, 90, 135, 180) load next.
-   * 3. Remainder load sequentially in background.
+   * Draw specific frame onto canvas using GPU-ready ImageBitmap (0.1ms blit) or nearest fallback.
    */
-  useEffect(() => {
-    let isCancelled = false;
-    let localLoaded = 0;
+  const drawFrame = useCallback(
+    (frameIndex: number) => {
+      const canvas = canvasRef.current;
+      const ctx = getCanvasContext();
+      if (!canvas || !ctx) return;
 
-    const loadImage = (index: number): Promise<HTMLImageElement> => {
-      return new Promise((resolve) => {
-        const existing = imagesMapRef.current.get(index);
-        if (existing && existing.complete) {
-          resolve(existing);
+      let source: ImageBitmap | HTMLImageElement | undefined =
+        bitmapsRef.current.get(frameIndex) || fallbackImgsRef.current.get(frameIndex);
+
+      if (!source) {
+        let minDiff = Infinity;
+        bitmapsRef.current.forEach((bmp, idx) => {
+          const diff = Math.abs(idx - frameIndex);
+          if (diff < minDiff) {
+            minDiff = diff;
+            source = bmp;
+          }
+        });
+        if (!source) {
+          fallbackImgsRef.current.forEach((img, idx) => {
+            if (img.complete && img.naturalWidth > 0) {
+              const diff = Math.abs(idx - frameIndex);
+              if (diff < minDiff) {
+                minDiff = diff;
+                source = img;
+              }
+            }
+          });
+        }
+      }
+
+      if (!source) return;
+
+      const clientWidth = canvas.clientWidth;
+      const clientHeight = canvas.clientHeight;
+      if (clientWidth <= 0 || clientHeight <= 0) return;
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rawW = clientWidth * dpr;
+      const rawH = clientHeight * dpr;
+      const maxDimScale = Math.min(1, 2240 / Math.max(1, rawW), 1440 / Math.max(1, rawH));
+      const targetW = Math.max(1, Math.round(rawW * maxDimScale));
+      const targetH = Math.max(1, Math.round(rawH * maxDimScale));
+
+      if (canvasSizeRef.current.w !== targetW || canvasSizeRef.current.h !== targetH) {
+        canvas.width = targetW;
+        canvas.height = targetH;
+        canvasSizeRef.current = { w: targetW, h: targetH };
+      }
+
+      const imgW =
+        source instanceof ImageBitmap ? source.width : source.naturalWidth || 1920;
+      const imgH =
+        source instanceof ImageBitmap ? source.height : source.naturalHeight || 1080;
+      const isMobile = clientWidth < 768;
+
+      const scale = isMobile
+        ? Math.min(targetW / imgW, targetH / imgH)
+        : Math.max(targetW / imgW, targetH / imgH);
+
+      const drawW = imgW * scale;
+      const drawH = imgH * scale;
+      const drawX = (targetW - drawW) / 2;
+      const drawY = (targetH - drawH) / 2;
+
+      if (drawX > 0.5 || drawY > 0.5) {
+        ctx.fillStyle = '#FFF8F1';
+        ctx.fillRect(0, 0, targetW, targetH);
+      }
+
+      ctx.drawImage(source, drawX, drawY, drawW, drawH);
+      lastDrawnFrameRef.current = frameIndex;
+    },
+    [getCanvasContext]
+  );
+
+  const evictFarBitmaps = useCallback((centerFrame: number) => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const maxBitmaps = isMobile ? 54 : 110;
+    if (bitmapsRef.current.size <= maxBitmaps) return;
+
+    const pinned = new Set(ANCHOR_FRAMES);
+    const candidates: Array<{ frame: number; dist: number }> = [];
+    bitmapsRef.current.forEach((_, idx) => {
+      if (!pinned.has(idx)) {
+        candidates.push({ frame: idx, dist: Math.abs(idx - centerFrame) });
+      }
+    });
+
+    candidates.sort((a, b) => b.dist - a.dist);
+    const excess = bitmapsRef.current.size - maxBitmaps;
+    for (let i = 0; i < excess && i < candidates.length; i++) {
+      const idx = candidates[i].frame;
+      const bmp = bitmapsRef.current.get(idx);
+      if (bmp && typeof bmp.close === 'function') bmp.close();
+      bitmapsRef.current.delete(idx);
+    }
+  }, []);
+
+  const decodeFrame = useCallback(
+    async (frameIndex: number) => {
+      if (!isMountedRef.current) return;
+      if (bitmapsRef.current.has(frameIndex) || decodingSetRef.current.has(frameIndex)) return;
+      const blob = blobsRef.current.get(frameIndex);
+      if (!blob) return;
+
+      decodingSetRef.current.add(frameIndex);
+      try {
+        const bitmap = await createImageBitmap(blob);
+        if (!isMountedRef.current) {
+          if (typeof bitmap.close === 'function') bitmap.close();
           return;
         }
+        bitmapsRef.current.set(frameIndex, bitmap);
+        evictFarBitmaps(targetFrameRef.current);
 
+        const activeRounded = Math.round(currentFrameRef.current);
+        if (frameIndex === 0 || Math.abs(frameIndex - activeRounded) <= 2) {
+          if (frameIndex === 0) setIsFirstFrameReady(true);
+          drawFrame(activeRounded);
+        }
+      } catch {
         const img = new Image();
-        img.src = getWorkFrameUrl(index);
-        img.onload = () => {
-          if (!isCancelled) {
-            imagesMapRef.current.set(index, img);
-            localLoaded += 1;
-            setLoadedCount(localLoaded);
-            if (index === 0) {
+        img.decoding = 'async';
+        img.src = getWorkFrameUrl(frameIndex);
+        try {
+          if (typeof img.decode === 'function') await img.decode();
+          if (isMountedRef.current) {
+            fallbackImgsRef.current.set(frameIndex, img);
+            if (frameIndex === 0) {
               setIsFirstFrameReady(true);
-              drawFrame(0);
+              drawFrame(Math.round(currentFrameRef.current));
             }
           }
-          resolve(img);
-        };
-        img.onerror = () => {
-          // Resolve on error to avoid blocking chain
-          resolve(img);
-        };
+        } catch {
+          // Ignore single decode error
+        }
+      } finally {
+        decodingSetRef.current.delete(frameIndex);
+      }
+    },
+    [drawFrame, evictFarBitmaps]
+  );
+
+  const ensureAheadDecoded = useCallback(
+    (centerFrame: number) => {
+      const radiusBack = 16;
+      const radiusAhead = 32;
+      for (let offset = 0; offset <= radiusAhead; offset++) {
+        const fAhead = centerFrame + offset;
+        if (fAhead < TOTAL_WORK_FRAMES && blobsRef.current.has(fAhead) && !bitmapsRef.current.has(fAhead)) {
+          void decodeFrame(fAhead);
+        }
+        if (offset > 0 && offset <= radiusBack) {
+          const fBack = centerFrame - offset;
+          if (fBack >= 0 && blobsRef.current.has(fBack) && !bitmapsRef.current.has(fBack)) {
+            void decodeFrame(fBack);
+          }
+        }
+      }
+    },
+    [decodeFrame]
+  );
+
+  /**
+   * Priority-based frame preloader:
+   * - Fetches frame 0 + anchors [45, 90, 135, 180] + runway [1..24] immediately.
+   * - Workers always fetch nearest frame to user's scroll position next.
+   * - Updates badge directly in DOM (zero React re-renders per loaded frame).
+   */
+  useEffect(() => {
+    isMountedRef.current = true;
+    const controller = new AbortController();
+    loadedCountRef.current = 0;
+
+    const updateProgressBadgeDom = (count: number) => {
+      if (preloaderTextRef.current) {
+        const pct = Math.min(100, Math.round((count / TOTAL_WORK_FRAMES) * 100));
+        preloaderTextRef.current.textContent = `Preloading Frame Archive: ${pct}% (${count}/${TOTAL_WORK_FRAMES})`;
+      }
+      if (preloaderBadgeRef.current && count >= TOTAL_WORK_FRAMES) {
+        preloaderBadgeRef.current.style.opacity = '0';
+        preloaderBadgeRef.current.style.visibility = 'hidden';
+      }
+    };
+
+    const fetchFrame = async (index: number): Promise<void> => {
+      if (!isMountedRef.current || blobsRef.current.has(index)) return;
+      try {
+        const res = await fetch(getWorkFrameUrl(index), {
+          signal: controller.signal,
+          cache: 'force-cache',
+        });
+        if (!res.ok || !isMountedRef.current) return;
+        const blob = await res.blob();
+        if (!isMountedRef.current) return;
+
+        blobsRef.current.set(index, blob);
+        loadedCountRef.current += 1;
+        updateProgressBadgeDom(loadedCountRef.current);
+
+        const dist = Math.abs(index - targetFrameRef.current);
+        if (ANCHOR_FRAMES.includes(index) || dist <= 36) {
+          await decodeFrame(index);
+        }
+      } catch {
+        // Ignore aborted or failed frame fetches
+      }
+    };
+
+    const pending = new Set<number>();
+    for (let i = 0; i < TOTAL_WORK_FRAMES; i++) {
+      pending.add(i);
+    }
+
+    const priorityHead = [
+      0,
+      ...ANCHOR_FRAMES,
+      ...Array.from({ length: 24 }, (_, k) => k + 1),
+    ];
+
+    const pickNextFrame = (): number | null => {
+      for (const pf of priorityHead) {
+        if (pending.has(pf)) {
+          pending.delete(pf);
+          return pf;
+        }
+      }
+      if (pending.size === 0) return null;
+
+      const target = targetFrameRef.current;
+      let bestFrame = -1;
+      let bestDist = Infinity;
+      pending.forEach((f) => {
+        const d = Math.abs(f - target);
+        if (d < bestDist) {
+          bestDist = d;
+          bestFrame = f;
+        }
       });
+      if (bestFrame !== -1) {
+        pending.delete(bestFrame);
+        return bestFrame;
+      }
+      return null;
     };
 
-    const startPreload = async () => {
-      // Step 1: Immediate priority frame 0
-      await loadImage(0);
-      if (isCancelled) return;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const concurrency = isMobile ? 6 : 8;
 
-      // Step 2: Key anchor arrival frames
-      const anchors = [45, 90, 135, 180];
-      await Promise.all(anchors.map((idx) => loadImage(idx)));
-      if (isCancelled) return;
-
-      // Step 3: Concurrently batch load remaining frames
-      const remaining: number[] = [];
-      for (let i = 1; i < TOTAL_WORK_FRAMES; i++) {
-        if (!anchors.includes(i)) remaining.push(i);
-      }
-
-      // Batch load in chunks of 6 to prevent connection saturation
-      const chunkSize = 6;
-      for (let i = 0; i < remaining.length; i += chunkSize) {
-        if (isCancelled) break;
-        const chunk = remaining.slice(i, i + chunkSize);
-        await Promise.all(chunk.map((idx) => loadImage(idx)));
+    const runWorker = async () => {
+      while (isMountedRef.current && !controller.signal.aborted) {
+        const next = pickNextFrame();
+        if (next === null) break;
+        await fetchFrame(next);
       }
     };
 
-    startPreload();
+    for (let w = 0; w < concurrency; w++) {
+      void runWorker();
+    }
 
     return () => {
-      isCancelled = true;
+      isMountedRef.current = false;
+      controller.abort();
+      bitmapsRef.current.forEach((bmp) => {
+        if (typeof bmp.close === 'function') bmp.close();
+      });
+      bitmapsRef.current.clear();
+      blobsRef.current.clear();
     };
-  }, [drawFrame]);
+  }, [decodeFrame]);
 
-  // Initial draw and window resize listener
+  // Redraw active frame cleanly on resize
   useEffect(() => {
     const handleResize = () => {
+      canvasSizeRef.current = { w: 0, h: 0 };
       drawFrame(Math.round(currentFrameRef.current));
       ScrollTrigger.refresh();
     };
@@ -332,6 +495,7 @@ export const WorkShowcase: React.FC = () => {
    * GSAP ScrollTrigger Scroll-Controlled Frame Pinning
    * Uses useLayoutEffect + inner pin container so GSAP's .pin-spacer never
    * reparents React's root <section> node (prevents NotFoundError: removeChild on route change).
+   * GSAP's scrub ticker updates canvas & panels directly when scroll changes (zero idle RAF loop).
    */
   useIsomorphicLayoutEffect(() => {
     if (prefersReducedMotion) return;
@@ -340,94 +504,92 @@ export const WorkShowcase: React.FC = () => {
     const canvas = canvasRef.current;
     if (!pinContainer || !canvas) return;
 
-    let rafId = 0;
-    let ctx: gsap.Context | undefined;
-    let isCleanedUp = false;
-
     const updatePanels = (frame: number) => {
-      WORK_PROJECTS.forEach((project, idx) => {
+      for (let idx = 0; idx < WORK_PROJECTS.length; idx++) {
         const el = panelRefs.current[idx];
-        if (!el) return;
+        if (!el) continue;
 
-        const { opacity, y } = getProjectOverlayState(project, idx, WORK_PROJECTS.length, frame);
+        const { opacity, y } = getProjectOverlayState(
+          WORK_PROJECTS[idx],
+          idx,
+          WORK_PROJECTS.length,
+          frame
+        );
         const isVisible = opacity > 0.005;
         const isInteractive = opacity > 0.15;
+        const opStr = opacity <= 0.005 ? '0' : opacity.toFixed(3);
+        const yStr = y.toFixed(2);
+        const visStr = isVisible ? 'visible' : 'hidden';
 
-        el.style.opacity = opacity.toFixed(3);
-        el.style.transform = `translate3d(0, ${y.toFixed(2)}px, 0)`;
-        el.style.visibility = isVisible ? 'visible' : 'hidden';
-        el.style.pointerEvents = isInteractive ? 'auto' : 'none';
-        el.setAttribute('aria-hidden', isInteractive ? 'false' : 'true');
-      });
+        const prev = panelCacheRef.current[idx];
+        if (prev && prev.vis === 'hidden' && visStr === 'hidden') {
+          continue;
+        }
+        if (prev && prev.opacity === opStr && prev.y === yStr && prev.vis === visStr) {
+          continue;
+        }
+
+        el.style.opacity = opStr;
+        el.style.transform = `translate3d(0, ${yStr}px, 0)`;
+        el.style.visibility = visStr;
+        if (!prev || prev.interactive !== isInteractive) {
+          el.style.pointerEvents = isInteractive ? 'auto' : 'none';
+          el.setAttribute('aria-hidden', isInteractive ? 'false' : 'true');
+        }
+        panelCacheRef.current[idx] = {
+          opacity: opStr,
+          y: yStr,
+          vis: visStr,
+          interactive: isInteractive,
+        };
+      }
     };
 
-    const setupScroller = () => {
-      if (isCleanedUp) return;
+    panelCacheRef.current = [];
+    const scrubProxy = { frame: 0 };
 
-      const scrubProxy = { frame: 0 };
-
-      ctx = gsap.context(() => {
-        gsap.to(scrubProxy, {
-          frame: TOTAL_WORK_FRAMES - 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: pinContainer,
-            start: 'top top',
-            end: SCROLL_DISTANCE,
-            pin: true,
-            scrub: 0.4,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              const progress = self.progress;
-              const target = Math.min(
-                TOTAL_WORK_FRAMES - 1,
-                Math.max(0, Math.round(progress * (TOTAL_WORK_FRAMES - 1)))
-              );
-              targetFrameRef.current = target;
-            },
+    const ctx = gsap.context(() => {
+      gsap.to(scrubProxy, {
+        frame: TOTAL_WORK_FRAMES - 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: pinContainer,
+          start: 'top top',
+          end: SCROLL_DISTANCE,
+          pin: true,
+          scrub: 0.45,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          refreshPriority: 1,
+          onUpdate: (self) => {
+            targetFrameRef.current = Math.round(self.progress * (TOTAL_WORK_FRAMES - 1));
           },
-        });
-      }, pinContainer);
+        },
+        onUpdate: () => {
+          currentFrameRef.current = scrubProxy.frame;
+          const frameToDraw = Math.min(
+            TOTAL_WORK_FRAMES - 1,
+            Math.max(0, Math.round(scrubProxy.frame))
+          );
 
-      ScrollTrigger.refresh();
-      updatePanels(0);
-      drawFrame(0);
+          if (frameToDraw !== lastDrawnFrameRef.current) {
+            drawFrame(frameToDraw);
+            ensureAheadDecoded(frameToDraw);
+          }
 
-      // RAF loop for buttery 60/120fps display
-      const tick = () => {
-        if (isCleanedUp) return;
+          updatePanels(scrubProxy.frame);
+        },
+      });
+    }, pinContainer);
 
-        const target = targetFrameRef.current;
-        const current = currentFrameRef.current;
-        const diff = target - current;
-
-        if (Math.abs(diff) > 0.05) {
-          currentFrameRef.current += diff * 0.25;
-        } else {
-          currentFrameRef.current = target;
-        }
-
-        const frameToDraw = Math.round(currentFrameRef.current);
-        if (frameToDraw !== lastDrawnFrameRef.current) {
-          drawFrame(frameToDraw);
-        }
-
-        updatePanels(frameToDraw);
-        rafId = window.requestAnimationFrame(tick);
-      };
-
-      rafId = window.requestAnimationFrame(tick);
-    };
-
-    setupScroller();
+    ScrollTrigger.refresh();
+    updatePanels(0);
+    drawFrame(0);
 
     return () => {
-      isCleanedUp = true;
-      if (rafId) window.cancelAnimationFrame(rafId);
-      ctx?.revert();
+      ctx.revert();
     };
-  }, [prefersReducedMotion, drawFrame]);
+  }, [prefersReducedMotion, drawFrame, ensureAheadDecoded]);
 
   // Reduced motion static fallback
   if (prefersReducedMotion) {
@@ -456,8 +618,6 @@ export const WorkShowcase: React.FC = () => {
     );
   }
 
-  const loadPercent = Math.round((loadedCount / TOTAL_WORK_FRAMES) * 100);
-
   return (
     <section
       id="work"
@@ -476,19 +636,21 @@ export const WorkShowcase: React.FC = () => {
             aria-label="Scroll-controlled sequence of 5 contractor websites"
           />
 
-          {/* Subtle preloading progress indicator (fades out after initial frames load) */}
-          {loadedCount < TOTAL_WORK_FRAMES && (
-            <div
-              className={`absolute bottom-4 left-6 z-20 flex items-center gap-3 transition-opacity duration-700 pointer-events-none ${
-                isFirstFrameReady ? 'opacity-35 hover:opacity-100' : 'opacity-90'
-              }`}
+          {/* Subtle preloading progress indicator (updated directly via DOM refs — zero React re-renders) */}
+          <div
+            ref={preloaderBadgeRef}
+            className={`absolute bottom-4 left-6 z-20 flex items-center gap-3 transition-opacity duration-700 pointer-events-none ${
+              isFirstFrameReady ? 'opacity-35 hover:opacity-100' : 'opacity-90'
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#9E5249] animate-pulse" />
+            <span
+              ref={preloaderTextRef}
+              className="text-[10px] uppercase font-mono tracking-widest text-[#59544E]"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#9E5249] animate-pulse" />
-              <span className="text-[10px] uppercase font-mono tracking-widest text-[#59544E]">
-                Preloading Frame Archive: {loadPercent}% ({loadedCount}/{TOTAL_WORK_FRAMES})
-              </span>
-            </div>
-          )}
+              Preloading Frame Archive: 0% (0/{TOTAL_WORK_FRAMES})
+            </span>
+          </div>
         </div>
 
         {/* Synchronized Project Title Overlays */}

@@ -36,6 +36,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
 
   const allServiceLinks = [...tradeLinks, ...coreServiceLinks];
   const isServiceActive = allServiceLinks.some((s) => s.path === location.pathname);
+  const isWorkPage = location.pathname === '/our-work';
+
+  const scrollPageTopInstant = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+    document.documentElement.scrollTop = 0;
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -83,6 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
   const renderDesktopLink = (to: string, label: string) => (
     <NavLink
       to={to}
+      onClick={scrollPageTopInstant}
       className={({ isActive }) =>
         `group/nav transition-colors duration-200 cursor-pointer py-1 relative focus-visible:outline-2 focus-visible:outline-[#9E5249] ${
           isActive ? 'text-[#141210] font-semibold' : 'hover:text-[#141210]'
@@ -109,7 +116,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-out ${
-        scrolled
+        isWorkPage && scrolled && !mobileMenuOpen
+          ? 'bg-transparent border-b border-transparent shadow-none'
+          : scrolled
           ? 'bg-[#FAF6F0]/95 md:backdrop-blur-md border-b border-[#D9D0C3]/80 shadow-xs'
           : 'bg-[#FAF6F0]/95 md:bg-[#FAF6F0]/90 md:backdrop-blur-sm border-b border-[#D9D0C3]/40'
       }`}
@@ -438,7 +447,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
                   >
                     <NavLink
                       to={item.to}
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={() => {
+                        scrollPageTopInstant();
+                        setMobileMenuOpen(false);
+                      }}
                       className={({ isActive }) =>
                         `block text-left py-2.5 border-b border-[#D9D0C3]/40 cursor-pointer ${
                           isActive
