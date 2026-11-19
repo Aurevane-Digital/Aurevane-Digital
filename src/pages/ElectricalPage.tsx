@@ -139,6 +139,10 @@ export const ElectricalPage: React.FC = () => {
         'Electrical contractor lead generation website',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'Emergency vs. Planned Job Website Design',
+        to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
+      }}
     />
   );
 };

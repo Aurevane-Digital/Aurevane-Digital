@@ -140,6 +140,10 @@ export const ExcavationPage: React.FC = () => {
         'Grading contractor website design',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'Why Contractors Need a Project Gallery',
+        to: '/blog/why-contractors-need-a-project-gallery',
+      }}
     />
   );
 };

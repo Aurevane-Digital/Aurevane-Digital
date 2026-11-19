@@ -106,6 +106,10 @@ export const RoofingPage: React.FC = () => {
         'Local SEO for Roofing Companies',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'Emergency vs. Planned Job Website Design',
+        to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
+      }}
     />
   );
 };

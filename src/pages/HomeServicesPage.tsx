@@ -91,6 +91,10 @@ export const HomeServicesPage: React.FC = () => {
   ];
 
   const relatedLinks = [
+    { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
+    { label: 'Roofing Website Design', to: '/roofing-website-design' },
+    { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+    { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
     { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
     { label: 'Mobile Detailing Website Design', to: '/mobile-detailing-website-design' },
     { label: 'Contractor Website Design', to: '/contractor-website-design' },
@@ -118,6 +122,10 @@ export const HomeServicesPage: React.FC = () => {
         'Local Service Business Web Design',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'Emergency vs. Planned Job Website Design',
+        to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
+      }}
     />
   );
 };

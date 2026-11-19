@@ -89,6 +89,10 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       'Aurevane Digital builds custom, fast, lead-focused websites for general contractors, roofers, remodelers, and specialty trade builders across the United States.',
     links: [
       { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
+      { label: 'Roofing Website Design', to: '/roofing-website-design' },
+      { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
+      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
       { label: 'Excavation Website Design', to: '/excavation-website-design' },
       { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
       { label: 'Home Services Website Design', to: '/home-services-website-design' },
@@ -107,6 +111,10 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     intro:
       'Mobile-friendly websites engineered for local service businesses including plumbers, HVAC technicians, electricians, landscapers, and residential cleaners.',
     links: [
+      { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
+      { label: 'Roofing Website Design', to: '/roofing-website-design' },
+      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
       { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
       { label: 'Mobile Detailing Website Design', to: '/mobile-detailing-website-design' },
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
@@ -213,6 +221,10 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       'Custom websites for general contractors, builders, remodelers and design-build firms across the United States, built around project proof, estimate requests and trust.',
     links: [
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Roofing Website Design', to: '/roofing-website-design' },
+      { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
+      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
       { label: 'Excavation Website Design', to: '/excavation-website-design' },
       { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
       { label: 'Packages', to: '/packages' },
@@ -310,6 +322,10 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     intro:
       'Actionable guides, pricing breakdowns, and local search strategies engineered for contractors and junk removal businesses across the United States.',
     links: [
+      ...BLOG_POSTS.map((post) => ({
+        label: post.title,
+        to: `/blog/${post.slug}`,
+      })),
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
       { label: 'Home Services Website Design', to: '/home-services-website-design' },
       { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },

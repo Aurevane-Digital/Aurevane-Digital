@@ -139,6 +139,10 @@ export const MobileDetailingPage: React.FC = () => {
         'Mobile detailing booking website',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'How Much Does a Contractor Website Cost?',
+        to: '/blog/how-much-does-a-contractor-website-cost',
+      }}
     />
   );
 };

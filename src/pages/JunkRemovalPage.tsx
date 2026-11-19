@@ -173,6 +173,10 @@ export const JunkRemovalPage: React.FC = () => {
         'Cleanout & Debris Removal SEO',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'What Should a Junk Removal Website Include?',
+        to: '/blog/what-should-a-junk-removal-website-include',
+      }}
     />
   );
 };

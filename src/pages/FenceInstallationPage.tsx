@@ -106,6 +106,10 @@ export const FenceInstallationPage: React.FC = () => {
         'Local SEO for Fence Companies',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'Why Contractors Need a Project Gallery',
+        to: '/blog/why-contractors-need-a-project-gallery',
+      }}
     />
   );
 };

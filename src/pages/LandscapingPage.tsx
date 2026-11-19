@@ -106,6 +106,10 @@ export const LandscapingPage: React.FC = () => {
         'Local SEO for Landscaping Companies',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'Why Contractors Need a Project Gallery',
+        to: '/blog/why-contractors-need-a-project-gallery',
+      }}
     />
   );
 };

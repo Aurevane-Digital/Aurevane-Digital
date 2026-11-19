@@ -123,6 +123,10 @@ export const WebsiteRedesignPage: React.FC = () => {
         'Conversion Rate Optimization',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'Contractor Website Cost Guide for 2026',
+        to: '/blog/contractor-website-cost-2026',
+      }}
     />
   );
 };

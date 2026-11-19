@@ -106,6 +106,10 @@ export const JunkRemovalSeoPage: React.FC = () => {
         'Local Map Pack Ranking Strategy',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'Local SEO for Junk Removal Companies',
+        to: '/blog/local-seo-for-junk-removal-companies',
+      }}
     />
   );
 };

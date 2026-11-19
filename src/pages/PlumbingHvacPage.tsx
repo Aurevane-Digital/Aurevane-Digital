@@ -106,6 +106,10 @@ export const PlumbingHvacPage: React.FC = () => {
         'Local SEO for Plumbing & HVAC Companies',
       ]}
       relatedLinks={relatedLinks}
+      relatedGuide={{
+        label: 'Emergency vs. Planned Job Website Design',
+        to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
+      }}
     />
   );
 };

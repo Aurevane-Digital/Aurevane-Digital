@@ -3,6 +3,31 @@ export interface ServiceSchemaFaq {
   a: string;
 }
 
+const ORG_NODE_ID = 'https://aurevanedigital.vercel.app/#organization';
+const SITE_URL = 'https://aurevanedigital.vercel.app/';
+
+const SERVICE_PROVIDER = {
+  '@type': 'Organization',
+  '@id': ORG_NODE_ID,
+  name: 'Aurevane Digital',
+};
+
+const ARTICLE_AUTHOR = {
+  '@type': 'Organization',
+  name: 'Aurevane Digital',
+  url: SITE_URL,
+};
+
+const ARTICLE_PUBLISHER = {
+  '@type': 'Organization',
+  name: 'Aurevane Digital',
+  url: SITE_URL,
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://aurevanedigital.vercel.app/logo-512.png',
+  },
+};
+
 export interface ServiceSchemaParams {
   path: string;
   name: string;
@@ -12,11 +37,7 @@ export interface ServiceSchemaParams {
 }
 
 /**
- * Builds schema.org JSON-LD representations for service landing pages.
- * Returns an array containing:
- * 1. Service schema with provider and serviceType
- * 2. FAQPage schema matching visible on-page FAQs
- * 3. BreadcrumbList schema (Home > Current Page)
+ * Builds a single schema.org @graph JSON-LD object for service landing pages.
  */
 export function buildServiceSchema({
   path,
@@ -24,131 +45,41 @@ export function buildServiceSchema({
   description,
   serviceType,
   faqs,
-}: ServiceSchemaParams): Array<Record<string, unknown>> {
+}: ServiceSchemaParams): Record<string, unknown> {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
 
-  const serviceSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name,
-    description,
-    url: pageUrl,
-    provider: {
-      '@id': 'https://aurevanedigital.vercel.app/#organization',
+  const graph: Array<Record<string, unknown>> = [
+    {
+      '@type': 'Service',
+      name,
+      description,
+      url: pageUrl,
+      provider: SERVICE_PROVIDER,
+      areaServed: 'United States',
+      serviceType,
     },
-    areaServed: 'United States',
-    serviceType,
-  };
-
-  const faqSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.a,
-      },
-    })),
-  };
-
-  const breadcrumbSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://aurevanedigital.vercel.app/',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name,
-        item: pageUrl,
-      },
-    ],
-  };
-
-  return [serviceSchema, faqSchema, breadcrumbSchema];
-}
-
-export interface ArticleSchemaParams {
-  slug: string;
-  headline: string;
-  description: string;
-  datePublished: string;
-  dateModified?: string;
-  faqs?: ServiceSchemaFaq[];
-}
-
-/**
- * Builds schema.org JSON-LD representations for blog articles.
- * Returns an array containing:
- * 1. Article schema (headline, description, datePublished, dateModified, author, publisher, image, mainEntityOfPage)
- * 2. BreadcrumbList schema (Home > Blog > Post)
- * 3. Optional FAQPage schema when article includes FAQs
- */
-export function buildArticleSchema({
-  slug,
-  headline,
-  description,
-  datePublished,
-  dateModified = datePublished,
-  faqs,
-}: ArticleSchemaParams): Array<Record<string, unknown>> {
-  const pageUrl = `https://aurevanedigital.vercel.app/blog/${slug}`;
-
-  const articleSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline,
-    description,
-    datePublished,
-    dateModified,
-    mainEntityOfPage: pageUrl,
-    image: 'https://aurevanedigital.vercel.app/og-image.png',
-    author: {
-      '@id': 'https://aurevanedigital.vercel.app/#organization',
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name,
+          item: pageUrl,
+        },
+      ],
     },
-    publisher: {
-      '@id': 'https://aurevanedigital.vercel.app/#organization',
-    },
-  };
-
-  const breadcrumbSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://aurevanedigital.vercel.app/',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Blog',
-        item: 'https://aurevanedigital.vercel.app/blog',
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: headline,
-        item: pageUrl,
-      },
-    ],
-  };
-
-  const schemas: Array<Record<string, unknown>> = [articleSchema, breadcrumbSchema];
+  ];
 
   if (faqs && faqs.length > 0) {
-    schemas.push({
-      '@context': 'https://schema.org',
+    graph.push({
       '@type': 'FAQPage',
       mainEntity: faqs.map((faq) => ({
         '@type': 'Question',
@@ -161,7 +92,89 @@ export function buildArticleSchema({
     });
   }
 
-  return schemas;
+  return {
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  };
+}
+
+export interface ArticleSchemaParams {
+  slug: string;
+  headline: string;
+  description: string;
+  datePublished: string;
+  dateModified?: string;
+  faqs?: ServiceSchemaFaq[];
+}
+
+/**
+ * Builds a single schema.org @graph JSON-LD object for blog articles.
+ */
+export function buildArticleSchema({
+  slug,
+  headline,
+  description,
+  datePublished,
+  dateModified = datePublished,
+  faqs,
+}: ArticleSchemaParams): Record<string, unknown> {
+  const pageUrl = `https://aurevanedigital.vercel.app/blog/${slug}`;
+
+  const graph: Array<Record<string, unknown>> = [
+    {
+      '@type': 'Article',
+      headline,
+      description,
+      datePublished,
+      dateModified,
+      mainEntityOfPage: pageUrl,
+      image: 'https://aurevanedigital.vercel.app/og-image.png',
+      author: ARTICLE_AUTHOR,
+      publisher: ARTICLE_PUBLISHER,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Blog',
+          item: 'https://aurevanedigital.vercel.app/blog',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: headline,
+          item: pageUrl,
+        },
+      ],
+    },
+  ];
+
+  if (faqs && faqs.length > 0) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a,
+        },
+      })),
+    });
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  };
 }
 
 export interface FaqPageSchemaParams {
@@ -173,11 +186,7 @@ export interface FaqPageSchemaParams {
 }
 
 /**
- * Builds schema.org JSON-LD representations for pages with an FAQ section (e.g. Packages).
- * Returns an array containing:
- * 1. Service schema (provider & areaServed: United States)
- * 2. FAQPage schema matching visible on-page FAQs
- * 3. BreadcrumbList schema (Home > Page Name)
+ * Builds a single schema.org @graph JSON-LD object for pages with visible FAQs (e.g. Packages).
  */
 export function buildFaqPageSchema({
   path,
@@ -185,56 +194,57 @@ export function buildFaqPageSchema({
   description,
   serviceType = ['Contractor Website Design', 'Local Service Website Development'],
   faqs,
-}: FaqPageSchemaParams): Array<Record<string, unknown>> {
+}: FaqPageSchemaParams): Record<string, unknown> {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
 
-  const serviceSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name,
-    ...(description ? { description } : {}),
-    url: pageUrl,
-    provider: {
-      '@id': 'https://aurevanedigital.vercel.app/#organization',
+  const graph: Array<Record<string, unknown>> = [
+    {
+      '@type': 'Service',
+      name,
+      ...(description ? { description } : {}),
+      url: pageUrl,
+      provider: SERVICE_PROVIDER,
+      areaServed: 'United States',
+      serviceType,
     },
-    areaServed: 'United States',
-    serviceType,
-  };
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name,
+          item: pageUrl,
+        },
+      ],
+    },
+  ];
 
-  const faqSchema: Record<string, unknown> = {
+  if (faqs && faqs.length > 0) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a,
+        },
+      })),
+    });
+  }
+
+  return {
     '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.a,
-      },
-    })),
+    '@graph': graph,
   };
-
-  const breadcrumbSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://aurevanedigital.vercel.app/',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name,
-        item: pageUrl,
-      },
-    ],
-  };
-
-  return [serviceSchema, faqSchema, breadcrumbSchema];
 }
 
 export interface PageServiceSchemaParams {
@@ -245,54 +255,52 @@ export interface PageServiceSchemaParams {
 }
 
 /**
- * Builds schema.org Service (with areaServed: United States) + BreadcrumbList JSON-LD
- * for non-FAQ core pages (Home, Our Work, About, Contact).
+ * Builds a single schema.org @graph JSON-LD object for non-FAQ core pages.
  */
 export function buildPageServiceSchema({
   path,
   name,
   description,
   serviceType,
-}: PageServiceSchemaParams): Array<Record<string, unknown>> {
+}: PageServiceSchemaParams): Record<string, unknown> {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath === '/' ? '/' : normalizedPath}`;
 
-  const serviceSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name,
-    description,
-    url: pageUrl,
-    provider: {
-      '@id': 'https://aurevanedigital.vercel.app/#organization',
+  const graph: Array<Record<string, unknown>> = [
+    {
+      '@type': 'Service',
+      name,
+      description,
+      url: pageUrl,
+      provider: SERVICE_PROVIDER,
+      areaServed: 'United States',
+      serviceType,
     },
-    areaServed: 'United States',
-    serviceType,
-  };
+  ];
 
-  if (normalizedPath === '/') {
-    return [serviceSchema];
+  if (normalizedPath !== '/') {
+    graph.push({
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name,
+          item: pageUrl,
+        },
+      ],
+    });
   }
 
-  const breadcrumbSchema: Record<string, unknown> = {
+  return {
     '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://aurevanedigital.vercel.app/',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name,
-        item: pageUrl,
-      },
-    ],
+    '@graph': graph,
   };
-
-  return [serviceSchema, breadcrumbSchema];
 }
 
