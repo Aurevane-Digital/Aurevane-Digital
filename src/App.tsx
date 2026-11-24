@@ -23,6 +23,10 @@ import { RoofingPage } from './pages/RoofingPage';
 import { FenceInstallationPage } from './pages/FenceInstallationPage';
 import { LandscapingPage } from './pages/LandscapingPage';
 import { PlumbingHvacPage } from './pages/PlumbingHvacPage';
+import { IndustriesPage } from './pages/IndustriesPage';
+import { SepticContractorPage } from './pages/SepticContractorPage';
+import { LandClearingPage } from './pages/LandClearingPage';
+import { FenceCompanyPage } from './pages/FenceCompanyPage';
 import { BlogPage } from './pages/BlogPage';
 import { PostPage } from './pages/PostPage';
 import { CaseStudy, ServicePackage, AuditReportData } from './types';
@@ -133,6 +137,10 @@ function AppShell() {
           <Route path="/fence-installation-website-design" element={<FenceInstallationPage />} />
           <Route path="/landscaping-website-design" element={<LandscapingPage />} />
           <Route path="/plumbing-hvac-website-design" element={<PlumbingHvacPage />} />
+          <Route path="/industries" element={<IndustriesPage />} />
+          <Route path="/septic-contractor-website-design" element={<SepticContractorPage />} />
+          <Route path="/land-clearing-website-design" element={<LandClearingPage />} />
+          <Route path="/fence-company-website-design" element={<FenceCompanyPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<PostPage />} />
           <Route path="*" element={<NotFoundPage />} />

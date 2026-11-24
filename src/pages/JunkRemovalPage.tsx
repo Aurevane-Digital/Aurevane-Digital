@@ -1,182 +1,146 @@
 import React from 'react';
-import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTemplate';
-import { SERVICE_PACKAGES } from '../data/packages';
+import { NicheLandingTemplate } from '../components/NicheLandingTemplate';
+import { getFrameUrl } from '../utils/frames';
 
 export const JunkRemovalPage: React.FC = () => {
-  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
-  const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
-  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
-
-  const sections: ServiceSection[] = [
-    {
-      h2: 'Frictionless Quote Form with Instant Smartphone Photo Upload',
-      paragraphs: [
-        'Hauling dispatchers spend hours every day trying to interpret vague customer text messages or attempting to price garage cleanouts blindly over the phone. When customers can quickly snap three photos of their pile on their smartphone and upload them straight into your intake form, quote accuracy skyrockets and dispatch friction disappears.',
-        'We engineer custom junk removal quote funnels equipped with native mobile image compression and multi-angle file uploads. Potential clients simply select their pickup timeframe, attach photos directly from their phone camera roll, and receive a prompt, professional estimate without unnecessary back-and-forth phone tag.',
-      ],
-      bullets: [
-        'Direct smartphone camera and camera roll photo attachment fields',
-        'Automatic client-side photo compression for instant submission speeds',
-        'Detailed item classification tags (heavy items, stairs, disassembly needed)',
-        'Immediate notification delivered straight to your operations email or dispatch CRM',
-      ],
-    },
-    {
-      h2: 'Online Booking and Automated Dispatch Scheduling',
-      paragraphs: [
-        'Modern homeowners and busy property managers expect the convenience of booking service appointments online at any hour of the day. If your hauling website only features a generic email link or requires an immediate phone conversation, evening and weekend prospects frequently leave to book with national franchises.',
-        'Our online booking systems allow customers to select their preferred arrival window, confirm their exact street address, and review upfront diagnostic terms in a few effortless clicks. Your team maintains full calendar control with buffer times between jobs and designated crew service routes.',
-      ],
-      bullets: [
-        'Selectable two-hour arrival windows calibrated to your daily crew routes',
-        'Address validation with Google Maps autocomplete to ensure service perimeter match',
-        'Automated booking confirmation and reminder notifications',
-        'Flexible reservation options that synchronize with your field dispatch software',
-      ],
-    },
-    {
-      h2: 'Interactive Truck-Volume and Upfront Price Estimator',
-      paragraphs: [
-        'The number one hesitation holding homeowners back from hiring a professional hauling service is fear of unexpected pricing upon arrival. When a website provides an interactive visual truck-bed calculator, customers gain immediate clarity regarding volume increments—from minimum loads and quarter-trucks to half-beds and full sixteen-foot box trucks.',
-        'By providing an intuitive volume visualizer, your website qualifies expectations before your truck ever pulls into the driveway. Customers arrive educated on load sizes, eliminating contentious on-site negotiation and establishing your company as a transparent, high-integrity service.',
-      ],
-      bullets: [
-        'Interactive 1/4, 1/2, 3/4, and full truck-bed volume visualizers',
-        'Customizable starting rate tiers matching your company fleet specifications',
-        'Heavy material surcharge indicators for concrete, tile, dirt, and brick',
-        'Integrated quote summary that transfers automatically into booking requests',
-      ],
-    },
-    {
-      h2: 'Same-Day Service Messaging That Captures Urgent Hauling Demands',
-      paragraphs: [
-        'A significant proportion of junk removal calls are urgent: a home sale closing in forty-eight hours, an unexpected eviction turnover, a broken refrigerator blocking a driveway, or urgent HOA violation notices. In these high-intent scenarios, visitors need immediate assurance that your crews are available today.',
-        'We position dynamic same-day service messaging and prominent click-to-call triggers across every mobile viewport. Visitors instantly see your operating hours, immediate dispatch availability, and direct telephone hotline without hunting through nested navigation menus.',
-      ],
-      bullets: [
-        'Prominent emergency and same-day dispatch status callout bars',
-        'Sticky one-tap mobile calling and SMS dispatch buttons',
-        'Fast page speeds engineered to load reliably on cellular signals',
-        'Clear payment and credit card acceptance icons to reduce checkout hesitation',
-      ],
-    },
-    {
-      h2: 'Distinct Residential vs Commercial Hauling Architectures',
-      paragraphs: [
-        'The priorities of a residential homeowner clearing out a backyard shed are fundamentally different from an office property manager coordinating a multi-floor corporate decommission or a construction site superintendent requiring scheduled roll-off cleanouts.',
-        'Our junk hauling architectures separate residential and commercial services into dedicated navigation hubs. Commercial property managers find tax-deductible invoicing protocols, Certificates of Insurance (COI) download gateways, and recurring account terms, while homeowners enjoy warm, accessible pricing guides and cleanout checklists.',
-      ],
-      bullets: [
-        'Residential service hubs for domestic cleanouts and single-item removals',
-        'Commercial portals featuring W-9 forms, COI verification, and net-30 terms',
-        'Property manager and real estate turnover priority scheduling agreements',
-        'Contractor partnership portals for post-remodel job site sweeps',
-      ],
-    },
-    {
-      h2: 'Junk Removal Website Redesign Built for Modern Hauling Companies',
-      paragraphs: [
-        'Many independent hauling operators started with a quick do-it-yourself website builder or a generic local business theme. While adequate for launching a first truck, those outdated templates load slowly, display blurry photos, and fail to distinguish premium trade haulers from unlicensed operators working with pickup trucks.',
-        'A comprehensive junk removal website redesign elevates your brand to compete directly with national franchise networks. We replace cluttered layouts with clean, editorial typography, professional job site photography, and modern intake engineering that projects authority and justifies healthy ticket averages.',
-      ],
-      bullets: [
-        'Complete elimination of slow WordPress plugins and builder bloat',
-        'High-resolution fleet galleries showcasing clean, branded dump trucks',
-        'Full brand voice polish emphasizing eco-friendly recycling and donation diversion',
-        'Complete 100% code ownership with zero ongoing platform licensing fees',
-      ],
-    },
-    {
-      h2: 'High-Volume Junk Hauling and Fleet Logistics Platforms',
-      paragraphs: [
-        'As hauling businesses scale from two trucks to multi-territory fleets, their digital requirements expand. Multiple dispatch locations, localized suburb hubs, and custom webhook connections to compatible operational and dispatch software (scoped separately per project) help prevent operational bottlenecks.',
-        'We engineer scalable platforms designed to support multiple dispatch hubs across regional territories. Every location page is built with unique community-level service content, localized Google Maps integration, and dedicated phone tracking numbers to maintain pristine campaign attribution.',
-      ],
-      bullets: [
-        'Scalable multi-territory directory architecture for expanding fleet footprints',
-        'Automated webhook bridges connecting inquiries directly to dispatch software',
-        'Custom eco-diversion and local donation partnership highlight modules',
-        'Schema.org LocalBusiness and Service structured data across all territory pages',
-      ],
-    },
-    {
-      h2: 'High-Value Jobs Your Junk Removal Website Should Rank For',
-      paragraphs: [
-        'Winning consistently in local search requires targeting specific high-intent disposal items that homeowners and property managers actively search for every day. We architect individual service silos and content modules tailored around your highest-margin pickup categories.',
-        'Our platforms are structured to naturally capture search demand for furniture removal, residential appliance disposal, mattress recycling, hot tub dismantling and removal, shed demolition and haul-away, full garage cleanouts, basement decluttering, attic cleanouts, comprehensive estate cleanouts, construction debris hauling, electronic waste (e-waste) recycling, commercial tire disposal, and seasonal yard debris cleanups.',
-      ],
-      bullets: [
-        'Furniture removal (sofas, sectionals, dressers, dining tables, armoires)',
-        'Appliance recycling (refrigerators, washers, dryers, dishwashers, freezers)',
-        'Mattress & box spring eco-friendly disposal and recycling',
-        'Light demolition & removal (hot tubs, wooden sheds, playsets, decks)',
-        'Full-property cleanouts (garages, basements, attics, foreclosures, estates)',
-        'Construction debris & renovation waste removal (drywall, lumber, tile, fixtures)',
-        'Specialty items (e-waste recycling, scrap metal, tires, yard waste & tree brush)',
-      ],
-    },
-  ];
-
-  const faqs = [
-    {
-      q: 'How much does a custom junk removal website cost?',
-      a: `Our website packages are one-time project fees with no mandatory monthly retainer (optional Website Care and Growth & SEO plans are available separately). Our Essential package starts at ${essentialPrice} (delivered in ${essentialTime}) for a mobile-first 3-page custom site, while our flagship Professional package starts at ${proPrice} and includes our interactive scope and volume estimator, multi-city SEO architecture, and full website copywriting. You can view full package details on our packages page.`,
-    },
-    {
-      q: 'Can customers upload photos of their junk pile directly on their phones?',
-      a: 'Yes. Our intake forms are optimized for mobile cellular browsers, enabling customers to capture and attach multiple photos of their furniture, appliances, or garage piles directly from their smartphone camera with client-side compression.',
-    },
-    {
-      q: 'How does the interactive truck-volume calculator work for customers?',
-      a: 'The visual estimator illustrates fraction-of-bed load sizes (such as 1/4, 1/2, 3/4, or full truck bed) with your client-approved pricing rules. Customers select their estimated volume and see upfront price ranges, establishing trust and qualifying job scopes before dispatch.',
-    },
-    {
-      q: 'Will this website integrate with our dispatch or field management software?',
-      a: 'Yes. Inquiries and booking reservations can connect with compatible field management platforms via webhooks, or through our optional CRM Integration & Lead Routing enhancement scoped and quoted per project.',
-    },
-    {
-      q: 'Do you offer redesigns for established junk removal businesses looking to upgrade?',
-      a: 'Yes. We specialize in junk removal website redesigns that replace slow WordPress templates or basic DIY builder sites with fast, high-converting platforms engineered to compete with national franchises.',
-    },
-    {
-      q: 'Will our junk removal website rank in Google AI Overviews and ChatGPT?',
-      a: 'No agency can guarantee placement in AI overviews or search results. However, we engineer clean semantic code, fast loading speeds, detailed service descriptions, structured FAQs, and complete Schema.org LocalBusiness markup, making it easy for AI engines and search crawlers to recognize, cite, and recommend your junk removal company accurately.',
-    },
-  ];
-
-  const relatedLinks = [
-    { label: 'Excavation Website Design', to: '/excavation-website-design' },
-    { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
-    { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
-    { label: 'Contractor Website Design', to: '/contractor-website-design' },
-    { label: 'Home Services Website Design', to: '/home-services-website-design' },
-    { label: 'Junk Removal SEO Guide', to: '/junk-removal-seo' },
-    { label: 'Website Redesign Services', to: '/website-redesign' },
-    { label: 'Transparent Packages & Pricing', to: '/packages' },
-    { label: 'Cinematic Concept Portfolio', to: '/our-work' },
-    { label: 'Contact', to: '/contact' },
-  ];
-
   return (
-    <ServicePageTemplate
+    <NicheLandingTemplate
       path="/junk-removal-website-design"
-      name="Junk Removal Website Design"
-      h1="Junk Removal Website Design: Photo Quotes to Booked Jobs"
-      intro="Junk removal website design with instant quote forms, photo upload and online booking. Built for junk hauling companies across the United States seeking more calls and booked jobs."
-      sections={sections}
-      faqs={faqs}
-      serviceType={[
-        'Junk Removal Website Design',
-        'Junk Hauling Web Development',
-        'Truck Volume Estimator Tools',
-        'Hauling Company Website Redesign',
-        'Cleanout & Debris Removal SEO',
+      tradeName="Junk Removal"
+      serviceName="Junk Removal Website Design"
+      serviceType="Junk Removal Website Design"
+      eyebrow="Hauling & Cleanouts"
+      h1="Junk Removal Website Design That Turns Searches Into Booked Hauls"
+      intro="Fast, conversion-focused junk removal website design engineered for independent hauling fleets across the United States. Pair smartphone photo quote forms, visual truck-load pricing, and instant tap-to-call dispatch to win higher-margin cleanouts away from national franchises—live in 7-10 business days from $1,000."
+      ctaText="Get a Free Junk Removal Mockup"
+      problemsHeading="Problems Your Junk Removal Website Must Solve"
+      problemsIntro="When homeowners clear out a garage or property managers face a 48-hour move-out deadline, slow websites and vague pricing force them straight to franchise call centers."
+      problems={[
+        {
+          title: 'Endless Phone Tag Over Pile Sizes',
+          description:
+            'Dispatchers waste hours guessing volume from vague descriptions when customers cannot snap and send photos straight from their phone camera.',
+        },
+        {
+          title: 'Sticker-Shock Anxiety Before Booking',
+          description:
+            'Without clear 1/4, 1/2, 3/4, and full-truck visual load guides, price-conscious homeowners hesitate to schedule pickup windows.',
+        },
+        {
+          title: 'Losing Same-Day Urgent Cleanouts',
+          description:
+            'Eviction turnovers, estate cleanouts, and HOA deadlines go to whichever hauler displays operating hours and one-tap mobile calling clearly.',
+        },
+        {
+          title: 'Blending In With Pickup-Truck Operators',
+          description:
+            'Outdated DIY themes make established dump-truck fleets look amateurish compared to branded national junk removal franchises.',
+        },
       ]}
-      relatedLinks={relatedLinks}
-      relatedGuide={{
-        label: 'What Should a Junk Removal Website Include?',
-        to: '/blog/what-should-a-junk-removal-website-include',
+      includesHeading="What Every Junk Removal Website Build Includes"
+      includesIntro="Engineered around truck density, fast photo quotes, and effortless mobile dispatch booking."
+      includes={[
+        {
+          title: 'High-Margin Service Pages',
+          description:
+            'Dedicated sections for furniture removal, appliance recycling, garage and estate cleanouts, hot tub tear-outs, and construction debris.',
+        },
+        {
+          title: 'Local Service-Area Section',
+          description:
+            'Clear county and suburban dispatch perimeter pages helping your trucks win lucrative cleanouts across affluent zip codes.',
+        },
+        {
+          title: 'Before-and-After Haul Gallery',
+          description:
+            'Visual cleanout transformations showing cluttered garages, basements, and yards swept spotless alongside your branded trucks.',
+        },
+        {
+          title: 'Sticky Tap-to-Call Dispatch',
+          description:
+            'Always-visible mobile calling and text-to-book triggers converting urgent same-day visitors into booked stops immediately.',
+        },
+        {
+          title: 'Instant Photo Quote Form',
+          description:
+            'Mobile-friendly estimate intake with multi-angle smartphone photo uploads, stairs/heavy-item flags, and arrival-window requests.',
+        },
+        {
+          title: 'Google Business Profile Sync',
+          description:
+            'LocalBusiness structured schema and verified five-star review blocks reinforcing your local Google Maps pack authority.',
+        },
+        {
+          title: 'Cellular-Fast Page Speed',
+          description:
+            'Lean static code free of slow WordPress plugins, loading rapidly on 4G and 5G phones inside basements or driveways.',
+        },
+        {
+          title: 'Mobile-First Booking Flow',
+          description:
+            'Thumb-calibrated buttons and readable truck-volume tables built specifically for the 85% of haul customers booking on mobile.',
+        },
+      ]}
+      conceptRef={{
+        title: 'Junk Bolt',
+        subtitle: 'Fleet Dispatch & Volume Estimator',
+        description:
+          'Highlighted on our /our-work portfolio, the Junk Bolt concept replaces endless bidding calls with a visual truck-bed volume guide, territory verification, and direct arrival-window booking.',
+        image: getFrameUrl(1),
+        imageAlt: 'Junk Bolt junk removal website design concept preview with truck volume estimator',
       }}
+      howItWorksHeading="How We Launch Your Hauling Site"
+      howItWorksSteps={[
+        {
+          step: '01',
+          title: 'Free Mockup',
+          description:
+            'Share your hauling fleet details, service cities, and pricing model. We design a free custom homepage mockup so you can inspect the direction first.',
+        },
+        {
+          step: '02',
+          title: 'Custom Build',
+          description:
+            'We build your photo-quote forms, truck-load volume sections, residential and commercial service pages, and clean local SEO structure.',
+        },
+        {
+          step: '03',
+          title: 'Launch Live',
+          description:
+            'Essential junk removal websites go live in 7-10 business days, connecting straight to your dispatch email with full code ownership.',
+        },
+      ]}
+      pricingSummary="Essential junk removal websites start at $1,000 one-time and launch in 7-10 business days. Professional builds start at $1,500 and add interactive truck-volume quote calculators, multi-city SEO pages, and complete copywriting—no mandatory retainers."
+      faqs={[
+        {
+          q: 'Can customers upload photos of junk piles from their phones?',
+          a: 'Yes. Every quote form includes a mobile-friendly upload field so homeowners can attach photos from their camera roll, letting your team price cleanouts accurately before rolling a truck.',
+        },
+        {
+          q: 'How fast can a new junk removal website go live?',
+          a: 'Our Essential package launches in 7-10 business days once your logo, pricing rules, and photos are ready. Professional builds typically launch within 2-3 weeks.',
+        },
+        {
+          q: 'Can you separate residential pickups from commercial property cleanouts?',
+          a: 'Yes. We create clear pathways for homeowners booking single-item or garage hauls alongside commercial portals highlighting COI compliance, W-9 readiness, and recurring cleanouts.',
+        },
+        {
+          q: 'Will we own the website and all incoming hauling leads?',
+          a: 'Yes. You receive 100% ownership of the domain, source code, and every phone call or quote submission with zero per-lead fees or agency lock-in.',
+        },
+      ]}
+      relatedIndustries={[
+        {
+          label: 'Excavation Website Design',
+          to: '/excavation-website-design',
+          note: 'Debris & site prep',
+        },
+        {
+          label: 'Land Clearing Website Design',
+          to: '/land-clearing-website-design',
+          note: 'Brush & haul-off',
+        },
+      ]}
     />
   );
 };

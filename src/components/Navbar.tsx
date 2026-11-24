@@ -22,6 +22,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
   const tradeLinks = [
     { label: 'Junk Removal', path: '/junk-removal-website-design' },
     { label: 'Excavation', path: '/excavation-website-design' },
+    { label: 'Septic Contractors', path: '/septic-contractor-website-design' },
+    { label: 'Land Clearing', path: '/land-clearing-website-design' },
+    { label: 'Fence Companies', path: '/fence-company-website-design' },
     { label: 'Electrical Contractor', path: '/electrical-contractor-website-design' },
     { label: 'General Contractor', path: '/general-contractor-website-design' },
     { label: 'Roofing', path: '/roofing-website-design' },
@@ -149,7 +152,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
         {/* Clean Multi-Page Navigation with Services Dropdown */}
         <nav
           aria-label="Primary"
-          className="hidden lg:flex items-center gap-8 text-[12px] tracking-[0.2em] font-medium uppercase text-[#59544E]"
+          className="hidden lg:flex items-center gap-5 xl:gap-7 text-[12px] tracking-[0.18em] font-medium uppercase text-[#59544E]"
         >
           {renderDesktopLink('/', 'Home')}
 
@@ -266,6 +269,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
             </AnimatePresence>
           </div>
 
+          {renderDesktopLink('/industries', 'Industries')}
           {renderDesktopLink('/about', 'About')}
           {renderDesktopLink('/our-work', 'Our Work')}
           {renderDesktopLink('/packages', 'Packages')}
@@ -437,11 +441,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
                 </motion.div>
 
                 {[
-                  { to: '/about', label: 'About', delay: 0.09 },
-                  { to: '/our-work', label: 'Our Work', delay: 0.12 },
-                  { to: '/packages', label: 'Packages', delay: 0.15 },
-                  { to: '/blog', label: 'Blog', delay: 0.18 },
-                  { to: '/contact', label: 'Contact', delay: 0.21 },
+                  { to: '/industries', label: 'Industries', delay: 0.08 },
+                  { to: '/about', label: 'About', delay: 0.1 },
+                  { to: '/our-work', label: 'Our Work', delay: 0.13 },
+                  { to: '/packages', label: 'Packages', delay: 0.16 },
+                  { to: '/blog', label: 'Blog', delay: 0.19 },
+                  { to: '/contact', label: 'Contact', delay: 0.22 },
                 ].map((item) => (
                   <motion.div
                     key={item.to}

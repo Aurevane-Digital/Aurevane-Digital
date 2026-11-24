@@ -1,149 +1,146 @@
 import React from 'react';
-import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTemplate';
-import { SERVICE_PACKAGES } from '../data/packages';
+import { NicheLandingTemplate } from '../components/NicheLandingTemplate';
+import { getFrameUrl } from '../utils/frames';
 
 export const ExcavationPage: React.FC = () => {
-  const essentialPrice = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.price || '$1,000';
-  const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
-  const essentialTime = SERVICE_PACKAGES.find((p) => p.id === 'starter')?.turnaround || '7 to 10 Business Days';
-  const proTime = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.turnaround || '2 to 3 Weeks';
-
-  const sections: ServiceSection[] = [
-    {
-      h2: 'Bid Request Forms Engineered for Site Prep and Earthwork Scope',
-      paragraphs: [
-        'Commercial estimators, home builders, and property developers do not want to fill out vague generic contact forms when planning site work. A high-converting excavation contractor website design requires an intake form built specifically around job-site details: exact parcel address, project acreage, scope requirements, target start date, and blueprint uploads.',
-        'We engineer specialized civil bid intake forms that allow developers and general contractors to attach civil grading plans, soil reports, and site photos directly from their desktops or phones. By collecting essential scope variables up front, your estimating team spends less time on exploratory phone calls and more time delivering accurate, profitable bids.',
-      ],
-      bullets: [
-        'Dedicated plan upload fields supporting PDF engineering prints and site aerials',
-        'Granular scope selectors for site preparation, grading, trenching, and land clearing',
-        'Target start date and project completion timeline inputs to qualify urgency',
-        'Direct email and webhook routing straight to your estimating desk or CRM',
-      ],
-    },
-    {
-      h2: 'Heavy Equipment Portfolio and Job Capacity Showcases',
-      paragraphs: [
-        'Project owners and municipal procurement managers need instant visual confirmation that your company has the iron, tonnage, and operator capacity required for their specific job. An excavation lead generation website must prominently showcase your real fleet in action on real job sites.',
-        'We build structured project galleries organized by discipline: commercial site preparation, selective land clearing, precision GPS grading, utility excavation, septic excavation, and structural demolition. High-resolution imagery of your excavators, bulldozers, and wheel loaders provides undeniable proof of operational capability.',
-      ],
-      bullets: [
-        'Discipline-specific galleries for site preparation, grading, and utility trenching',
-        'Equipment inventory displays listing machine tonnages, bucket sizes, and GPS tech',
-        'Before-and-after transformations of rough acreage into build-ready pads',
-        'Clean photo categorization distinguishing residential driveways from commercial civil jobs',
-      ],
-    },
-    {
-      h2: 'Credentials, Bonding, and Safety Standards Commercial Estimators Seek',
-      paragraphs: [
-        'When general contractors vet a heavy equipment contractor for multi-phase commercial or subdivision work, compliance credentials are non-negotiable. If your current website buries your state licensing, bonding capacity, or insurance coverage, risk-conscious estimators will move down their bid list.',
-        'We position your genuine trade credentials—state contractor license numbers, active general liability limits, commercial bonding capacity, and OSHA safety compliance—in prominent credential badges directly alongside bid intake triggers. Only the contractor’s own real accreditations are displayed, establishing undeniable institutional legitimacy.',
-      ],
-      bullets: [
-        'Prominent placement of state contractor license numbers and registration data',
-        'Clear verification of general liability insurance limits and commercial bonding',
-        'OSHA compliance badges and operator safety protocol callouts',
-        'Prequalification document download links for commercial general contractors',
-      ],
-    },
-    {
-      h2: 'Regional Service-Area and Civil Project-Type Silos',
-      paragraphs: [
-        'Excavating contractors frequently haul equipment across three or four adjacent counties, but standard websites often rank only for their home dispatch shop. Modern web design for excavating must feature structured service-area pages engineered to capture high-value commercial and residential searches across your entire operating territory.',
-        'We build targeted regional landing pages highlighting specific county jurisdictions, municipal soil conditions, regional quarry proximity, and local permit procedures. These dedicated hubs help your business capture searches for septic excavation, commercial pad grading, and land clearing in surrounding growth corridors.',
-      ],
-      bullets: [
-        'Dedicated county and township landing hubs highlighting active service territories',
-        'Localized project highlights reflecting regional soil types and rock excavation needs',
-        'Interactive service area perimeters showing standard equipment mobilization zones',
-        'Local SEO schema mapping linking regional hubs with your Google Business Profile',
-      ],
-    },
-    {
-      h2: 'Fast Speed on Remote Job-Site Mobile Connections',
-      paragraphs: [
-        'Site superintendents, project managers, and utility foreman frequently search for emergency trenching or subgrade repair while standing in muddy work boots on an active parcel with poor cellular reception. If an excavation contractor website design takes seven seconds to load heavy video backgrounds, superintendents immediately tap back to search results.',
-        'We build lightweight websites engineered for fast load times, even on remote cellular connections. Persistent, high-contrast click-to-call buttons ensure that general contractors can reach your operations team with a single tap from any field device.',
-      ],
-      bullets: [
-        'Lightweight semantic code built for fast loading on mobile networks',
-        'Persistent sticky mobile contact bar featuring immediate click-to-call dialing',
-        'Zero bloated WordPress plugins or heavy external page-builder dependencies',
-        'Optimized WebP image delivery that preserves crisp detail while saving mobile data',
-      ],
-    },
-    {
-      h2: 'Trade-Specific Service Pages That Eliminate Confusion',
-      paragraphs: [
-        'Lumping all earthwork capabilities onto a single generic services page dilutes your search relevance and confuses potential clients. A homeowner seeking driveway grading has completely different questions than a utility contractor seeking deep mainline trenching or a developer needing mass site preparation.',
-        'Our excavation lead generation website systems provide dedicated, content-rich pages for every core discipline your crews handle. Each individual service page explains your equipment methods, typical project phases, and local regulations, providing the detailed technical reassurance high-ticket clients require.',
-      ],
-      bullets: [
-        'Independent service silos for land clearing, grading, and utility excavation',
-        'Granular technical breakdowns covering compaction testing, cut-and-fill, and laser grading',
-        'Clear distinction between residential earthworks and commercial civil contracts',
-        'Direct quote intake forms matched to each specific earthwork service',
-      ],
-    },
-  ];
-
-  const faqs = [
-    {
-      q: 'How much does a custom excavation website design cost?',
-      a: `Our excavation contractor website design packages are one-time project fees with no mandatory monthly retainer. Our Essential package starts at ${essentialPrice} (delivered in ${essentialTime}), and our flagship Professional package with multi-city SEO architecture and a custom scope estimator starts at ${proPrice} (delivered in ${proTime}). Optional monthly care and SEO plans are available separately on our packages page.`,
-    },
-    {
-      q: 'Which pages should an excavation contractor website include?',
-      a: 'A high-performing excavation website should include dedicated pages for core services (site preparation, land clearing, grading, utility excavation, and septic systems), an equipment and capacity portfolio, a detailed commercial bid request form, about/safety credentials, and localized service-area pages covering your target counties.',
-    },
-    {
-      q: 'How can an excavation contractor website get more bid requests?',
-      a: 'To attract qualified bid requests, web design for excavating must eliminate intake friction. Replacing generic text boxes with an intuitive form that accepts blueprint uploads, specifies acreage, and asks for project timelines gives commercial estimators the confidence to submit plans.',
-    },
-    {
-      q: 'Can our website display our real equipment fleet and licensing credentials?',
-      a: 'Yes, absolutely. We encourage showcasing your actual excavators, dozers, and haul trucks, along with your official state license numbers and commercial bonding capacity. Highlighting real assets builds immediate credibility with developers and project owners.',
-    },
-    {
-      q: 'Can we move from our old website to a new site without losing Google rankings?',
-      a: 'Yes. Our website redesign protocol includes careful 1-to-1 301 redirect mapping, preserving existing high-performing URLs, and carrying forward established domain authority while dramatically upgrading speed and mobile responsiveness. Learn more on our website redesign page.',
-    },
-    {
-      q: 'Will my website show up in ChatGPT, Perplexity or Google AI Overviews?',
-      a: 'Nobody can guarantee placement in AI answers or in Google search results. However, we engineer clean, fast pages with clear service descriptions, detailed FAQs, structured Schema.org data, and consistent business information, which helps search engine algorithms and generative AI tools accurately understand and cite your business.',
-    },
-  ];
-
-  const relatedLinks = [
-    { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
-    { label: 'Contractor Website Design', to: '/contractor-website-design' },
-    { label: 'Website Redesign', to: '/website-redesign' },
-    { label: 'Packages', to: '/packages' },
-    { label: 'Our Work', to: '/our-work' },
-    { label: 'Contact', to: '/contact' },
-  ];
-
   return (
-    <ServicePageTemplate
+    <NicheLandingTemplate
       path="/excavation-website-design"
-      name="Excavation Website Design"
-      h1="Excavation Website Design That Brings In Bid Requests"
-      intro="Fast, mobile-first websites for excavating, grading, land clearing and site-prep contractors across the United States, built around bid requests, project proof and service areas."
-      sections={sections}
-      faqs={faqs}
-      serviceType={[
-        'Excavation website design',
-        'Excavation contractor website development',
-        'Land clearing website design',
-        'Grading contractor website design',
+      tradeName="Excavation Contractors"
+      serviceName="Excavation Company Website Design"
+      serviceType="Excavation Company Website Design"
+      eyebrow="Earthworks & Site Prep"
+      h1="Excavation Company Website Design Built to Win More Bid Requests"
+      intro="Custom excavation company website design for grading, trenching, foundation prep, and site-work contractors across the United States. Built to prove machine capacity, accept civil plans online, and convert commercial estimators and property owners into qualified bid calls starting at $1,000."
+      ctaText="Get a Free Excavation Mockup"
+      problemsHeading="Problems Your Excavation Website Must Solve"
+      problemsIntro="General contractors and land developers size up earthwork subs online in thirty seconds. Generic brochure templates cost you profitable civil and residential pads before an estimator ever dials your number."
+      problems={[
+        {
+          title: 'Generic Contact Forms Missing Site Variables',
+          description:
+            'Standard name-and-message boxes invite vague inquiries. Estimators need parcel addresses, rough acreage, dig depth, and PDF grading plan uploads captured upfront.',
+        },
+        {
+          title: 'Invisible Iron Capacity & GPS Precision',
+          description:
+            'Builders want confirmation that your crew owns the excavators, dozers, skid steers, and laser or GPS grading gear required to hit tight slab tolerances on schedule.',
+        },
+        {
+          title: 'Buried Licensing, Bonding & Safety Credentials',
+          description:
+            'Commercial GCs require upfront state contractor license numbers, commercial liability limits, and OSHA compliance signals before adding your company to their bid list.',
+        },
+        {
+          title: 'Slow Mobile Loading on Remote Job Sites',
+          description:
+            'Superintendents searching for urgent trenching or subgrade repair on active dirt pads bounce immediately if heavy unoptimized themes stall on weak cellular bars.',
+        },
       ]}
-      relatedLinks={relatedLinks}
-      relatedGuide={{
-        label: 'Why Contractors Need a Project Gallery',
-        to: '/blog/why-contractors-need-a-project-gallery',
+      includesHeading="What Every Excavation Website Build Includes"
+      includesIntro="Every excavation build ships cleanly coded from the ground up with zero plugin bloat and 100% client ownership."
+      includes={[
+        {
+          title: 'Dedicated Service Pages',
+          description:
+            'Focused pages for site preparation, mass grading, foundation digging, utility trenching, drainage, and driveway construction.',
+        },
+        {
+          title: 'County Service-Area Section',
+          description:
+            'Targeted regional hubs highlighting your haul radius, surrounding towns, and quarry-to-site mobilization territories.',
+        },
+        {
+          title: 'Equipment & Site Gallery',
+          description:
+            'Before-and-after lot-prep photography pairing rough acreage transformations with real excavator and dozer spreads.',
+        },
+        {
+          title: 'Instant Tap-to-Call Triggers',
+          description:
+            'Persistent click-to-call headers built for builders and property managers needing immediate dispatch from the field.',
+        },
+        {
+          title: 'Civil Bid & Plan Quote Form',
+          description:
+            'Structured bid intake capturing project scope, target start dates, parcel details, and engineering print attachments.',
+        },
+        {
+          title: 'Google Business Profile Sync',
+          description:
+            'Clean LocalBusiness schema, verified review display blocks, and territory alignment supporting your Google Maps listing.',
+        },
+        {
+          title: 'Fast Core Web Vitals Speed',
+          description:
+            'Lightweight static React delivery with compressed WebP job-site imagery engineered for near-instant load times.',
+        },
+        {
+          title: 'Mobile-First Field Layout',
+          description:
+            'Legible typography, thumb-ready navigation, and clear credential badges calibrated for phones, tablets, and office monitors.',
+        },
+      ]}
+      conceptRef={{
+        title: 'Vision Excavation',
+        subtitle: 'Heavy Civil Earthworks & Site Prep',
+        description:
+          'Featured directly on our /our-work showcase, the Vision Excavation concept demonstrates how structured heavy equipment displays, safety accreditation callouts, and 2-step scope intake work together for earthwork bids.',
+        image: getFrameUrl(150),
+        imageAlt: 'Vision Excavation custom excavation contractor website design concept preview',
       }}
+      howItWorksHeading="From Free Excavation Mockup to Launch"
+      howItWorksSteps={[
+        {
+          step: '01',
+          title: 'Free Mockup',
+          description:
+            'Tell us your services, fleet highlights, and target counties. We craft a custom homepage concept mockup before you spend a dollar.',
+        },
+        {
+          step: '02',
+          title: 'Custom Build',
+          description:
+            'Once approved, we code your responsive pages, bid intake forms, equipment galleries, and local SEO schema cleanly from scratch.',
+        },
+        {
+          step: '03',
+          title: 'Fast Launch',
+          description:
+            'Essential excavation builds launch in 7-10 business days on fast cloud hosting with 100% code and domain ownership transferred to you.',
+        },
+      ]}
+      pricingSummary="Our Essential excavation website package starts at $1,000 one-time and launches in 7-10 business days. Need multi-county SEO pages, copywriting, and expanded bid estimators? Our Professional package starts at $1,500 with zero mandatory retainers."
+      faqs={[
+        {
+          q: 'How much does an excavation company website cost?',
+          a: 'Our Essential excavation website starts at a one-time $1,000 fee and goes live in 7-10 business days. The Professional package starts at $1,500 and adds multi-city local SEO pages, full copywriting, and custom bid-scope forms.',
+        },
+        {
+          q: 'Can general contractors upload site plans or blueprints on the quote form?',
+          a: 'Yes. We configure bid request forms with clean attachment fields so builders and engineers can upload grading plans, surveys, or job-site photos alongside target dates and parcel info.',
+        },
+        {
+          q: 'Do we keep ownership of our website code and domain after launch?',
+          a: 'Yes, 100%. Unlike agencies that rent templates with ongoing platform fees, you own every line of production code, design assets, and incoming bid leads outright.',
+        },
+        {
+          q: 'What should an excavation contractor show to win higher-value bids?',
+          a: 'Display real photos of your excavators and haul trucks on active sites, list state licensing and bonding credentials clearly, and separate residential driveways from commercial earthworks.',
+        },
+      ]}
+      relatedIndustries={[
+        {
+          label: 'Land Clearing Website Design',
+          to: '/land-clearing-website-design',
+          note: 'Acreage & mulching',
+        },
+        {
+          label: 'Septic Contractor Website Design',
+          to: '/septic-contractor-website-design',
+          note: 'Trenching & install',
+        },
+      ]}
     />
   );
 };

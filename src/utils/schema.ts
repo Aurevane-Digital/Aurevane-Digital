@@ -304,3 +304,121 @@ export function buildPageServiceSchema({
   };
 }
 
+export interface NicheIndustrySchemaParams {
+  path: string;
+  tradeName: string;
+  serviceName: string;
+  description: string;
+  serviceType: string;
+  faqs: ServiceSchemaFaq[];
+}
+
+/**
+ * Builds a single schema.org @graph JSON-LD object for the 8 niche industry landing pages:
+ * - Service with Aurevane Digital provider and Country areaServed ("United States")
+ * - FAQPage matching the visible FAQ verbatim
+ * - BreadcrumbList: Home > Industries > <Trade>
+ */
+export function buildNicheIndustrySchema({
+  path,
+  tradeName,
+  serviceName,
+  description,
+  serviceType,
+  faqs,
+}: NicheIndustrySchemaParams): Record<string, unknown> {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
+
+  const graph: Array<Record<string, unknown>> = [
+    {
+      '@type': 'Service',
+      name: serviceName,
+      description,
+      url: pageUrl,
+      provider: SERVICE_PROVIDER,
+      serviceType,
+      areaServed: {
+        '@type': 'Country',
+        name: 'United States',
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Industries',
+          item: 'https://aurevanedigital.vercel.app/industries',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: tradeName,
+          item: pageUrl,
+        },
+      ],
+    },
+  ];
+
+  if (faqs && faqs.length > 0) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a,
+        },
+      })),
+    });
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  };
+}
+
+export function buildIndustriesHubSchema(): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CollectionPage',
+        name: 'Industries We Serve | Aurevane Digital',
+        url: 'https://aurevanedigital.vercel.app/industries',
+        description:
+          'Custom website design for excavation, junk removal, septic, land clearing, fence, mobile detailing, electrical, and roofing contractors.',
+        isPartOf: {
+          '@id': 'https://aurevanedigital.vercel.app/#website',
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: SITE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Industries',
+            item: 'https://aurevanedigital.vercel.app/industries',
+          },
+        ],
+      },
+    ],
+  };
+}

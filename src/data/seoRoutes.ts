@@ -20,6 +20,15 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     intro:
       'Aurevane Digital builds custom, mobile-friendly websites for contractors, trades, home-service companies and junk removal businesses across the United States.',
     links: [
+      { label: 'Industries', to: '/industries' },
+      { label: 'Excavation Website Design', to: '/excavation-website-design' },
+      { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+      { label: 'Septic Contractor Website Design', to: '/septic-contractor-website-design' },
+      { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
+      { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
+      { label: 'Mobile Detailing Website Design', to: '/mobile-detailing-website-design' },
+      { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
+      { label: 'Roofing Website Design', to: '/roofing-website-design' },
       { label: 'Our Work', to: '/our-work' },
       { label: 'Packages', to: '/packages' },
       { label: 'About', to: '/about' },
@@ -126,20 +135,16 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/junk-removal-website-design',
-    title: 'Junk Removal Website Design | Aurevane Digital',
+    title: 'Junk Removal Website Design That Books Jobs',
     description:
-      'Junk removal website design with instant quote forms, photo upload and online booking. Built for junk hauling companies across the United States.',
-    h1: 'Junk Removal Website Design: Photo Quotes to Booked Jobs',
+      'Fast, conversion-focused websites for junk removal companies with instant quote forms and tap-to-call. Live in 7-10 business days. Get a free mockup.',
+    h1: 'Junk Removal Website Design That Turns Searches Into Booked Hauls',
     intro:
-      'High-converting websites for junk hauling companies with smartphone photo uploads, interactive truck volume pricing estimators, and instant online dispatch booking.',
+      'Fast, conversion-focused junk removal website design engineered for independent hauling fleets across the United States. Live in 7-10 business days from $1,000.',
     links: [
+      { label: 'Industries Hub', to: '/industries' },
       { label: 'Excavation Website Design', to: '/excavation-website-design' },
-      { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
-      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
-      { label: 'Contractor Website Design', to: '/contractor-website-design' },
-      { label: 'Home Services Website Design', to: '/home-services-website-design' },
-      { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
-      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
       { label: 'Packages', to: '/packages' },
       { label: 'Contact', to: '/contact' },
     ],
@@ -179,16 +184,16 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/excavation-website-design',
-    title: 'Excavation Website Design | Aurevane Digital',
+    title: 'Excavation Company Website Design | From $1,000',
     description:
-      'Excavation website design for grading, land clearing and site prep contractors. Fast, mobile-first sites built around bid requests and project proof.',
-    h1: 'Excavation Website Design That Brings In Bid Requests',
+      'Custom websites for excavation contractors that bring in more bid requests and calls. Live in 7-10 business days, from $1,000. Get a free mockup.',
+    h1: 'Excavation Company Website Design Built to Win More Bid Requests',
     intro:
-      'Fast, mobile-first websites for excavating, grading, land clearing and site-prep contractors across the United States, built around bid requests, project proof and service areas.',
+      'Custom excavation company website design for grading, trenching, foundation prep, and site-work contractors across the United States. Live in 7-10 business days, from $1,000.',
     links: [
-      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
-      { label: 'Contractor Website Design', to: '/contractor-website-design' },
-      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Industries Hub', to: '/industries' },
+      { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
+      { label: 'Septic Contractor Website Design', to: '/septic-contractor-website-design' },
       { label: 'Packages', to: '/packages' },
       { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },
@@ -196,18 +201,18 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/electrical-contractor-website-design',
-    title: 'Electrical Contractor Website Design | Aurevane Digital',
+    title: 'Electrician Website Design That Gets Calls',
     description:
-      'Electrical contractor website design for residential and commercial electricians. Fast, mobile-friendly sites built around service calls and trust.',
+      'Licensed-and-insured trust design, emergency call buttons and service pages built for electrical contractors. From $1,000. Get a free mockup.',
     h1: 'Electrical Contractor Website Design That Brings In Service Calls',
     intro:
-      'Fast, mobile-friendly websites for electricians and electrical contractors across the United States, built around service calls, estimate requests and trust.',
+      'High-trust electrical contractor website design built for licensed residential electricians and commercial MEP teams across the United States. Live in 7-10 business days, from $1,000.',
     links: [
-      { label: 'Home Services Website Design', to: '/home-services-website-design' },
-      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
-      { label: 'Contractor Website Design', to: '/contractor-website-design' },
-      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Industries Hub', to: '/industries' },
+      { label: 'Roofing Website Design', to: '/roofing-website-design' },
+      { label: 'Septic Contractor Website Design', to: '/septic-contractor-website-design' },
       { label: 'Packages', to: '/packages' },
+      { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },
     ],
   },
@@ -234,34 +239,103 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/mobile-detailing-website-design',
-    title: 'Mobile Detailing Website Design | Aurevane Digital',
+    title: 'Mobile Detailing Website Design | Aurevane',
     description:
-      'Mobile detailing website design with online booking, package pricing and service areas. Fast, mobile-first sites built to convert drivers into bookings.',
-    h1: 'Mobile Detailing Website Design With Online Booking Built In',
+      'Booking-ready websites for mobile detailers with package pricing, before/after galleries and service areas. From $1,000. Get a free mockup.',
+    h1: 'Mobile Detailing Website Design With Package Booking Built In',
     intro:
-      'Fast, mobile-first websites for mobile car detailers across the United States, built around online booking, clear packages and a service-area selector.',
+      'Booking-ready mobile detailing website design for independent detail vans, paint correction specialists, and ceramic coating studios across the United States.',
     links: [
-      { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'Industries Hub', to: '/industries' },
       { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
-      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Roofing Website Design', to: '/roofing-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/roofing-website-design',
+    title: 'Roofing Website Design | Live in 7-10 Days',
+    description:
+      'Roofing websites built for storm season: inspection booking, insurance-claim pages and project galleries. From $1,000. Get a free mockup.',
+    h1: 'Roofing Website Design Built for Storm Calls and Full Replacements',
+    intro:
+      'High-converting roofing website design engineered for residential and commercial roofers across the United States. Live in 7-10 business days, from $1,000.',
+    links: [
+      { label: 'Industries Hub', to: '/industries' },
+      { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
+      { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
       { label: 'Packages', to: '/packages' },
       { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },
     ],
   },
   {
-    path: '/roofing-website-design',
-    title: 'Roofing Website Design | Aurevane Digital',
+    path: '/industries',
+    title: 'Contractor & Trade Website Design Industries | Aurevane Digital',
     description:
-      'Mobile-first roofing contractor websites with emergency tap-to-call paths, replacement quote funnels, before-and-after galleries, and local SEO.',
-    h1: 'Roofing Website Design Built for Storm Calls and Full Replacements',
+      'Explore custom website design for excavation, junk removal, septic, land clearing, fence, mobile detailing, electrical, and roofing contractors.',
+    h1: 'Website Design Built Around Each Blue-Collar Industry',
     intro:
-      'Mobile-first websites for residential and commercial roofing contractors across the United States—combining emergency tap-to-call dispatch paths, structured replacement quote funnels, before-and-after roof galleries, and local SEO architecture.',
+      'Explore custom website design across our eight core blue-collar and contractor trades—built for phone calls, qualified quotes, and 7-10 business day launch.',
     links: [
-      { label: 'Contractor Website Design', to: '/contractor-website-design' },
-      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
+      { label: 'Excavation Website Design', to: '/excavation-website-design' },
+      { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+      { label: 'Septic Contractor Website Design', to: '/septic-contractor-website-design' },
+      { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
+      { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
+      { label: 'Mobile Detailing Website Design', to: '/mobile-detailing-website-design' },
+      { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
+      { label: 'Roofing Website Design', to: '/roofing-website-design' },
       { label: 'Packages', to: '/packages' },
-      { label: 'Our Work', to: '/our-work' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/septic-contractor-website-design',
+    title: 'Septic Contractor Website Design | Aurevane',
+    description:
+      'Websites for septic pumping, inspection and installation companies that turn emergency searches into calls. From $1,000. Get a free mockup.',
+    h1: 'Septic Contractor Website Design Built to Capture Emergency Calls',
+    intro:
+      'Conversion-driven septic contractor website design for septic pumping, tank inspection, drain-field repair, and new system installation companies across the United States.',
+    links: [
+      { label: 'Industries Hub', to: '/industries' },
+      { label: 'Excavation Website Design', to: '/excavation-website-design' },
+      { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/land-clearing-website-design',
+    title: 'Land Clearing Website Design | Aurevane',
+    description:
+      'Premium websites for land clearing and forestry mulching companies with project galleries and quote requests. From $1,000. Get a free mockup.',
+    h1: 'Land Clearing Website Design That Brings In Acreage Quote Requests',
+    intro:
+      'Bespoke land clearing website design for forestry mulching, brush clearing, lot preparation, and right-of-way crews across the United States.',
+    links: [
+      { label: 'Industries Hub', to: '/industries' },
+      { label: 'Excavation Website Design', to: '/excavation-website-design' },
+      { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    path: '/fence-company-website-design',
+    title: 'Fence Company Website Design | From $1,000',
+    description:
+      'Websites for fence installers with material galleries, estimate forms and local service pages. Live in 7-10 business days. Get a free mockup.',
+    h1: 'Fence Company Website Design Built to Turn Yard Searches Into Estimates',
+    intro:
+      'Custom fence company website design for wood privacy, vinyl, ornamental aluminum, chain-link, and automated gate installers across the United States.',
+    links: [
+      { label: 'Industries Hub', to: '/industries' },
+      { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
+      { label: 'Roofing Website Design', to: '/roofing-website-design' },
+      { label: 'Packages', to: '/packages' },
       { label: 'Contact', to: '/contact' },
     ],
   },

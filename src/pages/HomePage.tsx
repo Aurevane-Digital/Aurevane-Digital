@@ -269,6 +269,98 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
             </Link>
           </div>
 
+          {/* Dedicated "Industries we serve" Section linking all 8 niche SEO pages + /industries hub */}
+          <div className="border-t border-[#D9D0C3] pt-16 mb-16">
+            <div
+              data-reveal="heading"
+              className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10"
+            >
+              <div>
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
+                  Niche Trade Solutions
+                </span>
+                <h2 className="font-serif text-3xl md:text-4xl text-[#141210] font-normal mt-2">
+                  Industries We Serve
+                </h2>
+              </div>
+              <Link
+                to="/industries"
+                className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#9E5249] hover:text-[#141210] transition-colors group"
+              >
+                <span>View All Industries</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+              </Link>
+            </div>
+
+            <div
+              data-reveal="stagger-group"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            >
+              {[
+                {
+                  label: 'Excavation Contractors',
+                  desc: 'Civil bid intakes, grading plan uploads & fleet showcases.',
+                  to: '/excavation-website-design',
+                },
+                {
+                  label: 'Junk Removal Companies',
+                  desc: 'Instant photo quotes, truck-load guides & tap-to-call.',
+                  to: '/junk-removal-website-design',
+                },
+                {
+                  label: 'Septic Contractors',
+                  desc: '24/7 emergency dispatch calls & tank-pumping intake.',
+                  to: '/septic-contractor-website-design',
+                },
+                {
+                  label: 'Land Clearing & Mulching',
+                  desc: 'Acreage quote forms & overgrown lot galleries.',
+                  to: '/land-clearing-website-design',
+                },
+                {
+                  label: 'Fence Companies',
+                  desc: 'Material comparison galleries & footage estimate forms.',
+                  to: '/fence-company-website-design',
+                },
+                {
+                  label: 'Mobile Detailing',
+                  desc: 'Vehicle package tiers, ZIP zones & booking funnels.',
+                  to: '/mobile-detailing-website-design',
+                },
+                {
+                  label: 'Electrical Contractors',
+                  desc: 'Licensed trust badges, panel upgrades & emergency dispatch.',
+                  to: '/electrical-contractor-website-design',
+                },
+                {
+                  label: 'Roofing Contractors',
+                  desc: 'Storm-season inspection booking & insurance-claim pages.',
+                  to: '/roofing-website-design',
+                },
+              ].map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  data-reveal-item
+                  className="card-editorial p-5 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] group flex flex-col justify-between"
+                >
+                  <div>
+                    <h3 className="font-serif text-lg text-[#141210] group-hover:text-[#9E5249] transition-colors mb-1.5">
+                      {item.label}
+                    </h3>
+                    <p className="text-xs text-[#59544E] font-light leading-relaxed mb-3">
+                      {item.desc}
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249] pt-2 border-t border-[#D9D0C3]/50">
+                    <span>Explore Trade</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
           {/* 6 Required H2s with 1-2 sentences of real copy each */}
           <div className="border-t border-[#D9D0C3] pt-16">
             <div data-reveal="heading" className="max-w-3xl mb-12">

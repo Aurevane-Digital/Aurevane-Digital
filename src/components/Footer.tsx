@@ -48,6 +48,12 @@ export const Footer: React.FC<FooterProps> = ({
                 Home
               </Link>
               <Link
+                to="/industries"
+                className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+              >
+                Industries
+              </Link>
+              <Link
                 to="/about"
                 className="text-left hover:text-[#141210] transition-colors cursor-pointer"
               >
@@ -98,6 +104,24 @@ export const Footer: React.FC<FooterProps> = ({
                   className="text-left hover:text-[#141210] transition-colors cursor-pointer"
                 >
                   Excavation
+                </Link>
+                <Link
+                  to="/septic-contractor-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Septic Contractors
+                </Link>
+                <Link
+                  to="/land-clearing-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Land Clearing
+                </Link>
+                <Link
+                  to="/fence-company-website-design"
+                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
+                >
+                  Fence Companies
                 </Link>
                 <Link
                   to="/electrical-contractor-website-design"
