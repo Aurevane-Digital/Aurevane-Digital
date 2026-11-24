@@ -23,6 +23,7 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
   const [honeypot, setHoneypot] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +35,11 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
       return;
     }
 
+    setErrorMessage(null);
     setIsSubmitting(true);
 
     // Forward form data to user inbox via Web3Forms
-    await submitToWeb3Forms({
+    const result = await submitToWeb3Forms({
       formType: 'Website Check / Audit',
       subject: `New Website Check Request: ${formData.businessName} (${formData.websiteUrl})`,
       name: formData.name,
@@ -52,6 +54,12 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
     });
 
     setIsSubmitting(false);
+
+    if (!result.success) {
+      setErrorMessage(result.message || 'Unable to send audit request. Please try again.');
+      return;
+    }
+
     setSuccess(true);
 
       const generatedReport: AuditReportData = {
@@ -176,6 +184,14 @@ export const WebsiteCheckForm: React.FC<WebsiteCheckFormProps> = ({ onAuditGener
               autoComplete="off"
               className="absolute -left-[9999px] -top-[9999px] opacity-0 pointer-events-none"
             />
+            {errorMessage && (
+              <div
+                role="alert"
+                className="p-3.5 bg-[#FAF6F0] border border-[#9E5249] rounded-sm text-xs text-[#9E5249] font-medium"
+              >
+                {errorMessage}
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="audit-name" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">

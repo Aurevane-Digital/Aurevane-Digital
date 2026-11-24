@@ -45,6 +45,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [notes, setNotes] = useState('');
   const [honeypot, setHoneypot] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const currentPkg =
     SERVICE_PACKAGES.find((p) => p.id === currentPkgId) || SERVICE_PACKAGES[1];
@@ -88,6 +89,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       return;
     }
 
+    setErrorMessage(null);
     setIsSubmitting(true);
 
     const chosenAddonNames = selectedAddonObjects
@@ -98,7 +100,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       )
       .join(', ');
 
-    await submitToWeb3Forms({
+    const result = await submitToWeb3Forms({
       formType: 'Package Booking Reservation',
       subject: `New Studio Engagement: ${currentPkg.name} — ${businessName}`,
       name,
@@ -115,6 +117,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     });
 
     setIsSubmitting(false);
+
+    if (!result.success) {
+      setErrorMessage(result.message || 'Unable to submit booking request. Please try again.');
+      return;
+    }
 
     onSuccess(
       `Booking request confirmed for ${currentPkg.name} package. We will send an agreement draft to ${email}.`
@@ -173,6 +180,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             autoComplete="off"
             className="absolute -left-[9999px] -top-[9999px] opacity-0 pointer-events-none"
           />
+          {errorMessage && (
+            <div
+              role="alert"
+              className="p-3.5 bg-[#F5EDE2] border border-[#9E5249] rounded-sm text-xs text-[#9E5249] font-medium"
+            >
+              {errorMessage}
+            </div>
+          )}
 
           {/* Package Selector Pills */}
           <div>

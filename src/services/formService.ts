@@ -21,10 +21,10 @@ export async function submitToWeb3Forms(
     const payload = {
       access_key: WEB3FORMS_ACCESS_KEY,
       subject: options.subject,
-      from_name: 'Aurevane Digital Client Portal',
+      from_name: 'Aurevane Digital',
       name: options.name,
       email: options.email,
-      replyto: options.email,
+      botcheck: '',
       'Form Type': options.formType,
       'Submitted At': new Date().toLocaleString('en-US', {
         timeZoneName: 'short',
@@ -41,10 +41,11 @@ export async function submitToWeb3Forms(
       body: JSON.stringify(payload),
     });
 
-    const result = await response.json();
+    const data = await response.json();
+    console.log(data);
     return {
-      success: result.success === true,
-      message: result.message || (result.success ? 'Form submitted successfully' : 'Submission failed'),
+      success: data.success === true,
+      message: data.message || (data.success ? 'Form submitted successfully' : 'Submission failed'),
     };
   } catch (error) {
     console.error('Web3Forms dispatch error:', error);

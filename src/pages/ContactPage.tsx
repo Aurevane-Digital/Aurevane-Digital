@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Mail, Instagram, CheckCircle2, ArrowRight, Loader2, Sparkles } from 'lucide-react';
-import { submitToWeb3Forms } from '../services/formService';
 import { WebsiteCheckForm } from '../components/WebsiteCheckForm';
 import { SEO } from '../components/SEO';
 import { getSeo } from '../data/seoRoutes';
 import { AuditReportData } from '../types';
+
+const ACCESS_KEY = '5997eddf-c01e-4be8-b0e2-3e3638e28b10';
 
 interface ContactPageProps {
   onAuditGenerated: (report: AuditReportData) => void;
@@ -16,38 +17,74 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
   const [formState, setFormState] = useState({
     name: '',
     email: '',
+    phone: '',
     business: '',
     message: '',
   });
 
-  const [honeypot, setHoneypot] = useState('');
+  const [botcheck, setBotcheck] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submittedName, setSubmittedName] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formState.name || !formState.email) return;
+    setErrorMessage(null);
 
-    if (honeypot) {
-      setIsSubmitting(false);
-      setSubmitted(true);
+    if (botcheck) {
       return;
     }
 
     setIsSubmitting(true);
-    await submitToWeb3Forms({
-      formType: 'Direct Contact Inquiry',
-      subject: `New Project Inquiry: ${formState.name} — ${formState.business || 'New Lead'}`,
-      name: formState.name,
-      email: formState.email,
-      data: {
-        'Business Name & Trade': formState.business,
-        'Project Details & Objectives': formState.message,
-      },
-    });
 
-    setIsSubmitting(false);
-    setSubmitted(true);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: ACCESS_KEY,
+          name: formState.name,
+          email: formState.email,
+          phone: formState.phone,
+          business: formState.business,
+          message: formState.message,
+          subject: 'New website enquiry',
+          from_name: 'Aurevane Digital',
+          botcheck: '',
+        }),
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (data.success === true) {
+        setSubmittedName(formState.name);
+        setFormState({
+          name: '',
+          email: '',
+          phone: '',
+          business: '',
+          message: '',
+        });
+        setBotcheck(false);
+        setSubmitted(true);
+      } else {
+        setErrorMessage(data.message || 'Unable to send inquiry. Please try again.');
+      }
+    } catch (error) {
+      console.error('Web3Forms submission error:', error);
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Network error while sending your inquiry. Please try again.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -166,13 +203,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
                       Inquiry Received
                     </h3>
                     <p className="text-xs md:text-sm text-[#59544E] max-w-md mx-auto">
-                      Thank you for reaching out, {formState.name}. Aurevane Principal will review your project requirements and respond within one business day.
+                      Thank you for reaching out{submittedName ? `, ${submittedName}` : ''}. Aurevane Principal will review your project requirements and respond within one business day.
                     </p>
                     <button
+                      type="button"
                       onClick={() => {
                         setSubmitted(false);
-                        setHoneypot('');
-                        setFormState({ name: '', email: '', business: '', message: '' });
+                        setErrorMessage(null);
                       }}
                       className="text-xs text-[#9E5249] uppercase tracking-wider font-semibold hover:underline cursor-pointer"
                     >
@@ -189,16 +226,15 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
                     className="space-y-5"
                     onSubmit={handleSubmit}
                   >
-                  {/* Honeypot field for bot spam prevention */}
+                  {/* Hidden honeypot checkbox for bot spam prevention */}
                   <input
-                    type="text"
-                    name="website_hp"
-                    value={honeypot}
-                    onChange={(e) => setHoneypot(e.target.value)}
+                    type="checkbox"
+                    name="botcheck"
+                    checked={botcheck}
+                    onChange={(e) => setBotcheck(e.target.checked)}
+                    style={{ display: 'none' }}
                     tabIndex={-1}
                     aria-hidden="true"
-                    autoComplete="off"
-                    className="absolute -left-[9999px] -top-[9999px] opacity-0 pointer-events-none"
                   />
                   <div className="flex items-center gap-2 mb-2">
                     <Sparkles className="w-4 h-4 text-[#9E5249]" />
@@ -206,6 +242,15 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
                       Start a Project Conversation
                     </h3>
                   </div>
+
+                  {errorMessage && (
+                    <div
+                      role="alert"
+                      className="p-3.5 bg-[#FAF6F0] border border-[#9E5249] rounded-sm text-xs text-[#9E5249] font-medium"
+                    >
+                      {errorMessage}
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -243,21 +288,39 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
                     </div>
                   </div>
 
-                  <div>
-                    <label htmlFor="direct-contact-business" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
-                      Business Name &amp; Trade *
-                    </label>
-                    <input
-                      id="direct-contact-business"
-                      name="organization"
-                      autoComplete="organization"
-                      type="text"
-                      required
-                      value={formState.business}
-                      onChange={(e) => setFormState({ ...formState, business: e.target.value })}
-                      placeholder="e.g. Apex Electrical Contracting"
-                      className="w-full px-4 py-2.5 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm text-sm text-[#141210] placeholder:text-[#59544E]/50 focus:outline-none focus:border-[#141210]"
-                    />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="direct-contact-phone" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        id="direct-contact-phone"
+                        name="phone"
+                        autoComplete="tel"
+                        type="tel"
+                        value={formState.phone}
+                        onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
+                        placeholder="(555) 123-4567"
+                        className="w-full px-4 py-2.5 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm text-sm text-[#141210] placeholder:text-[#59544E]/50 focus:outline-none focus:border-[#141210]"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="direct-contact-business" className="block text-[11px] uppercase tracking-wider font-semibold text-[#141210] mb-1">
+                        Business Name &amp; Trade *
+                      </label>
+                      <input
+                        id="direct-contact-business"
+                        name="organization"
+                        autoComplete="organization"
+                        type="text"
+                        required
+                        value={formState.business}
+                        onChange={(e) => setFormState({ ...formState, business: e.target.value })}
+                        placeholder="e.g. Apex Electrical Contracting"
+                        className="w-full px-4 py-2.5 bg-[#FAF6F0] border border-[#D9D0C3] rounded-sm text-sm text-[#141210] placeholder:text-[#59544E]/50 focus:outline-none focus:border-[#141210]"
+                      />
+                    </div>
                   </div>
 
                   <div>
@@ -284,7 +347,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        <span>Transmitting Inquiry...</span>
+                        <span>Sending...</span>
                       </>
                     ) : (
                       <>
