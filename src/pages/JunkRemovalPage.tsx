@@ -7,13 +7,13 @@ export const JunkRemovalPage: React.FC = () => {
     <NicheLandingTemplate
       path="/junk-removal-website-design"
       tradeName="Junk Removal"
-      serviceName="Junk Removal Website Design"
-      serviceType="Junk Removal Website Design"
+      serviceName="Web Design for Junk Removal Companies"
+      serviceType="Web Design for Junk Removal Companies"
       eyebrow="Hauling & Cleanouts"
-      h1="Junk Removal Website Design That Turns Searches Into Booked Hauls"
-      intro="Fast, conversion-focused junk removal website design engineered for independent hauling fleets across the United States. Pair smartphone photo quote forms, visual truck-load pricing, and instant tap-to-call dispatch to win higher-margin cleanouts away from national franchises—live in 7-10 business days from $1,000."
+      h1="Web Design for Junk Removal Companies That Books More Pickups"
+      intro="Custom web design for junk removal companies across the United States. Pair smartphone photo quote forms, visual truck-load pricing, and instant tap-to-call dispatch to win higher-margin cleanouts away from national franchises—live in 7-10 business days from $1,000."
       ctaText="Get a Free Junk Removal Mockup"
-      problemsHeading="Problems Your Junk Removal Website Must Solve"
+      problemsHeading="Problems Web Design for Junk Removal Companies Must Solve"
       problemsIntro="When homeowners clear out a garage or property managers face a 48-hour move-out deadline, slow websites and vague pricing force them straight to franchise call centers."
       problems={[
         {
@@ -37,7 +37,7 @@ export const JunkRemovalPage: React.FC = () => {
             'Outdated DIY themes make established dump-truck fleets look amateurish compared to branded national junk removal franchises.',
         },
       ]}
-      includesHeading="What Every Junk Removal Website Build Includes"
+      includesHeading="What Web Design for Junk Removal Companies Includes"
       includesIntro="Engineered around truck density, fast photo quotes, and effortless mobile dispatch booking."
       includes={[
         {
@@ -131,14 +131,37 @@ export const JunkRemovalPage: React.FC = () => {
       ]}
       relatedIndustries={[
         {
-          label: 'Excavation Website Design',
-          to: '/excavation-website-design',
+          label: 'SEO for Junk Removal Companies',
+          to: '/junk-removal-seo',
+          note: 'Map pack & local calls',
+        },
+        {
+          label: 'Excavation Company Website Design',
+          to: '/excavation-company-website-design',
           note: 'Debris & site prep',
         },
         {
           label: 'Land Clearing Website Design',
           to: '/land-clearing-website-design',
           note: 'Brush & haul-off',
+        },
+      ]}
+      relatedGuides={[
+        {
+          label: 'What Should a Junk Removal Website Include?',
+          to: '/blog/what-should-a-junk-removal-website-include',
+        },
+        {
+          label: 'Junk Removal Website Examples: What to Include',
+          to: '/blog/junk-removal-website-examples-what-to-include',
+        },
+        {
+          label: 'How Much Does a Junk Removal Website Cost?',
+          to: '/blog/how-much-does-a-junk-removal-website-cost',
+        },
+        {
+          label: 'Local SEO for Junk Removal Companies: 2026 Guide',
+          to: '/blog/local-seo-for-junk-removal-companies',
         },
       ]}
     />

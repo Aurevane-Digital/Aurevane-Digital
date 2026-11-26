@@ -62,6 +62,7 @@ export interface NicheLandingTemplateProps {
   pricingSummary: string;
   faqs: ServiceSchemaFaq[];
   relatedIndustries: Array<{ label: string; to: string; note: string }>;
+  relatedGuides?: Array<{ label: string; to: string }>;
   conceptRef?: NicheConceptRef;
 }
 
@@ -96,6 +97,7 @@ export const NicheLandingTemplate: React.FC<NicheLandingTemplateProps> = ({
   pricingSummary,
   faqs,
   relatedIndustries,
+  relatedGuides,
   conceptRef,
 }) => {
   const seo = getSeo(path);
@@ -528,6 +530,28 @@ export const NicheLandingTemplate: React.FC<NicheLandingTemplateProps> = ({
               </span>
             </Link>
           </div>
+
+          {relatedGuides && relatedGuides.length > 0 && (
+            <div className="mt-8 pt-6 border-t border-[#D9D0C3]/60">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-3">
+                Related guides
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {relatedGuides.map((guide) => (
+                  <Link
+                    key={guide.to}
+                    to={guide.to}
+                    className="card-editorial p-5 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-sm group flex items-center justify-between gap-4"
+                  >
+                    <span className="text-xs md:text-sm font-medium text-[#141210] group-hover:text-[#9E5249] transition-colors">
+                      {guide.label}
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 text-[#827C75] group-hover:text-[#9E5249] group-hover:translate-x-1 transition-all shrink-0" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

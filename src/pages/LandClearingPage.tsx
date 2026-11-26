@@ -122,14 +122,24 @@ export const LandClearingPage: React.FC = () => {
       ]}
       relatedIndustries={[
         {
-          label: 'Excavation Website Design',
-          to: '/excavation-website-design',
+          label: 'Excavation Company Website Design',
+          to: '/excavation-company-website-design',
           note: 'Grading & site pads',
         },
         {
           label: 'Fence Company Website Design',
           to: '/fence-company-website-design',
           note: 'Perimeter & ranch lines',
+        },
+      ]}
+      relatedGuides={[
+        {
+          label: 'Why Contractors Need a Project Gallery',
+          to: '/blog/why-contractors-need-a-project-gallery',
+        },
+        {
+          label: 'How Much Does a Contractor Website Cost?',
+          to: '/blog/how-much-does-a-contractor-website-cost',
         },
       ]}
     />

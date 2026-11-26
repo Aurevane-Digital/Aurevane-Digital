@@ -141,6 +141,16 @@ export const ElectricalPage: React.FC = () => {
           note: '24/7 dispatch design',
         },
       ]}
+      relatedGuides={[
+        {
+          label: 'Emergency vs. Planned Job Website Design',
+          to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
+        },
+        {
+          label: 'Contractor Website Cost Guide for 2026',
+          to: '/blog/contractor-website-cost-2026',
+        },
+      ]}
     />
   );
 };

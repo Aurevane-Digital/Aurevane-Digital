@@ -126,6 +126,12 @@ export const HomeServicesPage: React.FC = () => {
         label: 'Emergency vs. Planned Job Website Design',
         to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
       }}
+      relatedGuides={[
+        {
+          label: 'Contractor Website Cost Guide for 2026',
+          to: '/blog/contractor-website-cost-2026',
+        },
+      ]}
     />
   );
 };

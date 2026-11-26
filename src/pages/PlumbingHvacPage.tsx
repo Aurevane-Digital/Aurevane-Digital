@@ -110,6 +110,12 @@ export const PlumbingHvacPage: React.FC = () => {
         label: 'Emergency vs. Planned Job Website Design',
         to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
       }}
+      relatedGuides={[
+        {
+          label: 'Why Contractors Need a Project Gallery',
+          to: '/blog/why-contractors-need-a-project-gallery',
+        },
+      ]}
     />
   );
 };

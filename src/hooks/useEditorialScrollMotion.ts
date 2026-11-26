@@ -24,9 +24,18 @@ export function useEditorialScrollMotion(routeKey: string) {
       ctx = gsap.context(() => {
         const mm = gsap.matchMedia();
 
-        // Shared smooth reveal triggers across all viewports
+        // Shared smooth reveal triggers across all viewports (keep above-the-fold elements visible at opacity 1)
         const headings = gsap.utils.toArray<HTMLElement>('[data-reveal="heading"]');
         headings.forEach((el) => {
+          const isAboveFold = el.getBoundingClientRect().top < window.innerHeight * 0.92;
+          if (isAboveFold) {
+            gsap.fromTo(
+              el,
+              { y: 14 },
+              { y: 0, duration: 0.65, ease: 'power3.out', clearProps: 'transform' }
+            );
+            return;
+          }
           gsap.fromTo(
             el,
             { y: 26, opacity: 0 },
@@ -47,6 +56,15 @@ export function useEditorialScrollMotion(routeKey: string) {
 
         const fades = gsap.utils.toArray<HTMLElement>('[data-reveal="fade"]');
         fades.forEach((el) => {
+          const isAboveFold = el.getBoundingClientRect().top < window.innerHeight * 0.92;
+          if (isAboveFold) {
+            gsap.fromTo(
+              el,
+              { y: 12 },
+              { y: 0, duration: 0.55, ease: 'power2.out', clearProps: 'transform' }
+            );
+            return;
+          }
           gsap.fromTo(
             el,
             { y: 20, opacity: 0 },
@@ -88,6 +106,21 @@ export function useEditorialScrollMotion(routeKey: string) {
         groups.forEach((group) => {
           const items = group.querySelectorAll<HTMLElement>('[data-reveal-item]');
           if (!items.length) return;
+          const isAboveFold = group.getBoundingClientRect().top < window.innerHeight * 0.92;
+          if (isAboveFold) {
+            gsap.fromTo(
+              items,
+              { y: 12 },
+              {
+                y: 0,
+                duration: 0.55,
+                stagger: 0.06,
+                ease: 'power3.out',
+                clearProps: 'transform',
+              }
+            );
+            return;
+          }
           gsap.fromTo(
             items,
             { y: 24, opacity: 0 },

@@ -10,21 +10,31 @@ const SERVICE_PROVIDER = {
   '@type': 'Organization',
   '@id': ORG_NODE_ID,
   name: 'Aurevane Digital',
+  url: SITE_URL,
+};
+
+const AREA_SERVED_US = {
+  '@type': 'Country',
+  name: 'United States',
 };
 
 const ARTICLE_AUTHOR = {
   '@type': 'Organization',
+  '@id': ORG_NODE_ID,
   name: 'Aurevane Digital',
   url: SITE_URL,
 };
 
 const ARTICLE_PUBLISHER = {
   '@type': 'Organization',
+  '@id': ORG_NODE_ID,
   name: 'Aurevane Digital',
   url: SITE_URL,
   logo: {
     '@type': 'ImageObject',
     url: 'https://aurevanedigital.vercel.app/logo-512.png',
+    width: 512,
+    height: 512,
   },
 };
 
@@ -32,7 +42,7 @@ export interface ServiceSchemaParams {
   path: string;
   name: string;
   description: string;
-  serviceType: string[];
+  serviceType: string | string[];
   faqs: ServiceSchemaFaq[];
 }
 
@@ -48,16 +58,18 @@ export function buildServiceSchema({
 }: ServiceSchemaParams): Record<string, unknown> {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
+  const primaryServiceType = Array.isArray(serviceType) ? serviceType[0] : serviceType;
 
   const graph: Array<Record<string, unknown>> = [
     {
       '@type': 'Service',
+      '@id': `${pageUrl}#service`,
       name,
       description,
       url: pageUrl,
       provider: SERVICE_PROVIDER,
-      areaServed: 'United States',
-      serviceType,
+      areaServed: AREA_SERVED_US,
+      serviceType: primaryServiceType,
     },
     {
       '@type': 'BreadcrumbList',
@@ -123,12 +135,21 @@ export function buildArticleSchema({
   const graph: Array<Record<string, unknown>> = [
     {
       '@type': 'Article',
+      '@id': `${pageUrl}#article`,
       headline,
       description,
       datePublished,
       dateModified,
-      mainEntityOfPage: pageUrl,
-      image: 'https://aurevanedigital.vercel.app/og-image.png',
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': pageUrl,
+      },
+      image: {
+        '@type': 'ImageObject',
+        url: 'https://aurevanedigital.vercel.app/og-image.png',
+        width: 1200,
+        height: 630,
+      },
       author: ARTICLE_AUTHOR,
       publisher: ARTICLE_PUBLISHER,
     },
@@ -181,7 +202,7 @@ export interface FaqPageSchemaParams {
   path: string;
   name: string;
   description?: string;
-  serviceType?: string[];
+  serviceType?: string | string[];
   faqs: ServiceSchemaFaq[];
 }
 
@@ -192,21 +213,23 @@ export function buildFaqPageSchema({
   path,
   name,
   description,
-  serviceType = ['Contractor Website Design', 'Local Service Website Development'],
+  serviceType = 'Contractor Website Design',
   faqs,
 }: FaqPageSchemaParams): Record<string, unknown> {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
+  const primaryServiceType = Array.isArray(serviceType) ? serviceType[0] : serviceType;
 
   const graph: Array<Record<string, unknown>> = [
     {
       '@type': 'Service',
+      '@id': `${pageUrl}#service`,
       name,
       ...(description ? { description } : {}),
       url: pageUrl,
       provider: SERVICE_PROVIDER,
-      areaServed: 'United States',
-      serviceType,
+      areaServed: AREA_SERVED_US,
+      serviceType: primaryServiceType,
     },
     {
       '@type': 'BreadcrumbList',
@@ -251,7 +274,7 @@ export interface PageServiceSchemaParams {
   path: string;
   name: string;
   description: string;
-  serviceType: string[];
+  serviceType: string | string[];
 }
 
 /**
@@ -265,16 +288,18 @@ export function buildPageServiceSchema({
 }: PageServiceSchemaParams): Record<string, unknown> {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath === '/' ? '/' : normalizedPath}`;
+  const primaryServiceType = Array.isArray(serviceType) ? serviceType[0] : serviceType;
 
   const graph: Array<Record<string, unknown>> = [
     {
       '@type': 'Service',
+      '@id': `${pageUrl}#service`,
       name,
       description,
       url: pageUrl,
       provider: SERVICE_PROVIDER,
-      areaServed: 'United States',
-      serviceType,
+      areaServed: AREA_SERVED_US,
+      serviceType: primaryServiceType,
     },
   ];
 
@@ -314,7 +339,7 @@ export interface NicheIndustrySchemaParams {
 }
 
 /**
- * Builds a single schema.org @graph JSON-LD object for the 8 niche industry landing pages:
+ * Builds a single schema.org @graph JSON-LD object for niche industry landing pages:
  * - Service with Aurevane Digital provider and Country areaServed ("United States")
  * - FAQPage matching the visible FAQ verbatim
  * - BreadcrumbList: Home > Industries > <Trade>
@@ -333,15 +358,13 @@ export function buildNicheIndustrySchema({
   const graph: Array<Record<string, unknown>> = [
     {
       '@type': 'Service',
+      '@id': `${pageUrl}#service`,
       name: serviceName,
       description,
       url: pageUrl,
       provider: SERVICE_PROVIDER,
       serviceType,
-      areaServed: {
-        '@type': 'Country',
-        name: 'United States',
-      },
+      areaServed: AREA_SERVED_US,
     },
     {
       '@type': 'BreadcrumbList',
@@ -394,6 +417,7 @@ export function buildIndustriesHubSchema(): Record<string, unknown> {
     '@graph': [
       {
         '@type': 'CollectionPage',
+        '@id': 'https://aurevanedigital.vercel.app/industries#collection',
         name: 'Industries We Serve | Aurevane Digital',
         url: 'https://aurevanedigital.vercel.app/industries',
         description:

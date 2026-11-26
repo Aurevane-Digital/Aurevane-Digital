@@ -54,40 +54,38 @@ export const Hero: React.FC<HeroProps> = ({ onExploreWork, onRequestAudit }) => 
         )
         .fromTo(
           '[data-hero-word]',
-          { yPercent: 115, opacity: 0 },
+          { yPercent: 24 },
           {
             yPercent: 0,
-            opacity: 1,
-            duration: 0.88,
-            stagger: 0.04,
-            ease: 'power4.out',
-            clearProps: 'transform,opacity',
+            duration: 0.72,
+            stagger: 0.035,
+            ease: 'power3.out',
+            clearProps: 'transform',
           },
-          0.26
+          0.08
         )
         .fromTo(
           '[data-hero-subtitle]',
-          { yPercent: 105, opacity: 0 },
+          { yPercent: 20 },
           {
             yPercent: 0,
-            opacity: 1,
-            duration: 0.8,
+            duration: 0.65,
             ease: 'power3.out',
-            clearProps: 'transform,opacity',
+            clearProps: 'transform',
           },
-          0.52
+          0.16
         )
         .fromTo(
           '[data-hero-divider]',
           { scaleX: 0 },
           { scaleX: 1, duration: 0.65, ease: 'power3.inOut', clearProps: 'transform' },
-          0.62
+          0.25
         )
         .fromTo(
           '[data-hero-desc]',
-          { y: 16, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.72, clearProps: 'transform,opacity' },
-          0.68
+          { y: 10 },
+          { y: 0, duration: 0.6, clearProps: 'transform' },
+          0.2
         )
         .fromTo(
           '[data-hero-cta]',

@@ -122,7 +122,7 @@ export const GeneralContractorPage: React.FC = () => {
     { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
     { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
     { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
-    { label: 'Excavation Website Design', to: '/excavation-website-design' },
+    { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
     { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
     { label: 'Packages', to: '/packages' },
     { label: 'Our Work', to: '/our-work' },
@@ -148,6 +148,12 @@ export const GeneralContractorPage: React.FC = () => {
         label: 'Why Contractors Need a Project Gallery',
         to: '/blog/why-contractors-need-a-project-gallery',
       }}
+      relatedGuides={[
+        {
+          label: 'Contractor Website Cost Guide for 2026',
+          to: '/blog/contractor-website-cost-2026',
+        },
+      ]}
     />
   );
 };

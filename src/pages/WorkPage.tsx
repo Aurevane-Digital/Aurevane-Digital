@@ -176,7 +176,10 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onSelectCaseStudy }) => {
                         <img
                           src={study.image}
                           alt={`${build.name} website concept preview`}
+                          width={1600}
+                          height={1000}
                           loading="lazy"
+                          decoding="async"
                           data-reveal-img
                           className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                         />

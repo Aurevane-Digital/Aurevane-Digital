@@ -5,7 +5,7 @@ import { getFrameUrl } from '../utils/frames';
 export const ExcavationPage: React.FC = () => {
   return (
     <NicheLandingTemplate
-      path="/excavation-website-design"
+      path="/excavation-company-website-design"
       tradeName="Excavation Contractors"
       serviceName="Excavation Company Website Design"
       serviceType="Excavation Company Website Design"
@@ -139,6 +139,16 @@ export const ExcavationPage: React.FC = () => {
           label: 'Septic Contractor Website Design',
           to: '/septic-contractor-website-design',
           note: 'Trenching & install',
+        },
+      ]}
+      relatedGuides={[
+        {
+          label: 'Contractor Website Cost Guide for 2026',
+          to: '/blog/contractor-website-cost-2026',
+        },
+        {
+          label: 'Why Contractors Need a Project Gallery',
+          to: '/blog/why-contractors-need-a-project-gallery',
         },
       ]}
     />

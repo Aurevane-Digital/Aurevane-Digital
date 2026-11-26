@@ -100,7 +100,7 @@ export const Footer: React.FC<FooterProps> = ({
                   Junk Removal
                 </Link>
                 <Link
-                  to="/excavation-website-design"
+                  to="/excavation-company-website-design"
                   className="text-left hover:text-[#141210] transition-colors cursor-pointer"
                 >
                   Excavation
@@ -207,15 +207,22 @@ export const Footer: React.FC<FooterProps> = ({
               Practice &amp; Focus
             </h3>
             <div className="flex flex-col gap-2 text-xs text-[#59544E]">
+              <span className="font-semibold text-[#141210]">Aurevane Digital</span>
+              <span>Service Area: United States</span>
               <span>Contractor Website Design &amp; High-Ticket Trades</span>
               <span>Roofing, Electrical, Junk Removal &amp; Excavation</span>
               <span>Fence &amp; Landscaping Company Web Systems</span>
-              <span>High-Performing Local SEO Architecture</span>
+              <Link
+                to="/contact"
+                className="pt-2 text-[11px] font-semibold text-[#9E5249] hover:underline uppercase tracking-wider"
+              >
+                Contact Aurevane Digital
+              </Link>
               <a
                 href="mailto:aurevanedigital@gmail.com"
-                className="pt-2 text-[11px] font-mono text-[#9E5249] font-semibold hover:underline"
+                className="text-[11px] font-mono text-[#59544E] hover:text-[#9E5249] transition-colors"
               >
-                Direct: aurevanedigital@gmail.com
+                aurevanedigital@gmail.com
               </a>
               <a
                 href="https://www.instagram.com/aurevanedigital/"
@@ -231,7 +238,7 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Legal & Copyright Row */}
         <div className="border-t border-[#D9D0C3]/60 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-widest text-[#59544E]">
-          <p>© 2026 Aurevane Digital Studio. All rights reserved.</p>
+          <p>© 2026 Aurevane Digital. Serving Contractors Across the United States.</p>
           <div className="flex items-center gap-6">
             <button
               onClick={onOpenPrivacyModal}

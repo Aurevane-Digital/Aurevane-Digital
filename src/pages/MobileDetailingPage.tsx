@@ -122,7 +122,7 @@ export const MobileDetailingPage: React.FC = () => {
       ]}
       relatedIndustries={[
         {
-          label: 'Junk Removal Website Design',
+          label: 'Web Design for Junk Removal Companies',
           to: '/junk-removal-website-design',
           note: 'Route-based dispatch',
         },
@@ -130,6 +130,16 @@ export const MobileDetailingPage: React.FC = () => {
           label: 'Roofing Website Design',
           to: '/roofing-website-design',
           note: 'Before/after galleries',
+        },
+      ]}
+      relatedGuides={[
+        {
+          label: 'Why Contractors Need a Project Gallery',
+          to: '/blog/why-contractors-need-a-project-gallery',
+        },
+        {
+          label: 'How Much Does a Contractor Website Cost?',
+          to: '/blog/how-much-does-a-contractor-website-cost',
         },
       ]}
     />

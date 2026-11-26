@@ -10,7 +10,7 @@ export const INDUSTRIES_DIRECTORY = [
   {
     number: '01',
     trade: 'Excavation Contractors',
-    slug: '/excavation-website-design',
+    slug: '/excavation-company-website-design',
     tagline: 'Earthworks & Site Prep',
     description:
       'Custom excavation company websites with civil bid intake forms, blueprint upload fields, machine capacity displays, and county service-area pages.',

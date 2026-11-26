@@ -141,6 +141,16 @@ export const RoofingPage: React.FC = () => {
           note: 'Storm & emergency calls',
         },
       ]}
+      relatedGuides={[
+        {
+          label: 'Emergency vs. Planned Job Website Design',
+          to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
+        },
+        {
+          label: 'Why Contractors Need a Project Gallery',
+          to: '/blog/why-contractors-need-a-project-gallery',
+        },
+      ]}
     />
   );
 };

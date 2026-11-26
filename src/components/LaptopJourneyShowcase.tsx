@@ -41,7 +41,7 @@ export const PROJECTS: JourneyProject[] = [
     tags: ['Fleet Specs', 'Tender Intake', 'Safety Compliance'],
     stack: 'React · TypeScript · GSAP ScrollTrigger',
     screenshot: excavationScreenshot,
-    liveUrl: '/excavation-website-design',
+    liveUrl: '/excavation-company-website-design',
     accent: '#B89255',
   },
   {
@@ -772,6 +772,10 @@ export const LaptopJourneyShowcase: React.FC = () => {
                           <img
                             src={project.screenshot}
                             alt={`${project.name} website preview`}
+                            width={1200}
+                            height={1800}
+                            loading="lazy"
+                            decoding="async"
                             referrerPolicy="no-referrer"
                             className="w-full h-auto block object-cover object-top"
                           />
@@ -949,6 +953,10 @@ export const LaptopJourneyShowcase: React.FC = () => {
                         <img
                           src={project.screenshot}
                           alt={`${project.name} website interface screenshot`}
+                          width={1200}
+                          height={1800}
+                          loading="lazy"
+                          decoding="async"
                           referrerPolicy="no-referrer"
                           onLoad={() => setLoadedCount((c) => c + 1)}
                           className="w-full h-auto block select-none"

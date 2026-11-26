@@ -84,7 +84,7 @@ export const LandscapingPage: React.FC = () => {
 
   const relatedLinks = [
     { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
-    { label: 'Excavation Website Design', to: '/excavation-website-design' },
+    { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
     { label: 'Home Services Website Design', to: '/home-services-website-design' },
     { label: 'Transparent Packages & Pricing', to: '/packages' },
     { label: 'Our Work', to: '/our-work' },
@@ -110,6 +110,12 @@ export const LandscapingPage: React.FC = () => {
         label: 'Why Contractors Need a Project Gallery',
         to: '/blog/why-contractors-need-a-project-gallery',
       }}
+      relatedGuides={[
+        {
+          label: 'Emergency vs. Planned Job Website Design',
+          to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
+        },
+      ]}
     />
   );
 };

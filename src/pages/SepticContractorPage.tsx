@@ -122,14 +122,24 @@ export const SepticContractorPage: React.FC = () => {
       ]}
       relatedIndustries={[
         {
-          label: 'Excavation Website Design',
-          to: '/excavation-website-design',
+          label: 'Excavation Company Website Design',
+          to: '/excavation-company-website-design',
           note: 'Trenching & grading',
         },
         {
           label: 'Land Clearing Website Design',
           to: '/land-clearing-website-design',
           note: 'New lot prep',
+        },
+      ]}
+      relatedGuides={[
+        {
+          label: 'Emergency vs. Planned Job Website Design',
+          to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
+        },
+        {
+          label: 'How Much Does a Contractor Website Cost?',
+          to: '/blog/how-much-does-a-contractor-website-cost',
         },
       ]}
     />

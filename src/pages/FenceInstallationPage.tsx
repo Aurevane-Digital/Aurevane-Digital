@@ -110,6 +110,12 @@ export const FenceInstallationPage: React.FC = () => {
         label: 'Why Contractors Need a Project Gallery',
         to: '/blog/why-contractors-need-a-project-gallery',
       }}
+      relatedGuides={[
+        {
+          label: 'Contractor Website Cost Guide for 2026',
+          to: '/blog/contractor-website-cost-2026',
+        },
+      ]}
     />
   );
 };

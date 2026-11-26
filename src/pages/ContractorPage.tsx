@@ -109,11 +109,11 @@ export const ContractorPage: React.FC = () => {
     { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
     { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
     { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
-    { label: 'Excavation Website Design', to: '/excavation-website-design' },
+    { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
     { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
     { label: 'Home Services Website Design', to: '/home-services-website-design' },
-    { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
-    { label: 'Junk Removal SEO', to: '/junk-removal-seo' },
+    { label: 'Web Design for Junk Removal Companies', to: '/junk-removal-website-design' },
+    { label: 'SEO for Junk Removal Companies', to: '/junk-removal-seo' },
     { label: 'Website Redesign', to: '/website-redesign' },
     { label: 'Transparent Packages & Pricing', to: '/packages' },
     { label: 'Our Work', to: '/our-work' },
@@ -140,6 +140,16 @@ export const ContractorPage: React.FC = () => {
         label: 'How Much Does a Contractor Website Cost?',
         to: '/blog/how-much-does-a-contractor-website-cost',
       }}
+      relatedGuides={[
+        {
+          label: 'Contractor Website Cost Guide for 2026',
+          to: '/blog/contractor-website-cost-2026',
+        },
+        {
+          label: 'Why Contractors Need a Project Gallery',
+          to: '/blog/why-contractors-need-a-project-gallery',
+        },
+      ]}
     />
   );
 };

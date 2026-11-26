@@ -603,7 +603,11 @@ export const WorkShowcase: React.FC = () => {
           <div className="w-full aspect-video rounded-sm overflow-hidden bg-[#FFF8F1] border border-[#D9D0C3]/60 mb-12">
             <img
               src={getWorkFrameUrl(0)}
-              alt="Desktop monitor showcase preview"
+              alt="Desktop monitor showcase showcasing five custom contractor website designs"
+              width={1920}
+              height={1080}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-contain bg-[#FFF8F1]"
             />
           </div>

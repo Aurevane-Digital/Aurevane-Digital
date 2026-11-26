@@ -12,6 +12,11 @@
       ],
       "destination": "https://aurevanedigital.vercel.app/:path*",
       "permanent": true
+    },
+    {
+      "source": "/excavation-website-design",
+      "destination": "/excavation-company-website-design",
+      "permanent": true
     }
   ],
   "rewrites": [

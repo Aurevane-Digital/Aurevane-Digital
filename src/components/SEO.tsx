@@ -5,6 +5,7 @@ export interface SEOProps {
   description: string;
   canonicalPath?: string;
   ogImage?: string;
+  ogType?: 'website' | 'article';
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
@@ -39,6 +40,7 @@ export const SEO: React.FC<SEOProps> = ({
   description,
   canonicalPath = '',
   ogImage = 'https://aurevanedigital.vercel.app/og-image.png',
+  ogType = 'website',
   noindex = false,
   jsonLd,
 }) => {
@@ -53,7 +55,7 @@ export const SEO: React.FC<SEOProps> = ({
       : canonicalPath
       ? `/${canonicalPath}`
       : '';
-    const canonicalUrl = `${baseUrl}${normalizedPath}`;
+    const canonicalUrl = `${baseUrl}${normalizedPath === '/' ? '/' : normalizedPath}`;
     setOrCreateCanonical(canonicalUrl);
 
     // 3. Meta Description
@@ -64,6 +66,7 @@ export const SEO: React.FC<SEOProps> = ({
     setOrCreateMeta('meta[name="robots"]', 'name', 'robots', robotsContent);
 
     // 5. Open Graph Tags
+    setOrCreateMeta('meta[property="og:type"]', 'property', 'og:type', ogType);
     setOrCreateMeta('meta[property="og:title"]', 'property', 'og:title', title);
     setOrCreateMeta('meta[property="og:description"]', 'property', 'og:description', description);
     setOrCreateMeta('meta[property="og:url"]', 'property', 'og:url', canonicalUrl);
@@ -76,13 +79,25 @@ export const SEO: React.FC<SEOProps> = ({
     );
 
     // 6. Twitter Tags
+    setOrCreateMeta('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
     setOrCreateMeta('meta[name="twitter:title"]', 'name', 'twitter:title', title);
     setOrCreateMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description);
     setOrCreateMeta('meta[name="twitter:image"]', 'name', 'twitter:image', ogImage);
+    setOrCreateMeta(
+      'meta[name="twitter:image:alt"]',
+      'name',
+      'twitter:image:alt',
+      'Aurevane Digital — websites that turn visitors into booked jobs'
+    );
 
-    // 7. Page JSON-LD Structured Data
-    let scriptElement = document.querySelector<HTMLScriptElement>('script[data-seo="page"]');
+    // 7. Page JSON-LD Structured Data (guarantee single clean block with zero duplicates)
+    const existingScripts = document.querySelectorAll<HTMLScriptElement>('script[data-seo="page"]');
+    existingScripts.forEach((node, idx) => {
+      if (idx > 0 || !jsonLd) node.remove();
+    });
+
     if (jsonLd) {
+      let scriptElement = document.querySelector<HTMLScriptElement>('script[data-seo="page"]');
       if (!scriptElement) {
         scriptElement = document.createElement('script');
         scriptElement.type = 'application/ld+json';
@@ -90,18 +105,14 @@ export const SEO: React.FC<SEOProps> = ({
         document.head.appendChild(scriptElement);
       }
       scriptElement.textContent = JSON.stringify(jsonLd);
-    } else if (scriptElement) {
-      scriptElement.remove();
     }
 
     return () => {
-      // Cleanup injected page script when component unmounts
-      const pageScript = document.querySelector<HTMLScriptElement>('script[data-seo="page"]');
-      if (pageScript) {
-        pageScript.remove();
-      }
+      document.querySelectorAll<HTMLScriptElement>('script[data-seo="page"]').forEach((el) => {
+        el.remove();
+      });
     };
-  }, [title, description, canonicalPath, ogImage, noindex, jsonLd]);
+  }, [title, description, canonicalPath, ogImage, ogType, noindex, jsonLd]);
 
   return null;
 };

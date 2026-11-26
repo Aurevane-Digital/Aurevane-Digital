@@ -132,7 +132,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
 
             {/* Card 2: Excavation */}
             <Link
-              to="/excavation-website-design"
+              to="/excavation-company-website-design"
               data-reveal-item
               className="card-editorial p-8 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-md group flex flex-col justify-between"
             >
@@ -148,7 +148,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 </p>
               </div>
               <div className="pt-4 border-t border-[#D9D0C3]/60 flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249]">
-                <span>Explore Excavation</span>
+                <span>Excavation company website design</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
               </div>
             </Link>
@@ -300,42 +300,50 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 {
                   label: 'Excavation Contractors',
                   desc: 'Civil bid intakes, grading plan uploads & fleet showcases.',
-                  to: '/excavation-website-design',
+                  to: '/excavation-company-website-design',
+                  cta: 'Excavation company web design',
                 },
                 {
                   label: 'Junk Removal Companies',
                   desc: 'Instant photo quotes, truck-load guides & tap-to-call.',
                   to: '/junk-removal-website-design',
+                  cta: 'Junk removal website design',
                 },
                 {
                   label: 'Septic Contractors',
                   desc: '24/7 emergency dispatch calls & tank-pumping intake.',
                   to: '/septic-contractor-website-design',
+                  cta: 'Septic contractor web design',
                 },
                 {
                   label: 'Land Clearing & Mulching',
                   desc: 'Acreage quote forms & overgrown lot galleries.',
                   to: '/land-clearing-website-design',
+                  cta: 'Land clearing website design',
                 },
                 {
                   label: 'Fence Companies',
                   desc: 'Material comparison galleries & footage estimate forms.',
                   to: '/fence-company-website-design',
+                  cta: 'Fence company website design',
                 },
                 {
                   label: 'Mobile Detailing',
                   desc: 'Vehicle package tiers, ZIP zones & booking funnels.',
                   to: '/mobile-detailing-website-design',
+                  cta: 'Mobile detailing web design',
                 },
                 {
                   label: 'Electrical Contractors',
                   desc: 'Licensed trust badges, panel upgrades & emergency dispatch.',
                   to: '/electrical-contractor-website-design',
+                  cta: 'Electrician website design',
                 },
                 {
                   label: 'Roofing Contractors',
                   desc: 'Storm-season inspection booking & insurance-claim pages.',
                   to: '/roofing-website-design',
+                  cta: 'Roofing website design',
                 },
               ].map((item) => (
                 <Link
@@ -353,9 +361,60 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                     </p>
                   </div>
                   <span className="inline-flex items-center justify-between text-[11px] font-semibold text-[#141210] group-hover:text-[#9E5249] pt-2 border-t border-[#D9D0C3]/50">
-                    <span>Explore Trade</span>
+                    <span>{item.cta}</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
                   </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Services We Build For - Complete Descriptive Directory */}
+          <div className="border-t border-[#D9D0C3] pt-16 mb-16">
+            <div data-reveal="heading" className="max-w-3xl mb-8">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
+                Full Service &amp; Niche Directory
+              </span>
+              <h2 className="font-serif text-3xl md:text-4xl text-[#141210] font-normal mt-2 mb-3">
+                Services We Build For
+              </h2>
+              <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
+                Explore dedicated web design and local search solutions structured around how each US trade books estimates, dispatch calls, and seasonal projects.
+              </p>
+            </div>
+
+            <div
+              data-reveal="stagger-group"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5"
+            >
+              {[
+                { label: 'Web design for junk removal companies', to: '/junk-removal-website-design' },
+                { label: 'SEO for junk removal companies', to: '/junk-removal-seo' },
+                { label: 'Excavation company website design', to: '/excavation-company-website-design' },
+                { label: 'Contractor website design', to: '/contractor-website-design' },
+                { label: 'General contractor website design', to: '/general-contractor-website-design' },
+                { label: 'Home services website design', to: '/home-services-website-design' },
+                { label: 'Roofing website design', to: '/roofing-website-design' },
+                { label: 'Plumbing & HVAC website design', to: '/plumbing-hvac-website-design' },
+                { label: 'Electrical contractor website design', to: '/electrical-contractor-website-design' },
+                { label: 'Septic contractor website design', to: '/septic-contractor-website-design' },
+                { label: 'Land clearing website design', to: '/land-clearing-website-design' },
+                { label: 'Fence company website design', to: '/fence-company-website-design' },
+                { label: 'Fence installation website design', to: '/fence-installation-website-design' },
+                { label: 'Landscaping website design', to: '/landscaping-website-design' },
+                { label: 'Mobile detailing website design', to: '/mobile-detailing-website-design' },
+                { label: 'Website redesign for service businesses', to: '/website-redesign' },
+              ].map((service) => (
+                <Link
+                  key={service.to}
+                  to={service.to}
+                  data-reveal-item
+                  className="card-editorial px-4 py-3.5 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] group flex items-center justify-between gap-2"
+                >
+                  <span className="text-xs font-medium text-[#141210] group-hover:text-[#9E5249] transition-colors">
+                    {service.label}
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-[#827C75] group-hover:text-[#9E5249] group-hover:translate-x-1 transition-all shrink-0" />
                 </Link>
               ))}
             </div>

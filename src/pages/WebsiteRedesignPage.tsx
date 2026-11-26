@@ -127,6 +127,20 @@ export const WebsiteRedesignPage: React.FC = () => {
         label: 'Contractor Website Cost Guide for 2026',
         to: '/blog/contractor-website-cost-2026',
       }}
+      relatedGuides={[
+        {
+          label: 'Local SEO for Junk Removal Companies: 2026 Guide',
+          to: '/blog/local-seo-for-junk-removal-companies',
+        },
+        {
+          label: 'What Should a Junk Removal Website Include?',
+          to: '/blog/what-should-a-junk-removal-website-include',
+        },
+        {
+          label: 'How Much Does a Junk Removal Website Cost?',
+          to: '/blog/how-much-does-a-junk-removal-website-cost',
+        },
+      ]}
     />
   );
 };

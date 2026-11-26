@@ -36,7 +36,7 @@ export const HOME_INDUSTRIES_BENTO: IndustryBentoItem[] = [
     id: 'excavation',
     title: 'Excavation',
     subtitle: 'Heavy equipment showcases and site-scope estimators structured for commercial GC prequalification.',
-    to: '/excavation-website-design',
+    to: '/excavation-company-website-design',
     image: excavationImg,
     alt: 'Commercial excavator operating on a graded foundation site under amber dusk lighting',
     spanClass: 'md:col-span-6 lg:col-span-4',

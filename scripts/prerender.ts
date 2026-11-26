@@ -72,7 +72,15 @@ for (const route of SEO_ROUTES) {
     '<link rel="canonical">'
   );
 
-  // 4. og:url
+  // 4. og:type & og:url
+  const ogType = route.path.startsWith('/blog/') ? 'article' : 'website';
+  html = replaceRequired(
+    html,
+    /<meta\s+[^>]*?property=["']og:type["'][^>]*?>/i,
+    `<meta property="og:type" content="${ogType}" />`,
+    '<meta property="og:type">'
+  );
+
   html = replaceRequired(
     html,
     /<meta\s+[^>]*?property=["']og:url["'][^>]*?>/i,

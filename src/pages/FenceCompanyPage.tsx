@@ -132,6 +132,16 @@ export const FenceCompanyPage: React.FC = () => {
           note: 'Exterior restoration',
         },
       ]}
+      relatedGuides={[
+        {
+          label: 'Why Contractors Need a Project Gallery',
+          to: '/blog/why-contractors-need-a-project-gallery',
+        },
+        {
+          label: 'How Much Does a Contractor Website Cost?',
+          to: '/blog/how-much-does-a-contractor-website-cost',
+        },
+      ]}
     />
   );
 };

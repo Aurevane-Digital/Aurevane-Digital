@@ -7,9 +7,9 @@ export const JunkRemovalSeoPage: React.FC = () => {
 
   const sections: ServiceSection[] = [
     {
-      h2: 'Google Business Profile Optimization for Hauling Fleets',
+      h2: 'Google Business Profile & SEO for Junk Removal Companies',
       paragraphs: [
-        'For junk removal companies, Google Business Profile is the primary engine driving immediate local dispatches. When a homeowner needs an old couch or hot tub removed before a weekend moving truck arrives, they turn directly to Google Maps and call one of the top three businesses in the map pack.',
+        'Effective SEO for junk removal companies begins with Google Business Profile as the primary engine driving immediate local dispatches. When a homeowner needs an old couch or hot tub removed before a weekend moving truck arrives, they turn directly to Google Maps and call one of the top three businesses in the map pack.',
         'We configure your profile with precise primary categories, geo-tagged fleet service photos, verified operational hours, and granular service menus. By aligning your profile data with structured website schema, we help your business achieve dominant visibility across Google Maps in your target dispatch territories.',
       ],
       bullets: [
@@ -46,9 +46,9 @@ export const JunkRemovalSeoPage: React.FC = () => {
       ],
     },
     {
-      h2: 'Fast Page Speed, Call Tracking, and Conversion Architecture',
+      h2: 'Technical Speed & Conversion SEO for Junk Removal Companies',
       paragraphs: [
-        'Local SEO for junk removal companies is only effective if clicking a search result leads to a booked pickup. If mobile homeowners encounter a sluggish site with broken phone links, your hard-won search rankings produce zero revenue.',
+        'Local search visibility for hauling teams is only effective if clicking a search result leads to a booked pickup. If mobile homeowners encounter a sluggish site with broken phone links, your hard-won search rankings produce zero revenue.',
         'Every website we engineer is built for fast load times on mobile cellular connections, paired with dynamic call tracking and dedicated form conversion logging. You receive clear visibility into which search terms, cities, and services produce your highest-margin truckloads.',
       ],
       bullets: [
@@ -84,7 +84,7 @@ export const JunkRemovalSeoPage: React.FC = () => {
   ];
 
   const relatedLinks = [
-    { label: 'Junk Removal Website Design', to: '/junk-removal-website-design' },
+    { label: 'Web Design for Junk Removal Companies', to: '/junk-removal-website-design' },
     { label: 'Website Redesign Services', to: '/website-redesign' },
     { label: 'Transparent Packages & Pricing', to: '/packages' },
     { label: 'Contractor Website Design', to: '/contractor-website-design' },
@@ -93,13 +93,13 @@ export const JunkRemovalSeoPage: React.FC = () => {
   return (
     <ServicePageTemplate
       path="/junk-removal-seo"
-      name="Junk Removal SEO"
-      h1="Junk Removal SEO That Gets Your Phone Ringing"
-      intro="Junk removal SEO for hauling companies: Google Business Profile, service-area pages, reviews and site structure that ranks and converts. Built to keep your trucks on the road."
+      name="SEO for Junk Removal Companies"
+      h1="SEO for Junk Removal Companies That Gets Your Phone Ringing"
+      intro="Targeted SEO for junk removal companies: optimize Google Business Profile, county service-area pages, customer reviews, and site structure that ranks in the map pack and converts calls."
       sections={sections}
       faqs={faqs}
       serviceType={[
-        'Junk Removal SEO',
+        'SEO for Junk Removal Companies',
         'Google Business Profile Optimization',
         'Local SEO for Hauling Companies',
         'Service-Area Page Architecture',
@@ -107,9 +107,19 @@ export const JunkRemovalSeoPage: React.FC = () => {
       ]}
       relatedLinks={relatedLinks}
       relatedGuide={{
-        label: 'Local SEO for Junk Removal Companies',
+        label: 'Local SEO for Junk Removal Companies: 2026 Guide',
         to: '/blog/local-seo-for-junk-removal-companies',
       }}
+      relatedGuides={[
+        {
+          label: 'Junk Removal Website Examples: What to Include',
+          to: '/blog/junk-removal-website-examples-what-to-include',
+        },
+        {
+          label: 'How Much Does a Junk Removal Website Cost?',
+          to: '/blog/how-much-does-a-junk-removal-website-cost',
+        },
+      ]}
     />
   );
 };

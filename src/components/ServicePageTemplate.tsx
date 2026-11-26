@@ -35,6 +35,7 @@ export interface ServicePageTemplateProps {
   serviceType: string[];
   relatedLinks: Array<{ label: string; to: string }>;
   relatedGuide?: { label: string; to: string };
+  relatedGuides?: Array<{ label: string; to: string }>;
 }
 
 export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
@@ -47,7 +48,15 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
   serviceType,
   relatedLinks,
   relatedGuide,
+  relatedGuides,
 }) => {
+  const combinedGuides = [
+    ...(relatedGuide ? [relatedGuide] : []),
+    ...(relatedGuides || []),
+  ].filter(
+    (guide, index, arr) =>
+      arr.findIndex((item) => item.to === guide.to) === index
+  );
   const seo = getSeo(path);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
@@ -357,20 +366,25 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
                 </Link>
               ))}
             </div>
-            {relatedGuide && (
+            {combinedGuides.length > 0 && (
               <div className="mt-8 pt-6 border-t border-[#D9D0C3]/60">
                 <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-3">
                   Related guides
                 </span>
-                <Link
-                  to={relatedGuide.to}
-                  className="card-editorial p-5 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-sm group inline-flex items-center justify-between gap-6"
-                >
-                  <span className="text-xs md:text-sm font-medium text-[#141210] group-hover:text-[#9E5249] transition-colors">
-                    {relatedGuide.label}
-                  </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#827C75] group-hover:text-[#9E5249] group-hover:translate-x-1 transition-all shrink-0" />
-                </Link>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {combinedGuides.map((guide) => (
+                    <Link
+                      key={guide.to}
+                      to={guide.to}
+                      className="card-editorial p-5 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-sm group flex items-center justify-between gap-4"
+                    >
+                      <span className="text-xs md:text-sm font-medium text-[#141210] group-hover:text-[#9E5249] transition-colors">
+                        {guide.label}
+                      </span>
+                      <ArrowRight className="w-3.5 h-3.5 text-[#827C75] group-hover:text-[#9E5249] group-hover:translate-x-1 transition-all shrink-0" />
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>

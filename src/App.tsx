@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { MotionConfig, AnimatePresence, motion } from 'motion/react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -129,7 +129,11 @@ function AppShell() {
           <Route path="/junk-removal-website-design" element={<JunkRemovalPage />} />
           <Route path="/junk-removal-seo" element={<JunkRemovalSeoPage />} />
           <Route path="/website-redesign" element={<WebsiteRedesignPage />} />
-          <Route path="/excavation-website-design" element={<ExcavationPage />} />
+          <Route path="/excavation-company-website-design" element={<ExcavationPage />} />
+          <Route
+            path="/excavation-website-design"
+            element={<Navigate to="/excavation-company-website-design" replace />}
+          />
           <Route path="/electrical-contractor-website-design" element={<ElectricalPage />} />
           <Route path="/general-contractor-website-design" element={<GeneralContractorPage />} />
           <Route path="/mobile-detailing-website-design" element={<MobileDetailingPage />} />

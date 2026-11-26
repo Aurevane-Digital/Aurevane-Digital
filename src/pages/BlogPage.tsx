@@ -33,7 +33,21 @@ export const BlogPage: React.FC = () => {
             </h1>
 
             <p className="text-sm md:text-base text-[#59544E] font-light leading-relaxed">
-              Actionable guides, real-world pricing breakdowns, and search optimization strategies engineered specifically for contractors, trade specialists, and junk hauling operators across the United States.
+              Actionable guides, real-world pricing breakdowns, and local search optimization strategies engineered specifically for{' '}
+              <Link
+                to="/contractor-website-design"
+                className="font-medium text-[#9E5249] hover:text-[#141210] underline underline-offset-4 transition-colors"
+              >
+                contractors
+              </Link>
+              , specialty trades, and{' '}
+              <Link
+                to="/junk-removal-website-design"
+                className="font-medium text-[#9E5249] hover:text-[#141210] underline underline-offset-4 transition-colors"
+              >
+                junk removal companies
+              </Link>{' '}
+              across the United States.
             </p>
           </div>
         </div>
@@ -44,7 +58,7 @@ export const BlogPage: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div
             data-reveal="stagger-group"
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {BLOG_POSTS.map((post) => (
               <article
@@ -57,7 +71,7 @@ export const BlogPage: React.FC = () => {
                   <div className="flex items-center gap-4 text-[10px] uppercase tracking-wider text-[#827C75] mb-4">
                     <span className="flex items-center gap-1.5">
                       <Calendar className="w-3.5 h-3.5 text-[#B89255]" />
-                      <span>{post.datePublished}</span>
+                      <span>{post.dateModified || post.datePublished}</span>
                     </span>
                     <span className="w-1 h-1 rounded-full bg-[#D9D0C3]" />
                     <span className="flex items-center gap-1.5">
@@ -85,10 +99,10 @@ export const BlogPage: React.FC = () => {
                     to={`/blog/${post.slug}`}
                     className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#9E5249] group-hover:text-[#141210] transition-colors cursor-pointer"
                   >
-                    <span>Read Full Guide</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    <span>Read {post.title}</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform shrink-0" />
                   </Link>
-                  <BookOpen className="w-4 h-4 text-[#827C75]/60" />
+                  <BookOpen className="w-4 h-4 text-[#827C75]/60 shrink-0 ml-2" />
                 </div>
               </article>
             ))}

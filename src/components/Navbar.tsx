@@ -21,7 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
 
   const tradeLinks = [
     { label: 'Junk Removal', path: '/junk-removal-website-design' },
-    { label: 'Excavation', path: '/excavation-website-design' },
+    { label: 'Excavation', path: '/excavation-company-website-design' },
     { label: 'Septic Contractors', path: '/septic-contractor-website-design' },
     { label: 'Land Clearing', path: '/land-clearing-website-design' },
     { label: 'Fence Companies', path: '/fence-company-website-design' },
