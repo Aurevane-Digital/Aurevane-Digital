@@ -73,6 +73,17 @@ export const INDUSTRIES_DIRECTORY = [
   },
 ];
 
+const ADDITIONAL_PLATFORM_LINKS = [
+  { label: 'Contractor Website Design', to: '/contractor-website-design' },
+  { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
+  { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
+  { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+  { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
+  { label: 'Home Services Website Design', to: '/home-services-website-design' },
+  { label: 'SEO for Junk Removal Companies', to: '/junk-removal-seo' },
+  { label: 'Website Redesign for Service Businesses', to: '/website-redesign' },
+];
+
 export const IndustriesPage: React.FC = () => {
   const seo = getSeo('/industries');
   const jsonLd = useMemo(() => buildIndustriesHubSchema(), []);
@@ -187,6 +198,26 @@ export const IndustriesPage: React.FC = () => {
                 </div>
               </Link>
             ))}
+          </div>
+
+          <div className="mt-12 pt-10 border-t border-[#D9D0C3]/60">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold block mb-4">
+              Core Contractor &amp; Local SEO Platforms
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {ADDITIONAL_PLATFORM_LINKS.map((platform) => (
+                <Link
+                  key={platform.to}
+                  to={platform.to}
+                  className="card-editorial p-5 bg-[#F5EDE2] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249] hover:shadow-sm group flex items-center justify-between gap-3"
+                >
+                  <span className="text-xs md:text-sm font-medium text-[#141210] group-hover:text-[#9E5249] transition-colors">
+                    {platform.label}
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-[#827C75] group-hover:text-[#9E5249] group-hover:translate-x-1 transition-transform shrink-0" />
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>

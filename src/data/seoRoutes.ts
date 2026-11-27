@@ -118,6 +118,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'How Much Does a Contractor Website Cost?', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Contractor Website Cost Guide for 2026', to: '/blog/contractor-website-cost-2026' },
       { label: 'Why Contractors Need a Project Gallery', to: '/blog/why-contractors-need-a-project-gallery' },
+      { label: 'Best Website Design for Junk Removal Companies (2026)', to: '/blog/best-website-design-for-junk-removal-companies' },
       { label: 'Packages', to: '/packages' },
       { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },
@@ -149,9 +150,9 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/junk-removal-website-design',
-    title: 'Web Design for Junk Removal Companies | Aurevane',
+    title: 'Junk Removal Website Design From $1,000 | Aurevane',
     description:
-      'Custom websites for junk removal companies that turn searches into booked pickups. See packages and get a free mockup.',
+      'Custom websites for junk removal companies with photo-quote forms, truck-load pricing and local SEO. Live in 7-10 days from $1,000. Free mockup.',
     h1: 'Web Design for Junk Removal Companies Built to Book More Pickups',
     intro:
       'Fast, conversion-focused web design for junk removal companies across the United States. Live in 7-10 business days from $1,000.',
@@ -160,6 +161,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'Industries Hub', to: '/industries' },
       { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
       { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
+      { label: 'Best Website Design for Junk Removal Companies (2026)', to: '/blog/best-website-design-for-junk-removal-companies' },
       { label: 'What Should a Junk Removal Website Include?', to: '/blog/what-should-a-junk-removal-website-include' },
       { label: 'Junk Removal Website Examples: What to Include', to: '/blog/junk-removal-website-examples-what-to-include' },
       { label: 'How Much Does a Junk Removal Website Cost?', to: '/blog/how-much-does-a-junk-removal-website-cost' },
@@ -170,9 +172,9 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/junk-removal-seo',
-    title: 'SEO for Junk Removal Companies | Aurevane Digital',
+    title: 'SEO for Junk Removal Companies | Map Pack & Reviews | Aurevane',
     description:
-      'Local SEO for junk removal companies: rank in the map pack, get more calls and quote requests. Start with a free audit.',
+      'Local SEO for junk removal: Google Business Profile, service-area pages and review systems that get more calls. Start with a free audit.',
     h1: 'SEO for Junk Removal Companies That Gets Your Phone Ringing',
     intro:
       'Local SEO for junk removal companies: optimize Google Business Profile, county service-area pages, customer reviews, and site structure that ranks and converts.',
@@ -180,6 +182,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'Web Design for Junk Removal Companies', to: '/junk-removal-website-design' },
       { label: 'Website Redesign', to: '/website-redesign' },
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'Best Website Design for Junk Removal Companies (2026)', to: '/blog/best-website-design-for-junk-removal-companies' },
       { label: 'Local SEO for Junk Removal Companies: 2026 Guide', to: '/blog/local-seo-for-junk-removal-companies' },
       { label: 'Junk Removal Website Examples: What to Include', to: '/blog/junk-removal-website-examples-what-to-include' },
       { label: 'How Much Does a Junk Removal Website Cost?', to: '/blog/how-much-does-a-junk-removal-website-cost' },
@@ -323,6 +326,15 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'Mobile Detailing Website Design', to: '/mobile-detailing-website-design' },
       { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
       { label: 'Roofing Website Design', to: '/roofing-website-design' },
+      { label: 'Contractor Website Design', to: '/contractor-website-design' },
+      { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
+      { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
+      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
+      { label: 'Home Services Website Design', to: '/home-services-website-design' },
+      { label: 'SEO for Junk Removal Companies', to: '/junk-removal-seo' },
+      { label: 'Website Redesign', to: '/website-redesign' },
+      { label: 'Blog Guides', to: '/blog' },
       { label: 'Packages', to: '/packages' },
       { label: 'Contact', to: '/contact' },
     ],

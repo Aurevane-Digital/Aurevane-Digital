@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Compass, Zap, Layers, CheckCircle2 } from 'lucide-react';
 import { Hero } from '../components/Hero';
@@ -6,6 +6,7 @@ import { WebsiteCheckForm } from '../components/WebsiteCheckForm';
 import { SEO } from '../components/SEO';
 import { MagneticWrap } from '../components/MagneticButton';
 import { getSeo } from '../data/seoRoutes';
+import { buildHomeSchema } from '../utils/schema';
 import { AuditReportData } from '../types';
 
 interface HomePageProps {
@@ -15,6 +16,7 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
   const navigate = useNavigate();
   const s = getSeo('/');
+  const jsonLd = useMemo(() => buildHomeSchema(s.description), [s.description]);
 
   const portfolioHighlights = [
     {
@@ -69,7 +71,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
 
   return (
     <>
-      <SEO title={s.title} description={s.description} canonicalPath="/" />
+      <SEO title={s.title} description={s.description} canonicalPath="/" jsonLd={jsonLd} />
 
       {/* 1. HERO SECTION */}
       <Hero

@@ -155,6 +155,11 @@ export const PostPage: React.FC = () => {
         {/* ARTICLE BODY CONTENT */}
         <div className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
           <div className="max-w-3xl mx-auto space-y-12">
+            {post.intro && (
+              <p className="text-base md:text-lg text-[#141210] font-normal leading-relaxed">
+                {renderRichText(post.intro)}
+              </p>
+            )}
             {post.sections.map((section, idx) => (
               <section key={idx} data-reveal="fade" className="space-y-5">
                 <h2 className="font-serif text-2xl sm:text-3xl text-[#141210] font-normal tracking-tight">
@@ -203,6 +208,22 @@ export const PostPage: React.FC = () => {
                       </div>
                     ))}
                   </div>
+                )}
+
+                {section.orderedBullets && section.orderedBullets.length > 0 && (
+                  <ol className="mt-4 space-y-3 bg-[#F5EDE2] p-6 rounded-sm border border-[#D9D0C3]/70">
+                    {section.orderedBullets.map((item, oIdx) => (
+                      <li
+                        key={oIdx}
+                        className="flex items-start gap-3 text-xs md:text-sm text-[#141210]"
+                      >
+                        <span className="font-mono font-bold text-[#9E5249] shrink-0 mt-0.5">
+                          {oIdx + 1})
+                        </span>
+                        <span className="leading-snug">{renderRichText(item)}</span>
+                      </li>
+                    ))}
+                  </ol>
                 )}
 
                 {section.bullets && section.bullets.length > 0 && (

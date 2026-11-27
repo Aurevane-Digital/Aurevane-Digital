@@ -1,7 +1,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SEO_ROUTES } from '../src/data/seoRoutes';
+import { SEO_ROUTES, SeoRoute } from '../src/data/seoRoutes';
+import { BLOG_POSTS } from '../src/data/posts';
+import { JUNK_REMOVAL_FAQS, JUNK_REMOVAL_SEO_FAQS } from '../src/data/junkRemovalFaqs';
+import {
+  buildArticleSchema,
+  buildHomeSchema,
+  buildIndustriesHubSchema,
+  buildNicheIndustrySchema,
+  buildPageServiceSchema,
+  buildServiceSchema,
+} from '../src/utils/schema';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,6 +44,59 @@ function replaceRequired(
     throw new Error(`Prerender failed: could not match ${description} using regex ${regex}`);
   }
   return html.replace(regex, replacement);
+}
+
+function getRouteJsonLd(route: SeoRoute): Record<string, unknown> {
+  if (route.path === '/') {
+    return buildHomeSchema(route.description);
+  }
+
+  if (route.path === '/industries') {
+    return buildIndustriesHubSchema();
+  }
+
+  if (route.path === '/junk-removal-website-design') {
+    return buildNicheIndustrySchema({
+      path: route.path,
+      tradeName: 'Junk Removal',
+      serviceName: 'Web Design for Junk Removal Companies',
+      description: route.description,
+      serviceType: 'Web Design for Junk Removal Companies',
+      faqs: JUNK_REMOVAL_FAQS,
+    });
+  }
+
+  if (route.path === '/junk-removal-seo') {
+    return buildServiceSchema({
+      path: route.path,
+      name: 'SEO for Junk Removal Companies',
+      description: route.description,
+      serviceType: 'SEO for Junk Removal Companies',
+      faqs: JUNK_REMOVAL_SEO_FAQS,
+    });
+  }
+
+  if (route.path.startsWith('/blog/')) {
+    const slug = route.path.replace('/blog/', '');
+    const post = BLOG_POSTS.find((p) => p.slug === slug);
+    if (post) {
+      return buildArticleSchema({
+        slug: post.slug,
+        headline: post.title,
+        description: post.description,
+        datePublished: post.datePublished,
+        dateModified: post.dateModified || post.datePublished,
+        faqs: post.faqs,
+      });
+    }
+  }
+
+  return buildPageServiceSchema({
+    path: route.path,
+    name: route.h1,
+    description: route.description,
+    serviceType: 'Web design for junk removal and home service businesses',
+  });
 }
 
 const standardLinks = [
@@ -120,7 +183,13 @@ for (const route of SEO_ROUTES) {
     '<meta name="twitter:description">'
   );
 
-  // 9. <noscript>...</noscript>
+  // 9. Page JSON-LD structured data (avoid duplicating existing data-seo="page")
+  const pageJsonLd = getRouteJsonLd(route);
+  const jsonLdScript = `<script type="application/ld+json" data-seo="page">${JSON.stringify(pageJsonLd)}</script>`;
+  html = html.replace(/<script\s+[^>]*?data-seo=["']page["'][\s\S]*?<\/script>\s*/gi, '');
+  html = replaceRequired(html, /<\/head>/i, `    ${jsonLdScript}\n  </head>`, '</head>');
+
+  // 10. <noscript>...</noscript>
   const navLinks = [...standardLinks];
   if (route.links && Array.isArray(route.links)) {
     for (const l of route.links) {

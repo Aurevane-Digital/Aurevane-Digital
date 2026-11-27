@@ -18,6 +18,7 @@ import {
 import { SEO } from './SEO';
 import { MagneticWrap } from './MagneticButton';
 import { getSeo } from '../data/seoRoutes';
+import { SERVICE_PACKAGES, MONTHLY_RETAINERS } from '../data/packages';
 import { buildNicheIndustrySchema, ServiceSchemaFaq } from '../utils/schema';
 
 export interface NicheProblemItem {
@@ -64,6 +65,7 @@ export interface NicheLandingTemplateProps {
   relatedIndustries: Array<{ label: string; to: string; note: string }>;
   relatedGuides?: Array<{ label: string; to: string }>;
   conceptRef?: NicheConceptRef;
+  showPackagePricingCards?: boolean;
 }
 
 const INCLUDE_ICONS = [
@@ -99,6 +101,7 @@ export const NicheLandingTemplate: React.FC<NicheLandingTemplateProps> = ({
   relatedIndustries,
   relatedGuides,
   conceptRef,
+  showPackagePricingCards = false,
 }) => {
   const seo = getSeo(path);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
@@ -382,6 +385,109 @@ export const NicheLandingTemplate: React.FC<NicheLandingTemplateProps> = ({
                 </Link>
               </div>
             </div>
+
+            {showPackagePricingCards && (
+              <div className="mt-10 pt-8 border-t border-[#D9D0C3] space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {SERVICE_PACKAGES.map((pkg) => (
+                    <div
+                      key={pkg.id}
+                      className={`p-6 rounded-sm border flex flex-col justify-between ${
+                        pkg.featured
+                          ? 'bg-[#141210] text-[#FAF6F0] border-[#141210]'
+                          : 'bg-[#FAF6F0] text-[#141210] border-[#D9D0C3]'
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <span
+                            className={`text-[10px] uppercase tracking-[0.2em] font-bold ${
+                              pkg.featured ? 'text-[#B89255]' : 'text-[#9E5249]'
+                            }`}
+                          >
+                            {pkg.tagline}
+                          </span>
+                          {pkg.badge && (
+                            <span className="text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-xs bg-[#FAF6F0]/15 text-[#FAF6F0]">
+                              {pkg.badge}
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="font-serif text-2xl font-normal mb-2">{pkg.name}</h3>
+                        <div className="flex items-baseline gap-2 mb-1">
+                          {pkg.pricePrefix && (
+                            <span
+                              className={`text-xs ${
+                                pkg.featured ? 'text-[#D9D0C3]' : 'text-[#827C75]'
+                              }`}
+                            >
+                              {pkg.pricePrefix}
+                            </span>
+                          )}
+                          <span className="font-serif text-3xl font-normal">{pkg.price}</span>
+                        </div>
+                        <p
+                          className={`text-[11px] mb-4 ${
+                            pkg.featured ? 'text-[#D9D0C3]' : 'text-[#59544E]'
+                          }`}
+                        >
+                          {pkg.paymentType} • {pkg.turnaround}
+                        </p>
+                        <ul className="space-y-2 mb-6">
+                          {pkg.features.slice(0, 4).map((feat, fIdx) => (
+                            <li
+                              key={fIdx}
+                              className={`flex items-start gap-2 text-xs leading-snug ${
+                                pkg.featured ? 'text-[#FAF6F0]/90' : 'text-[#59544E]'
+                              }`}
+                            >
+                              <CheckCircle2
+                                className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${
+                                  pkg.featured ? 'text-[#B89255]' : 'text-[#9E5249]'
+                                }`}
+                              />
+                              <span>{feat}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <Link
+                        to="/packages"
+                        className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] rounded-sm transition-colors ${
+                          pkg.featured
+                            ? 'bg-[#FAF6F0] text-[#141210] hover:bg-white'
+                            : 'bg-[#141210] text-white hover:bg-[#34302D]'
+                        }`}
+                      >
+                        <span>View {pkg.name} Details</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {MONTHLY_RETAINERS.map((plan) => (
+                    <div
+                      key={plan.id}
+                      className="p-5 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    >
+                      <div>
+                        <span className="text-[10px] uppercase tracking-[0.18em] text-[#9E5249] font-bold block">
+                          Optional Post-Launch Plan
+                        </span>
+                        <p className="font-serif text-lg text-[#141210]">{plan.name}</p>
+                        <p className="text-xs text-[#59544E] font-light">{plan.description}</p>
+                      </div>
+                      <div className="shrink-0 text-left sm:text-right">
+                        <span className="font-serif text-xl text-[#141210]">{plan.price}</span>
+                        <span className="text-xs text-[#827C75] ml-1">{plan.priceSuffix}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

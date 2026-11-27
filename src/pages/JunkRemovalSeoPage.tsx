@@ -1,9 +1,8 @@
 import React from 'react';
 import { ServicePageTemplate, ServiceSection } from '../components/ServicePageTemplate';
-import { SERVICE_PACKAGES } from '../data/packages';
+import { JUNK_REMOVAL_SEO_FAQS } from '../data/junkRemovalFaqs';
 
 export const JunkRemovalSeoPage: React.FC = () => {
-  const proPrice = SERVICE_PACKAGES.find((p) => p.id === 'professional')?.price || '$1,500';
 
   const sections: ServiceSection[] = [
     {
@@ -60,29 +59,6 @@ export const JunkRemovalSeoPage: React.FC = () => {
     },
   ];
 
-  const faqs = [
-    {
-      q: 'How does junk removal SEO work alongside website design?',
-      a: `A fast, well-structured website is the foundation of local SEO. Our Professional website package starts at ${proPrice} (one-time project fee) and includes multi-city local SEO architecture, Schema.org LocalBusiness markup, and brand positioning—with optional Growth & SEO monthly plans available separately on our packages page.`,
-    },
-    {
-      q: 'How long does it take for a junk removal company to rank on Google Maps?',
-      a: 'Initial improvements from Google Business Profile optimization and technical site speed fixes often appear within three to six weeks. Dominating competitive suburban map packs typically requires two to three months of consistent customer reviews and localized service-area authority.',
-    },
-    {
-      q: 'Do you create individual pages for every town in our service territory?',
-      a: 'We create structured county and regional suburban hubs tailored to your highest-margin territories. Rather than generating dozens of low-quality doorway pages that search engines penalize, we build substantive, localized pages that genuinely help local homeowners and rank safely.',
-    },
-    {
-      q: 'Can we track how many phone calls and form submissions come from SEO?',
-      a: 'Yes. We implement Google Analytics 4 conversion tracking for all click-to-call buttons, quote forms, and booking tools, and can integrate dedicated call tracking numbers to measure exact phone lead volume.',
-    },
-    {
-      q: 'Why is website speed so important for local junk removal search rankings?',
-      a: 'Google explicitly incorporates mobile page speed and Core Web Vitals into local rankings. More importantly, urgent junk removal customers frequently abandon websites that take longer than three seconds to load, making speed a direct driver of booked jobs.',
-    },
-  ];
-
   const relatedLinks = [
     { label: 'Web Design for Junk Removal Companies', to: '/junk-removal-website-design' },
     { label: 'Website Redesign Services', to: '/website-redesign' },
@@ -97,7 +73,7 @@ export const JunkRemovalSeoPage: React.FC = () => {
       h1="SEO for Junk Removal Companies That Gets Your Phone Ringing"
       intro="Targeted SEO for junk removal companies: optimize Google Business Profile, county service-area pages, customer reviews, and site structure that ranks in the map pack and converts calls."
       sections={sections}
-      faqs={faqs}
+      faqs={JUNK_REMOVAL_SEO_FAQS}
       serviceType={[
         'SEO for Junk Removal Companies',
         'Google Business Profile Optimization',
@@ -111,6 +87,10 @@ export const JunkRemovalSeoPage: React.FC = () => {
         to: '/blog/local-seo-for-junk-removal-companies',
       }}
       relatedGuides={[
+        {
+          label: 'Best Website Design for Junk Removal Companies (2026)',
+          to: '/blog/best-website-design-for-junk-removal-companies',
+        },
         {
           label: 'Junk Removal Website Examples: What to Include',
           to: '/blog/junk-removal-website-examples-what-to-include',

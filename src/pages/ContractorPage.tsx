@@ -149,6 +149,10 @@ export const ContractorPage: React.FC = () => {
           label: 'Why Contractors Need a Project Gallery',
           to: '/blog/why-contractors-need-a-project-gallery',
         },
+        {
+          label: 'Best Website Design for Junk Removal Companies (2026)',
+          to: '/blog/best-website-design-for-junk-removal-companies',
+        },
       ]}
     />
   );

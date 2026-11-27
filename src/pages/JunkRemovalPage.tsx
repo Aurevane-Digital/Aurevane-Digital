@@ -1,8 +1,12 @@
 import React from 'react';
 import { NicheLandingTemplate } from '../components/NicheLandingTemplate';
+import { SERVICE_PACKAGES } from '../data/packages';
+import { JUNK_REMOVAL_FAQS } from '../data/junkRemovalFaqs';
 import { getFrameUrl } from '../utils/frames';
 
 export const JunkRemovalPage: React.FC = () => {
+  const essentialPkg = SERVICE_PACKAGES.find((p) => p.id === 'starter') || SERVICE_PACKAGES[0];
+  const proPkg = SERVICE_PACKAGES.find((p) => p.id === 'professional') || SERVICE_PACKAGES[1];
   return (
     <NicheLandingTemplate
       path="/junk-removal-website-design"
@@ -110,25 +114,9 @@ export const JunkRemovalPage: React.FC = () => {
             'Essential junk removal websites go live in 7-10 business days, connecting straight to your dispatch email with full code ownership.',
         },
       ]}
-      pricingSummary="Essential junk removal websites start at $1,000 one-time and launch in 7-10 business days. Professional builds start at $1,500 and add interactive truck-volume quote calculators, multi-city SEO pages, and complete copywriting—no mandatory retainers."
-      faqs={[
-        {
-          q: 'Can customers upload photos of junk piles from their phones?',
-          a: 'Yes. Every quote form includes a mobile-friendly upload field so homeowners can attach photos from their camera roll, letting your team price cleanouts accurately before rolling a truck.',
-        },
-        {
-          q: 'How fast can a new junk removal website go live?',
-          a: 'Our Essential package launches in 7-10 business days once your logo, pricing rules, and photos are ready. Professional builds typically launch within 2-3 weeks.',
-        },
-        {
-          q: 'Can you separate residential pickups from commercial property cleanouts?',
-          a: 'Yes. We create clear pathways for homeowners booking single-item or garage hauls alongside commercial portals highlighting COI compliance, W-9 readiness, and recurring cleanouts.',
-        },
-        {
-          q: 'Will we own the website and all incoming hauling leads?',
-          a: 'Yes. You receive 100% ownership of the domain, source code, and every phone call or quote submission with zero per-lead fees or agency lock-in.',
-        },
-      ]}
+      pricingSummary={`Essential junk removal websites start at ${essentialPkg.price} (${(essentialPkg.paymentType || 'One-time project fee').toLowerCase()}) and launch in ${essentialPkg.turnaround.toLowerCase()}. Professional builds start at ${proPkg.price} (${proPkg.turnaround.toLowerCase()}) and add an interactive scope and volume estimator, multi-city local SEO pages, and complete copywriting—with no mandatory monthly retainer.`}
+      showPackagePricingCards
+      faqs={JUNK_REMOVAL_FAQS}
       relatedIndustries={[
         {
           label: 'SEO for Junk Removal Companies',
@@ -147,6 +135,10 @@ export const JunkRemovalPage: React.FC = () => {
         },
       ]}
       relatedGuides={[
+        {
+          label: 'Best Website Design for Junk Removal Companies (2026)',
+          to: '/blog/best-website-design-for-junk-removal-companies',
+        },
         {
           label: 'What Should a Junk Removal Website Include?',
           to: '/blog/what-should-a-junk-removal-website-include',

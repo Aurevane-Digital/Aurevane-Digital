@@ -86,11 +86,11 @@ export const Footer: React.FC<FooterProps> = ({
             </nav>
           </div>
 
-          {/* Services Column */}
+          {/* Industries Column */}
           <div className="lg:col-span-3 flex flex-col gap-4">
             <div>
               <h3 className="text-[11px] uppercase tracking-widest text-[#141210] font-bold mb-2">
-                By Trade
+                Industries
               </h3>
               <nav aria-label="Services by trade" className="flex flex-col gap-2 text-xs text-[#59544E] font-medium">
                 <Link
