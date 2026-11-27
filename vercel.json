@@ -21,7 +21,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!assets|frames|.*\\..*).*)",
+      "source": "/((?!assets|frames|fe92230075934e9a8f183d0d188537c4\\.txt|.*\\..*).*)",
       "destination": "/index.html"
     }
   ],
@@ -62,6 +62,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/fe92230075934e9a8f183d0d188537c4.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
         }
       ]
     }
