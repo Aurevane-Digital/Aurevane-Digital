@@ -59,12 +59,12 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/packages',
-    title: 'Service Packages & Pricing | Aurevane Digital',
+    title: 'Website Packages & Pricing From $1,000 | Aurevane',
     description:
-      'Contractor website packages from $1,000, Professional from $1,500, and custom Enterprise builds. Compare options and book your website today.',
+      'Growth Partner ($1,000 setup + $600/mo), Professional from $1,500, and Essential from $1,000. Compare website packages and request your quote today.',
     h1: 'Contractor Website Packages and Pricing',
     intro:
-      'One-time website project pricing for contractors and local service businesses, with optional enhancements and optional monthly care and SEO plans billed separately.',
+      'Growth Partner ($1,000 setup + $600/mo), Professional from $1,500, Essential from $1,000, optional Care Plan ($150/mo), and Enterprise & Multi-Unit builds.',
     links: [
       { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },

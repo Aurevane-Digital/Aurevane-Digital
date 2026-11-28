@@ -190,3 +190,116 @@ export const RETAINER_PAYMENT_TERMS = [
   'Optional ongoing service agreements.',
   'Scope and deliverables clearly defined before commencement.',
 ];
+
+export interface PackagesPageTier {
+  id: 'growth-partner' | 'professional' | 'essential';
+  name: string;
+  badge?: string;
+  featured?: boolean;
+  price: string;
+  subline?: string;
+  delivery: string;
+  includes: string[];
+  optionalCarePlan?: string;
+  optionalCarePlanDetails?: string;
+  billingFootnote?: string;
+  ctaLabel: string;
+  ctaTo: string;
+}
+
+export const PACKAGES_PAGE_TIERS: PackagesPageTier[] = [
+  {
+    id: 'growth-partner',
+    name: 'Growth Partner',
+    badge: 'Most Popular',
+    featured: true,
+    price: '$1,000 setup + $600/mo',
+    subline: '3-month minimum. One extra booked job pays for the month.',
+    delivery: '7-10 business days',
+    includes: [
+      'Custom conversion-focused website',
+      'Premium brand copywriting included',
+      'Local SEO every month',
+      'Google Business Profile setup + management',
+      'City/service area pages',
+      'Review request system',
+      'Monthly performance report',
+    ],
+    billingFootnote: 'Monthly plan billed after launch.',
+    ctaLabel: 'Start Growing',
+    ctaTo: '/contact',
+  },
+  {
+    id: 'professional',
+    name: 'Professional',
+    price: 'from $1,500',
+    delivery: '2-3 weeks',
+    includes: [
+      'Multi-page custom website',
+      'Premium brand copywriting included',
+      'On-page SEO',
+      'Quote/contact forms',
+      'Mobile-first design',
+    ],
+    optionalCarePlan: 'Optional: Care Plan $150/mo',
+    optionalCarePlanDetails: 'hosting, updates, fixes, small edits',
+    billingFootnote: '50% deposit, 50% before launch.',
+    ctaLabel: 'Get Started',
+    ctaTo: '/contact',
+  },
+  {
+    id: 'essential',
+    name: 'Essential',
+    price: 'from $1,000',
+    delivery: '7-10 business days',
+    includes: [
+      'Custom 1-page website',
+      'Mobile-first design',
+      'Contact form',
+    ],
+    optionalCarePlan: 'Optional: Care Plan $150/mo',
+    optionalCarePlanDetails: 'hosting, updates, fixes, small edits',
+    billingFootnote: '50% deposit, 50% before launch.',
+    ctaLabel: 'Get Started',
+    ctaTo: '/contact',
+  },
+];
+
+export const PACKAGES_SINGLE_ADDON = {
+  label: 'Interactive Project Estimator, from +$550',
+  description: 'Custom scope or price calculator configured with your approved pricing rules.',
+};
+
+export const PACKAGES_ENTERPRISE_STRIP = {
+  copy: 'Enterprise & Multi-Unit - Custom quote, 4-6 weeks. Includes CRM integration and lead routing.',
+  ctaLabel: 'Request a Quote',
+  ctaTo: '/contact',
+};
+
+export const PACKAGES_FAQS = [
+  {
+    q: 'What is included in the Growth Partner package?',
+    a: 'Growth Partner is $1,000 setup + $600/mo with a 3-month minimum and 7-10 business days delivery for your website build. It includes a custom conversion-focused website, premium brand copywriting, local SEO every month, Google Business Profile setup and management, city/service area pages, a review request system, and a monthly performance report.',
+  },
+  {
+    q: 'How do the Professional and Essential packages compare?',
+    a: 'Professional is from $1,500 (2-3 weeks delivery) and includes a multi-page custom website, premium brand copywriting, on-page SEO, quote/contact forms, and mobile-first design. Essential is from $1,000 (7-10 business days delivery) and includes a custom 1-page website, mobile-first design, and a contact form.',
+  },
+  {
+    q: 'Is there an ongoing maintenance option for Professional or Essential?',
+    a: 'Yes. Both Professional and Essential can include an optional Care Plan at $150/mo covering hosting, updates, fixes, and small edits. There is no mandatory monthly fee on one-time website builds.',
+  },
+  {
+    q: 'How do payment terms work?',
+    a: 'Setup and one-time website builds follow a 50% deposit, 50% before launch schedule. For Growth Partner, the monthly plan is billed after launch with a 3-month minimum.',
+  },
+  {
+    q: 'What add-ons or multi-unit options are available?',
+    a: 'You can add an Interactive Project Estimator starting from +$550. Larger organizations can request an Enterprise & Multi-Unit build (custom quote, 4-6 weeks), which includes CRM integration and lead routing.',
+  },
+  {
+    q: 'Do you guarantee search rankings or a set number of leads?',
+    a: 'No. No agency can guarantee specific Google rankings or a fixed volume of leads. We focus strictly on clean engineering, conversion structure, local SEO deliverables, and transparent monthly reporting.',
+  },
+];
+

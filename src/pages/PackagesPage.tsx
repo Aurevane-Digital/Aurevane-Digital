@@ -13,76 +13,32 @@ import {
   Layers,
 } from 'lucide-react';
 import {
-  SERVICE_PACKAGES,
-  ADD_ON_OPTIONS,
-  MONTHLY_RETAINERS,
-  RETAINER_HEADING,
-  RETAINER_SUBTITLE,
-  RETAINER_TERMS,
-  PROJECT_PAYMENT_TERMS,
-  RETAINER_PAYMENT_TERMS,
+  PACKAGES_PAGE_TIERS,
+  PACKAGES_SINGLE_ADDON,
+  PACKAGES_ENTERPRISE_STRIP,
+  PACKAGES_FAQS,
 } from '../data/packages';
 import { ServicePackage } from '../types';
 import { SEO } from '../components/SEO';
 import { MagneticWrap } from '../components/MagneticButton';
 import { getSeo } from '../data/seoRoutes';
-import { buildFaqPageSchema, ServiceSchemaFaq } from '../utils/schema';
+import { buildPackagesSchema } from '../utils/schema';
 
 interface PackagesPageProps {
-  onSelectPackage: (pkg: ServicePackage) => void;
+  onSelectPackage?: (pkg: ServicePackage) => void;
 }
 
-export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) => {
+export const PackagesPage: React.FC<PackagesPageProps> = ({
+  onSelectPackage: _onSelectPackage,
+}) => {
   const s = getSeo('/packages');
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
-  const essentialPkg = SERVICE_PACKAGES.find((p) => p.id === 'starter') || SERVICE_PACKAGES[0];
-  const proPkg = SERVICE_PACKAGES.find((p) => p.id === 'professional') || SERVICE_PACKAGES[1];
-  const enterprisePkg = SERVICE_PACKAGES.find((p) => p.id === 'custom') || SERVICE_PACKAGES[2];
-
-  const carePlan =
-    MONTHLY_RETAINERS.find((r) => r.id === 'website-care') || MONTHLY_RETAINERS[0];
-  const growthPlan =
-    MONTHLY_RETAINERS.find((r) => r.id === 'growth-seo') || MONTHLY_RETAINERS[1];
-
-  const faqs: ServiceSchemaFaq[] = useMemo(
-    () => [
-      {
-        q: 'Are your website packages one-time fees?',
-        a: `Yes. Our ${essentialPkg.name} (starting at ${essentialPkg.price}), ${proPkg.name} (starting at ${proPkg.price}), and ${enterprisePkg.name} builds are one-time project fees with 100% ownership of your code. Optional monthly care and SEO plans are billed separately only if you want ongoing post-launch support.`,
-      },
-      {
-        q: 'Do I have to pay a monthly fee after launch?',
-        a: `No. Website projects have no mandatory monthly retainer. Optional ${carePlan.name} (${carePlan.price} ${carePlan.priceSuffix}) and ${growthPlan.name} (${growthPlan.price} ${growthPlan.priceSuffix}) plans are completely optional and billed separately. Domain registration and any paid third-party subscriptions or tools are separate costs as well.`,
-      },
-      {
-        q: 'How does payment work?',
-        a: 'Website projects require a 50% deposit to initiate the project, with the remaining 50% due before final launch and handover. Final pricing depends on project scope and requirements. If you opt into a monthly plan, it is billed monthly in advance under a separate agreement.',
-      },
-      {
-        q: 'What is not included in package prices?',
-        a: 'Domain registration, paid third-party subscriptions or software tools, and work outside the agreed project scope are not included in package prices and may incur separate costs.',
-      },
-      {
-        q: 'Can you guarantee Google rankings or a number of leads?',
-        a: 'No. Nobody can guarantee specific Google rankings or a set volume of leads. We engineer a fast, structured, high-converting foundation and, with an optional monthly plan, continue optimizing your site over time without making unrealistic promises.',
-      },
-      {
-        q: 'How long does a project take?',
-        a: `${essentialPkg.name} projects typically deploy in ${essentialPkg.turnaround.toLowerCase()}, ${proPkg.name} builds take ${proPkg.turnaround.toLowerCase()}, and ${enterprisePkg.name} platforms take ${enterprisePkg.turnaround.toLowerCase()}.`,
-      },
-    ],
-    [essentialPkg, proPkg, enterprisePkg, carePlan, growthPlan]
-  );
+  const faqs = PACKAGES_FAQS;
 
   const jsonLd = useMemo(
-    () =>
-      buildFaqPageSchema({
-        path: '/packages',
-        name: 'Packages',
-        faqs,
-      }),
-    [faqs]
+    () => buildPackagesSchema(s.description, faqs),
+    [s.description, faqs]
   );
 
   const toggleFaq = (index: number) => {
@@ -114,36 +70,35 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
             </h1>
 
             <p className="text-sm md:text-base text-[#59544E] font-light leading-relaxed">
-              One-time project pricing, optional enhancements and optional monthly care and SEO plans, with scope and payment terms defined before we start.
+              Clear build pricing and monthly local growth plans for contractors and home service companies, with deliverables and payment terms defined before we start.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 2. PACKAGE CARDS */}
+      {/* 2. PACKAGE CARDS + SINGLE ADD-ON + ENTERPRISE STRIP */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
           <div
             data-reveal="stagger-group"
             className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch"
           >
-            {SERVICE_PACKAGES.map((pkg) => {
-              const isFeatured = pkg.featured;
-              const isEnterprise = pkg.id === 'custom';
+            {PACKAGES_PAGE_TIERS.map((tier) => {
+              const isFeatured = Boolean(tier.featured);
 
               return (
                 <div
-                  key={pkg.id}
+                  key={tier.id}
                   data-reveal-item
                   className={`card-editorial p-8 md:p-9 rounded-sm flex flex-col justify-between relative ${
                     isFeatured
-                      ? 'border-2 border-[#9E5249] shadow-xl ring-1 ring-[#9E5249]/20 bg-[#FAF6F0]'
+                      ? 'border-2 border-[#9E5249] shadow-[0_18px_45px_-16px_rgba(158,82,73,0.35)] ring-1 ring-[#9E5249]/25 bg-[#FAF6F0]'
                       : 'bg-[#F5EDE2] border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md'
                   }`}
                 >
-                  {pkg.badge && (
+                  {tier.badge && (
                     <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-0.5 bg-[#9E5249] text-white text-[9px] uppercase tracking-[0.2em] font-bold rounded-full shadow-xs whitespace-nowrap">
-                      {pkg.badge}
+                      {tier.badge}
                     </div>
                   )}
 
@@ -154,60 +109,48 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
                           isFeatured ? 'text-[#9E5249]' : 'text-[#141210]'
                         }`}
                       >
-                        {pkg.name}
+                        {tier.name}
                       </h2>
                       <span
                         className={`text-[10px] uppercase tracking-wider font-semibold text-right ${
                           isFeatured ? 'text-[#9E5249]' : 'text-[#59544E]'
                         }`}
                       >
-                        {pkg.tagline}
+                        {isFeatured ? 'Website + Monthly SEO' : 'One-Time Build'}
                       </span>
                     </div>
 
                     <div className="my-6">
-                      <div className="flex items-baseline flex-wrap gap-2">
-                        {pkg.pricePrefix && (
-                          <span className="text-xs text-[#59544E]">{pkg.pricePrefix}</span>
-                        )}
-                        <span className="font-serif text-3xl md:text-5xl text-[#141210] font-normal">
-                          {pkg.price}
-                        </span>
+                      <div className="font-serif text-3xl md:text-[2.15rem] text-[#141210] font-normal leading-tight">
+                        {tier.price}
                       </div>
 
-                      {pkg.paymentType && (
-                        <span className="inline-block mt-2 text-[10px] uppercase tracking-wider font-semibold text-[#9E5249] bg-[#FAF6F0] px-2.5 py-0.5 border border-[#D9D0C3] rounded-xs">
-                          {pkg.paymentType}
-                        </span>
+                      {tier.subline && (
+                        <p className="text-xs text-[#9E5249] mt-2.5 font-medium leading-relaxed">
+                          {tier.subline}
+                        </p>
                       )}
 
                       <div className="flex items-center gap-1.5 mt-3 text-[11px] text-[#59544E] font-medium">
                         <Clock className="w-3.5 h-3.5 text-[#B89255] shrink-0" />
-                        <span>Turnaround: {pkg.turnaround}</span>
+                        <span>Delivery: {tier.delivery}</span>
                       </div>
-
-                      <p className="text-xs text-[#59544E] mt-3 font-light leading-relaxed">
-                        {pkg.description}
-                      </p>
-
-                      {pkg.bestFor && (
-                        <div className="mt-3 p-3 bg-[#FAF6F0]/80 rounded-xs border border-[#D9D0C3]/60 text-[11px] text-[#59544E]">
-                          <strong className="text-[#141210] font-semibold">Best for: </strong>
-                          {pkg.bestFor}
-                        </div>
-                      )}
                     </div>
 
                     <ul className="flex flex-col gap-3 my-6 text-xs text-[#59544E] border-t border-[#D9D0C3]/50 pt-6">
-                      {pkg.features.map((feature, idx) => (
+                      {tier.includes.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2.5">
                           <CheckCircle2
                             className={`w-4 h-4 shrink-0 mt-0.5 ${
                               isFeatured ? 'text-[#9E5249]' : 'text-[#B89255]'
                             }`}
                           />
-                          <span className={idx === 0 && isFeatured ? 'text-[#141210] font-medium' : ''}>
-                            {feature}
+                          <span
+                            className={
+                              idx === 0 && isFeatured ? 'text-[#141210] font-medium' : ''
+                            }
+                          >
+                            {item}
                           </span>
                         </li>
                       ))}
@@ -215,190 +158,76 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
                   </div>
 
                   <div className="pt-4">
-                    <button
-                      onClick={() => onSelectPackage(pkg)}
-                      className={`btn-editorial w-full inline-flex items-center justify-center py-3.5 px-4 text-[11px] font-semibold uppercase tracking-widest rounded-sm cursor-pointer ${
+                    {tier.optionalCarePlan && (
+                      <div className="mb-4 px-3 py-2.5 bg-[#FAF6F0]/80 border border-[#D9D0C3]/70 rounded-xs text-[11px] text-[#59544E]">
+                        <span className="font-semibold text-[#141210]">
+                          {tier.optionalCarePlan}
+                        </span>
+                        {tier.optionalCarePlanDetails && (
+                          <span> ({tier.optionalCarePlanDetails})</span>
+                        )}
+                      </div>
+                    )}
+
+                    <Link
+                      to={tier.ctaTo}
+                      className={`btn-editorial w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 text-[11px] font-semibold uppercase tracking-widest rounded-sm group ${
                         isFeatured
                           ? 'bg-[#9E5249] text-white hover:bg-[#BA685E] shadow-xs'
                           : 'bg-[#141210] text-[#FAF6F0] hover:bg-[#34302D]'
                       }`}
                     >
-                      {isEnterprise ? 'Book a Consultation' : 'Start Your Project'}
-                    </button>
-                    <p className="text-[10px] text-center text-[#59544E] mt-2 font-mono">
-                      {isEnterprise
-                        ? 'Custom Scope & Direct Consultation'
-                        : 'One-Time Project Fee • 100% Code Ownership'}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. OPTIONAL ENHANCEMENTS */}
-      <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
-        <div className="max-w-7xl mx-auto">
-          <div data-reveal="heading" className="max-w-2xl mb-12">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-              Modular Extensions
-            </span>
-            <h2 className="font-serif text-3xl md:text-4xl text-[#141210] font-normal mt-2 mb-3">
-              Optional Enhancements
-            </h2>
-            <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
-              Extend your website&apos;s capabilities with specialized features and strategic enhancements tailored to your business.
-            </p>
-          </div>
-
-          <div
-            data-reveal="stagger-group"
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
-          >
-            {ADD_ON_OPTIONS.map((addon) => (
-              <div
-                key={addon.id}
-                data-reveal-item
-                className="card-editorial p-7 bg-[#FAF6F0] rounded-sm border border-[#D9D0C3] hover:border-[#9E5249]/60 hover:shadow-md flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
-                    <h3 className="font-serif text-lg text-[#141210] font-medium">
-                      {addon.name}
-                    </h3>
-                    <span className="font-mono text-sm font-bold text-[#9E5249] shrink-0">
-                      {addon.custom
-                        ? 'Custom quotation'
-                        : `${addon.pricePrefix ? `${addon.pricePrefix} ` : ''}+$${addon.price}`}
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#59544E] font-light leading-relaxed">
-                    {addon.description}
-                  </p>
-                  {addon.note && (
-                    <p className="text-[11px] text-[#59544E] mt-3 p-2.5 bg-[#F5EDE2]/80 border border-[#D9D0C3]/60 rounded-xs italic">
-                      {addon.note}
-                    </p>
-                  )}
-                </div>
-                <div className="mt-4 pt-3 border-t border-[#D9D0C3]/60 flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#827C75]">
-                  <Plus className="w-3 h-3 text-[#B89255]" />
-                  <span>Available with any package</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. OPTIONAL MONTHLY RETAINERS ("Beyond Launch. Built for Growth.") */}
-      <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
-        <div className="max-w-7xl mx-auto">
-          <div data-reveal="heading" className="max-w-3xl mb-12">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
-              Optional monthly retainers
-            </span>
-            <h2 className="font-serif text-3xl md:text-4xl text-[#141210] font-normal mt-2 mb-3">
-              {RETAINER_HEADING}
-            </h2>
-            <p className="text-xs md:text-sm text-[#59544E] font-light leading-relaxed">
-              {RETAINER_SUBTITLE}
-            </p>
-          </div>
-
-          <div
-            data-reveal="stagger-group"
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch"
-          >
-            {MONTHLY_RETAINERS.map((retainer) => {
-              const isRecommended = Boolean(retainer.badge);
-              return (
-                <div
-                  key={retainer.id}
-                  data-reveal-item
-                  className={`card-editorial p-8 md:p-9 rounded-sm bg-[#141210] text-[#FAF6F0] flex flex-col justify-between relative ${
-                    isRecommended
-                      ? 'border-2 border-[#B89255] shadow-xl'
-                      : 'border border-[#34302D]'
-                  }`}
-                >
-                  {retainer.badge && (
-                    <div className="absolute -top-3.5 right-8 px-4 py-0.5 bg-[#B89255] text-[#141210] text-[9px] uppercase tracking-[0.2em] font-bold rounded-full shadow-xs">
-                      {retainer.badge}
-                    </div>
-                  )}
-
-                  <div>
-                    <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#34302D]">
-                      <h3 className="font-serif text-2xl text-white font-normal">
-                        {retainer.name}
-                      </h3>
-                      <span className="text-[10px] uppercase tracking-wider font-semibold text-[#B89255] border border-[#B89255]/40 bg-[#B89255]/10 px-2.5 py-0.5 rounded-xs">
-                        Optional monthly plan
-                      </span>
-                    </div>
-
-                    <div className="my-6">
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="font-serif text-3xl md:text-4xl text-[#B89255] font-normal">
-                          {retainer.price}
-                        </span>
-                        <span className="text-xs text-[#D9D0C3] font-light">
-                          {retainer.priceSuffix}
-                        </span>
-                      </div>
-                      <p className="text-xs md:text-sm text-[#D9D0C3] mt-3 font-light leading-relaxed">
-                        {retainer.description}
-                      </p>
-                    </div>
-
-                    <div className="border-t border-[#34302D] pt-6 my-6">
-                      {retainer.includesIntro && (
-                        <p className="text-xs font-semibold text-[#B89255] mb-3 uppercase tracking-wider">
-                          {retainer.includesIntro}
-                        </p>
-                      )}
-                      <ul className="flex flex-col gap-2.5 text-xs text-[#D9D0C3]">
-                        {retainer.includes.map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2.5">
-                            <CheckCircle2 className="w-4 h-4 text-[#B89255] shrink-0 mt-0.5" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="pt-2">
-                    <Link
-                      to="/contact"
-                      className={`btn-editorial w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 text-[11px] font-semibold uppercase tracking-widest rounded-sm group ${
-                        isRecommended
-                          ? 'bg-[#B89255] text-[#141210] hover:bg-[#cfa867]'
-                          : 'bg-[#FAF6F0] text-[#141210] hover:bg-white'
-                      }`}
-                    >
-                      <span>{retainer.cta}</span>
+                      <span>{tier.ctaLabel}</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
                     </Link>
+
+                    {tier.billingFootnote && (
+                      <p className="text-[10px] text-center text-[#59544E] mt-2 font-mono">
+                        {tier.billingFootnote}
+                      </p>
+                    )}
                   </div>
                 </div>
               );
             })}
           </div>
 
-          <p
+          {/* SINGLE ADD-ON LINE */}
+          <div
             data-reveal="fade"
-            className="mt-8 text-[11px] text-[#59544E] font-light leading-relaxed max-w-4xl"
+            className="mt-8 px-6 py-4 bg-[#F5EDE2] border border-[#D9D0C3] rounded-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
           >
-            {RETAINER_TERMS}
-          </p>
+            <div className="flex items-center gap-2.5 text-xs md:text-sm text-[#141210] font-medium">
+              <Plus className="w-4 h-4 text-[#9E5249] shrink-0" />
+              <span>
+                Optional Add-On: <strong>{PACKAGES_SINGLE_ADDON.label}</strong>
+              </span>
+            </div>
+            <span className="text-xs text-[#59544E] font-light">
+              {PACKAGES_SINGLE_ADDON.description}
+            </span>
+          </div>
+
+          {/* ENTERPRISE STRIP */}
+          <div
+            data-reveal="fade"
+            className="mt-5 p-6 md:p-7 bg-[#141210] text-[#FAF6F0] rounded-sm border border-[#34302D] flex flex-col md:flex-row md:items-center md:justify-between gap-5"
+          >
+            <p className="font-serif text-lg md:text-xl text-white font-normal leading-snug">
+              {PACKAGES_ENTERPRISE_STRIP.copy}
+            </p>
+            <Link
+              to={PACKAGES_ENTERPRISE_STRIP.ctaTo}
+              className="btn-editorial shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FAF6F0] text-[#141210] hover:bg-white text-[11px] font-semibold uppercase tracking-widest rounded-sm group"
+            >
+              <span>{PACKAGES_ENTERPRISE_STRIP.ctaLabel}</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* 5. PAYMENT INFORMATION */}
+      {/* 3. PAYMENT TERMS */}
       <section className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
           <div data-reveal="heading" className="max-w-2xl mb-10">
@@ -421,16 +250,22 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               <div className="flex items-center gap-2.5 mb-4">
                 <Layers className="w-5 h-5 text-[#9E5249]" />
                 <h3 className="font-serif text-xl text-[#141210] font-normal">
-                  Website projects
+                  Website Builds &amp; Setup
                 </h3>
               </div>
               <ul className="space-y-2.5 text-xs md:text-sm text-[#59544E] font-light">
-                {PROJECT_PAYMENT_TERMS.map((term, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#B89255] shrink-0 mt-0.5" />
-                    <span>{term}</span>
-                  </li>
-                ))}
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#B89255] shrink-0 mt-0.5" />
+                  <span>50% deposit, 50% before launch.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#B89255] shrink-0 mt-0.5" />
+                  <span>Applies to Essential, Professional, and Growth Partner setup fees.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#B89255] shrink-0 mt-0.5" />
+                  <span>Final scope and deliverables confirmed in writing before work starts.</span>
+                </li>
               </ul>
             </div>
 
@@ -441,23 +276,31 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               <div className="flex items-center gap-2.5 mb-4">
                 <CreditCard className="w-5 h-5 text-[#9E5249]" />
                 <h3 className="font-serif text-xl text-[#141210] font-normal">
-                  Monthly retainers
+                  Growth Partner &amp; Care Plan
                 </h3>
               </div>
               <ul className="space-y-2.5 text-xs md:text-sm text-[#59544E] font-light">
-                {RETAINER_PAYMENT_TERMS.map((term, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#B89255] shrink-0 mt-0.5" />
-                    <span>{term}</span>
-                  </li>
-                ))}
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#B89255] shrink-0 mt-0.5" />
+                  <span>Monthly plan billed after launch.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#B89255] shrink-0 mt-0.5" />
+                  <span>Growth Partner ($600/mo) includes a 3-month minimum agreement.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#B89255] shrink-0 mt-0.5" />
+                  <span>
+                    Optional Care Plan ($150/mo) covers hosting, updates, fixes, and small edits.
+                  </span>
+                </li>
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. TRUST TRIO (CODE OWNERSHIP ETC.) */}
+      {/* 4. TRUST TRIO */}
       <section className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
           <div
@@ -479,7 +322,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               <div>
                 <h3 className="font-serif text-lg text-[#141210] mb-1">Milestone Accountability</h3>
                 <p className="text-xs text-[#59544E] leading-relaxed font-light">
-                  Clear delivery timelines backed by structured progress demos and staging access before launch.
+                  Clear delivery timelines backed by structured progress reviews and staging access before launch.
                 </p>
               </div>
             </div>
@@ -489,7 +332,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               <div>
                 <h3 className="font-serif text-lg text-[#141210] mb-1">Questions on Scope?</h3>
                 <p className="text-xs text-[#59544E] leading-relaxed font-light">
-                  Reach out for a direct consultation to confirm exactly which package aligns with your target territory.
+                  Reach out for a direct consultation to confirm exactly which package aligns with your target service area.
                 </p>
               </div>
             </div>
@@ -497,7 +340,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
         </div>
       </section>
 
-      {/* 7. FAQ ACCORDION */}
+      {/* 5. FAQ ACCORDION */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-4xl mx-auto">
           <div data-reveal="heading" className="text-center mb-12">
@@ -508,7 +351,7 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
               Packages &amp; Pricing FAQ
             </h2>
             <p className="text-xs md:text-sm text-[#59544E] font-light">
-              Clear answers on one-time project fees, optional monthly retainers, ownership, and deliverables.
+              Clear answers on Growth Partner, one-time packages, Care Plan maintenance, and billing terms.
             </p>
           </div>
 
@@ -569,33 +412,33 @@ export const PackagesPage: React.FC<PackagesPageProps> = ({ onSelectPackage }) =
         </div>
       </section>
 
-      {/* 8. FINAL CTA BAND */}
+      {/* 6. FINAL CTA BAND */}
       <section className="w-full py-20 px-6 md:px-12 lg:px-16 bg-[#141210] text-[#FAF6F0] text-center">
         <div data-reveal="fade" className="max-w-3xl mx-auto space-y-6">
           <span className="text-[10px] uppercase tracking-[0.25em] text-[#B89255] font-bold">
-            Start Your Transformation
+            Start Your Project
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl font-normal text-white leading-tight">
-            Ready to secure your project milestone?
+            Ready to build a stronger website for your business?
           </h2>
           <p className="text-xs sm:text-sm text-[#D9D0C3] font-light leading-relaxed max-w-xl mx-auto">
-            Start your build directly or talk with our team about your project scope and timeline.
+            Tell us about your trade, service area, and timeline to get started or request a custom quote.
           </p>
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <MagneticWrap className="w-full sm:w-auto">
-              <button
-                onClick={() => onSelectPackage(proPkg)}
-                className="btn-editorial w-full sm:w-auto px-8 py-3.5 bg-[#FAF6F0] text-[#141210] hover:bg-white text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
+              <Link
+                to="/contact"
+                className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-[#9E5249] text-white hover:bg-[#BA685E] text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
               >
-                Start a Professional Project (from {proPkg.price})
-              </button>
+                Start Growing
+              </Link>
             </MagneticWrap>
             <MagneticWrap className="w-full sm:w-auto">
               <Link
                 to="/contact"
                 className="btn-editorial block w-full sm:w-auto px-8 py-3.5 bg-transparent border border-[#FAF6F0]/40 text-[#FAF6F0] hover:bg-[#FAF6F0]/10 text-xs font-semibold uppercase tracking-[0.2em] rounded-sm cursor-pointer"
               >
-                Contact Our Principal
+                Request a Quote
               </Link>
             </MagneticWrap>
           </div>

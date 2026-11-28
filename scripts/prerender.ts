@@ -4,11 +4,13 @@ import { fileURLToPath } from 'node:url';
 import { SEO_ROUTES, SeoRoute } from '../src/data/seoRoutes';
 import { BLOG_POSTS } from '../src/data/posts';
 import { JUNK_REMOVAL_FAQS, JUNK_REMOVAL_SEO_FAQS } from '../src/data/junkRemovalFaqs';
+import { PACKAGES_FAQS } from '../src/data/packages';
 import {
   buildArticleSchema,
   buildHomeSchema,
   buildIndustriesHubSchema,
   buildNicheIndustrySchema,
+  buildPackagesSchema,
   buildPageServiceSchema,
   buildServiceSchema,
 } from '../src/utils/schema';
@@ -53,6 +55,10 @@ function getRouteJsonLd(route: SeoRoute): Record<string, unknown> {
 
   if (route.path === '/industries') {
     return buildIndustriesHubSchema();
+  }
+
+  if (route.path === '/packages') {
+    return buildPackagesSchema(route.description, PACKAGES_FAQS);
   }
 
   if (route.path === '/junk-removal-website-design') {

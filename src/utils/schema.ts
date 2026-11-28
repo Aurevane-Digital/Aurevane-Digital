@@ -549,3 +549,134 @@ export function buildHomeSchema(description: string): Record<string, unknown> {
     serviceType: 'Web design for junk removal and home service businesses',
   });
 }
+
+export function buildPackagesSchema(
+  description: string,
+  faqs: ServiceSchemaFaq[]
+): Record<string, unknown> {
+  const pageUrl = 'https://aurevanedigital.vercel.app/packages';
+
+  const packagesOffers: Array<Record<string, unknown>> = [
+    {
+      '@type': 'Offer',
+      name: 'Growth Partner',
+      description:
+        'Custom conversion-focused website, premium brand copywriting, local SEO every month, Google Business Profile setup + management, city/service area pages, review request system, and monthly performance report. $1,000 setup + $600/mo (3-month minimum, billed after launch).',
+      price: '1000',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      priceSpecification: [
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Website Setup Fee',
+          price: '1000',
+          priceCurrency: 'USD',
+        },
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Monthly Growth Plan (3-month minimum, billed after launch)',
+          price: '600',
+          priceCurrency: 'USD',
+          billingDuration: 1,
+          unitCode: 'MON',
+        },
+      ],
+    },
+    {
+      '@type': 'Offer',
+      name: 'Professional',
+      description:
+        'Multi-page custom website, premium brand copywriting included, on-page SEO, quote/contact forms, and mobile-first design. Delivery in 2-3 weeks.',
+      price: '1500',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+    },
+    {
+      '@type': 'Offer',
+      name: 'Essential',
+      description:
+        'Custom 1-page website, mobile-first design, and contact form. Delivery in 7-10 business days.',
+      price: '1000',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+    },
+    {
+      '@type': 'Offer',
+      name: 'Enterprise & Multi-Unit',
+      description:
+        'Custom quote, 4-6 weeks. Includes CRM integration and lead routing.',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+    },
+    {
+      '@type': 'Offer',
+      name: 'Care Plan (Optional)',
+      description: 'Hosting, updates, fixes, and small edits for Professional and Essential websites.',
+      price: '150',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '150',
+        priceCurrency: 'USD',
+        billingDuration: 1,
+        unitCode: 'MON',
+      },
+    },
+    {
+      '@type': 'Offer',
+      name: 'Interactive Project Estimator (Optional Add-On)',
+      description: 'Custom interactive scope or price estimator starting from +$550.',
+      price: '550',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+    },
+  ];
+
+  const graph: Array<Record<string, unknown>> = [
+    {
+      '@type': 'Service',
+      '@id': `${pageUrl}#service`,
+      name: 'Contractor Website Packages and Pricing',
+      description,
+      url: pageUrl,
+      image: OG_IMAGE_OBJECT,
+      provider: SERVICE_PROVIDER,
+      areaServed: AREA_SERVED_US,
+      serviceType: 'Web design and local SEO packages for contractors and home service businesses',
+      offers: packagesOffers,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${pageUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Packages',
+          item: pageUrl,
+        },
+      ],
+    },
+  ];
+
+  if (faqs && faqs.length > 0) {
+    graph.push(buildFaqNode(pageUrl, faqs));
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  };
+}
