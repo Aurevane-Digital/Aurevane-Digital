@@ -71,7 +71,7 @@ export const JunkRemovalSeoPage: React.FC = () => {
       path="/junk-removal-seo"
       name="SEO for Junk Removal Companies"
       h1="SEO for Junk Removal Companies That Gets Your Phone Ringing"
-      intro="Targeted SEO for junk removal companies: optimize Google Business Profile, county service-area pages, customer reviews, and site structure that ranks in the map pack and converts calls."
+      intro="Independent hauling operators capture their highest-margin estate cleanouts and commercial pulls when customers find them first in Google Maps. Our local SEO systems align your Google Business Profile, neighborhood pages, and review workflows so nearby homeowners call your dispatch line directly."
       sections={sections}
       faqs={JUNK_REMOVAL_SEO_FAQS}
       serviceType={[
@@ -92,8 +92,8 @@ export const JunkRemovalSeoPage: React.FC = () => {
           to: '/blog/best-website-design-for-junk-removal-companies',
         },
         {
-          label: 'Junk Removal Website Examples: What to Include',
-          to: '/blog/junk-removal-website-examples-what-to-include',
+          label: 'What Should a Junk Removal Website Include?',
+          to: '/blog/what-should-a-junk-removal-website-include',
         },
         {
           label: 'How Much Does a Junk Removal Website Cost?',

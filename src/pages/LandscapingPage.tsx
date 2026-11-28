@@ -52,12 +52,12 @@ export const LandscapingPage: React.FC = () => {
       h2: 'Local SEO Structure Built to Capture High-Value Neighborhood Searches',
       paragraphs: [
         'Competing on generic terms like "lawn care near me" often attracts low-margin mowing shoppers while burying your profitable hardscaping and drainage services. Intentional local SEO architecture positions your company for high-margin searches across target affluent suburbs.',
-        'We structure dedicated service silos for hardscaping, drainage, irrigation, and landscape design paired with regional town and county service-area pages, Schema.org Service and FAQPage structured data, and verified Google review proof.',
+        'We structure dedicated service silos for hardscaping, drainage, irrigation, and landscape design paired with regional town and county service-area pages, Schema.org Service and LocalBusiness structured data, and verified Google review proof.',
       ],
       bullets: [
         'Service silos targeting hardscape construction, grading/drainage, irrigation, and design-build',
         'Neighborhood and suburban county hubs calibrated around high-value residential territories',
-        'Schema.org Service, LocalBusiness, and FAQPage JSON-LD metadata integrated per page',
+        'Schema.org Service and LocalBusiness JSON-LD metadata integrated per page',
         'Direct alignment with Google Business Profile categories and local review streams',
       ],
     },
@@ -83,7 +83,7 @@ export const LandscapingPage: React.FC = () => {
   ];
 
   const relatedLinks = [
-    { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+    { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
     { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
     { label: 'Home Services Website Design', to: '/home-services-website-design' },
     { label: 'Transparent Packages & Pricing', to: '/packages' },

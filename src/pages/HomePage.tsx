@@ -402,7 +402,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onAuditGenerated }) => {
                 { label: 'Septic contractor website design', to: '/septic-contractor-website-design' },
                 { label: 'Land clearing website design', to: '/land-clearing-website-design' },
                 { label: 'Fence company website design', to: '/fence-company-website-design' },
-                { label: 'Fence installation website design', to: '/fence-installation-website-design' },
                 { label: 'Landscaping website design', to: '/landscaping-website-design' },
                 { label: 'Mobile detailing website design', to: '/mobile-detailing-website-design' },
                 { label: 'Website redesign for service businesses', to: '/website-redesign' },

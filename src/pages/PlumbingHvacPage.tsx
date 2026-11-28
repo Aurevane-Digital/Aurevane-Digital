@@ -52,12 +52,12 @@ export const PlumbingHvacPage: React.FC = () => {
       h2: 'Local SEO Architecture Across Service Areas, Suburbs, and Equipment Types',
       paragraphs: [
         'Ranking in the Google Map Pack for competitive plumbing and HVAC keywords requires more than a single generic services list. Search engines reward clear topical depth paired with authentic local territory signals.',
-        'We structure dedicated service hubs covering drain cleaning, water heaters, repiping, furnace repair, AC installation, and heat pumps alongside unique municipal and county service-area pages, Schema.org Service and FAQPage JSON-LD markup, and verified Google review highlights.',
+        'We structure dedicated service hubs covering drain cleaning, water heaters, repiping, furnace repair, AC installation, and heat pumps alongside unique municipal and county service-area pages, Schema.org Service and LocalBusiness JSON-LD markup, and verified Google review highlights.',
       ],
       bullets: [
         'Clean URL silos separating emergency plumbing, drain/sewer, heating, cooling, and commercial HVAC',
         'Dedicated county and suburban service-area pages tailored to regional climates and housing stock',
-        'Schema.org Service, LocalBusiness, and FAQPage structured data across every service route',
+        'Schema.org Service and LocalBusiness structured data across every service route',
         'Consistent NAP formatting and call-tracking compatibility for clear marketing attribution',
       ],
     },

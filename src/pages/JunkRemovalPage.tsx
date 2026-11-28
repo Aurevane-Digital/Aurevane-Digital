@@ -144,10 +144,6 @@ export const JunkRemovalPage: React.FC = () => {
           to: '/blog/what-should-a-junk-removal-website-include',
         },
         {
-          label: 'Junk Removal Website Examples: What to Include',
-          to: '/blog/junk-removal-website-examples-what-to-include',
-        },
-        {
           label: 'How Much Does a Junk Removal Website Cost?',
           to: '/blog/how-much-does-a-junk-removal-website-cost',
         },

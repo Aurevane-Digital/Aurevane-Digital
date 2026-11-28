@@ -111,7 +111,7 @@ export const WebsiteRedesignPage: React.FC = () => {
       path="/website-redesign"
       name="Website Redesign"
       h1="Website Redesign for Service Businesses"
-      intro="Website redesign for contractors, home-service and junk removal companies. Faster, mobile-first, conversion-focused rebuilds without losing your rankings."
+      intro="Outdated templates and slow plugin stacks quietly push urgent mobile homeowners straight toward local competitors. We rebuild contractor, home-service, and hauling websites from clean custom code—mapping 301 redirects and preserving hard-earned rankings while transforming mobile speed and quote conversion."
       sections={sections}
       faqs={faqs}
       serviceType={[
@@ -124,8 +124,8 @@ export const WebsiteRedesignPage: React.FC = () => {
       ]}
       relatedLinks={relatedLinks}
       relatedGuide={{
-        label: 'Contractor Website Cost Guide for 2026',
-        to: '/blog/contractor-website-cost-2026',
+        label: 'How Much Does a Contractor Website Cost? (2026)',
+        to: '/blog/how-much-does-a-contractor-website-cost',
       }}
       relatedGuides={[
         {

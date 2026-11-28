@@ -107,7 +107,7 @@ export const ContractorPage: React.FC = () => {
     { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
     { label: 'Roofing Website Design', to: '/roofing-website-design' },
     { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
-    { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+    { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
     { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
     { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
     { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
@@ -137,14 +137,10 @@ export const ContractorPage: React.FC = () => {
       ]}
       relatedLinks={relatedLinks}
       relatedGuide={{
-        label: 'How Much Does a Contractor Website Cost?',
+        label: 'How Much Does a Contractor Website Cost? (2026)',
         to: '/blog/how-much-does-a-contractor-website-cost',
       }}
       relatedGuides={[
-        {
-          label: 'Contractor Website Cost Guide for 2026',
-          to: '/blog/contractor-website-cost-2026',
-        },
         {
           label: 'Why Contractors Need a Project Gallery',
           to: '/blog/why-contractors-need-a-project-gallery',

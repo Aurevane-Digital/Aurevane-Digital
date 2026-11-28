@@ -29,7 +29,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuditModal }) => {
     { label: 'General Contractor', path: '/general-contractor-website-design' },
     { label: 'Roofing', path: '/roofing-website-design' },
     { label: 'Plumbing & HVAC', path: '/plumbing-hvac-website-design' },
-    { label: 'Fence Installation', path: '/fence-installation-website-design' },
     { label: 'Landscaping', path: '/landscaping-website-design' },
     { label: 'Mobile Detailing', path: '/mobile-detailing-website-design' },
     { label: 'Home Services', path: '/home-services-website-design' },

@@ -77,7 +77,6 @@ const ADDITIONAL_PLATFORM_LINKS = [
   { label: 'Contractor Website Design', to: '/contractor-website-design' },
   { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
   { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
-  { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
   { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
   { label: 'Home Services Website Design', to: '/home-services-website-design' },
   { label: 'SEO for Junk Removal Companies', to: '/junk-removal-seo' },

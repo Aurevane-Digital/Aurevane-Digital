@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Mail, Instagram, CheckCircle2, ArrowRight, Loader2, Sparkles } from 'lucide-react';
 import { WebsiteCheckForm } from '../components/WebsiteCheckForm';
 import { SEO } from '../components/SEO';
 import { getSeo } from '../data/seoRoutes';
 import { AuditReportData } from '../types';
+import { buildWebPageSchema } from '../utils/schema';
 
 const ACCESS_KEY = '5997eddf-c01e-4be8-b0e2-3e3638e28b10';
 
@@ -14,6 +15,17 @@ interface ContactPageProps {
 
 export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) => {
   const s = getSeo('/contact');
+  const jsonLd = useMemo(
+    () =>
+      buildWebPageSchema({
+        path: '/contact',
+        name: s.title,
+        description: s.description,
+        pageType: 'ContactPage',
+        breadcrumbLabel: 'Contact',
+      }),
+    [s.title, s.description]
+  );
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -89,7 +101,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onAuditGenerated }) =>
 
   return (
     <>
-      <SEO title={s.title} description={s.description} canonicalPath="/contact" />
+      <SEO title={s.title} description={s.description} canonicalPath="/contact" jsonLd={jsonLd} />
 
       {/* HEADER MASTHEAD */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">

@@ -13,7 +13,7 @@ export type SeoRoute = {
 const BASE_SEO_ROUTES: SeoRoute[] = [
   {
     path: '/',
-    title: 'Aurevane Digital | Web Design for Home Service Businesses',
+    title: 'Home Service Web Design | Aurevane Digital',
     description:
       'Fast, custom websites for home service businesses, contractors and junk removal fleets across the US. See packages or get a free mockup.',
     h1: 'Blue Collar Business Website Design That Generates Leads',
@@ -34,7 +34,6 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'Home Services Website Design', to: '/home-services-website-design' },
       { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
       { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
-      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
       { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
       { label: 'Website Redesign', to: '/website-redesign' },
       { label: 'Blog', to: '/blog' },
@@ -59,7 +58,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/packages',
-    title: 'Website Packages & Pricing From $1,000 | Aurevane',
+    title: 'Website Packages & Pricing | Aurevane Digital',
     description:
       'Growth Partner ($1,000 setup + $600/mo), Professional from $1,500, and Essential from $1,000. Compare website packages and request your quote today.',
     h1: 'Contractor Website Packages and Pricing',
@@ -72,7 +71,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/about',
-    title: 'About Our Website Design Studio | Aurevane Digital',
+    title: 'About Our Web Design Studio | Aurevane Digital',
     description:
       'Learn how Aurevane Digital builds high-converting websites for trade contractors across the US. Explore packages or request a free consultation.',
     h1: 'Architectural Rigor for the Modern Trades.',
@@ -99,24 +98,23 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/contractor-website-design',
-    title: 'Contractor Website Design That Wins Jobs | Aurevane',
+    title: 'Contractor Website Design | Aurevane Digital',
     description:
-      'Custom contractor website design for roofers, remodelers, excavators, and builders across the United States. See packages or request a free quote.',
+      'Custom contractor website design for roofers, remodelers, excavators, and builders across the US. Built to win bids from $1,000. Get a free mockup.',
     h1: 'Contractor Website Design Built to Win More Bids',
     intro:
-      'Aurevane Digital builds custom, fast, lead-focused websites for general contractors, roofers, remodelers, and specialty trade builders across the United States.',
+      'Aurevane Digital designs custom, high-converting websites for trade contractors across the United States. We build digital platforms engineered to showcase craftsmanship, eliminate bidding friction, and capture commercial and residential contracts.',
     links: [
       { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
       { label: 'Roofing Website Design', to: '/roofing-website-design' },
       { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
-      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
       { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
       { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
       { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
       { label: 'Home Services Website Design', to: '/home-services-website-design' },
       { label: 'Web Design for Junk Removal Companies', to: '/junk-removal-website-design' },
-      { label: 'How Much Does a Contractor Website Cost?', to: '/blog/how-much-does-a-contractor-website-cost' },
-      { label: 'Contractor Website Cost Guide for 2026', to: '/blog/contractor-website-cost-2026' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Why Contractors Need a Project Gallery', to: '/blog/why-contractors-need-a-project-gallery' },
       { label: 'Best Website Design for Junk Removal Companies (2026)', to: '/blog/best-website-design-for-junk-removal-companies' },
       { label: 'Packages', to: '/packages' },
@@ -128,21 +126,21 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     path: '/home-services-website-design',
     title: 'Home Services Website Design | Aurevane Digital',
     description:
-      'Mobile-friendly websites for plumbers, HVAC, electricians, and landscapers that turn visits into booked calls. Explore packages or get a free mockup.',
+      'Mobile-first websites for plumbers, HVAC, electricians, and landscapers that turn visits into booked calls. Live in 7-10 days. Get a free mockup.',
     h1: 'Home Services Website Design That Fills Your Calendar',
     intro:
-      'Mobile-friendly websites engineered for local service businesses including plumbers, HVAC technicians, electricians, landscapers, and residential cleaners.',
+      'Custom digital platforms built for home service and trade companies across the United States. Designed to turn mobile visitors into immediate phone calls, qualified quote requests, and booked service appointments.',
     links: [
       { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
       { label: 'Roofing Website Design', to: '/roofing-website-design' },
-      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
       { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
       { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
       { label: 'Mobile Detailing Website Design', to: '/mobile-detailing-website-design' },
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
       { label: 'Web Design for Junk Removal Companies', to: '/junk-removal-website-design' },
       { label: 'Emergency vs. Planned Job Website Design', to: '/blog/emergency-vs-planned-job-website-design-for-contractors' },
-      { label: 'Contractor Website Cost Guide for 2026', to: '/blog/contractor-website-cost-2026' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Packages', to: '/packages' },
       { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },
@@ -150,12 +148,12 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/junk-removal-website-design',
-    title: 'Junk Removal Website Design From $1,000 | Aurevane',
+    title: 'Junk Removal Website Design | Aurevane Digital',
     description:
-      'Custom websites for junk removal companies with photo-quote forms, truck-load pricing and local SEO. Live in 7-10 days from $1,000. Free mockup.',
-    h1: 'Web Design for Junk Removal Companies Built to Book More Pickups',
+      'Custom websites for junk removal companies with photo-quote forms, truck-load pricing, and local SEO. Live in 7-10 days from $1,000. Get a free mockup.',
+    h1: 'Web Design for Junk Removal Companies That Books More Pickups',
     intro:
-      'Fast, conversion-focused web design for junk removal companies across the United States. Live in 7-10 business days from $1,000.',
+      'Custom web design for junk removal companies across the United States. Pair smartphone photo quote forms, visual truck-load pricing, and instant tap-to-call dispatch to win higher-margin cleanouts away from national franchises.',
     links: [
       { label: 'SEO for Junk Removal Companies', to: '/junk-removal-seo' },
       { label: 'Industries Hub', to: '/industries' },
@@ -163,7 +161,6 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
       { label: 'Best Website Design for Junk Removal Companies (2026)', to: '/blog/best-website-design-for-junk-removal-companies' },
       { label: 'What Should a Junk Removal Website Include?', to: '/blog/what-should-a-junk-removal-website-include' },
-      { label: 'Junk Removal Website Examples: What to Include', to: '/blog/junk-removal-website-examples-what-to-include' },
       { label: 'How Much Does a Junk Removal Website Cost?', to: '/blog/how-much-does-a-junk-removal-website-cost' },
       { label: 'Local SEO for Junk Removal Companies: 2026 Guide', to: '/blog/local-seo-for-junk-removal-companies' },
       { label: 'Packages', to: '/packages' },
@@ -172,19 +169,19 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/junk-removal-seo',
-    title: 'SEO for Junk Removal Companies | Map Pack & Reviews | Aurevane',
+    title: 'Junk Removal SEO Services | Aurevane Digital',
     description:
-      'Local SEO for junk removal: Google Business Profile, service-area pages and review systems that get more calls. Start with a free audit.',
+      'Local SEO for junk removal companies: Google Business Profile, service-area pages, and review systems that drive calls. Get a free mockup.',
     h1: 'SEO for Junk Removal Companies That Gets Your Phone Ringing',
     intro:
-      'Local SEO for junk removal companies: optimize Google Business Profile, county service-area pages, customer reviews, and site structure that ranks and converts.',
+      'Independent hauling operators capture their highest-margin estate cleanouts and commercial pulls when customers find them first in Google Maps. Our local SEO systems align your Google Business Profile, neighborhood pages, and review workflows so nearby homeowners call your dispatch line directly.',
     links: [
       { label: 'Web Design for Junk Removal Companies', to: '/junk-removal-website-design' },
       { label: 'Website Redesign', to: '/website-redesign' },
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
-      { label: 'Best Website Design for Junk Removal Companies (2026)', to: '/blog/best-website-design-for-junk-removal-companies' },
       { label: 'Local SEO for Junk Removal Companies: 2026 Guide', to: '/blog/local-seo-for-junk-removal-companies' },
-      { label: 'Junk Removal Website Examples: What to Include', to: '/blog/junk-removal-website-examples-what-to-include' },
+      { label: 'Best Website Design for Junk Removal Companies (2026)', to: '/blog/best-website-design-for-junk-removal-companies' },
+      { label: 'What Should a Junk Removal Website Include?', to: '/blog/what-should-a-junk-removal-website-include' },
       { label: 'How Much Does a Junk Removal Website Cost?', to: '/blog/how-much-does-a-junk-removal-website-cost' },
       { label: 'Packages', to: '/packages' },
       { label: 'Contact', to: '/contact' },
@@ -192,20 +189,20 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/website-redesign',
-    title: 'Website Redesign for Service Businesses | Aurevane',
+    title: 'Service Website Redesign | Aurevane Digital',
     description:
-      'Upgrade your contractor or junk removal website into a fast, mobile-first build without losing Google rankings. Request a free website audit today.',
+      'Upgrade your contractor or junk removal website into a fast, mobile-first build without losing Google rankings. From $1,000. Get a free mockup.',
     h1: 'Website Redesign for Service Businesses',
     intro:
-      'Website redesign for contractors, home-service and junk removal companies. Faster, mobile-first, conversion-focused rebuilds without losing your rankings.',
+      'Outdated templates and slow plugin stacks quietly push urgent mobile homeowners straight toward local competitors. We rebuild contractor, home-service, and hauling websites from clean custom code—mapping 301 redirects and preserving hard-earned rankings while transforming mobile speed and quote conversion.',
     links: [
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
       { label: 'Home Services Website Design', to: '/home-services-website-design' },
       { label: 'Web Design for Junk Removal Companies', to: '/junk-removal-website-design' },
       { label: 'SEO for Junk Removal Companies', to: '/junk-removal-seo' },
-      { label: 'Contractor Website Cost Guide for 2026', to: '/blog/contractor-website-cost-2026' },
-      { label: 'What Should a Junk Removal Website Include?', to: '/blog/what-should-a-junk-removal-website-include' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Local SEO for Junk Removal Companies: 2026 Guide', to: '/blog/local-seo-for-junk-removal-companies' },
+      { label: 'What Should a Junk Removal Website Include?', to: '/blog/what-should-a-junk-removal-website-include' },
       { label: 'How Much Does a Junk Removal Website Cost?', to: '/blog/how-much-does-a-junk-removal-website-cost' },
       { label: 'Packages', to: '/packages' },
       { label: 'Contact', to: '/contact' },
@@ -213,17 +210,17 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/excavation-company-website-design',
-    title: 'Excavation Company Website Design | Aurevane',
+    title: 'Excavation Website Design | Aurevane Digital',
     description:
       'Custom websites for excavation contractors that bring in more bid requests and calls. Live in 7-10 business days, from $1,000. Get a free mockup.',
     h1: 'Excavation Company Website Design Built to Win More Bid Requests',
     intro:
-      'Custom excavation company website design for grading, trenching, foundation prep, and site-work contractors across the United States. Live in 7-10 business days, from $1,000.',
+      'Custom excavation company website design for grading, trenching, foundation prep, and site-work contractors across the United States. Built to prove machine capacity, accept civil plans online, and convert commercial estimators into qualified bid calls.',
     links: [
       { label: 'Industries Hub', to: '/industries' },
       { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
       { label: 'Septic Contractor Website Design', to: '/septic-contractor-website-design' },
-      { label: 'Contractor Website Cost Guide for 2026', to: '/blog/contractor-website-cost-2026' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Why Contractors Need a Project Gallery', to: '/blog/why-contractors-need-a-project-gallery' },
       { label: 'Packages', to: '/packages' },
       { label: 'Our Work', to: '/our-work' },
@@ -232,18 +229,18 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/electrical-contractor-website-design',
-    title: 'Electrician Website Design That Gets Calls | Aurevane',
+    title: 'Electrical Contractor Web Design | Aurevane Digital',
     description:
       'Licensed-and-insured trust design, emergency call buttons and service pages built for electrical contractors. From $1,000. Get a free mockup.',
     h1: 'Electrical Contractor Website Design That Brings In Service Calls',
     intro:
-      'High-trust electrical contractor website design built for licensed residential electricians and commercial MEP teams across the United States. Live in 7-10 business days, from $1,000.',
+      'High-trust electrical contractor website design built for licensed residential electricians and commercial MEP teams across the United States. Combine state license credentials, 24/7 emergency call triggers, and structured panel or commercial RFP forms.',
     links: [
       { label: 'Industries Hub', to: '/industries' },
       { label: 'Roofing Website Design', to: '/roofing-website-design' },
       { label: 'Septic Contractor Website Design', to: '/septic-contractor-website-design' },
       { label: 'Emergency vs. Planned Job Website Design', to: '/blog/emergency-vs-planned-job-website-design-for-contractors' },
-      { label: 'Contractor Website Cost Guide for 2026', to: '/blog/contractor-website-cost-2026' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Packages', to: '/packages' },
       { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },
@@ -251,22 +248,22 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/general-contractor-website-design',
-    title: 'General Contractor Website Design | Aurevane Digital',
+    title: 'General Contractor Web Design | Aurevane Digital',
     description:
-      'Custom websites for general contractors, builders, and design-build remodelers focused on project proof and bids. See packages or get a free quote.',
+      'Custom websites for general contractors, builders, and design-build remodelers focused on project proof and bids. From $1,000. Get a free mockup.',
     h1: 'General Contractor Website Design That Wins More Projects',
     intro:
-      'Custom websites for general contractors, builders, remodelers and design-build firms across the United States, built around project proof, estimate requests and trust.',
+      'Custom websites for general contractors, builders, remodelers and design-build firms across the United States, engineered around architectural project case studies, pre-qualified estimate forms, and verifiable licensing trust.',
     links: [
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
       { label: 'Roofing Website Design', to: '/roofing-website-design' },
       { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
-      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
       { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
       { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
       { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
       { label: 'Why Contractors Need a Project Gallery', to: '/blog/why-contractors-need-a-project-gallery' },
-      { label: 'Contractor Website Cost Guide for 2026', to: '/blog/contractor-website-cost-2026' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Packages', to: '/packages' },
       { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },
@@ -274,30 +271,30 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/mobile-detailing-website-design',
-    title: 'Mobile Detailing Website Design | Aurevane',
+    title: 'Mobile Detailing Website Design | Aurevane Digital',
     description:
       'Booking-ready websites for mobile detailers with package pricing, before/after galleries and service areas. From $1,000. Get a free mockup.',
     h1: 'Mobile Detailing Website Design With Package Booking Built In',
     intro:
-      'Booking-ready mobile detailing website design for independent detail vans, paint correction specialists, and ceramic coating studios across the United States.',
+      'Booking-ready mobile detailing website design for independent detail vans, paint correction specialists, and ceramic coating studios across the United States, showcasing vehicle pricing tiers and ZIP-code route zones.',
     links: [
       { label: 'Industries Hub', to: '/industries' },
       { label: 'Web Design for Junk Removal Companies', to: '/junk-removal-website-design' },
       { label: 'Roofing Website Design', to: '/roofing-website-design' },
       { label: 'Why Contractors Need a Project Gallery', to: '/blog/why-contractors-need-a-project-gallery' },
-      { label: 'How Much Does a Contractor Website Cost?', to: '/blog/how-much-does-a-contractor-website-cost' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Packages', to: '/packages' },
       { label: 'Contact', to: '/contact' },
     ],
   },
   {
     path: '/roofing-website-design',
-    title: 'Roofing Website Design | Live in 7-10 Days',
+    title: 'Roofing Website Design | Aurevane Digital',
     description:
       'Roofing websites built for storm season: inspection booking, insurance-claim pages and project galleries. From $1,000. Get a free mockup.',
     h1: 'Roofing Website Design Built for Storm Calls and Full Replacements',
     intro:
-      'High-converting roofing website design engineered for residential and commercial roofers across the United States. Live in 7-10 business days, from $1,000.',
+      'High-converting roofing website design engineered for residential and commercial roofers across the United States. Combine storm-season inspection booking, insurance-claim guides, and urgent leak tap-to-call triggers.',
     links: [
       { label: 'Industries Hub', to: '/industries' },
       { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
@@ -311,7 +308,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/industries',
-    title: 'Contractor Web Design Industries | Aurevane Digital',
+    title: 'Trade Web Design Industries | Aurevane Digital',
     description:
       'Explore custom website design for excavation, junk removal, septic, land clearing, fence, detailing, electrical, and roofing. Get a free mockup.',
     h1: 'Website Design Built Around Each Blue-Collar Industry',
@@ -329,7 +326,6 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'Contractor Website Design', to: '/contractor-website-design' },
       { label: 'General Contractor Website Design', to: '/general-contractor-website-design' },
       { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
-      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
       { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
       { label: 'Home Services Website Design', to: '/home-services-website-design' },
       { label: 'SEO for Junk Removal Companies', to: '/junk-removal-seo' },
@@ -341,7 +337,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/septic-contractor-website-design',
-    title: 'Septic Contractor Website Design | Aurevane',
+    title: 'Septic Contractor Web Design | Aurevane Digital',
     description:
       'Websites for septic pumping, inspection and installation companies that turn emergency searches into calls. From $1,000. Get a free mockup.',
     h1: 'Septic Contractor Website Design Built to Capture Emergency Calls',
@@ -352,14 +348,14 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
       { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
       { label: 'Emergency vs. Planned Job Website Design', to: '/blog/emergency-vs-planned-job-website-design-for-contractors' },
-      { label: 'How Much Does a Contractor Website Cost?', to: '/blog/how-much-does-a-contractor-website-cost' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Packages', to: '/packages' },
       { label: 'Contact', to: '/contact' },
     ],
   },
   {
     path: '/land-clearing-website-design',
-    title: 'Land Clearing Website Design | Aurevane',
+    title: 'Land Clearing Website Design | Aurevane Digital',
     description:
       'Custom websites for land clearing and forestry mulching companies with project galleries and quote requests. From $1,000. Get a free mockup.',
     h1: 'Land Clearing Website Design That Brings In Acreage Quote Requests',
@@ -370,44 +366,27 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
       { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
       { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
       { label: 'Why Contractors Need a Project Gallery', to: '/blog/why-contractors-need-a-project-gallery' },
-      { label: 'How Much Does a Contractor Website Cost?', to: '/blog/how-much-does-a-contractor-website-cost' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Packages', to: '/packages' },
       { label: 'Contact', to: '/contact' },
     ],
   },
   {
     path: '/fence-company-website-design',
-    title: 'Fence Company Website Design | From $1,000',
+    title: 'Fence Company Website Design | Aurevane Digital',
     description:
       'Websites for fence installers with material galleries, estimate forms and local service pages. Live in 7-10 business days. Get a free mockup.',
     h1: 'Fence Company Website Design Built to Turn Yard Searches Into Estimates',
     intro:
-      'Custom fence company website design for wood privacy, vinyl, ornamental aluminum, chain-link, and automated gate installers across the United States.',
+      'Custom mobile-first fence company website design for wood privacy, vinyl, ornamental aluminum, chain-link, and commercial gate installers—built with emergency repair tap-to-call triggers, linear-footage quote forms, and material project galleries.',
     links: [
       { label: 'Industries Hub', to: '/industries' },
       { label: 'Land Clearing Website Design', to: '/land-clearing-website-design' },
+      { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
       { label: 'Roofing Website Design', to: '/roofing-website-design' },
       { label: 'Why Contractors Need a Project Gallery', to: '/blog/why-contractors-need-a-project-gallery' },
-      { label: 'How Much Does a Contractor Website Cost?', to: '/blog/how-much-does-a-contractor-website-cost' },
+      { label: 'How Much Does a Contractor Website Cost? (2026)', to: '/blog/how-much-does-a-contractor-website-cost' },
       { label: 'Packages', to: '/packages' },
-      { label: 'Contact', to: '/contact' },
-    ],
-  },
-  {
-    path: '/fence-installation-website-design',
-    title: 'Fence Installation Website Design | Aurevane Digital',
-    description:
-      'Mobile-first websites for fence contractors with emergency repair calls, quote funnels, galleries, and local SEO. See packages or get a free quote.',
-    h1: 'Fence Installation Website Design That Turns Yard Searches Into Estimates',
-    intro:
-      'Custom mobile-first websites for residential and commercial fence contractors across the United States—built with emergency repair tap-to-call paths, linear-footage quote requests, before-and-after fenceline galleries, and local SEO structure.',
-    links: [
-      { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
-      { label: 'Contractor Website Design', to: '/contractor-website-design' },
-      { label: 'Why Contractors Need a Project Gallery', to: '/blog/why-contractors-need-a-project-gallery' },
-      { label: 'Contractor Website Cost Guide for 2026', to: '/blog/contractor-website-cost-2026' },
-      { label: 'Packages', to: '/packages' },
-      { label: 'Our Work', to: '/our-work' },
       { label: 'Contact', to: '/contact' },
     ],
   },
@@ -415,13 +394,14 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     path: '/landscaping-website-design',
     title: 'Landscaping Website Design | Aurevane Digital',
     description:
-      'Mobile-first landscaping and hardscape contractor websites with urgent call paths, quote funnels, and local SEO. See packages or get a free quote.',
+      'Mobile-first landscaping and hardscape contractor websites with urgent call paths, quote funnels, and local SEO. From $1,000. Get a free mockup.',
     h1: 'Landscaping Website Design Built for Design-Build and Hardscape Leads',
     intro:
       'Mobile-first websites for landscaping, hardscaping, and drainage contractors across the United States—combining urgent tap-to-call dispatch, planned project quote funnels, before-and-after yard galleries, and local SEO structure.',
     links: [
-      { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+      { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
       { label: 'Excavation Company Website Design', to: '/excavation-company-website-design' },
+      { label: 'Home Services Website Design', to: '/home-services-website-design' },
       { label: 'Why Contractors Need a Project Gallery', to: '/blog/why-contractors-need-a-project-gallery' },
       { label: 'Emergency vs. Planned Job Website Design', to: '/blog/emergency-vs-planned-job-website-design-for-contractors' },
       { label: 'Packages', to: '/packages' },
@@ -433,7 +413,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
     path: '/plumbing-hvac-website-design',
     title: 'Plumbing & HVAC Website Design | Aurevane Digital',
     description:
-      'Mobile-first plumbing and HVAC contractor websites with emergency dispatch calls, quote funnels, and local SEO. Explore packages or get a free quote.',
+      'Mobile-first plumbing and HVAC websites with emergency dispatch calls, quote funnels, and local SEO built in. From $1,000. Get a free mockup.',
     h1: 'Plumbing & HVAC Website Design Built for Urgent Dispatch and Replacements',
     intro:
       'Mobile-first websites for plumbing, heating, and cooling contractors across the United States—combining emergency tap-to-call paths, planned system quote funnels, before-and-after installation galleries, and local SEO structure.',
@@ -449,7 +429,7 @@ const BASE_SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: '/blog',
-    title: 'Website & SEO Guides for Contractors | Aurevane Digital',
+    title: 'Contractor Website & SEO Blog | Aurevane Digital',
     description:
       'Practical guides on contractor website design, junk removal SEO, website costs, and local search rankings. Read a guide or request a free audit.',
     h1: 'Website & SEO Guides for Contractors and Junk Removal Companies',
@@ -476,7 +456,7 @@ const blogPostRoutes: SeoRoute[] = BLOG_POSTS.map((post) => ({
   title: post.fullTitle,
   description: post.description,
   h1: post.title,
-  intro: post.description,
+  intro: post.intro || post.description,
   links: [
     ...post.relatedLinks,
     { label: 'All Blog Guides', to: '/blog' },
@@ -491,6 +471,5 @@ export function getSeo(path: string): SeoRoute {
   if (match) {
     return match;
   }
-  // Fallback to home route
   return SEO_ROUTES[0];
 }

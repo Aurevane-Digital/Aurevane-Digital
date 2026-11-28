@@ -32,9 +32,6 @@ const AREA_SERVED_US = {
   name: 'United States',
 };
 
-// Keep sameAs empty until verified LinkedIn, Facebook, Yelp, and Google Business Profile URLs are added.
-const SAME_AS_URLS: string[] = [];
-
 const PACKAGE_OFFERS = [
   {
     '@type': 'Offer',
@@ -56,6 +53,29 @@ const PACKAGE_OFFERS = [
   },
 ];
 
+const SERVICE_PROVIDER = {
+  '@type': 'Organization',
+  '@id': ORG_NODE_ID,
+  name: 'Aurevane Digital',
+  url: SITE_URL,
+  logo: LOGO_IMAGE_OBJECT,
+};
+
+const ARTICLE_AUTHOR = {
+  '@type': 'Organization',
+  '@id': ORG_NODE_ID,
+  name: 'Aurevane Digital',
+  url: SITE_URL,
+};
+
+const ARTICLE_PUBLISHER = {
+  '@type': 'Organization',
+  '@id': ORG_NODE_ID,
+  name: 'Aurevane Digital',
+  url: SITE_URL,
+  logo: LOGO_IMAGE_OBJECT,
+};
+
 const ORGANIZATION_NODE = {
   '@type': 'Organization',
   '@id': ORG_NODE_ID,
@@ -63,9 +83,23 @@ const ORGANIZATION_NODE = {
   url: SITE_URL,
   logo: LOGO_IMAGE_OBJECT,
   image: OG_IMAGE_OBJECT,
+  description:
+    'Aurevane Digital builds custom websites for contractors, home-service businesses, and junk removal fleets across the United States.',
   email: 'aurevanedigital@gmail.com',
   areaServed: AREA_SERVED_US,
-  sameAs: SAME_AS_URLS,
+  knowsAbout: [
+    'Website design for contractors',
+    'Website design for junk removal companies',
+    'Local SEO for service businesses',
+    'Structured data and schema markup',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    email: 'aurevanedigital@gmail.com',
+    areaServed: 'US',
+    availableLanguage: 'English',
+  },
 };
 
 const PROFESSIONAL_SERVICE_NODE = {
@@ -80,11 +114,6 @@ const PROFESSIONAL_SERVICE_NODE = {
   email: 'aurevanedigital@gmail.com',
   priceRange: '$$',
   areaServed: AREA_SERVED_US,
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'US',
-  },
-  sameAs: SAME_AS_URLS,
   makesOffer: [
     {
       '@type': 'Offer',
@@ -119,108 +148,79 @@ const PROFESSIONAL_SERVICE_NODE = {
   ],
 };
 
-const SERVICE_PROVIDER = {
-  '@type': 'Organization',
-  '@id': ORG_NODE_ID,
+const WEBSITE_NODE = {
+  '@type': 'WebSite',
+  '@id': WEBSITE_NODE_ID,
   name: 'Aurevane Digital',
   url: SITE_URL,
-  logo: LOGO_IMAGE_OBJECT,
-  sameAs: SAME_AS_URLS,
+  publisher: {
+    '@id': ORG_NODE_ID,
+  },
 };
-
-const ARTICLE_AUTHOR = {
-  '@type': 'Organization',
-  '@id': ORG_NODE_ID,
-  name: 'Aurevane Digital',
-  url: SITE_URL,
-};
-
-const ARTICLE_PUBLISHER = {
-  '@type': 'Organization',
-  '@id': ORG_NODE_ID,
-  name: 'Aurevane Digital',
-  url: SITE_URL,
-  logo: LOGO_IMAGE_OBJECT,
-};
-
-function buildFaqNode(pageUrl: string, faqs: ServiceSchemaFaq[]): Record<string, unknown> {
-  return {
-    '@type': 'FAQPage',
-    '@id': `${pageUrl}#faqpage`,
-    url: pageUrl,
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.a,
-      },
-    })),
-  };
-}
 
 export interface ServiceSchemaParams {
   path: string;
   name: string;
   description: string;
   serviceType: string | string[];
-  faqs: ServiceSchemaFaq[];
+  faqs?: ServiceSchemaFaq[];
 }
 
 /**
- * Builds a single schema.org @graph JSON-LD object for service landing pages.
+ * Builds a single schema.org @graph JSON-LD object for service landing pages:
+ * - Service node
+ * - BreadcrumbList: Home > Services > <Page>
  */
 export function buildServiceSchema({
   path,
   name,
   description,
   serviceType,
-  faqs,
 }: ServiceSchemaParams): Record<string, unknown> {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
   const primaryServiceType = Array.isArray(serviceType) ? serviceType[0] : serviceType;
 
-  const graph: Array<Record<string, unknown>> = [
-    {
-      '@type': 'Service',
-      '@id': `${pageUrl}#service`,
-      name,
-      description,
-      url: pageUrl,
-      image: OG_IMAGE_OBJECT,
-      provider: SERVICE_PROVIDER,
-      areaServed: AREA_SERVED_US,
-      serviceType: primaryServiceType,
-      offers: PACKAGE_OFFERS,
-    },
-    {
-      '@type': 'BreadcrumbList',
-      '@id': `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: SITE_URL,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name,
-          item: pageUrl,
-        },
-      ],
-    },
-  ];
-
-  if (faqs && faqs.length > 0) {
-    graph.push(buildFaqNode(pageUrl, faqs));
-  }
-
   return {
     '@context': 'https://schema.org',
-    '@graph': graph,
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${pageUrl}#service`,
+        name,
+        description,
+        url: pageUrl,
+        image: OG_IMAGE_OBJECT,
+        provider: SERVICE_PROVIDER,
+        areaServed: AREA_SERVED_US,
+        serviceType: primaryServiceType,
+        offers: PACKAGE_OFFERS,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: SITE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Services',
+            item: 'https://aurevanedigital.vercel.app/industries',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name,
+            item: pageUrl,
+          },
+        ],
+      },
+    ],
   };
 }
 
@@ -234,7 +234,9 @@ export interface ArticleSchemaParams {
 }
 
 /**
- * Builds a single schema.org @graph JSON-LD object for blog articles.
+ * Builds a single schema.org @graph JSON-LD object for blog articles:
+ * - Article node
+ * - BreadcrumbList: Home > Blog > <Post>
  */
 export function buildArticleSchema({
   slug,
@@ -242,189 +244,54 @@ export function buildArticleSchema({
   description,
   datePublished,
   dateModified = datePublished,
-  faqs,
 }: ArticleSchemaParams): Record<string, unknown> {
   const pageUrl = `https://aurevanedigital.vercel.app/blog/${slug}`;
 
-  const graph: Array<Record<string, unknown>> = [
-    {
-      '@type': 'Article',
-      '@id': `${pageUrl}#article`,
-      headline,
-      description,
-      url: pageUrl,
-      datePublished,
-      dateModified,
-      inLanguage: 'en-US',
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': pageUrl,
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        '@id': `${pageUrl}#article`,
+        headline,
+        description,
+        url: pageUrl,
+        datePublished,
+        dateModified,
+        inLanguage: 'en-US',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': pageUrl,
+        },
+        image: OG_IMAGE_OBJECT,
+        author: ARTICLE_AUTHOR,
+        publisher: ARTICLE_PUBLISHER,
       },
-      image: OG_IMAGE_OBJECT,
-      author: ARTICLE_AUTHOR,
-      publisher: ARTICLE_PUBLISHER,
-    },
-    {
-      '@type': 'BreadcrumbList',
-      '@id': `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: SITE_URL,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Blog',
-          item: 'https://aurevanedigital.vercel.app/blog',
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: headline,
-          item: pageUrl,
-        },
-      ],
-    },
-  ];
-
-  if (faqs && faqs.length > 0) {
-    graph.push(buildFaqNode(pageUrl, faqs));
-  }
-
-  return {
-    '@context': 'https://schema.org',
-    '@graph': graph,
-  };
-}
-
-export interface FaqPageSchemaParams {
-  path: string;
-  name: string;
-  description?: string;
-  serviceType?: string | string[];
-  faqs: ServiceSchemaFaq[];
-}
-
-/**
- * Builds a single schema.org @graph JSON-LD object for pages with visible FAQs (e.g. Packages).
- */
-export function buildFaqPageSchema({
-  path,
-  name,
-  description = 'Custom contractor and junk removal website packages starting at $1,000 one-time.',
-  serviceType = 'Web design for junk removal and home service businesses',
-  faqs,
-}: FaqPageSchemaParams): Record<string, unknown> {
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
-  const primaryServiceType = Array.isArray(serviceType) ? serviceType[0] : serviceType;
-
-  const graph: Array<Record<string, unknown>> = [
-    {
-      '@type': 'Service',
-      '@id': `${pageUrl}#service`,
-      name,
-      description,
-      url: pageUrl,
-      image: OG_IMAGE_OBJECT,
-      provider: SERVICE_PROVIDER,
-      areaServed: AREA_SERVED_US,
-      serviceType: primaryServiceType,
-      offers: PACKAGE_OFFERS,
-    },
-    {
-      '@type': 'BreadcrumbList',
-      '@id': `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: SITE_URL,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name,
-          item: pageUrl,
-        },
-      ],
-    },
-  ];
-
-  if (faqs && faqs.length > 0) {
-    graph.push(buildFaqNode(pageUrl, faqs));
-  }
-
-  return {
-    '@context': 'https://schema.org',
-    '@graph': graph,
-  };
-}
-
-export interface PageServiceSchemaParams {
-  path: string;
-  name: string;
-  description: string;
-  serviceType: string | string[];
-}
-
-/**
- * Builds a single schema.org @graph JSON-LD object for core pages.
- */
-export function buildPageServiceSchema({
-  path,
-  name,
-  description,
-  serviceType,
-}: PageServiceSchemaParams): Record<string, unknown> {
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath === '/' ? '/' : normalizedPath}`;
-  const primaryServiceType = Array.isArray(serviceType) ? serviceType[0] : serviceType;
-
-  const graph: Array<Record<string, unknown>> = [
-    ...(normalizedPath === '/' ? [ORGANIZATION_NODE, PROFESSIONAL_SERVICE_NODE] : []),
-    {
-      '@type': 'Service',
-      '@id': `${pageUrl}#service`,
-      name,
-      description,
-      url: pageUrl,
-      image: OG_IMAGE_OBJECT,
-      provider: SERVICE_PROVIDER,
-      areaServed: AREA_SERVED_US,
-      serviceType: primaryServiceType,
-      offers: PACKAGE_OFFERS,
-    },
-  ];
-
-  if (normalizedPath !== '/') {
-    graph.push({
-      '@type': 'BreadcrumbList',
-      '@id': `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: SITE_URL,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name,
-          item: pageUrl,
-        },
-      ],
-    });
-  }
-
-  return {
-    '@context': 'https://schema.org',
-    '@graph': graph,
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: SITE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Blog',
+            item: 'https://aurevanedigital.vercel.app/blog',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: headline,
+            item: pageUrl,
+          },
+        ],
+      },
+    ],
   };
 }
 
@@ -434,13 +301,12 @@ export interface NicheIndustrySchemaParams {
   serviceName: string;
   description: string;
   serviceType: string;
-  faqs: ServiceSchemaFaq[];
+  faqs?: ServiceSchemaFaq[];
 }
 
 /**
  * Builds a single schema.org @graph JSON-LD object for niche industry landing pages:
- * - Service with Aurevane Digital provider, offers, and Country areaServed ("United States")
- * - FAQPage matching the visible FAQ verbatim
+ * - Service node
  * - BreadcrumbList: Home > Industries > <Trade>
  */
 export function buildNicheIndustrySchema({
@@ -449,57 +315,50 @@ export function buildNicheIndustrySchema({
   serviceName,
   description,
   serviceType,
-  faqs,
 }: NicheIndustrySchemaParams): Record<string, unknown> {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
 
-  const graph: Array<Record<string, unknown>> = [
-    {
-      '@type': 'Service',
-      '@id': `${pageUrl}#service`,
-      name: serviceName,
-      description,
-      url: pageUrl,
-      image: OG_IMAGE_OBJECT,
-      provider: SERVICE_PROVIDER,
-      serviceType,
-      areaServed: AREA_SERVED_US,
-      offers: PACKAGE_OFFERS,
-    },
-    {
-      '@type': 'BreadcrumbList',
-      '@id': `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: SITE_URL,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Industries',
-          item: 'https://aurevanedigital.vercel.app/industries',
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: tradeName,
-          item: pageUrl,
-        },
-      ],
-    },
-  ];
-
-  if (faqs && faqs.length > 0) {
-    graph.push(buildFaqNode(pageUrl, faqs));
-  }
-
   return {
     '@context': 'https://schema.org',
-    '@graph': graph,
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${pageUrl}#service`,
+        name: serviceName,
+        description,
+        url: pageUrl,
+        image: OG_IMAGE_OBJECT,
+        provider: SERVICE_PROVIDER,
+        serviceType,
+        areaServed: AREA_SERVED_US,
+        offers: PACKAGE_OFFERS,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: SITE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Industries',
+            item: 'https://aurevanedigital.vercel.app/industries',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: tradeName,
+            item: pageUrl,
+          },
+        ],
+      },
+    ],
   };
 }
 
@@ -511,7 +370,7 @@ export function buildIndustriesHubSchema(): Record<string, unknown> {
       {
         '@type': 'CollectionPage',
         '@id': `${pageUrl}#collection`,
-        name: 'Industries We Serve | Aurevane Digital',
+        name: 'Trade Web Design Industries | Aurevane Digital',
         url: pageUrl,
         description:
           'Custom website design for excavation, junk removal, septic, land clearing, fence, mobile detailing, electrical, and roofing contractors.',
@@ -541,18 +400,90 @@ export function buildIndustriesHubSchema(): Record<string, unknown> {
   };
 }
 
+export interface WebPageSchemaParams {
+  path: string;
+  name: string;
+  description: string;
+  pageType?: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage';
+  breadcrumbLabel: string;
+}
+
+export function buildWebPageSchema({
+  path,
+  name,
+  description,
+  pageType = 'WebPage',
+  breadcrumbLabel,
+}: WebPageSchemaParams): Record<string, unknown> {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const pageUrl = `https://aurevanedigital.vercel.app${normalizedPath}`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': pageType,
+        '@id': `${pageUrl}#webpage`,
+        name,
+        description,
+        url: pageUrl,
+        inLanguage: 'en-US',
+        isPartOf: {
+          '@id': WEBSITE_NODE_ID,
+        },
+        primaryImageOfPage: OG_IMAGE_OBJECT,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: SITE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: breadcrumbLabel,
+            item: pageUrl,
+          },
+        ],
+      },
+    ],
+  };
+}
+
+/**
+ * Homepage-only schema graph including Organization, ProfessionalService, WebSite, and Service.
+ */
 export function buildHomeSchema(description: string): Record<string, unknown> {
-  return buildPageServiceSchema({
-    path: '/',
-    name: 'Web Design for Junk Removal and Home Service Businesses',
-    description,
-    serviceType: 'Web design for junk removal and home service businesses',
-  });
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      ORGANIZATION_NODE,
+      PROFESSIONAL_SERVICE_NODE,
+      WEBSITE_NODE,
+      {
+        '@type': 'Service',
+        '@id': `${SITE_URL}#service`,
+        name: 'Web Design for Junk Removal and Home Service Businesses',
+        description,
+        url: SITE_URL,
+        image: OG_IMAGE_OBJECT,
+        provider: SERVICE_PROVIDER,
+        areaServed: AREA_SERVED_US,
+        serviceType: 'Web design for junk removal and home service businesses',
+        offers: PACKAGE_OFFERS,
+      },
+    ],
+  };
 }
 
 export function buildPackagesSchema(
   description: string,
-  faqs: ServiceSchemaFaq[]
+  _faqs?: ServiceSchemaFaq[]
 ): Record<string, unknown> {
   const pageUrl = 'https://aurevanedigital.vercel.app/packages';
 
@@ -605,16 +536,9 @@ export function buildPackagesSchema(
     },
     {
       '@type': 'Offer',
-      name: 'Enterprise & Multi-Unit',
-      description:
-        'Custom quote, 4-6 weeks. Includes CRM integration and lead routing.',
-      availability: 'https://schema.org/InStock',
-      url: pageUrl,
-    },
-    {
-      '@type': 'Offer',
       name: 'Care Plan (Optional)',
-      description: 'Hosting, updates, fixes, and small edits for Professional and Essential websites.',
+      description:
+        'Hosting, updates, fixes, and small edits for Professional and Essential websites.',
       price: '150',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
@@ -638,45 +562,39 @@ export function buildPackagesSchema(
     },
   ];
 
-  const graph: Array<Record<string, unknown>> = [
-    {
-      '@type': 'Service',
-      '@id': `${pageUrl}#service`,
-      name: 'Contractor Website Packages and Pricing',
-      description,
-      url: pageUrl,
-      image: OG_IMAGE_OBJECT,
-      provider: SERVICE_PROVIDER,
-      areaServed: AREA_SERVED_US,
-      serviceType: 'Web design and local SEO packages for contractors and home service businesses',
-      offers: packagesOffers,
-    },
-    {
-      '@type': 'BreadcrumbList',
-      '@id': `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: SITE_URL,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Packages',
-          item: pageUrl,
-        },
-      ],
-    },
-  ];
-
-  if (faqs && faqs.length > 0) {
-    graph.push(buildFaqNode(pageUrl, faqs));
-  }
-
   return {
     '@context': 'https://schema.org',
-    '@graph': graph,
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${pageUrl}#service`,
+        name: 'Contractor Website Packages and Pricing',
+        description,
+        url: pageUrl,
+        image: OG_IMAGE_OBJECT,
+        provider: SERVICE_PROVIDER,
+        areaServed: AREA_SERVED_US,
+        serviceType: 'Web design and local SEO packages for contractors and home service businesses',
+        offers: packagesOffers,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: SITE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Packages',
+            item: pageUrl,
+          },
+        ],
+      },
+    ],
   };
 }

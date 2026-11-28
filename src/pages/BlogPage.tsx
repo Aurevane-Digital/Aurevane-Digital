@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock, Calendar, BookOpen } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { MagneticWrap } from '../components/MagneticButton';
 import { getSeo } from '../data/seoRoutes';
 import { BLOG_POSTS } from '../data/posts';
+import { buildWebPageSchema } from '../utils/schema';
 
 export const BlogPage: React.FC = () => {
   const seo = getSeo('/blog');
+  const jsonLd = useMemo(
+    () =>
+      buildWebPageSchema({
+        path: '/blog',
+        name: seo.title,
+        description: seo.description,
+        pageType: 'CollectionPage',
+        breadcrumbLabel: 'Blog',
+      }),
+    [seo.title, seo.description]
+  );
 
   return (
     <>
@@ -15,6 +27,7 @@ export const BlogPage: React.FC = () => {
         title={seo.title}
         description={seo.description}
         canonicalPath="/blog"
+        jsonLd={jsonLd}
       />
 
       {/* HEADER HERO */}

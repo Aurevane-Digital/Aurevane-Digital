@@ -17,6 +17,21 @@
       "source": "/excavation-website-design",
       "destination": "/excavation-company-website-design",
       "permanent": true
+    },
+    {
+      "source": "/fence-installation-website-design",
+      "destination": "/fence-company-website-design",
+      "permanent": true
+    },
+    {
+      "source": "/blog/contractor-website-cost-2026",
+      "destination": "/blog/how-much-does-a-contractor-website-cost",
+      "permanent": true
+    },
+    {
+      "source": "/blog/junk-removal-website-examples-what-to-include",
+      "destination": "/blog/what-should-a-junk-removal-website-include",
+      "permanent": true
     }
   ],
   "rewrites": [

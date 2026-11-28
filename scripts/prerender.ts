@@ -3,16 +3,14 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SEO_ROUTES, SeoRoute } from '../src/data/seoRoutes';
 import { BLOG_POSTS } from '../src/data/posts';
-import { JUNK_REMOVAL_FAQS, JUNK_REMOVAL_SEO_FAQS } from '../src/data/junkRemovalFaqs';
-import { PACKAGES_FAQS } from '../src/data/packages';
 import {
   buildArticleSchema,
   buildHomeSchema,
   buildIndustriesHubSchema,
   buildNicheIndustrySchema,
   buildPackagesSchema,
-  buildPageServiceSchema,
   buildServiceSchema,
+  buildWebPageSchema,
 } from '../src/utils/schema';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -48,6 +46,93 @@ function replaceRequired(
   return html.replace(regex, replacement);
 }
 
+const NICHE_SCHEMA_MAP: Record<
+  string,
+  { tradeName: string; serviceName: string; serviceType: string }
+> = {
+  '/junk-removal-website-design': {
+    tradeName: 'Junk Removal',
+    serviceName: 'Web Design for Junk Removal Companies',
+    serviceType: 'Web Design for Junk Removal Companies',
+  },
+  '/excavation-company-website-design': {
+    tradeName: 'Excavation Contractors',
+    serviceName: 'Excavation Company Website Design',
+    serviceType: 'Excavation Company Website Design',
+  },
+  '/septic-contractor-website-design': {
+    tradeName: 'Septic Contractors',
+    serviceName: 'Septic Contractor Website Design',
+    serviceType: 'Septic Contractor Website Design',
+  },
+  '/land-clearing-website-design': {
+    tradeName: 'Land Clearing',
+    serviceName: 'Land Clearing Website Design',
+    serviceType: 'Land Clearing Website Design',
+  },
+  '/fence-company-website-design': {
+    tradeName: 'Fence Companies',
+    serviceName: 'Fence Company Website Design',
+    serviceType: 'Fence Company Website Design',
+  },
+  '/mobile-detailing-website-design': {
+    tradeName: 'Mobile Detailing',
+    serviceName: 'Mobile Detailing Website Design',
+    serviceType: 'Mobile Detailing Website Design',
+  },
+  '/electrical-contractor-website-design': {
+    tradeName: 'Electrical Contractors',
+    serviceName: 'Electrical Contractor Website Design',
+    serviceType: 'Electrical Contractor Website Design',
+  },
+  '/roofing-website-design': {
+    tradeName: 'Roofing Contractors',
+    serviceName: 'Roofing Website Design',
+    serviceType: 'Roofing Website Design',
+  },
+};
+
+const CORE_SERVICE_SCHEMA_MAP: Record<string, { name: string; serviceType: string }> = {
+  '/contractor-website-design': {
+    name: 'Contractor Website Design',
+    serviceType: 'Contractor Website Design',
+  },
+  '/home-services-website-design': {
+    name: 'Home Services Website Design',
+    serviceType: 'Home Services Website Design',
+  },
+  '/general-contractor-website-design': {
+    name: 'General Contractor Website Design',
+    serviceType: 'General Contractor Website Design',
+  },
+  '/junk-removal-seo': {
+    name: 'SEO for Junk Removal Companies',
+    serviceType: 'SEO for Junk Removal Companies',
+  },
+  '/website-redesign': {
+    name: 'Website Redesign',
+    serviceType: 'Website Redesign for Service Businesses',
+  },
+  '/plumbing-hvac-website-design': {
+    name: 'Plumbing & HVAC Website Design',
+    serviceType: 'Plumbing & HVAC Website Design',
+  },
+  '/landscaping-website-design': {
+    name: 'Landscaping Website Design',
+    serviceType: 'Landscaping Website Design',
+  },
+};
+
+const CORE_PAGE_META: Record<
+  string,
+  { pageType: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage'; breadcrumbLabel: string }
+> = {
+  '/our-work': { pageType: 'CollectionPage', breadcrumbLabel: 'Our Work' },
+  '/about': { pageType: 'AboutPage', breadcrumbLabel: 'About' },
+  '/contact': { pageType: 'ContactPage', breadcrumbLabel: 'Contact' },
+  '/blog': { pageType: 'CollectionPage', breadcrumbLabel: 'Blog' },
+};
+
 function getRouteJsonLd(route: SeoRoute): Record<string, unknown> {
   if (route.path === '/') {
     return buildHomeSchema(route.description);
@@ -58,27 +143,27 @@ function getRouteJsonLd(route: SeoRoute): Record<string, unknown> {
   }
 
   if (route.path === '/packages') {
-    return buildPackagesSchema(route.description, PACKAGES_FAQS);
+    return buildPackagesSchema(route.description);
   }
 
-  if (route.path === '/junk-removal-website-design') {
+  const nicheCfg = NICHE_SCHEMA_MAP[route.path];
+  if (nicheCfg) {
     return buildNicheIndustrySchema({
       path: route.path,
-      tradeName: 'Junk Removal',
-      serviceName: 'Web Design for Junk Removal Companies',
+      tradeName: nicheCfg.tradeName,
+      serviceName: nicheCfg.serviceName,
       description: route.description,
-      serviceType: 'Web Design for Junk Removal Companies',
-      faqs: JUNK_REMOVAL_FAQS,
+      serviceType: nicheCfg.serviceType,
     });
   }
 
-  if (route.path === '/junk-removal-seo') {
+  const coreSvcCfg = CORE_SERVICE_SCHEMA_MAP[route.path];
+  if (coreSvcCfg) {
     return buildServiceSchema({
       path: route.path,
-      name: 'SEO for Junk Removal Companies',
+      name: coreSvcCfg.name,
       description: route.description,
-      serviceType: 'SEO for Junk Removal Companies',
-      faqs: JUNK_REMOVAL_SEO_FAQS,
+      serviceType: coreSvcCfg.serviceType,
     });
   }
 
@@ -92,16 +177,21 @@ function getRouteJsonLd(route: SeoRoute): Record<string, unknown> {
         description: post.description,
         datePublished: post.datePublished,
         dateModified: post.dateModified || post.datePublished,
-        faqs: post.faqs,
       });
     }
   }
 
-  return buildPageServiceSchema({
+  const pageMeta = CORE_PAGE_META[route.path] || {
+    pageType: 'WebPage' as const,
+    breadcrumbLabel: route.h1,
+  };
+
+  return buildWebPageSchema({
     path: route.path,
-    name: route.h1,
+    name: route.title,
     description: route.description,
-    serviceType: 'Web design for junk removal and home service businesses',
+    pageType: pageMeta.pageType,
+    breadcrumbLabel: pageMeta.breadcrumbLabel,
   });
 }
 

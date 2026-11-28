@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Compass, ShieldCheck } from 'lucide-react';
 import { WorkShowcase } from '../components/WorkShowcase';
@@ -7,6 +7,7 @@ import { SEO } from '../components/SEO';
 import { getSeo } from '../data/seoRoutes';
 import { CASE_STUDIES } from '../data/caseStudies';
 import { CaseStudy } from '../types';
+import { buildWebPageSchema } from '../utils/schema';
 
 interface WorkPageProps {
   onSelectCaseStudy: (study: CaseStudy) => void;
@@ -14,6 +15,17 @@ interface WorkPageProps {
 
 export const WorkPage: React.FC<WorkPageProps> = ({ onSelectCaseStudy }) => {
   const s = getSeo('/our-work');
+  const jsonLd = useMemo(
+    () =>
+      buildWebPageSchema({
+        path: '/our-work',
+        name: s.title,
+        description: s.description,
+        pageType: 'CollectionPage',
+        breadcrumbLabel: 'Our Work',
+      }),
+    [s.title, s.description]
+  );
 
   const conceptBuilds = [
     {
@@ -55,7 +67,7 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onSelectCaseStudy }) => {
 
   return (
     <>
-      <SEO title={s.title} description={s.description} canonicalPath="/our-work" />
+      <SEO title={s.title} description={s.description} canonicalPath="/our-work" jsonLd={jsonLd} />
 
       {/* MASTHEAD HEADER */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">

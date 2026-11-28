@@ -5,6 +5,7 @@ import {
   Calendar,
   Clock,
   ChevronDown,
+  ChevronRight,
   ArrowRight,
   CheckCircle2,
   BookOpen,
@@ -101,19 +102,23 @@ export const PostPage: React.FC = () => {
           <div data-reveal="heading" className="max-w-4xl mx-auto">
             {/* Breadcrumb Navigation */}
             <nav aria-label="Breadcrumb" className="mb-6">
-              <ol className="flex items-center flex-wrap gap-2 text-[11px] uppercase tracking-wider text-[#827C75]">
+              <ol className="flex items-center flex-wrap gap-1.5 text-[11px] uppercase tracking-[0.16em] text-[#827C75]">
                 <li>
                   <Link to="/" className="hover:text-[#141210] transition-colors">
                     Home
                   </Link>
                 </li>
-                <li>/</li>
+                <li aria-hidden="true">
+                  <ChevronRight className="w-3 h-3" />
+                </li>
                 <li>
                   <Link to="/blog" className="hover:text-[#141210] transition-colors">
                     Blog
                   </Link>
                 </li>
-                <li>/</li>
+                <li aria-hidden="true">
+                  <ChevronRight className="w-3 h-3" />
+                </li>
                 <li className="text-[#9E5249] font-semibold truncate max-w-xs sm:max-w-md">
                   {post.title}
                 </li>
@@ -147,7 +152,7 @@ export const PostPage: React.FC = () => {
             </h1>
 
             <p className="text-base sm:text-lg text-[#59544E] font-light leading-relaxed border-l-2 border-[#9E5249] pl-4">
-              {post.description}
+              {renderRichText(post.intro || post.description)}
             </p>
           </div>
         </header>
@@ -155,11 +160,6 @@ export const PostPage: React.FC = () => {
         {/* ARTICLE BODY CONTENT */}
         <div className="w-full py-16 px-6 md:px-12 lg:px-16 bg-[#FAF6F0] border-b border-[#D9D0C3]/60">
           <div className="max-w-3xl mx-auto space-y-12">
-            {post.intro && (
-              <p className="text-base md:text-lg text-[#141210] font-normal leading-relaxed">
-                {renderRichText(post.intro)}
-              </p>
-            )}
             {post.sections.map((section, idx) => (
               <section key={idx} data-reveal="fade" className="space-y-5">
                 <h2 className="font-serif text-2xl sm:text-3xl text-[#141210] font-normal tracking-tight">

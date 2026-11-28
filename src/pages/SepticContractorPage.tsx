@@ -138,7 +138,7 @@ export const SepticContractorPage: React.FC = () => {
           to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
         },
         {
-          label: 'How Much Does a Contractor Website Cost?',
+          label: 'How Much Does a Contractor Website Cost? (2026)',
           to: '/blog/how-much-does-a-contractor-website-cost',
         },
       ]}

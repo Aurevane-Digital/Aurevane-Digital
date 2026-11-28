@@ -147,8 +147,8 @@ export const ElectricalPage: React.FC = () => {
           to: '/blog/emergency-vs-planned-job-website-design-for-contractors',
         },
         {
-          label: 'Contractor Website Cost Guide for 2026',
-          to: '/blog/contractor-website-cost-2026',
+          label: 'How Much Does a Contractor Website Cost? (2026)',
+          to: '/blog/how-much-does-a-contractor-website-cost',
         },
       ]}
     />

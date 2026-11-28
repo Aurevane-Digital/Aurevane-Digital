@@ -148,12 +148,6 @@ export const Footer: React.FC<FooterProps> = ({
                   Plumbing &amp; HVAC
                 </Link>
                 <Link
-                  to="/fence-installation-website-design"
-                  className="text-left hover:text-[#141210] transition-colors cursor-pointer"
-                >
-                  Fence Installation
-                </Link>
-                <Link
                   to="/landscaping-website-design"
                   className="text-left hover:text-[#141210] transition-colors cursor-pointer"
                 >

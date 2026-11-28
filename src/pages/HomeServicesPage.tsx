@@ -93,7 +93,7 @@ export const HomeServicesPage: React.FC = () => {
   const relatedLinks = [
     { label: 'Plumbing & HVAC Website Design', to: '/plumbing-hvac-website-design' },
     { label: 'Roofing Website Design', to: '/roofing-website-design' },
-    { label: 'Fence Installation Website Design', to: '/fence-installation-website-design' },
+    { label: 'Fence Company Website Design', to: '/fence-company-website-design' },
     { label: 'Landscaping Website Design', to: '/landscaping-website-design' },
     { label: 'Electrical Contractor Website Design', to: '/electrical-contractor-website-design' },
     { label: 'Mobile Detailing Website Design', to: '/mobile-detailing-website-design' },
@@ -128,8 +128,8 @@ export const HomeServicesPage: React.FC = () => {
       }}
       relatedGuides={[
         {
-          label: 'Contractor Website Cost Guide for 2026',
-          to: '/blog/contractor-website-cost-2026',
+          label: 'How Much Does a Contractor Website Cost? (2026)',
+          to: '/blog/how-much-does-a-contractor-website-cost',
         },
       ]}
     />

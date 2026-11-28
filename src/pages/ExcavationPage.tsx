@@ -143,8 +143,8 @@ export const ExcavationPage: React.FC = () => {
       ]}
       relatedGuides={[
         {
-          label: 'Contractor Website Cost Guide for 2026',
-          to: '/blog/contractor-website-cost-2026',
+          label: 'How Much Does a Contractor Website Cost? (2026)',
+          to: '/blog/how-much-does-a-contractor-website-cost',
         },
         {
           label: 'Why Contractors Need a Project Gallery',

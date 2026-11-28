@@ -10,7 +10,7 @@ export const FenceCompanyPage: React.FC = () => {
       serviceType="Fence Company Website Design"
       eyebrow="Residential & Commercial Fencing"
       h1="Fence Company Website Design Built to Turn Yard Searches Into Estimates"
-      intro="Custom fence company website design for wood privacy, vinyl, ornamental aluminum, chain-link, and automated gate installers across the United States. Showcase material galleries cleanly, pre-qualify linear footage and gate counts, and rank across growing subdivisions—live in 7-10 business days from $1,000."
+      intro="Custom mobile-first fence company website design for wood privacy, vinyl, ornamental aluminum, chain-link, and commercial gate installers across the United States. Combine emergency storm-repair tap-to-call triggers, linear-footage quote forms, and before-and-after material galleries—live in 7-10 business days from $1,000."
       ctaText="Get a Free Fence Website Mockup"
       problemsHeading="Problems Your Fence Company Website Must Solve"
       problemsIntro="Homeowners walk their property line on weekends comparing cedar, vinyl, and black aluminum. If your website hides styles or lets tiny patch repairs waste estimator mileage, margins shrink fast."
@@ -52,12 +52,12 @@ export const FenceCompanyPage: React.FC = () => {
         {
           title: 'Before-and-After Material Gallery',
           description:
-            'Organized fenceline galleries proving plumb posts, clean sloped stepping, heavy gate hardware, and tidy old-fence tear-outs.',
+            'Organized fenceline galleries proving plumb posts, concrete post-depth work, clean sloped stepping, commercial gate hardware, and tidy old-fence tear-outs.',
         },
         {
-          title: 'Storm-Repair Tap-to-Call Bar',
+          title: 'Emergency Storm-Repair Tap-to-Call',
           description:
-            'Direct mobile calling triggers helping pet owners and commercial yards reach your crew quickly after downed panels or stuck gates.',
+            'Persistent mobile calling triggers letting pet owners, homeowners, and commercial yards reach dispatch immediately for downed storm panels or failed security gates.',
         },
         {
           title: 'Linear-Footage Estimate Form',
@@ -127,6 +127,11 @@ export const FenceCompanyPage: React.FC = () => {
           note: 'Fence-line clearing',
         },
         {
+          label: 'Landscaping Website Design',
+          to: '/landscaping-website-design',
+          note: 'Outdoor living & yards',
+        },
+        {
           label: 'Roofing Website Design',
           to: '/roofing-website-design',
           note: 'Exterior restoration',
@@ -138,7 +143,7 @@ export const FenceCompanyPage: React.FC = () => {
           to: '/blog/why-contractors-need-a-project-gallery',
         },
         {
-          label: 'How Much Does a Contractor Website Cost?',
+          label: 'How Much Does a Contractor Website Cost? (2026)',
           to: '/blog/how-much-does-a-contractor-website-cost',
         },
       ]}

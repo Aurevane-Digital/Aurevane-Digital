@@ -5,6 +5,7 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
+  ChevronRight,
   PhoneCall,
   FileText,
   CalendarCheck,
@@ -131,6 +132,21 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
       {/* 1. HERO MASTHEAD */}
       <section className="w-full pt-32 pb-16 px-6 md:px-12 lg:px-16 bg-[#F5EDE2] border-b border-[#D9D0C3]/60">
         <div className="max-w-7xl mx-auto">
+          <nav
+            aria-label="Breadcrumb"
+            className="flex flex-wrap items-center gap-1.5 text-[11px] uppercase tracking-[0.16em] text-[#827C75] mb-6"
+          >
+            <Link to="/" className="hover:text-[#141210] transition-colors">
+              Home
+            </Link>
+            <ChevronRight className="w-3 h-3" aria-hidden="true" />
+            <Link to="/industries" className="hover:text-[#141210] transition-colors">
+              Services
+            </Link>
+            <ChevronRight className="w-3 h-3" aria-hidden="true" />
+            <span className="text-[#9E5249] font-semibold">{name}</span>
+          </nav>
+
           <div data-reveal="heading" className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#9E5249] font-bold">
